@@ -1,0 +1,127 @@
+/* Global */
+:root{
+    /* color */
+    --color-white: #ffffff;
+
+    --color-black: #000000;
+    --color-grey: #bebebe;
+    --color-dark-grey: #616161;
+    --color-light-grey: #d9d6d2;
+
+    /*아연님 사용컬러*/
+    --color-sky: #b4cdef;
+    --color-light-sky: #d9f5fd;
+    --color-dark-sky: #c6d2f9;
+
+    --color-orange: #f39800;
+
+    /* Font Size */
+    --font-large: 34px;
+    --font-medium: 28px;
+    --font-regular: 18px;
+    --font-small: 16px;
+    --font-micro: 14px;
+
+    /* Font Weight */
+    --weight-bold: 700;
+    --weight-semi-bold: 500;
+    --weight-regular: 400;
+
+    /* Size */
+    --size-border-radius: 4px;
+}
+
+/* font */
+@font-face {
+    src: url("../font/BareunBatangB.ttf");
+    font-family: "batang";
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Universal tags */
+* {
+    box-sizing: border-box;
+}
+
+a {
+    font-family: "Noto Sans KR", sans-serif;
+    text-decoration: none;
+    color: var(--color-black);
+}
+
+hr {
+    border: 1px solid var(--color-grey);
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+h1 {
+    font-size: var(--font-large);
+}
+
+
+
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    cursor: default;
+}
+
+/* header */
+header {
+    font-family: "batang", "Noto Sans KR", sans-serif;
+}
+#header {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+}
+#header .enter {
+    text-align: right;
+    font-weight: var(--weight-bold);
+    font-size: var(--font-micro);
+
+}
+
+.header__title {
+    color: var(--color-sky);
+}
+
+.header__title > i {
+    position: relative;
+    top: -30px;
+    left: -20px;
+    color: var(--color-orange);
+    margin-top: 30px;
+    margin-bottom: 50px;
+    font-size: 50px;
+}
+
+/* navbar */
+nav {
+    padding: 1px 0;
+    background-color: var(--color-grey);
+}
+#navbar {
+    margin: 0;
+    padding: 8px 0;
+    background-color: var(--color-white);
+}
+.navbar__list {
+    display: flex;
+    margin: 0;
+    justify-content: space-evenly;
+    font-weight: var(--weight-bold);
+}
+
+.navbar__item a {
+    color: var(--color-dark-grey);
+}
+
+/* footer */
