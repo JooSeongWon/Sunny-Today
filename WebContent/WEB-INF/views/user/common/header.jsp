@@ -15,3 +15,6 @@
         <h1 class="header__title">오늘도 맑음 <i class="fas fa-sun"></i></h1>
     </div>
 </header>
+<a href="#" class="top">
+    <i class="fas fa-arrow-up"></i>
+</a>

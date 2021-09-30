@@ -82,6 +82,7 @@ header {
     display: flex;
     flex-flow: column;
     text-align: center;
+    user-select: none;
 }
 
 #header .enter {
@@ -94,6 +95,7 @@ header {
 .header__title {
     color: var(--color-sky);
     font-weight: var(--weight-regular);
+    cursor: default;
 }
 
 .header__title > i {
@@ -107,15 +109,13 @@ header {
 }
 
 /* navbar */
-nav {
-    padding: 1px 0;
-    background-color: var(--color-grey);
-}
 
 #navbar {
     margin: 0;
     padding: 0;
-    background-color: var(--color-white);
+    border-top: 2px solid var(--color-grey);
+    border-bottom: 2px solid var(--color-grey);
+    font-size: var(--font-regular);
 }
 
 .navbar__list {
@@ -131,10 +131,15 @@ nav {
 
 .navbar__item {
     padding: 8px 20px;
+    user-select: none;
 }
 
 .navbar__item:hover {
     text-decoration: underline;
+}
+
+.navbar__buttons {
+    display: none;
 }
 
 
@@ -156,4 +161,102 @@ footer {
 .footer__contact {
     font-weight: var(--weight-semi-bold);
     text-decoration: underline;
+}
+
+
+/* top button */
+/* top button */
+.top {
+    display: none;
+    text-align: center;
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+
+    font-size: 30px;
+    opacity: 0.8;
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+    background-color: var(--color-sky);
+    border: 1px solid white;
+    color: var(--color-white);
+}
+.top.active {
+    display: block;
+}
+
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    :root {
+        /* Font Size */
+        --font-large: 30px;
+        --font-medium: 24px;
+        --font-regular: 18px;
+        --font-small: 16px;
+        --font-micro: 14px;
+    }
+
+    /* header */
+    .header__title {
+        display: none;
+    }
+
+
+    /* navbar */
+    nav {
+        background-color: var(--color-white);
+        position: sticky;
+        left: 0;
+        top: 0;
+    }
+
+    #navbar {
+        display: flex;
+        flex-flow: column;
+    }
+
+    #navbar .navbar__bars {
+        display: inline-block;
+        color: var(--color-dark-grey);
+        text-align: right;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    .navbar__item {
+        border-top: 1px solid var(--color-light-grey);
+    }
+
+    .navbar__list {
+        display: none;
+        flex-flow: column;
+    }
+
+    .navbar__buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 8px;
+    }
+
+    .navbar__home {
+        display: flex;
+    }
+
+    .navbar__home i {
+        color: var(--color-orange);
+    }
+
+    .navbar__title {
+        color: var(--color-sky);
+        font-family: "batang", "Noto Sans KR", sans-serif;
+        margin: auto;
+    }
+
+    .navbar__list.active {
+        display: block;
+    }
+
 }
