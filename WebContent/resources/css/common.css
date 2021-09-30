@@ -70,7 +70,8 @@ h1 {
 
 body {
     font-family: "Noto Sans KR", sans-serif;
-    cursor: default;
+    margin: 0;
+    padding: 0;
 }
 
 /* header */
@@ -84,13 +85,14 @@ header {
 }
 #header .enter {
     text-align: right;
-    font-weight: var(--weight-bold);
+    font-weight: var(--weight-semi-bold);
     font-size: var(--font-micro);
-
+    margin: 10px;
 }
 
 .header__title {
     color: var(--color-sky);
+    font-weight: var(--weight-regular);
 }
 
 .header__title > i {
@@ -125,3 +127,20 @@ nav {
 }
 
 /* footer */
+footer {
+    background-color: var(--color-light-grey);
+    text-align: center;
+    padding: 30px;
+}
+
+.footer__description {
+    font-size: var(--font-small);
+}
+.footer__rights {
+    font-size: var(--font-micro);
+}
+
+.footer__contact {
+    font-weight: var(--weight-semi-bold);
+    text-decoration: underline;
+}
