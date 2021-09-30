@@ -1,5 +1,5 @@
 /* Global */
-:root{
+:root {
     /* color */
     --color-white: #ffffff;
 
@@ -67,7 +67,6 @@ h1 {
 }
 
 
-
 body {
     font-family: "Noto Sans KR", sans-serif;
     margin: 0;
@@ -78,11 +77,13 @@ body {
 header {
     font-family: "batang", "Noto Sans KR", sans-serif;
 }
+
 #header {
     display: flex;
     flex-flow: column;
     text-align: center;
 }
+
 #header .enter {
     text-align: right;
     font-weight: var(--weight-semi-bold);
@@ -110,11 +111,13 @@ nav {
     padding: 1px 0;
     background-color: var(--color-grey);
 }
+
 #navbar {
     margin: 0;
-    padding: 8px 0;
+    padding: 0;
     background-color: var(--color-white);
 }
+
 .navbar__list {
     display: flex;
     margin: 0;
@@ -122,9 +125,18 @@ nav {
     font-weight: var(--weight-bold);
 }
 
-.navbar__item a {
+.navbar__list a {
     color: var(--color-dark-grey);
 }
+
+.navbar__item {
+    padding: 8px 20px;
+}
+
+.navbar__item:hover {
+    text-decoration: underline;
+}
+
 
 /* footer */
 footer {
@@ -136,6 +148,7 @@ footer {
 .footer__description {
     font-size: var(--font-small);
 }
+
 .footer__rights {
     font-size: var(--font-micro);
 }

@@ -9,11 +9,11 @@
 <nav>
     <div id="navbar">
         <ul class="navbar__list">
-            <li class="navbar__item"><a href="#">내 일정</a></li>
-            <li class="navbar__item"><a href="#">커뮤니티</a></li>
-            <li class="navbar__item"><a href="#">마이페이지</a></li>
-            <li class="navbar__item"><a href="#">쪽지</a></li>
-            <li class="navbar__item"><a href="#">문의</a></li>
+            <a href="#"><li class="navbar__item">내 일정</li></a>
+            <a href="#"><li class="navbar__item">커뮤니티</li></a>
+            <a href="#"><li class="navbar__item">마이페이지</li></a>
+            <a href="#"><li class="navbar__item">쪽지</li></a>
+            <a href="#"><li class="navbar__item">문의</li></a>
         </ul>
     </div>
 </nav>
