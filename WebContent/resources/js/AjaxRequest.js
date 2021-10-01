@@ -36,12 +36,11 @@ function sendRequest(method, url, params, callback) {
         if (httpParams !== '') {
             httpParams += '&';
         }
-        httpParams += key + '=';
-        httpParams += params[key];
+        httpParams += `${key}=${params[key]}`;
     }
 
     if (httpMethod === 'GET' && httpParams !== '') {
-        httpUrl = httpUrl + "?" + httpParams;
+        httpUrl += `? ${httpParams}`;
     }
 
     httpRequest.open(httpMethod, httpUrl, true);

@@ -26,9 +26,6 @@
     개인적으로 사용하고 싶은 색상은 개인CSS에서 사용하시면 됩니다.
 
 --%>
-<section style="height: 200vh">
-    콘텐츠영역
-</section>
 
 <%--footer--%>
 <c:import url="common/footer.jsp"/>
