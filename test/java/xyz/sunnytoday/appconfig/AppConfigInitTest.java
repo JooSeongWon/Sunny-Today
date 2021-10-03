@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.AppKeyRepository;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class AppConfigInitTest {
 
     @Test
@@ -23,5 +26,14 @@ public class AppConfigInitTest {
                 , "arum itaque molestiae nulla obcaecati odio officia officiis porro quibusdam tempora voluptatum?");
         Assertions.assertEquals(appKeyRepository.getKey("test", "de")
                 , "nulla obcaecati odio officia officiis porro quibusdam tempora voluptatum%%");
+
+        AppConfig.destroy();
+    }
+
+    @Test
+    void dateTest() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        System.out.println("calendar.get(Calendar.HOUR) = " + calendar.get(Calendar.HOUR_OF_DAY));
     }
 }
