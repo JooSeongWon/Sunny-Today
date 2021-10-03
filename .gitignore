@@ -152,6 +152,7 @@ fabric.properties
 *.iml
 web.xml
 context.xml
+app-config.xml
 # modules.xml
 # .idea/misc.xml
 # *.ipr
