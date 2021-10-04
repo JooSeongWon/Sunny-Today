@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
     <%--head meta data--%>
-    <c:import url="../common/head_meta.jsp"/>
+    <c:import url="../layout/head_meta.jsp"/>
     <%--page title--%>
     <title>오늘도 맑음 -뭐입지?</title>
 
@@ -17,9 +17,9 @@
 </head>
 <body>
 <%--header--%>
-<c:import url="../common/header.jsp"/>
+<c:import url="../layout/header.jsp"/>
 <%--navbar--%>
-<c:import url="../common/navbar.jsp"/>
+<c:import url="../layout/navbar.jsp"/>
 
 <%--home section--%>
 <section id="service">
@@ -70,6 +70,6 @@
 </section>
 
 <%--footer--%>
-<c:import url="../common/footer.jsp"/>
+<c:import url="../layout/footer.jsp"/>
 </body>
 </html>

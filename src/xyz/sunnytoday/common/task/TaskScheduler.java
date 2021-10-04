@@ -25,6 +25,7 @@ public class TaskScheduler implements Runnable {
                 //noinspection BusyWait
                 Thread.sleep(5 * 60 * 1000);
             } catch (InterruptedException e) {
+                System.out.println("[INFO] InterruptedException, 서버 종료시에 exception이 발생 했다면 스레드를 안전하게 깨운후 종료하기위해 호출 된 것으로 정상입니다.");
                 e.printStackTrace();
             }
         }
