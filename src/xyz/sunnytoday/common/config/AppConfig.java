@@ -2,7 +2,7 @@ package xyz.sunnytoday.common.config;
 
 import xyz.sunnytoday.common.repository.AppKeyRepository;
 import xyz.sunnytoday.common.task.TaskScheduler;
-import xyz.sunnytoday.common.task.TaskVo;
+import xyz.sunnytoday.common.task.TaskConfig;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -21,11 +21,11 @@ public class AppConfig {
 
         //반복 작업
         taskScheduler = new TaskScheduler();
-        List<TaskVo> taskList = xmlConfigParser.getTasks();
-        taskList.forEach(taskVo -> {
+        List<TaskConfig> taskList = xmlConfigParser.getTasks();
+        taskList.forEach(taskConfig -> {
             try {
-                Constructor<?> constructor = Class.forName(taskVo.getClassUrl()).getConstructor(Integer.TYPE);
-                taskScheduler.addTask((Runnable) constructor.newInstance(taskVo.getInterval()));
+                Constructor<?> constructor = Class.forName(taskConfig.getClassUrl()).getConstructor(Integer.TYPE);
+                taskScheduler.addTask((Runnable) constructor.newInstance(taskConfig.getInterval()));
             } catch (ClassNotFoundException
                     | NoSuchMethodException
                     | InstantiationException
