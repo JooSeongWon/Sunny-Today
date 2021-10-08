@@ -58,6 +58,7 @@
 				<td>닉네임</td>
 				<td><input type="text" class="profile-setting" name="nick"/></td>
 			</tr>
+			
 		</tbody>
 	</table>
 	</form>
