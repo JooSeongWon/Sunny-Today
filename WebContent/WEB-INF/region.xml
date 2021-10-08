@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<region>
+    <city>
+        <name>서울특별시</name>
+        <longitude>126.98000833333333</longitude>
+        <latitude>37.56356944444444</latitude>
+    </city>
+    <city>
+        <name>부산광역시</name>
+        <longitude>129.07695277777776</longitude>
+        <latitude>35.17701944444444</latitude>
+    </city>
+</region>
