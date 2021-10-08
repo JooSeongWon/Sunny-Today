@@ -17,6 +17,7 @@
 </head>
 <body>
 
+신기행
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>
 </body>
