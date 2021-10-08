@@ -1,6 +1,6 @@
 package xyz.sunnytoday.dto;
 
-public class GeoLocationDto {
+public class GeoLocation {
     private String country;
     private String code;
     private String r1;
@@ -9,7 +9,7 @@ public class GeoLocationDto {
     private float lat;
     private float lon;
 
-    public GeoLocationDto(String country, String code, String r1, String r2, String r3, float lat, float lon) {
+    public GeoLocation(String country, String code, String r1, String r2, String r3, float lat, float lon) {
         this.country = country;
         this.code = code;
         this.r1 = r1;

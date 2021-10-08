@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(
-        urlPatterns = "/index.html",
+        urlPatterns = "/main",
         loadOnStartup = 1
 )
 public class HomeController extends HttpServlet {

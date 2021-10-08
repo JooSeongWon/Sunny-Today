@@ -19,7 +19,7 @@ public class AppConfig {
         XmlConfigParser xmlConfigParser = new XmlConfigParser(url);
         appKeyRepository = new AppKeyRepository(xmlConfigParser.getAppKeys());
 
-        //반복 작업
+        //Task
         taskScheduler = new TaskScheduler();
         List<TaskConfig> taskList = xmlConfigParser.getTasks();
         taskList.forEach(taskConfig -> {

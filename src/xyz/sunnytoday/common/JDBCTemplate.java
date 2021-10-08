@@ -6,6 +6,10 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
 
+/**
+ * 강사님이 준 JDBCTemplate 코드에 커넥션풀만 적용함.
+ * 모든 메서드 사용방법이 같음 단 connection도 항상 close 해줘야함
+ */
 public class JDBCTemplate {
     //Connection pool
     private static DataSource dataSource;

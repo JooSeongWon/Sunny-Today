@@ -30,10 +30,10 @@ public class AppConfigInitTest {
         AppConfig.destroy();
     }
 
-    @Test
+    /*@Test
     void dateTest() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         System.out.println("calendar.get(Calendar.HOUR) = " + calendar.get(Calendar.HOUR_OF_DAY));
-    }
+    }*/
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TaskSchedulerTest {
 
     /* 테스트하려면 5분 필요함 */
-    @Test
+    /*@Test
     @DisplayName("스케쥴러 정상 작동 확인")
     void schedulerRunTest() {
         TaskScheduler taskScheduler = new TaskScheduler();
@@ -39,5 +39,5 @@ public class TaskSchedulerTest {
         }
 
         // 쓰레드를 깨우기위해 인터럽트 입셉션 로그 발생은 정상
-    }
+    }*/
 }

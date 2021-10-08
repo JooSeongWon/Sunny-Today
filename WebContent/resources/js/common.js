@@ -15,7 +15,7 @@ barsBtn.onclick = () => {
 /* 헤더를 통해 홈으로 이동 */
 const header = document.querySelector('#header');
 header.onclick = () => {
-    location.href = `${contextPath}/`;
+    location.href = contextPath;
 };
 
 

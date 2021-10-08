@@ -18,7 +18,8 @@ import java.util.Map;
 
 /**
  * Xml Config 파일 (app-config.xml)을 읽는다.
- * 깃헙 리포지토리에 비공개로 앱키를 저장하고, 외부에서 수정 가능하게 활용하기 위해 사용
+ * 깃헙 리포지토리에 비공개로 앱키를 저장하고, 외부에서 수정 가능하게 활용하기 위해 사용,
+ * 특정시간 및 일정시간 반복 실행하는 작업들의 객체를 간단한 설정으로 생성하고 주입할 수 있게 설정을 읽는 것을 도와줌.
  */
 public class XmlConfigParser {
     private final File file;
@@ -62,7 +63,7 @@ public class XmlConfigParser {
                 this.appKeys.put(appkey.getName(), appkey);
             }
 
-            // 타이머 반복작업 정보 읽기
+            // Task 정보 읽기
             for (int i = 0; i < taskList.getLength(); i++) {
 
                 Element element = (Element) taskList.item(i);

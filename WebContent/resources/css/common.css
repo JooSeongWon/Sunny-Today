@@ -107,7 +107,7 @@ header {
 .header__title {
     color: var(--color-sky);
     font-weight: var(--weight-regular);
-    cursor: default;
+    cursor: pointer;
 }
 
 .header__title > i {

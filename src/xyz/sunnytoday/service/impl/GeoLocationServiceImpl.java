@@ -5,11 +5,12 @@ import com.google.gson.JsonParser;
 import org.apache.commons.codec.binary.Base64;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.AppKeyRepository;
-import xyz.sunnytoday.dto.GeoLocationDto;
+import xyz.sunnytoday.dto.GeoLocation;
 import xyz.sunnytoday.service.face.GeoLocationService;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.http.HTTPException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +24,8 @@ import java.security.NoSuchAlgorithmException;
 public class GeoLocationServiceImpl implements GeoLocationService {
     private final AppKeyRepository appKeyRepository = AppConfig.getAppKeyRepository();
 
-    public GeoLocationDto requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException, HTTPException {
+    @Override
+    public GeoLocation requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException, HTTPException {
         //api url
         String hostName = "https://geolocation.apigw.ntruss.com";
         String requestUrl = "/geolocation/v2/geoLocation";
@@ -60,13 +62,23 @@ public class GeoLocationServiceImpl implements GeoLocationService {
 
         JsonObject rootNode = JsonParser.parseString(stringBuffer.toString()).getAsJsonObject();
         JsonObject geoLocation = rootNode.getAsJsonObject("geoLocation");
-        return new GeoLocationDto(geoLocation.get("country").getAsString()
+        return new GeoLocation(geoLocation.get("country").getAsString()
                 , geoLocation.get("code").getAsString()
                 , geoLocation.get("r1").getAsString()
                 , geoLocation.get("r2").getAsString()
                 , geoLocation.get("r3").getAsString()
                 , geoLocation.get("lat").getAsFloat()
                 , geoLocation.get("long").getAsFloat());
+    }
+
+    @Override
+    public String getIpAddress(HttpServletRequest request) {
+        String ipAdress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAdress == null) {
+            ipAdress = request.getRemoteAddr();
+        }
+
+        return ipAdress;
     }
 
     // 시그니처
@@ -89,8 +101,6 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(signingKey);
         byte[] rawHmac = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
-        System.out.println(url);
-        System.out.println(Base64.encodeBase64String(rawHmac));
         return Base64.encodeBase64String(rawHmac);
     }
 }
