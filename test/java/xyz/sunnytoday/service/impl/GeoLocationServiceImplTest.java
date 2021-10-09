@@ -16,7 +16,7 @@ class GeoLocationServiceImplTest {
         GeoLocationService geoLocationService = new GeoLocationServiceImpl();
         GeoLocation response = null;
         try {
-            response = geoLocationService.requestGeoLocationData("58.77.135.71");
+            response = geoLocationService.requestGeoLocationData("39.115.110.153");
         } catch (Exception e) {
             throw e;
         }
