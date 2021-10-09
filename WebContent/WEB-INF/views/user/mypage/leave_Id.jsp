@@ -29,7 +29,7 @@
 		<a href="<%=request.getContextPath() %>/mypage">
 			<li class="mypage_item" >프로필 수정</li>
 		</a>
-		<a href="<%=request.getContextPath() %>/mypage/taste">
+		<a href="<%=request.getContextPath() %>/taste">
 			<li class="mypage_item" >추가정보수정</li>
 		</a>
 		<a href="<%=request.getContextPath() %>/mypage/password">
