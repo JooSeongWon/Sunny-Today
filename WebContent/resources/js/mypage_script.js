@@ -10,9 +10,9 @@ $(document).ready(function() {
 	//핸드폰비공개 버튼 동작
 	$("#btn-private-phone").click(function(){
 		if( $(this).prop('checked')){
-			console.log("true")
+			console.log($(this).prop('checked'))
 		} else {
-			console.log("flase")
+			console.log($(this).prop('checked'))
 		}
 	});
 	

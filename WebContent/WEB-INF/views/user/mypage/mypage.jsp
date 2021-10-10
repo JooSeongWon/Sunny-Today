@@ -55,6 +55,11 @@
 			<td class="profile_item" ><input type="button" id="btn-check" value="중복검사"/></td>
 		</tr>
 		<tr class="profile_list">
+			<td class="profile_item" >이메일</td>
+			<td class="profile_item" ><input type="text" class="profile-setting" 
+						name="email" disabled="disabled" value="이메일입력해야함"/></td>
+		</tr>
+		<tr class="profile_list">
 			<td class="profile_item" >전화번호</td>
 			<td class="profile_item" ><input type="text" class="profile-setting" name="phone"/></td>
 			<td class="profile_item" >
