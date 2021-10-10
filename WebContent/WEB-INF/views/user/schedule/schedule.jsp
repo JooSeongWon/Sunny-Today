@@ -42,7 +42,6 @@ if(n_m == 13) {
 	n_m = 1;
 }
 
-
 %>
 
 <!doctype html>
@@ -57,6 +56,17 @@ if(n_m == 13) {
     <link href="${cssPath}/schedule_style.css" rel="stylesheet">
     <script src="${jsPath}/home_script.js"></script>
     
+    <script type="text/javascript">
+    
+		<% if(request.getAttribute("id_ok") == "N") { %>
+		
+		window.alert("로그인이 필요합니다!")
+		window.location.assign("<%= request.getContextPath() %>/")
+		
+		<% } %>
+    
+    </script>
+    
 </head>
 <body>
 <%--header--%>
@@ -67,7 +77,6 @@ if(n_m == 13) {
 <br><br><br>
 
 
-
 <br>
 
 <table>
@@ -75,8 +84,8 @@ if(n_m == 13) {
 		<form id="frm" method="post" action="<%=request.getContextPath() %>/schedule" style="width: 525px;">
 			<a href="<%=request.getContextPath() %>/schedule?year=<%=b_y %>&month=<%=b_m %>" class="fas fa-angle-left"></a>
 			
-			<input type="text" id="year" name="year" value="<%=y %>" />년 
-			<input type="text" id="month" name="month" value="<%=m+1 %>" />월
+			<input type="number" id="year" name="year" max="2100" min="2000" value="<%=y %>" />년 
+			<input type="number" id="month" name="month" max="12" min="1" value="<%=m+1 %>" />월
 			<input type="submit" style="display: none;" />
 			
 			<a href="<%=request.getContextPath() %>/schedule?year=<%=n_y %>&month=<%=n_m %>" class="fas fa-angle-right"></a>

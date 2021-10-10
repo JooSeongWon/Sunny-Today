@@ -52,14 +52,14 @@ tr td:last-child {
 
 
 #year {
-	width: 74px;
+	width: 84px;
 	height: 50px;
 	border: none;
 	font-size: 30px;
 }
     
 #month {
-	width: 37px;
+	width: 52px;
 	height: 50px;
 	border: none;
 	font-size: 30px;
