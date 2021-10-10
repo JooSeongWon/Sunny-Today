@@ -143,3 +143,11 @@ input:checked + .slider:before {
 .slider.round:before{
 	border-radius: 50%;
 }
+
+#btn-check {
+	padding: 5px;
+    border-radius: 11px;
+	background-color: var(--color-dark-sky);
+	border: 0;
+	outline: 0;
+}
