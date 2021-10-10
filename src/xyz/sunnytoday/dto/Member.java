@@ -4,17 +4,23 @@ import java.util.Date;
 
 public class Member {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private int userno;
 	private String userid;
 	private String userpw;
 	private String salt;
 	private String idType;
 =======
+=======
+>>>>>>> mypageprofile
 	
 	private int user_no;
 	private String id;
 	private String password;
 	private String salt;
+<<<<<<< HEAD
+>>>>>>> mypageprofile
+=======
 >>>>>>> mypageprofile
 	private Date create_date;
 	private String email;
@@ -23,6 +29,7 @@ public class Member {
 	private String gender;
 	private String phone;
 	private String admin;
+<<<<<<< HEAD
 <<<<<<< HEAD
 	private int pictureno;
 	
@@ -138,6 +145,8 @@ public class Member {
 		this.pictureno = pictureno;
 	}
 =======
+=======
+>>>>>>> mypageprofile
 	private int picture_no;
 	private String birth_open;
 	private String phone_open;
@@ -263,6 +272,9 @@ public class Member {
 	}
 	
 	
+<<<<<<< HEAD
+>>>>>>> mypageprofile
+=======
 >>>>>>> mypageprofile
 	
 }

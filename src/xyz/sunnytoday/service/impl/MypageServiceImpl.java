@@ -1,5 +1,6 @@
 package xyz.sunnytoday.service.impl;
 
+<<<<<<< HEAD
 import java.sql.Connection;
 
 import xyz.sunnytoday.common.JDBCTemplate;
@@ -23,4 +24,10 @@ public class MypageServiceImpl implements MypageService {
 		return member;
 	}
 	
+=======
+import xyz.sunnytoday.service.face.MypageService;
+
+public class MypageServiceImpl implements MypageService {
+
+>>>>>>> mypageprofile
 }
