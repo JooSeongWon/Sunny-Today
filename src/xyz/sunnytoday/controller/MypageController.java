@@ -32,18 +32,11 @@ public class MypageController extends HttpServlet {
 			return;
 		}
 		
-<<<<<<< HEAD
 		//로그인 유저 세션의 아이디 얻기
 		String loginUserId = (String) req.getSession().getAttribute("id");
 		
 		//아이디로 유저정보 얻기 - member
 		Member member = mypageservice.selectMember(loginUserId);
-=======
-		String loginUserId = req.getSession().getAttribute("id");
-		//전달파라미터 얻기 - member
-		Member member = mypageservice.getMemberid(req);
->>>>>>> mypageprofile
-		
 		
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/mypage/mypage.jsp").forward(req, resp);
