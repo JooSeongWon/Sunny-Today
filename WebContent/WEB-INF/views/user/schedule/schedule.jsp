@@ -24,6 +24,25 @@ int dayOfweek = cal.get(Calendar.DAY_OF_WEEK); // (일:1 ~ 토:7)
 int lastday = cal.getActualMaximum(Calendar.DATE);
 int prevLastMth = new Date(y, m, 0).getDate();
 
+// 이전 버튼을 위한 세팅
+int b_y = y;
+int b_m = m;
+
+if(m == 0) {
+	b_y = b_y - 1;
+	b_m = 12;
+}
+
+// 다음 버튼을 위한 세팅
+int n_y = y;
+int n_m = m+2;
+
+if(n_m == 13) {
+	n_y = n_y + 1;
+	n_m = 1;
+}
+
+
 %>
 
 <!doctype html>
@@ -36,7 +55,7 @@ int prevLastMth = new Date(y, m, 0).getDate();
     
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/schedule_style.css" rel="stylesheet">
-
+    <script src="${jsPath}/home_script.js"></script>
     
 </head>
 <body>
@@ -47,26 +66,30 @@ int prevLastMth = new Date(y, m, 0).getDate();
 
 <br><br><br>
 
-<form name="frm" method="post" action="<%=request.getContextPath() %>/schedule">
-<input type="text" name="year" size="3" />년
-<input type="text" name="month" size="3" />월
-<input type="submit" value="달력보기" />
-</form>
+
 
 <br>
 
 <table>
 	<caption>
-	<%=y %>년 <%=m+1 %>월
+		<form id="frm" method="post" action="<%=request.getContextPath() %>/schedule" style="width: 525px;">
+			<a href="<%=request.getContextPath() %>/schedule?year=<%=b_y %>&month=<%=b_m %>" class="fas fa-angle-left"></a>
+			
+			<input type="text" id="year" name="year" value="<%=y %>" />년 
+			<input type="text" id="month" name="month" value="<%=m+1 %>" />월
+			<input type="submit" style="display: none;" />
+			
+			<a href="<%=request.getContextPath() %>/schedule?year=<%=n_y %>&month=<%=n_m %>" class="fas fa-angle-right"></a>
+		</form>
 	</caption>
 	<tr id="dayWeek">
-		<th>일</th>
+		<th style="color: red;">일</th>
 		<th>월</th>
 		<th>화</th>
 		<th>수</th>
 		<th>목</th>
 		<th>금</th>
-		<th>토</th>
+		<th style="color: blue;">토</th>
 	</tr>
 	<%
 	
@@ -80,7 +103,7 @@ int prevLastMth = new Date(y, m, 0).getDate();
 		
 		for(int j=0; j<7; j++) {
 			
-			String color="#555555";
+			String color="var(--color-black)";
 			if(j == 6) {
 				color = "blue";
 			} else if(j == 0) {
@@ -97,7 +120,7 @@ int prevLastMth = new Date(y, m, 0).getDate();
 			
 			//이번달 숫자
 			if(d <= lastday) {
-				out.print("<td style='color: " + color + "'>"+ d + "</td>");
+				out.print("<td style='color: " + color + "' class='" + d + "'>"+ d + "</td>");
 			}
 			
 			//다음달 숫자
@@ -106,7 +129,9 @@ int prevLastMth = new Date(y, m, 0).getDate();
 				
 				nextMonthNo++;
 			}
+			
 			d++;
+			
 		}
 		out.print("</tr>");
 	}

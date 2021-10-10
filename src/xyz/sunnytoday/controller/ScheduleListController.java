@@ -19,9 +19,15 @@ public class ScheduleListController extends HttpServlet {
 		//세션 객체
 		HttpSession session = req.getSession();
 		
-		session.getAttribute("id");
+		String id = (String) session.getAttribute("id");
 		
-		req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule.jsp").forward(req, resp);
+		System.out.println(id);
+		
+		if(id == null) {
+			resp.sendRedirect("/");
+		} else {
+			req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule.jsp").forward(req, resp);
+		}
 		
 	}
 	
