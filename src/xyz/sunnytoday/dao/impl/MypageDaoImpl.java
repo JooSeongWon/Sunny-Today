@@ -16,30 +16,26 @@ public class MypageDaoImpl implements MypageDao {
 	@Override
 	public Member selectMemberById(Connection conn, String loginUserId) {
 		
-		String sql = "";
-//		sql += "SELECT FROM MEMBER";
-		sql += " WHERE id = ?";
+		/*
+		 * String sql = ""; // sql += "SELECT FROM MEMBER"; sql += " WHERE id = ?";
+		 * 
+		 * Member result = null;
+		 * 
+		 * try { ps = conn.prepareStatement(sql);
+		 * 
+		 * ps.setString(1, loginUserId);
+		 * 
+		 * rs = ps.executeQuery();
+		 * 
+		 * while(rs.next()) { result = new Member();
+		 * 
+		 * result.setId(rs.getNString("id")); result.set }
+		 * 
+		 * } catch (SQLException e) { e.printStackTrace(); }
+		 * 
+		 * return result;
+		 */
 		
-		Member result = null;
-		
-		try {
-			ps = conn.prepareStatement(sql);
-			
-			ps.setString(1, loginUserId);
-			
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				result = new Member();
-				
-				result.setId(rs.getNString("id"));
-				result.set
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+		return null;
 	}
 }
