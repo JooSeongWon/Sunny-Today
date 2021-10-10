@@ -50,6 +50,32 @@ tr td:last-child {
 	float: right;
 }
 
+
+#year {
+	width: 84px;
+	height: 50px;
+	border: none;
+	font-size: 30px;
+}
+    
+#month {
+	width: 52px;
+	height: 50px;
+	border: none;
+	font-size: 30px;
+	text-align: right;
+}
+    
+#frm a:first-child {
+	font-size: 50px;
+	float: left;
+}
+    
+#frm a:last-child {
+	font-size: 50px;
+	float: right;
+}
+
 .scheduleBnt {
 	margin: auto;
 	width: 200px;

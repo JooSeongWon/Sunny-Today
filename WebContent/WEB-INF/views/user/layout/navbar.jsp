@@ -17,7 +17,7 @@
             <i class="fas fa-bars navbar__bars"></i>
         </div>
         <ul class="navbar__list">
-            <a href="#">
+            <a href="<%= request.getContextPath() %>/schedule">
                 <li class="navbar__item">내 일정</li>
             </a>
             <a href="#">
