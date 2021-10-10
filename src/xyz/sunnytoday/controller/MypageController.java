@@ -32,9 +32,9 @@ public class MypageController extends HttpServlet {
 			return;
 		}
 		
-		String loginUserId = req.getSession().getAttribute("id");
+		String loginUserId = (String) req.getSession().getAttribute("id");
 		//전달파라미터 얻기 - member
-		Member member = mypageservice.getMemberid(req);
+		Member member = mypageservice.(loginUserId);
 		
 		
 		
