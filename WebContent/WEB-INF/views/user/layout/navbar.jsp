@@ -20,7 +20,7 @@
             <a href="#">
                 <li class="navbar__item">내 일정</li>
             </a>
-            <a href="#">
+            <a href="/board/main">
                 <li class="navbar__item">커뮤니티</li>
             </a>
             <a href="#">
