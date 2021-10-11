@@ -14,7 +14,7 @@ import xyz.sunnytoday.service.face.MemberMenageService;
 import xyz.sunnytoday.service.impl.MemberMenageServiceImpl;
 
 @WebServlet("/member/view")
-public class MemberViewController extends HttpServlet {
+public class AdminMemberViewController extends HttpServlet {
 	MemberMenageService memberService = new MemberMenageServiceImpl();
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

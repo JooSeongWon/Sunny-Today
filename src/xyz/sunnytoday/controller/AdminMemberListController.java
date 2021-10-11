@@ -18,16 +18,33 @@ import xyz.sunnytoday.util.Paging;
  * Servlet implementation class AdminMemberMenageController
  */
 @WebServlet("/member/list")
-public class MemberListController extends HttpServlet {
+public class AdminMemberListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	MemberMenageService memberService = new MemberMenageServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Paging paging = memberService.getPaging(req);
-		System.out.println("/member/list [GET]" + paging);
+		System.out.println("/member/list [GET]");
+		String location = "member";
+		Member param = new Member();
+		String option = req.getParameter("select_option");
+		String search = req.getParameter("search");
+		System.out.println("location : " + location);
+		List<Member> list = null;
+		Paging paging = null;
 		
-		List<Member> list = memberService.getMemberList(paging);
-		
+		if(search != null && !"".equals(search) || search != null && !"".equals(search)){
+			if("userid".equals(option)) {
+				param.setUserid(search);
+			}else {
+				param.setNick(search);
+			}
+			paging = memberService.getPaging(req, param, location);
+			list = memberService.getUserList(param, paging);
+		}else {
+			paging = memberService.getPaging(req, param, location);
+			list = memberService.getUserList(param, paging);			
+		}
+
 		//모델값 + 페이징 정보 전달
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
@@ -35,22 +52,9 @@ public class MemberListController extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Paging paging = memberService.getPaging(req);
-		System.out.println("/member/list [POST]" + paging);
-		String userid = req.getParameter("userid");
-		String nick = req.getParameter("nick");
-		Member param = new Member();
-		List<Member> list =null;
-		if(userid != null && "".equals(userid)){
-			param.setUserid(req.getParameter("userid"));
-			list = memberService.getSearchUserList(param, paging);
-		}else if(nick != null && "".equals(nick)){
-			param.setNick(req.getParameter("usernick"));			
-		}else {
-			resp.sendRedirect("/member/list");
-		}
-		
-
+		System.out.println("/member/list [POST]");
+		 
+		resp.sendRedirect("/member/list");
 		
 	}
 }

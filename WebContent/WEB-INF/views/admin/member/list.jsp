@@ -2,6 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
+<style type="text/css">
+#searchBar{
+	background:#ccc;
+}
+#member_table > thead {
+	background:#DFD;
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#searchBtn").click(function(){
@@ -15,38 +23,43 @@ $(document).ready(function(){
 });
 
 </script>
+
 <title>회원 목록</title>
 
 <div id ="body" class="container">
 <h1>회원 목록</h1>
 <hr>
-<form action="<%=request.getContextPath() %>/member/list" id="search" method="post">
+<form action="<%=request.getContextPath() %>/member/list" id="search" method="get">
 
-<div class="text-left">
-	<label>회원 검색</label>
+<div class="text-left" id="searchBar">
+	<label>&nbsp;회원 검색</label>
 	<select name="select_option">
 		<option value="userid">회원ID</option>
 		<option value="nick">닉네임</option>
 	</select>
 	<input class="search-query" type="text" name="search" placeholder="search"/>
 	<button class="btn btn-default" id="searchBtn" type="button">검색</button>
+	
+</div>
+<div class="text-right">
+		<button class="btn btn-default" id="purnishBtn" type="button">회원 제재</button>
 </div>
 
-<div class="text-right">
-	<button class="btn" type="button">회원 제재</button>
-</div>
 </form>
 
-<form action="<%=request.getContextPath()%>/member/punish" method="post" id="purnish">
-<table class="table">
+<form action="<%=request.getContextPath()%>/member/purnish" method="post" id="purnish">
+<table class="table" id="member_table">
+<thead>
 <tr>
 	<th><input type="checkbox" name="select_all" class="check-all"></th>
 	<th>No.</th>
 	<th>아이디</th>
 	<th>닉네임</th>
-	<th>방문 횟수</th>
-	<th>가일일</th>
+	<th>이메일</th>
+	<th>가입일</th>
 </tr>
+</thead>
+<tbody>
 <% int i =0; %>
 <c:forEach items="${list }" var="member">
 <tr>
@@ -60,6 +73,7 @@ $(document).ready(function(){
 </tr>
 <% i++; %>
 </c:forEach>
+</tbody>
 </table>
 </form>
 

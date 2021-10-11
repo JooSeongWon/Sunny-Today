@@ -7,7 +7,6 @@ public class Member {
 	private String userid;
 	private String userpw;
 	private String salt;
-	private String idType;
 	private Date create_date;
 	private String email;
 	private String nick;
@@ -20,8 +19,7 @@ public class Member {
 	
 	@Override
 	public String toString() {
-		return "Member [userno=" + userno + ", userid=" + userid + ", userpw=" + userpw + ", salt=" + salt + ", idType="
-				+ idType + ", CreateDate=" + create_date + ", email=" + email + ", nick=" + nick + ", birth=" + birth
+		return "Member [userno=" + userno + ", userid=" + userid + ", userpw=" + userpw + ", salt=" + salt + ", CreateDate=" + create_date + ", email=" + email + ", nick=" + nick + ", birth=" + birth
 				+ ", gender=" + gender + ", phone=" + phone + ", admin=" + admin + ", pictureno=" + pictureno + "]";
 	}
 	
@@ -55,14 +53,6 @@ public class Member {
 	
 	public void setSalt(String salt) {
 		this.salt = salt;
-	}
-	
-	public String getIdType() {
-		return idType;
-	}
-	
-	public void setIdType(String idType) {
-		this.idType = idType;
 	}
 	
 	public Date getCreate_date() {
