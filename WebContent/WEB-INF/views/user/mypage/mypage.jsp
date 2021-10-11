@@ -51,33 +51,36 @@
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >닉네임</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="nick"/></td>
+			<td class="profile_item" ><input type="text" class="profile-setting" id="nick" name="nick" value="${loginmember.nick }"/></td>
 			<td class="profile_item" ><input type="button" id="btn-check" value="중복검사"/></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >이메일</td>
 			<td class="profile_item" ><input type="text" class="profile-setting" 
-						name="email" disabled="disabled" value="이메일입력해야함"/></td>
+						name="email" disabled="disabled" value="${loginmember.email }"/></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >전화번호</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="phone"/></td>
+			<td class="profile_item" ><input type="text" class="profile-setting" value="${loginmember.phone }"/></td>
 			<td class="profile_item" >
 			<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-phone"/>
+				<input type="checkbox" class="btn-toggle" id="btn-private-phone" name="phon_open" value="${loginmember.phone_open }"/>
 				<span class="slider round"></span>
 			</label>
 			</td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >생년월일</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="birth"/></td>
+			<td class="profile_item" ><input type="text" class="profile-setting" name="birth" value="${loginmember.birth }"/></td>
 			<td class="profile_item" >
 				<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-birth"/>
+				<input type="checkbox" class="btn-toggle" id="btn-private-birth" value="${loginmember.birth_open }"/>
 				<span class="slider round"></span>
 			</label>
 			</td>
+		</tr>
+		<tr>
+			<td colspan="2" ><button id="btn">수정</button></td>
 		</tr>
 	</table>
 	</form>

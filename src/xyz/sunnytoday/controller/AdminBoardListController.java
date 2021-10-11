@@ -16,7 +16,7 @@ import xyz.sunnytoday.dto.AdminBoard;
 import xyz.sunnytoday.service.face.AdminBoardService;
 import xyz.sunnytoday.service.impl.AdminBoardServiceImpl;
 	
-@WebServlet("/board/list")
+@WebServlet("/admin/board/list")
 public class AdminBoardListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

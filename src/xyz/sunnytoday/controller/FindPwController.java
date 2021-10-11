@@ -8,20 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/join")
-public class MemberJoinController extends HttpServlet {
+@WebServlet("/find/password")
+public class FindPwController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/member/join [GET]");
+		System.out.println("/find/password [GET]");
 		
-		req.getRequestDispatcher("/WEB-INF/views/user/login/join.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/user/login/find_Pw.jsp").forward(req, resp);
 	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException ,IOException {
-		
-	};
-	
 }
