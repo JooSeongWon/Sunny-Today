@@ -5,17 +5,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import util.Paging;
-import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.common.util.Paging;
+import xyz.sunnytoday.dto.AdminBoard;
 
-public interface BoardService {
+public interface AdminBoardService {
 
 	/**
 	 * 게시글 전체 조회
 	 * 
 	 * @return List<Board> - 게시글 전체 조회 결과 리스트
 	 */
-	public List<Board> getList();
+	public List<AdminBoard> getList();
 
 	/**
 	 * 게시글 전체 조회
@@ -24,7 +24,7 @@ public interface BoardService {
 	 * @param paging - 페이징 정보 객체
 	 * @return List<Board> - 게시글 전체 조회 결과 리스트
 	 */
-	public List<Board> getList(Paging paging);
+	public List<AdminBoard> getList(Paging paging);
 	
 	
 	/**
@@ -44,6 +44,6 @@ public interface BoardService {
 	 * @param req - 요청정보객체
 	 * @return Board - 전달파라미터 boardno를 포함한 객체
 	 */
-	public Board getBoardno(HttpServletRequest req);
+	public AdminBoard getBoardno(HttpServletRequest req);
 	
 }

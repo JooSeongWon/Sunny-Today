@@ -6,7 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.AppKeyRepository;
 import xyz.sunnytoday.dto.GeoLocation;
-import xyz.sunnytoday.service.face.GeoLocationService;
+import xyz.sunnytoday.service.face.AdGeoLocationService;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-public class GeoLocationServiceImpl implements GeoLocationService {
+public class GeoLocationServiceImpl implements AdGeoLocationService {
     private final AppKeyRepository appKeyRepository = AppConfig.getAppKeyRepository();
 
     @Override

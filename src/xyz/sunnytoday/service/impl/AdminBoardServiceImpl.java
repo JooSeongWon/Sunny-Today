@@ -4,26 +4,26 @@ import java.util.List;
 
 
 import javax.servlet.http.HttpServletRequest;
-import util.Paging;
 import xyz.sunnytoday.common.JDBCTemplate;
-import xyz.sunnytoday.dao.face.BoardDao;
-import xyz.sunnytoday.dao.impl.BoardDaoImpl;
-import xyz.sunnytoday.dto.Board;
-import xyz.sunnytoday.service.face.BoardService;
+import xyz.sunnytoday.common.util.Paging;
+import xyz.sunnytoday.dao.face.AdminBoardDao;
+import xyz.sunnytoday.dao.impl.AdminBoardDaoImpl;
+import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.service.face.AdminBoardService;
 
-public class BoardServiceImpl implements BoardService {
+public class AdminBoardServiceImpl implements AdminBoardService {
 	
-	private BoardDao boardDao = new BoardDaoImpl();
+	private AdminBoardDao boardDao = new AdminBoardDaoImpl();
 
 	@Override
-	public List<Board> getList() {
+	public List<AdminBoard> getList() {
 				
 		//Board 테이블의 총 게시글 수를 조회한다
 		return boardDao.selectAll(JDBCTemplate.getConnection());
 	}
 
 	@Override
-	public List<Board> getList(Paging paging) {
+	public List<AdminBoard> getList(Paging paging) {
 		
 		//게시글 전체 조회 결과 처리 - 페이징 추가
 		return boardDao.selectAll(JDBCTemplate.getConnection(), paging);
@@ -53,10 +53,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board getBoardno(HttpServletRequest req) {
+	public AdminBoard getBoardno(HttpServletRequest req) {
 		
 		//boardno를 저장할 객체 생성
-		Board boardno = new Board();
+		AdminBoard boardno = new AdminBoard();
 		
 		
 		
