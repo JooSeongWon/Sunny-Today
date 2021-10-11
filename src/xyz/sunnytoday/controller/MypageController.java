@@ -39,7 +39,6 @@ public class MypageController extends HttpServlet {
 		Member member = mypageservice.selectMember(loginUserId);
 		
 		
-		
 		req.getRequestDispatcher("/WEB-INF/views/user/mypage/mypage.jsp").forward(req, resp);
 	}
 	

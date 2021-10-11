@@ -7,7 +7,6 @@ import xyz.sunnytoday.dto.Member;
 public interface MypageService {
 
 	public Member selectMember(String loginUserId);
-	
 
 
 }
