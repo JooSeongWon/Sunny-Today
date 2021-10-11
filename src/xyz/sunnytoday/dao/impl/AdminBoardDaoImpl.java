@@ -16,12 +16,12 @@ import xyz.sunnytoday.dto.AdminBoard;
 
 public class AdminBoardDaoImpl implements AdminBoardDao {
 
-	private PreparedStatement ps = null;
-	private ResultSet rs = null;
-	
 	@Override
 	public List<AdminBoard> selectAll(Connection conn) {
 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		String sql = "";
 		sql += "SELECT * FROM board";
 		sql += " ORDER BY board_no DESC";
@@ -59,6 +59,9 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 
 	@Override
 	public List<AdminBoard> selectAll(Connection conn, Paging paging) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+	
 		String sql = "";
 		sql += "SELECT * FROM (";
 		sql += "	SELECT rownum rnum, B.* FROM (";
@@ -109,6 +112,9 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		} finally {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
+			JDBCTemplate.close(conn);
+
+			
 		}
 		
 		return boardList;
@@ -116,6 +122,10 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 
 	@Override
 	public int selectCntAll(Connection conn) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		//SQL 작성
 		String sql = "";
 		sql += "SELECT count(*) FROM board";
@@ -136,53 +146,49 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		} finally {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
+			JDBCTemplate.close(conn);
 		}
 		
 		return count;	
 	}
 
 	@Override
-	public AdminBoard selectBoardByBoardno(Connection conn, AdminBoard boardno) {
+	public int insert(Connection conn, AdminBoard board) {
 		
-		//SQL 작성
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//게시판 작성
 		String sql = "";
-		sql += "SELECT * FROM board";
-		sql += " WHERE boardno = ?";
+		sql += "INSERT INTO board";
+		sql += " VALUES (?,?,?,?,?,?,?,?,?,?)";
 		
-		//결과 저장할 Board객체
-		AdminBoard viewBoard = null;
-		
+		int res = 0;
 		try {
-			ps = conn.prepareStatement(sql); //SQL수행 객체
+			//DB작업
+			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, boardno.getBoard_no()); //조회할 게시글 번호 적용
+			ps.setInt(1, board.getBoard_no());
+			ps.setString(2, board.getComments_grant());
+			ps.setInt(3, board.getIndex());
+			ps.setString(4, board.getLike());
+			ps.setString(5, board.getList_grant());
+			ps.setString(6, board.getRead_grant());
+			ps.setString(7, board.getShow());
+			ps.setString(8, board.getTitle());
+			ps.setInt(9, board.getTitle_length());
+			ps.setString(10, board.getWrite_grant());
 			
-			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
-			
-			//조회 결과 처리
-			while(rs.next()) {
-				viewBoard = new AdminBoard(); //결과값 저장 객체
-				
-//				//결과값 한 행 처리
-//				viewBoard.setBoardno( rs.getInt("boardno") );
-//				viewBoard.setTitle( rs.getString("title") );
-//				viewBoard.setUserid( rs.getString("userid") );
-//				viewBoard.setContent( rs.getString("content") );
-//				viewBoard.setHit( rs.getInt("hit") );
-//				viewBoard.setWriteDate( rs.getDate("write_date") );
-				
-			}
+			res = ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//DB객체 닫기
-			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
 		
-		//최종 결과 반환
-		return viewBoard;
-	}		
+		return res;	
+		}
+
 	
 }

@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import org.apache.commons.codec.binary.Base64;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.AppKeyRepository;
+
 import xyz.sunnytoday.service.face.GeoLocationService;
 
 import javax.crypto.Mac;

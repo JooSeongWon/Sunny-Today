@@ -23,10 +23,8 @@ $(document).ready(function() {
 <hr style="border: inset 3px black;">
 
 
-					<select id="viewlist" name="viewlist">
-	    				<option value="viewlist" selected="selected">전체</option>
-					</select>
 					
+<form action="<%=request.getContextPath()%>/board/update" method="post" >					
 <table class="table table-bordered">
 <tr>
 	<td class="col-xs-2">카테고리명</td>
@@ -36,35 +34,40 @@ $(document).ready(function() {
 <tr>
 	<td rowspan="5">권한</td>
 </tr>
-
 <tr>
 	<td>목록보기
-		<select id="viewtlis" name="viewlist">
-			<option value="viewlist" selected="selected">전체</option>
+		<select id="viewList" name="authority">
+			<option value="all" selected="selected">전체</option>
+			<option value="member" >회원</option>
+			<option value="admin" >관리자</option>
 		</select>
 	</td>
 </tr>
 
 <tr>
 	<td>내용보기
-		<select id="viewlist" name="viewlist">
-			<option value="viewlist" selected="selected">전체</option>
+		<select id="viewContent" name="authority">
+			<option value="all" selected="selected">전체</option>
+			<option value="member" >회원</option>
+			<option value="admin" >관리자</option>
 		</select>
 	</td>
 </tr>
 
 <tr>
 	<td>글쓰기
-		<select id="viewlist" name="viewlist">
-			<option value="viewlist" selected="selected">전체</option>
+		<select id="ContentWrite" name="authority">
+			<option value="member" selected="selected">회원</option>
+			<option value="admin" >관리자</option>
 		</select>
 	</td>
 </tr>
 
 <tr>
 	<td>댓글쓰기
-		<select id="viewlist" name="viewlist">
-			<option value="viewlist" selected="selected">전체</option>
+		<select id="commentWrite" name="authority">
+			<option value="member" selected="selected">회원</option>
+			<option value="admin" >관리자</option>
 		</select>
 	</td>
 </tr>
@@ -88,7 +91,10 @@ $(document).ready(function() {
 	<td><input type="text"></td>
 </tr>
 
+
 </table>
+
+</form>
 
 <div class="text-center">
 	<button type="button" id="btnOk" class="btn btn-info">확인</button>
