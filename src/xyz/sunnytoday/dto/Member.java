@@ -121,5 +121,4 @@ public class Member {
         this.pictureno = pictureno;
     }
 
-
 }

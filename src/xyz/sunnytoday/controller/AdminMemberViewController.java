@@ -12,22 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MemberMenageService;
 import xyz.sunnytoday.service.impl.MemberMenageServiceImpl;
-import xyz.sunnytoday.util.Paging;
 
-/**
- * Servlet implementation class AdminMemberMenageController
- */
-@WebServlet("/member/list")
-public class MemberListController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@WebServlet("/admin/member/view")
+public class AdminMemberViewController extends HttpServlet {
 	MemberMenageService memberService = new MemberMenageServiceImpl();
-	@Override
+	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/member/list [GET]");
-		Paging paging = memberService.getPaging(req);
-		List<Member> list = memberService.getMemberList();
-		req.setAttribute("list", list);
-		req.getRequestDispatcher("/WEB-INF/views/admin/member/list.jsp").forward(req, resp);
+		System.out.println("/member/view [GET]");
+		Member param = memberService.getMemberDetailList(req);
+		req.setAttribute("member", param);
+		req.getRequestDispatcher("/WEB-INF/views/admin/member/view.jsp").forward(req, resp);
 	}
-	
 }
