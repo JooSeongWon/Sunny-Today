@@ -15,12 +15,12 @@ import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
 /**
- * Servlet implementation class BoardMainController
+ * Servlet implementation class BoardListController
  */
-@WebServlet("/board/main")
-public class BoardMainController extends HttpServlet {
+@WebServlet("/board/list/daily")
+public class BoardListDailyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	BoardService boardService = new BoardServiceImpl();
 	
 	@Override
@@ -30,12 +30,14 @@ public class BoardMainController extends HttpServlet {
 		
 		List<Post> list = boardService.getList(paging);
 		
-		req.setAttribute("boardMainList", list);
+		req.setAttribute("boardDailyList", list);
 		
 		req.setAttribute("paging", paging);
+		
+		req.getRequestDispatcher("/WEB-INF/views/user/board/boardDaily.jsp").forward(req, resp);
 
-		req.getRequestDispatcher("/WEB-INF/views/user/board/boardMain.jsp").forward(req, resp);
+		
+		
 	}
 	
-
 }

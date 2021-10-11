@@ -139,5 +139,4 @@ public class Member {
 		this.birth_open = birth_open;
 	}
 
-
 }

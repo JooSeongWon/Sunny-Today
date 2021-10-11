@@ -1,6 +1,15 @@
 .menu-left {
     float: left;
     width: 15%;
+    margin: 20px;
+}
+
+.How_was_your_day {
+	margin: 20px;
+}
+
+.menu-left div {
+	margin: 10px;
 }
 
 .main-board {
@@ -32,6 +41,7 @@ td, th {
 #full_article {
 	text-align: center;
 	font-size: var(--font-regular);
+	margin: 10px;
 }
 
 .division > th:nth-child(1) {
@@ -56,4 +66,18 @@ td, th {
 
 .division > th:nth-child(6) {
 	width:10%;
+}
+
+#paging {
+	text-align: center;
+	clear:both;
+}
+
+.fa-circle {
+	float: left;
+	color: var(--color-sky);
+}
+
+#circle-grade {
+	float: left;
 }

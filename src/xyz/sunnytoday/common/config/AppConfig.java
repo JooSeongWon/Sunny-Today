@@ -5,7 +5,6 @@ import xyz.sunnytoday.common.repository.ForecastRepository;
 import xyz.sunnytoday.common.task.TaskScheduler;
 import xyz.sunnytoday.common.task.TaskConfig;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
