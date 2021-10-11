@@ -1,14 +1,13 @@
 package xyz.sunnytoday.common.config;
 
-import xyz.sunnytoday.common.repository.AppKeyRepository;
-import xyz.sunnytoday.common.repository.ForecastRepository;
-import xyz.sunnytoday.common.task.TaskScheduler;
-import xyz.sunnytoday.common.task.TaskConfig;
-
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import xyz.sunnytoday.common.repository.AppKeyRepository;
+import xyz.sunnytoday.common.repository.ForecastRepository;
+import xyz.sunnytoday.common.task.TaskConfig;
+import xyz.sunnytoday.common.task.TaskScheduler;
 
 public class AppConfig {
     private static AppConfig instance;
