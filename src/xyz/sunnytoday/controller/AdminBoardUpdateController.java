@@ -13,7 +13,7 @@ import xyz.sunnytoday.service.face.AdminBoardService;
 import xyz.sunnytoday.service.impl.AdminBoardServiceImpl;
 
 
-@WebServlet("/board/update")
+@WebServlet("/admin/board/update")
 public class AdminBoardUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

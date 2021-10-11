@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 
 					
-<form action="<%=request.getContextPath()%>/board/update" method="post" >					
+<form action="<%=request.getContextPath()%>/admin/board/update" method="post" >					
 <table class="table table-bordered">
 <tr>
 	<td class="col-xs-2">카테고리명</td>

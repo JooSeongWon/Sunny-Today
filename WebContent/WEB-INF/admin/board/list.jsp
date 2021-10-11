@@ -14,13 +14,21 @@ $(document).ready(function() {
 	
 	//게시판 추가버튼 동작
 	$("#btnBoardUp").click(function() {
-		$(location).attr("href", "/SunnyToday/board/update?boardno=${viewBoard.boardno }");
+		$(location).attr("href", "/SunnyToday/admin/board/update?boardno=${viewBoard.boardno }");
 	});
 	
-	//체크된 게시판 삭제 동작
-	$("#btnCheck").click(function() {
-		
-	});
+	//체크된 게시판
+// 	$("#btnCheck").click(function() {
+// 		if ($("input:checkbox[id='checkAll']").prop("checked")){
+// 			$("input[type=checkbox]").prop("checked", true);			
+// 		} else {
+// 			$("input[type=checkbox]").prop("checked", false);			
+// 		}
+// 	});
+	
+	//선택 삭제
+// 	$(".btnCheck").click(function() {
+// 	});
 	
 	//전체 체크박스 동작
 	$(".checkAll").click(function() {
@@ -29,13 +37,13 @@ $(document).ready(function() {
 	
 	//수정버튼 동작
 	$("#btnUpdate").click(function() {
-		$(location).attr("href", "/SunnyToday/board/update?boardno=${viewBoard.boardno }");
+		$(location).attr("href", "/SunnyToday/admin/board/update?boardno=${viewBoard.boardno }");
 	});
 	
 	//삭제버튼 동작
 	$("#btnDelete").click(function() {
 		if( confirm("게시판을 삭제하시겠습니까?") ) {
-			$(location).attr("href", "/board/delete?boardno=${viewBoard.boardno }");
+			$(location).attr("href", "/admin/board/delete?boardno=${viewBoard.boardno }");
 		}
 	});
 	
@@ -84,7 +92,7 @@ $(document).ready(function() {
 
 <table class="table table-hover">
 <tr>
-	<th><input type="checkbox" class="checkAll" name="checkAll" value="checkAll" ></th>
+	<th><input type="checkbox" id= "checkAll" class="checkAll" name="checkAll" value="checkAll" ></th>
 	<th>No.</th>
 	<th>게시판명</th>
 	<th>게시글 수</th>
@@ -136,9 +144,6 @@ $(document).ready(function() {
 </c:forEach>
 </table>
 
-<%-- <c:if test"=${board.list_grant == 'N'}"> --%>
-<!-- 	전체공개 -->
-<%-- </c:if> --%>
 
 <c:import url="/WEB-INF/views/user/layout/paging.jsp" />
 
