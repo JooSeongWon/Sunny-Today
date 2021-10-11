@@ -8,4 +8,8 @@ public interface MypageDao {
 
 	public Member selectMemberById(Connection conn, String loginUserId);
 
+	public int nickCheck(Connection conn, String nick);
+
+	public int selectPhoneOpen(Connection conn, String phone, String loginUserId);
+
 }
