@@ -29,7 +29,7 @@ $(document).ready(function(){
 <div id ="body" class="container">
 <h1>회원 목록</h1>
 <hr>
-<form action="<%=request.getContextPath() %>/member/list" id="search" method="get">
+<form action="<%=request.getContextPath() %>/admin/member/list" id="search" method="get">
 
 <div class="text-left" id="searchBar">
 	<label>&nbsp;회원 검색</label>
@@ -47,7 +47,7 @@ $(document).ready(function(){
 
 </form>
 
-<form action="<%=request.getContextPath()%>/member/purnish" method="post" id="purnish">
+<form action="<%=request.getContextPath()%>/admin/member/purnish" method="post" id="purnish">
 <table class="table" id="member_table">
 <thead>
 <tr>
@@ -65,7 +65,7 @@ $(document).ready(function(){
 <tr>
 	<td><input type="checkbox" name="cb<%=i %>" class="ab"></td>
 	<td>${member.userno }</td>
-	<td><a href="<%=request.getContextPath() %>/member/view?userno=${member.userno }">${member.userid }</a></td>
+	<td><a href="<%=request.getContextPath() %>/admin/member/view?userno=${member.userno }">${member.userid }</a></td>
 	<td>${member.nick }</td>
 	<td>${member.email }</td>
 <%-- 	<td>${member.visitor }</td> --%>

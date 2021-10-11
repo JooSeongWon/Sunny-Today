@@ -10,11 +10,13 @@ public class Question {
 	private String title;
 	private String content;
 	private int admin_no;
+	private String id;
+	
 	@Override
 	public String toString() {
 		return "Question [question_no=" + question_no + ", user_no=" + user_no + ", write_date=" + write_date
 				+ ", anwer_date=" + anwer_date + ", title=" + title + ", content=" + content + ", admin_no=" + admin_no
-				+ "]";
+				+ ", id=" + id + "]";
 	}
 	public int getQuestion_no() {
 		return question_no;
@@ -57,6 +59,12 @@ public class Question {
 	}
 	public void setAdmin_no(int admin_no) {
 		this.admin_no = admin_no;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }

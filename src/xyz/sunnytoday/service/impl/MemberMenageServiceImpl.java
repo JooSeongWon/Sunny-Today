@@ -23,7 +23,7 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 		System.out.println("getMemberPaging called");
 		String page = req.getParameter("curPage");
 		System.out.println("curPage : " + page );
-		System.out.println("param : " + param);
+		System.out.println("location : " + location);
 		int curPage = 0;
 		if(page != null && !"".equals(page)) {
 			curPage = Integer.parseInt(page);
@@ -35,6 +35,7 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 		
 		int totalCount = 0; 
 		if(location == "member") {
+			System.out.println("paging member");
 			if(param.getUserid() != null && !"".equals(param.getUserid())) {
 				//id로 조회된 총 회원 수 조회
 				totalCount = memberDao.selectIdCntAll(conn, param);
@@ -45,7 +46,8 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 				//member테이블의 총 회원수 조회
 				totalCount = memberDao.selectCntAll(conn);		
 			}
-		}else if(location == "private_question") {
+		}else if(location == "question") {
+			System.out.println("paging question");
 			if(param.getUserid() != null && !"".equals(param.getUserid())) {
 				//id로 조회된 총 회원 수 조회
 				totalCount = questionDao.selectIdCntAll(conn, param);
@@ -56,6 +58,8 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 				//member테이블의 총 회원수 조회
 				totalCount = questionDao.selectCntAll(conn);		
 			}
+		}else {
+			System.out.println("location [Error]");
 		}
 		
 		//Paging 객체 생성
@@ -107,7 +111,7 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 		}else if(param.getNick() != null && !"".equals(param.getNick())) {
 			list = questionDao.searchUserNick(param, paging, conn);
 		}else {
-			list = questionDao.getMemberList(conn, paging);
+			list = questionDao.getQuestionList(conn, paging);
 		}
 		
 		JDBCTemplate.close(conn);

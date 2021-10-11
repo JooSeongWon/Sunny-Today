@@ -92,29 +92,29 @@ $(document).ready(function(){
 	//-> 첫페이지를 헤더로 잡고 div하나 만들어서 적용해야 하겠네요
 	$('#member_list').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/member/list");
+		$(location).attr("href", "/admin/member/list");
 	})
 	
 	$('#member_question').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/member/question");
+		$(location).attr("href", "/admin/member/question");
 	})
 	
 	$('#member_report').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/member/report");
+		$(location).attr("href", "/admin/member/report");
 	})
 	
 	$('#purnish_list').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/purnish/list");
+		$(location).attr("href", "/admin/purnish/list");
 	})
 	$('#conn_analysis').click(function(){
 		console.log("conn_analysis clicked");
-		$(location).attr("href", "/conn/analysis");		
+		$(location).attr("href", "/admin/conn/analysis");		
 	})
 	$('#member_statisics').click(function(){
 		console.log("member_statisics clicked");
-		$(location).attr("href", "/member/statisics");
+		$(location).attr("href", "/admin/member/statisics");
 	})
 });

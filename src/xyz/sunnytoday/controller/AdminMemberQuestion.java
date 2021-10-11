@@ -18,7 +18,7 @@ import xyz.sunnytoday.util.Paging;
 /**
  * Servlet implementation class AdminMemberQuestion
  */
-@WebServlet("/member/question")
+@WebServlet("/admin/member/question")
 public class AdminMemberQuestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	MemberMenageService memberService = new MemberMenageServiceImpl();
@@ -37,6 +37,9 @@ public class AdminMemberQuestion extends HttpServlet {
 			}else {
 				param.setNick(search);
 			}
+			paging = memberService.getPaging(req, param, location);
+			list = memberService.getQuestionList(param, paging);
+		}else {
 			paging = memberService.getPaging(req, param, location);
 			list = memberService.getQuestionList(param, paging);
 		}

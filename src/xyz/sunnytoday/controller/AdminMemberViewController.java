@@ -13,7 +13,7 @@ import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MemberMenageService;
 import xyz.sunnytoday.service.impl.MemberMenageServiceImpl;
 
-@WebServlet("/member/view")
+@WebServlet("/admin/member/view")
 public class AdminMemberViewController extends HttpServlet {
 	MemberMenageService memberService = new MemberMenageServiceImpl();
 	private static final long serialVersionUID = 1L;

@@ -85,18 +85,19 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 	}
 	@Override
 	public List<Question> searchUserId(Member param, Paging paging, Connection conn) {
-		
 		System.out.println("searchUserId called");
+		
 		String sql = "";
-		sql += "SELECT * FROM(";
-		sql += " SELECT rownum rnum, B.* FROM(";
-		sql += " 	SELECT user_no, id, nick, email, create_date"; 
-		sql += "	FROM member";
-		sql += "	WHERE id LIKE ?";
-		sql += "	ORDER BY user_no DESC";
-		sql += " )B ";
-		sql += ") MEMBER_BOARD";
-		sql += " WHERE rnum BETWEEN ? AND ?";
+		sql += "select * FROM(";
+		sql +=	    " select rownum rnum, R.* FROM(";
+		sql +=	        " select pq.question_no, pq.title, m.id, pq.write_date,"; 
+		sql +=	        " from private_question pq, member m";
+		sql +=			" WHERE m.user_no = pq.user_no";
+		sql +=			" AND m.id LIKE ?";
+		sql +=	        " ORDER BY question_no DESC";
+		sql +=	    " )R";
+		sql +=	" )Question";
+		sql += "WHERE rnum BETWEEN ? AND ?";
 		List<Question> list = new ArrayList<>();
 		try {
 			ps = conn.prepareStatement(sql);
@@ -106,7 +107,10 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Question question = new Question();
-				
+				question.setQuestion_no(rs.getInt("question_no"));
+				question.setTitle(rs.getString("title"));
+				question.setId(rs.getString("id"));
+				question.setWrite_date(rs.getDate("write_date"));
 				list.add(question);			
 			}
 		} catch (SQLException e) {
@@ -121,12 +125,80 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 	}
 	@Override
 	public List<Question> searchUserNick(Member param, Paging paging, Connection conn) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("searchUserNick called");
+		String sql = "";
+		sql += "select * FROM(";
+		sql +=	    " select rownum rnum, R.* FROM(";
+		sql +=	        " select question_no, title, write_date"; 
+		sql +=	        " from private_question";
+		sql +=			" WHERE m.user_no = pq.user_no";
+		sql +=			" AND m.nick LIKE ?";
+		sql +=	        " ORDER BY question_no DESC";
+		sql +=	    " )R";
+		sql +=	" )Question";
+		sql += "WHERE rnum BETWEEN ? AND ?";
+		
+		List<Question> list = new ArrayList<>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
+			rs = ps.executeQuery();
+			while(rs.next()){
+				Question question = new Question();
+				question.setQuestion_no(rs.getInt("question_no"));
+				question.setTitle(rs.getString("title"));
+				question.setId(rs.getString("id"));
+				question.setWrite_date(rs.getDate("write_date"));
+				list.add(question);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return list;
 	}
+	
 	@Override
-	public List<Question> getMemberList(Connection conn, Paging paging) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Question> getQuestionList(Connection conn, Paging paging) {
+		System.out.println("getQuestionList called");
+		String sql = "";
+		sql += "select * FROM(";
+		sql +=	    " select rownum rnum, R.* FROM(";
+		sql +=	        " select pq.question_no, pq.title, m.id, pq.write_date,"; 
+		sql +=	        " FROM private_question pq, member m";
+		sql +=			" WHERE m.user_no = pq.user_no";
+		sql +=	        " ORDER BY question_no DESC";
+		sql +=	    " ) R";
+		sql +=	" ) Question";
+		sql += "WHERE rnum BETWEEN ? AND ?";
+		List<Question> list = new ArrayList<>();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Question question = new Question();
+				question.setQuestion_no(rs.getInt("question_no"));
+				question.setTitle(rs.getString("title"));
+				question.setId(rs.getString("id"));
+				question.setWrite_date(rs.getDate("write_date"));
+				list.add(question);			
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return list;
 	}
 }

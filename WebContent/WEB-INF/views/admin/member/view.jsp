@@ -6,7 +6,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#backBtn").click(function(){
-		$(location).attr("href", "/member/list");
+		$(location).attr("href", "/admin/member/list");
 	})
 })
 </script>

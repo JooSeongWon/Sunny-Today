@@ -57,6 +57,6 @@ public interface QuestionMenageDao {
 	 * @param conn - DB 연결 객체
 	 * @return - 조회된 문의 리스트 반환 	
 	 */
-	public List<Question> getMemberList(Connection conn, Paging paging);
+	public List<Question> getQuestionList(Connection conn, Paging paging);
 
 }

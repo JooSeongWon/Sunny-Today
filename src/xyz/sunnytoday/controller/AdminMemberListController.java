@@ -17,7 +17,7 @@ import xyz.sunnytoday.util.Paging;
 /**
  * Servlet implementation class AdminMemberMenageController
  */
-@WebServlet("/member/list")
+@WebServlet("/admin/member/list")
 public class AdminMemberListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	MemberMenageService memberService = new MemberMenageServiceImpl();
