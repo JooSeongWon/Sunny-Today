@@ -15,27 +15,26 @@ import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
 /**
- * Servlet implementation class BoardMainController
+ * Servlet implementation class BoardBuyListController
  */
-@WebServlet("/board/main")
-public class BoardMainController extends HttpServlet {
+@WebServlet("/board/list/buy")
+public class BoardListBuyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	BoardService boardService = new BoardServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		Paging paging = boardService.getPaging(req);
+
+Paging paging = boardService.getPaging(req);
 		
 		List<Post> list = boardService.getList(paging);
 		
-		req.setAttribute("boardMainList", list);
+		req.setAttribute("boardBuyList", list);
 		
 		req.setAttribute("paging", paging);
 
-		req.getRequestDispatcher("/WEB-INF/views/user/board/boardMain.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/user/board/boardBuy.jsp").forward(req, resp);
+		
 	}
-	
-
 }
