@@ -38,12 +38,6 @@ public interface AdminBoardService {
 	 */
 	public Paging getPaging(HttpServletRequest req);
 	
-	/**
-	 * 요청파라미터 얻기
-	 * 
-	 * @param req - 요청정보객체
-	 * @return Board - 전달파라미터 boardno를 포함한 객체
-	 */
-	public AdminBoard getBoardno(HttpServletRequest req);
+	public void write(HttpServletRequest req);
 	
 }

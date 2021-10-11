@@ -9,12 +9,12 @@ $(document).ready(function() {
 	
 	//게시판 검색버튼 동작
 	$("#btnSearch").click(function() {
-		$(location).attr("href", "/board/update?boardno=${viewBoard.boardno }");
+		
 	});
 	
 	//게시판 추가버튼 동작
 	$("#btnBoardUp").click(function() {
-		$(location).attr("href", "/board/update?boardno=${viewBoard.boardno }");
+		$(location).attr("href", "/SunnyToday/board/update?boardno=${viewBoard.boardno }");
 	});
 	
 	//체크된 게시판 삭제 동작
@@ -29,7 +29,7 @@ $(document).ready(function() {
 	
 	//수정버튼 동작
 	$("#btnUpdate").click(function() {
-		$(location).attr("href", "/board/update?boardno=${viewBoard.boardno }");
+		$(location).attr("href", "/SunnyToday/board/update?boardno=${viewBoard.boardno }");
 	});
 	
 	//삭제버튼 동작
@@ -99,12 +99,35 @@ $(document).ready(function() {
 <tr>
 	<td><input type="checkbox" class="checkBoard" name="checkBoard" ></td>
 	<td>${board.board_no }</td> <%--No. --%> 
-	<td>${board.title }</td> <%--게시판명(카테고리이름) --%>
+	
+	<td>${board.title }</td> 
 	<td>게시글 수</td>
-	<td>${board.list_grant }</td> <%--목록보기 권한--%>
-	<td>${board.read_grant }</td> <%--게시글 읽기 권한 --%>
-	<td>${board.write_grant }</td> <%-- 게시글 쓰기 권한--%>
-	<td>${board.comments_grant }</td><%--댓글쓰기 권한--%>
+	<td>
+		<c:choose>
+			<c:when test="${board.list_grant eq 'N'}">전체</c:when>
+			<c:when test="${board.list_grant eq 'A'}">회원</c:when>
+			<c:when test="${board.list_grant eq 'M'}">관리자</c:when>
+		</c:choose>
+	</td>
+	<td>
+		<c:choose>
+			<c:when test="${board.read_grant eq 'N'}">전체</c:when>
+			<c:when test="${board.read_grant eq 'A'}">회원</c:when>
+			<c:when test="${board.read_grant eq 'M'}">관리자</c:when>
+		</c:choose>
+	</td>
+	<td>
+		<c:choose>
+			<c:when test="${board.write_grant eq 'A'}">회원</c:when>
+			<c:when test="${board.write_grant eq 'M'}">관리자</c:when>
+		</c:choose>
+	</td>
+	<td>
+		<c:choose>
+			<c:when test="${board.comments_grant eq 'A'}">회원</c:when>
+			<c:when test="${board.comments_grant eq 'M'}">관리자</c:when>
+		</c:choose>
+	</td>	
 	<td>
 		<button type="button" id="btnUpdate" class="btn btn-info btn-sm">수정</button>
 		<button type="button" id="btnDelete" class="btn btn-danger btn-sm">삭제</button>
@@ -113,6 +136,9 @@ $(document).ready(function() {
 </c:forEach>
 </table>
 
+<%-- <c:if test"=${board.list_grant == 'N'}"> --%>
+<!-- 	전체공개 -->
+<%-- </c:if> --%>
 
 <c:import url="/WEB-INF/views/user/layout/paging.jsp" />
 

@@ -1,5 +1,6 @@
 package xyz.sunnytoday.service.impl;
 
+import java.sql.Connection;
 import java.util.List;
 
 
@@ -18,6 +19,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public List<AdminBoard> getList() {
 				
+		
 		//Board 테이블의 총 게시글 수를 조회한다
 		return boardDao.selectAll(JDBCTemplate.getConnection());
 	}
@@ -53,14 +55,28 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public AdminBoard getBoardno(HttpServletRequest req) {
+	public void write(HttpServletRequest req) {
+
+		AdminBoard board = new AdminBoard();
 		
-		//boardno를 저장할 객체 생성
-		AdminBoard boardno = new AdminBoard();
+		board.setBoard_no(Integer.parseInt(req.getParameter("board_no")) );
+		board.setComments_grant(req.getParameter("comments_grant"));
+		board.setIndex(Integer.parseInt(req.getParameter("index")));
+		board.setLike(req.getParameter("like"));
+		board.setList_grant(req.getParameter("like_grant"));
+		board.setRead_grant(req.getParameter("read_grant"));
+		board.setShow(req.getParameter("show"));
+		board.setTitle( req.getParameter("title") );
+		board.setTitle_length(Integer.parseInt(req.getParameter("title_length")));
+		board.setWrite_grant(req.getParameter("write_grant"));
 		
-		
-		
-		return null;
+		Connection conn = JDBCTemplate.getConnection();
+		if( boardDao.insert(conn, board) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
 	}
+
 
 }
