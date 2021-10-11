@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import xyz.sunnytoday.common.repository.Appkey;
 import xyz.sunnytoday.common.task.TaskConfig;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,8 +27,8 @@ public class XmlConfigParser {
     private Map<String, Appkey> appKeys;
     private List<TaskConfig> tasks;
 
-    public XmlConfigParser(String fileUrl) {
-        this.file = new File(fileUrl);
+    public XmlConfigParser(String filePath) {
+        this.file = new File(filePath);
         this.parse();
     }
 
@@ -73,6 +74,7 @@ public class XmlConfigParser {
 
                 this.tasks.add(new TaskConfig(name, classUrl, interval));
             }
+
         } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }

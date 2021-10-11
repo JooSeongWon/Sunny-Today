@@ -1,11 +1,10 @@
 package xyz.sunnytoday.service.face;
 
-import xyz.sunnytoday.dto.GeoLocation;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 /**
  * 네이버 클라우드 플랫폼을 활용하여 ip 주소를 통해 위도, 경도를 받아온다.
@@ -19,7 +18,7 @@ public interface GeoLocationService {
      * @param ipAddress 위치를 알아낼 대상의 ip주소
      * @return 결과값 GeoLocation DTO
      */
-    GeoLocation requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
+    Map<String, String> requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
 
     /**
      * 요청을 한 클라이언트의 ip주소를 얻어온다.

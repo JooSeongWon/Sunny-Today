@@ -5,7 +5,6 @@ import com.google.gson.JsonParser;
 import org.apache.commons.codec.binary.Base64;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.AppKeyRepository;
-import xyz.sunnytoday.dto.GeoLocation;
 import xyz.sunnytoday.service.face.GeoLocationService;
 
 import javax.crypto.Mac;
@@ -20,12 +19,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GeoLocationServiceImpl implements GeoLocationService {
     private final AppKeyRepository appKeyRepository = AppConfig.getAppKeyRepository();
 
     @Override
-    public GeoLocation requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException, HTTPException {
+    public Map<String, String> requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException, HTTPException {
         //api url
         String hostName = "https://geolocation.apigw.ntruss.com";
         String requestUrl = "/geolocation/v2/geoLocation";
@@ -62,13 +63,13 @@ public class GeoLocationServiceImpl implements GeoLocationService {
 
         JsonObject rootNode = JsonParser.parseString(stringBuffer.toString()).getAsJsonObject();
         JsonObject geoLocation = rootNode.getAsJsonObject("geoLocation");
-        return new GeoLocation(geoLocation.get("country").getAsString()
-                , geoLocation.get("code").getAsString()
-                , geoLocation.get("r1").getAsString()
-                , geoLocation.get("r2").getAsString()
-                , geoLocation.get("r3").getAsString()
-                , geoLocation.get("lat").getAsFloat()
-                , geoLocation.get("long").getAsFloat());
+
+        Map<String, String> result = new HashMap<>();
+        result.put("country", geoLocation.get("country").getAsString());
+        result.put("r1", geoLocation.get("r1").getAsString());
+        result.put("r2", geoLocation.get("r2").getAsString());
+
+        return result;
     }
 
     @Override
