@@ -11,7 +11,7 @@ public abstract class TaskTimer implements Runnable {
     }
 
     @Override
-    public final void run() { // 오버라이딩 금지
+    public final void run() { 
         if (++tick == interval) {
             tick = 0;
             this.start();
