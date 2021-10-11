@@ -35,7 +35,7 @@ public class AdminBoardListController extends HttpServlet {
 		List<AdminBoard> boardList = boardService.getList(paging);
 		
 		System.out.println("BoardListController [GET] - " + boardList);
-		
+		  
 		//조회결과 MODEL값 전달
 		req.setAttribute("boardList", boardList);
 
