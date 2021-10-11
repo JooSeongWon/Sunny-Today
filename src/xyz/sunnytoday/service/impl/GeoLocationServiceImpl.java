@@ -1,4 +1,4 @@
-﻿package xyz.sunnytoday.service.impl;
+package xyz.sunnytoday.service.impl;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -33,7 +33,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         String requestUrl = "/geolocation/v2/geoLocation";
         String timestamp = Long.toString(System.currentTimeMillis());
         requestUrl = requestUrl +
-                "?ext=t&" + // 추가정보 받기
+                "?ext=t&" + // ???? ??
                 "&ip=" +
                 ipAddress +
                 "&responseFormatType=json";
@@ -83,7 +83,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         return ipAdress;
     }
 
-    // 시그니처
+    // ????
     private String makeSignature(String timestamp, String url) throws NoSuchAlgorithmException, InvalidKeyException {
         String space = " ";// one space
         String newLine = "\n";// new line
