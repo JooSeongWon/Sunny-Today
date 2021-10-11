@@ -69,7 +69,6 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         result.put("country", geoLocation.get("country").getAsString());
         result.put("r1", geoLocation.get("r1").getAsString());
         result.put("r2", geoLocation.get("r2").getAsString());
-
         return result;
     }
 
