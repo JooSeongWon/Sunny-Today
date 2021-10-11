@@ -1,7 +1,5 @@
 package xyz.sunnytoday.common.repository;
 
-import xyz.sunnytoday.common.config.Appkey;
-
 import java.util.Map;
 
 public class AppKeyRepository {

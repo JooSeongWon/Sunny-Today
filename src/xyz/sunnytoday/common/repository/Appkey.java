@@ -1,4 +1,4 @@
-package xyz.sunnytoday.common.config;
+package xyz.sunnytoday.common.repository;
 
 import java.util.HashMap;
 import java.util.Map;

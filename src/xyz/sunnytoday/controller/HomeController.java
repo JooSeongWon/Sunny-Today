@@ -22,7 +22,7 @@ public class HomeController extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) {
-        AppConfig.Init(config.getServletContext().getRealPath("/WEB-INF/app-config.xml"));
+        AppConfig.Init(config.getServletContext().getRealPath("/WEB-INF/"));
     }
 
     @Override

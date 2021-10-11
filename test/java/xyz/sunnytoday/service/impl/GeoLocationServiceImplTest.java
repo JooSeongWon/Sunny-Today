@@ -3,8 +3,10 @@ package xyz.sunnytoday.service.impl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import xyz.sunnytoday.common.config.AppConfig;
-import xyz.sunnytoday.dto.GeoLocation;
+import xyz.sunnytoday.common.repository.Region;
 import xyz.sunnytoday.service.face.GeoLocationService;
+
+import java.util.Map;
 
 class GeoLocationServiceImplTest {
 
@@ -14,9 +16,9 @@ class GeoLocationServiceImplTest {
         AppConfig.Init("test/app-config.xml"); //키값 넣고 테스트 할것
 
         GeoLocationService geoLocationService = new GeoLocationServiceImpl();
-        GeoLocation response = null;
+        Map<String, String > response;
         try {
-            response = geoLocationService.requestGeoLocationData("39.115.110.153");
+            response = geoLocationService.requestGeoLocationData("58.77.135.71");
         } catch (Exception e) {
             throw e;
         }
