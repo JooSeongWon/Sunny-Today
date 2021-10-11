@@ -69,6 +69,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         result.put("country", geoLocation.get("country").getAsString());
         result.put("r1", geoLocation.get("r1").getAsString());
         result.put("r2", geoLocation.get("r2").getAsString());
+
         return result;
     }
 
@@ -102,6 +103,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(signingKey);
         byte[] rawHmac = mac.doFinal(message.getBytes(StandardCharsets.UTF_8));
+
         return Base64.encodeBase64String(rawHmac);
     }
 }
