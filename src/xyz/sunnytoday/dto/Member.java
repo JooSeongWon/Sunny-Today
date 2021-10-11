@@ -16,9 +16,11 @@ public class Member {
     private String phone;
     private String admin;
     private int pictureno;
+    private String phone_open;
+    private String birth_open;
 
 
-    @Override
+	@Override
     public String toString() {
         return "Member [userno=" + userno + ", userid=" + userid + ", userpw=" + userpw + ", salt=" + salt + ", create_date="
                 + create_date + ", email=" + email + ", nick=" + nick + ", birth=" + birth
@@ -120,6 +122,21 @@ public class Member {
     public void setPictureno(int pictureno) {
         this.pictureno = pictureno;
     }
+    
+    public String getPhone_open() {
+		return phone_open;
+	}
 
+	public void setPhone_open(String phone_open) {
+		this.phone_open = phone_open;
+	}
+
+	public String getBirth_open() {
+		return birth_open;
+	}
+
+	public void setBirth_open(String birth_open) {
+		this.birth_open = birth_open;
+	}
 
 }

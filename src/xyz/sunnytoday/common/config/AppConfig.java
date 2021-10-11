@@ -5,7 +5,6 @@ import xyz.sunnytoday.common.repository.ForecastRepository;
 import xyz.sunnytoday.common.task.TaskScheduler;
 import xyz.sunnytoday.common.task.TaskConfig;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -46,7 +45,7 @@ public class AppConfig {
         appKeyRepository = new AppKeyRepository(xmlConfigParser.getAppKeys());
 
         //예보 저장소
-        /*RegionParser regionParser = new RegionParser(path + "region.txt");
+        /*RegionParser regionParser = new RegionParser(path + "city.txt");
         try {
             forecastRepository = new ForecastRepository(regionParser.parseRegions());
         } catch (IOException e) {

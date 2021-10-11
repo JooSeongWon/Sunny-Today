@@ -1,10 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
+<%@ page import="xyz.sunnytoday.dto.Schedule"%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.List"%>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.util.Date" %>
 
 <%
+
+List<Schedule> scheduleList = (List) request.getAttribute("scheduleList");
 
 String yy = request.getParameter("year");
 String mm = request.getParameter("month");
@@ -42,6 +47,11 @@ if(n_m == 13) {
 	n_m = 1;
 }
 
+// for(int i = 0; i < scheduleList.size(); i++) {
+// 	Date str = scheduleList.get(i).getSchedule_date();
+	
+// }
+
 %>
 
 <!doctype html>
@@ -58,7 +68,7 @@ if(n_m == 13) {
     
     <script type="text/javascript">
     
-		<% if(request.getAttribute("id_ok") == "N") { %>
+		<% if(request.getAttribute("user_no_ok") == "N") { %>
 		
 		window.alert("로그인이 필요합니다!")
 		window.location.assign("<%= request.getContextPath() %>/")
@@ -130,6 +140,21 @@ if(n_m == 13) {
 			//이번달 숫자
 			if(d <= lastday) {
 				out.print("<td style='color: " + color + "' class='" + d + "'>"+ d + "</td>");
+				String day = y + "-" + (m+1) + "-" + d;
+				SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+				Date to = fm.parse(day);
+				
+				for(int k = 0; k < scheduleList.size(); k++) {
+					Date schedule_day = scheduleList.get(k).getSchedule_date();
+					
+					out.print(schedule_day + "<br>");
+					out.print(to + "<br>");
+					if(schedule_day == to) {
+						out.print("성공");
+					}
+					
+				}
+				
 			}
 			
 			//다음달 숫자
@@ -144,6 +169,7 @@ if(n_m == 13) {
 		}
 		out.print("</tr>");
 	}
+	
 	%>
 </table>
 
