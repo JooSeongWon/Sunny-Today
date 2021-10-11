@@ -9,31 +9,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.Paging;
 import xyz.sunnytoday.common.JDBCTemplate;
-import xyz.sunnytoday.dao.face.BoardDao;
-import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.common.util.Paging;
+import xyz.sunnytoday.dao.face.AdminBoardDao;
+import xyz.sunnytoday.dto.AdminBoard;
 
-public class BoardDaoImpl implements BoardDao {
+public class AdminBoardDaoImpl implements AdminBoardDao {
 
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
 	
 	@Override
-	public List<Board> selectAll(Connection conn) {
+	public List<AdminBoard> selectAll(Connection conn) {
 
 		String sql = "";
 		sql += "SELECT * FROM board";
 		sql += " ORDER BY board_no DESC";
 		
-		List<Board> boardList = new ArrayList<>();
+		List<AdminBoard> boardList = new ArrayList<>();
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Board b = new Board(); 
+				AdminBoard b = new AdminBoard(); 
 				b.setBoard_no( rs.getInt("board_no") );
 				b.setComments_grant( rs.getString("comments_grant"));
 				b.setIndex(rs.getInt("index"));
@@ -58,7 +58,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<Board> selectAll(Connection conn, Paging paging) {
+	public List<AdminBoard> selectAll(Connection conn, Paging paging) {
 		String sql = "";
 		sql += "SELECT * FROM (";
 		sql += "	SELECT rownum rnum, B.* FROM (";
@@ -76,7 +76,7 @@ public class BoardDaoImpl implements BoardDao {
 		sql += " WHERE rnum BETWEEN ? AND ?";
 		
 		//결과 저장할 List
-		List<Board> boardList = new ArrayList<>(); 
+		List<AdminBoard> boardList = new ArrayList<>(); 
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class BoardDaoImpl implements BoardDao {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Board b = new Board();
+				AdminBoard b = new AdminBoard();
 				
 				b.setBoard_no( rs.getInt("board_no") );
 				b.setComments_grant( rs.getString("comments_grant"));
@@ -142,7 +142,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public Board selectBoardByBoardno(Connection conn, Board boardno) {
+	public AdminBoard selectBoardByBoardno(Connection conn, AdminBoard boardno) {
 		
 		//SQL 작성
 		String sql = "";
@@ -150,7 +150,7 @@ public class BoardDaoImpl implements BoardDao {
 		sql += " WHERE boardno = ?";
 		
 		//결과 저장할 Board객체
-		Board viewBoard = null;
+		AdminBoard viewBoard = null;
 		
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
@@ -161,7 +161,7 @@ public class BoardDaoImpl implements BoardDao {
 			
 			//조회 결과 처리
 			while(rs.next()) {
-				viewBoard = new Board(); //결과값 저장 객체
+				viewBoard = new AdminBoard(); //결과값 저장 객체
 				
 //				//결과값 한 행 처리
 //				viewBoard.setBoardno( rs.getInt("boardno") );

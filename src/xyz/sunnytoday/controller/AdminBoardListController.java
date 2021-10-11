@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import util.Paging;
-import xyz.sunnytoday.dto.Board;
-import xyz.sunnytoday.service.face.BoardService;
-import xyz.sunnytoday.service.impl.BoardServiceImpl;
+import xyz.sunnytoday.common.util.Paging;
+import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.service.face.AdminBoardService;
+import xyz.sunnytoday.service.impl.AdminBoardServiceImpl;
 
 @WebServlet("/board/list")
-public class BoardListController extends HttpServlet {
+public class AdminBoardListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private BoardService boardService = new BoardServiceImpl();
+	private AdminBoardService boardService = new AdminBoardServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +32,7 @@ public class BoardListController extends HttpServlet {
 		//게시글 전체 조회
 //		List<Board> boardList = boardService.getList();
 		
-		List<Board> boardList = boardService.getList(paging);
+		List<AdminBoard> boardList = boardService.getList(paging);
 		
 		System.out.println("BoardListController [GET] - " + boardList);
 		

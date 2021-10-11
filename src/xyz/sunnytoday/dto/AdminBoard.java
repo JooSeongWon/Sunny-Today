@@ -1,6 +1,6 @@
 package xyz.sunnytoday.dto;
 
-public class Board {
+public class AdminBoard {
 
 	private int board_no;
 	private String comments_grant;
