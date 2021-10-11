@@ -34,10 +34,9 @@ public class MypageDaoImpl implements MypageDao {
 			while(rs.next()) {
 				result = new Member();
 				
-				result.setUserid(rs.getString("userid"));
 				result.setNick(rs.getString("nick"));
-				result.setPhone(rs.getString("phone"));
 				result.setEmail(rs.getString("email"));
+				result.setPhone(rs.getString("phone"));
 				result.setBirth(rs.getDate("birth"));
 				result.setPictureno(rs.getInt("picture_no"));
 				result.setPhone_open(rs.getString("phone_open"));
@@ -86,7 +85,6 @@ public class MypageDaoImpl implements MypageDao {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
-		
 		return result;
 	}
 	
