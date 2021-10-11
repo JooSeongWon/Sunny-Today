@@ -15,7 +15,8 @@
 <c:import url="../layout/navbar.jsp"/>
 
 
-아흑 너무 감사해욧ㅂ ㅠㅠㅠㅠ확인한번해보죠 
+
+
 
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>
