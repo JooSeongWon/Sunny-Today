@@ -1,8 +1,6 @@
-/**
- * 
- */
-
 $(document).ready(function() {
+	
+	//중복확인 버튼 동작
 	$("#btn-check").click(function(){
 		console.log("#btn-check")
 		console.log($("#nick").val())

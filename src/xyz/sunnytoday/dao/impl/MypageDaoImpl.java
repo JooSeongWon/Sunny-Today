@@ -34,12 +34,12 @@ public class MypageDaoImpl implements MypageDao {
 			while(rs.next()) {
 				result = new Member();
 				
-				result.setId(rs.getString("id"));
+				result.setUserid(rs.getString("userid"));
 				result.setNick(rs.getString("nick"));
 				result.setPhone(rs.getString("phone"));
 				result.setEmail(rs.getString("email"));
 				result.setBirth(rs.getDate("birth"));
-				result.setPicture_no(rs.getInt("picture_no"));
+				result.setPictureno(rs.getInt("picture_no"));
 				result.setPhone_open(rs.getString("phone_open"));
 				result.setBirth_open(rs.getString("birth_open"));
 				

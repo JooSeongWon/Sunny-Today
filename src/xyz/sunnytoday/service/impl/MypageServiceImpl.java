@@ -62,7 +62,7 @@ public class MypageServiceImpl implements MypageService {
     	
     	member.setNick(req.getParameter("nick"));
     	member.setPhone(req.getParameter("phone"));
-    	member.setBirth(req.getParameter("birth"));
+//    	member.setBirth(req.getParameter("birth"));
     	
     	return member;
     }

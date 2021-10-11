@@ -27,7 +27,7 @@ public class MypageCheckController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//로그인 유저 세션의 아이디 얻기
-		String loginUserId = (String) req.getSession().getAttribute("id");
+		String loginUserId = (String) req.getSession().getAttribute("userid");
 		
 //		//아이디로 유저정보 얻기 - member
 //		Member loginmember = mypageservice.selectMember(loginUserId);
