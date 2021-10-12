@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.ScheduleDao;
 import xyz.sunnytoday.dao.impl.ScheduleDaoImpl;
+import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Schedule;
 import xyz.sunnytoday.service.face.ScheduleService;
 
@@ -24,9 +25,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 		Schedule schedule = new Schedule();
 		
-		Integer user_no = (Integer) session.getAttribute("user_no");
+		Member member = (Member) req.getSession().getAttribute("member");
 		
-		schedule.setUser_no(user_no);
+		schedule.setUser_no(member.getUserno());
 		
 		return schedule;
 	}
@@ -42,7 +43,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			e.printStackTrace();
 		}
 		
-//		System.out.println(result);
+		System.out.println(result);
 		
 		return result;
 	}

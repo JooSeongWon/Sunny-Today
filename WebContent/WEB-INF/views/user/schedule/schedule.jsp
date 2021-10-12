@@ -47,11 +47,6 @@ if(n_m == 13) {
 	n_m = 1;
 }
 
-// for(int i = 0; i < scheduleList.size(); i++) {
-// 	Date str = scheduleList.get(i).getSchedule_date();
-	
-// }
-
 %>
 
 <!doctype html>
@@ -67,13 +62,19 @@ if(n_m == 13) {
     <script src="${jsPath}/home_script.js"></script>
     
     <script type="text/javascript">
-    
-		<% if(request.getAttribute("user_no_ok") == "N") { %>
+    	
+		if(${empty member}) {
+			window.alert("로그인이 필요합니다!")
+			window.location.assign("<%= request.getContextPath() %>/")
+		}
 		
-		window.alert("로그인이 필요합니다!")
-		window.location.assign("<%= request.getContextPath() %>/")
+		function goWrite() {
+			window.location.assign("<%= request.getContextPath() %>/schedule/write")
+		}
 		
-		<% } %>
+		function goDelete() {
+			window.location.assign("<%= request.getContextPath() %>/schedule/delete")
+		}
     
     </script>
     
@@ -85,7 +86,6 @@ if(n_m == 13) {
 <c:import url="../layout/navbar.jsp"/>
 
 <br><br><br>
-
 
 <br>
 
@@ -101,6 +101,7 @@ if(n_m == 13) {
 			<a href="<%=request.getContextPath() %>/schedule?year=<%=n_y %>&month=<%=n_m %>" class="fas fa-angle-right"></a>
 		</form>
 	</caption>
+	
 	<tr id="dayWeek">
 		<th style="color: red;">일</th>
 		<th>월</th>
@@ -110,6 +111,7 @@ if(n_m == 13) {
 		<th>금</th>
 		<th style="color: blue;">토</th>
 	</tr>
+	
 	<%
 	
 	int d = 1;
@@ -139,20 +141,38 @@ if(n_m == 13) {
 			
 			//이번달 숫자
 			if(d <= lastday) {
-				out.print("<td style='color: " + color + "' class='" + d + "'>"+ d + "</td>");
-				String day = y + "-" + (m+1) + "-" + d;
-				SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-				Date to = fm.parse(day);
 				
-				for(int k = 0; k < scheduleList.size(); k++) {
-					Date schedule_day = scheduleList.get(k).getSchedule_date();
-					
-					out.print(schedule_day + "<br>");
-					out.print(to + "<br>");
-					if(schedule_day == to) {
-						out.print("성공");
+				int count = 0;
+				
+				String zero = "0";
+				
+				if(d >= 10) {
+					zero = "";
+				}
+				
+				String strDate = y + "" + (m+1) + "" + zero + d;
+				
+				if(scheduleList != null) { 
+					for(int k = 0; k < scheduleList.size(); k++) {
+						Date schedule_day = scheduleList.get(k).getSchedule_date();
+						
+						String datePattern = "yyyyMMdd";
+						SimpleDateFormat format = new SimpleDateFormat(datePattern);
+						
+						String schedule_Day_Str = format.format(schedule_day);
+						
+						if(strDate.equals(schedule_Day_Str)) {
+							count++;
+						}
+						
 					}
-					
+				}
+				
+				if(count == 0) {
+					out.print("<td style='color: " + color + "'; class='" + d + "'>"+ d + "</td>");
+				} else if(count == 1) {
+					out.print("<td style='color: " + color + "'; class='schedule' id='" + strDate + "'><a>"+ d + "</a></td>");
+					count--;
 				}
 				
 			}
@@ -171,26 +191,24 @@ if(n_m == 13) {
 	}
 	
 	%>
+	
 </table>
 
 <br>
 
 <div class="scheduleBnt">
-<form action="<%= request.getContextPath() %>/schedule/inert" method="post">
 
-<input type="submit" id="btnLeft" name="scheduleInsert" value="일정입력" />
+	<button onclick="goWrite()" id="btnLeft" name="scheduleInsert">일정 입력</button>
 
-</form>
 </div>
+
+
 
 <div class="scheduleBnt">
-<form action="<%= request.getContextPath() %>/schedule/delete" method="post">
 
-<input type="submit" id="btnRight" name="scheduleDelete" value="일정삭제" />
-
-</form>
+	<button onclick="goDelete()" id="btnRight" name="scheduleDelete">일정 삭제</button>
+	
 </div>
-
 
 
 <br><br><br><br><br><br>
