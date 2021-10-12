@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!-- 헤더 파일 불러오기 -->
 <c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
+
 <style type="text/css">
 #searchBar{
 	background:#ccc;
 }
+
 #member_table > thead {
 	background:#DFD;
 }
+
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -24,7 +28,8 @@ $(document).ready(function(){
 </script>
 
 <title>회원 목록</title>
-
+<!-- 스타일 쪽에 header랑 body로 레이아웃을 나눠서
+	id를 body로 줘야 해요 -->
 <div id ="body" class="container">
 <h1>회원 목록</h1>
 <hr>
@@ -76,7 +81,7 @@ $(document).ready(function(){
 </table>
 </form>
 
-<c:import url="/WEB-INF/views/admin/layout/paging.jsp"/>
+<c:import url="/WEB-INF/views/admin/layout/member_paging.jsp"/>
 </div>
 <%-- <c:import url="/WEB-INF/views/layout/footer.jsp"/> --%>
 </body>
