@@ -17,6 +17,7 @@ import xyz.sunnytoday.service.impl.MemberServiceImpl;
 public class MemberLoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	//MemberService 객체 생성
 	private MemberService memberService = new MemberServiceImpl();
 	
 	@Override
@@ -44,10 +45,6 @@ public class MemberLoginController extends HttpServlet {
 			HttpSession session = req.getSession();
 			session.setAttribute("login", login);
 			session.setAttribute("userno", member.getUserno());
-			session.setAttribute("userid", member.getUserid());
-			session.setAttribute("nick", member.getNick());
-			session.setAttribute("admin", member.getAdmin());
-			session.setAttribute("pictureno", member.getPictureno());
 		}
 		
 		//메인페이지로 리다이렉트

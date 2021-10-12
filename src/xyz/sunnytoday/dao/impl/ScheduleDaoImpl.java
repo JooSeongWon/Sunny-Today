@@ -31,7 +31,11 @@ public class ScheduleDaoImpl implements ScheduleDao {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
 			ps.setInt(1, schedule.getUser_no());
 			
+			System.out.println(schedule.getUser_no());
+			
 			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			
+			System.out.println(rs);
 			
 			//조회 결과 처리
 			while(rs.next()) {

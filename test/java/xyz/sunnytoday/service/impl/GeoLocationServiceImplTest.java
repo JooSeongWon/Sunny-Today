@@ -3,7 +3,6 @@ package xyz.sunnytoday.service.impl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import xyz.sunnytoday.common.config.AppConfig;
-import xyz.sunnytoday.common.repository.Region;
 import xyz.sunnytoday.service.face.GeoLocationService;
 
 import java.util.Map;
