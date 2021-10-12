@@ -16,9 +16,9 @@ public interface AdminMemberDao {
 
 	public List<Member> All(Connection conn, Paging paging);
 
-	public Member setAdmin(String userno, Connection conn);
+	public int setAdmin(int userno, Connection conn);
 
-	public Member delAdmin(String userno, Connection conn);
+	public int delAdmin(String userno, Connection conn);
 
 
 

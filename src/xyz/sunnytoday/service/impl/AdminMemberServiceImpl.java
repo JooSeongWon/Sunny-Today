@@ -64,24 +64,31 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 	}
 	
 	@Override
-	public Member getuserno(HttpServletRequest req) {
+	public void getuserno(HttpServletRequest req) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		Member member = null;
+		int member = 0;
 		String userno = req.getParameter("userno");
 		String state = req.getParameter("val");
 		
+		
+		
 		if(userno != null && !"".equals(userno)) {
 			if(state == "set") {
-				member = memberDao.setAdmin(userno, conn);
+				member = memberDao.setAdmin(Integer.parseInt(userno), conn);
 			} else if(state == "del") {
-				member = memberDao.delAdmin(userno, conn);
+				member = memberDao.setAdmin(Integer.parseInt(userno), conn);
 			}
 		}
 		
-		JDBCTemplate.close(conn);
+		if( member > 0) {
+			JDBCTemplate.commit(conn); //커밋
+		} else {
+			JDBCTemplate.rollback(conn); //롤백
+		}
 
-		return member;
+		JDBCTemplate.close(conn);
+		
 	}
 	
 }

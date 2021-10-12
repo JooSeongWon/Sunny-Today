@@ -13,7 +13,7 @@ public interface AdminMemberService {
 
 	public List<Member> getlist(HttpServletRequest req, Paging paging);
 
-	public Member getuserno(HttpServletRequest req);
+	public void getuserno(HttpServletRequest req);
 	
 	
 }

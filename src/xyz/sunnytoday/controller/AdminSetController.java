@@ -27,7 +27,7 @@ public class AdminSetController extends HttpServlet {
 		//요청파라미터를 전달하여 Paging객체 생성하기
 		Paging paging = memberService.getPaging(req);
 		
-		//아이디 전체 조회
+		//아이디 조회
 		List<Member> list = memberService.getlist(req, paging);
 		
 		
@@ -40,7 +40,7 @@ public class AdminSetController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/admin/set [Post]");
 		
-		Member userno = memberService.getuserno(req);
+		memberService.getuserno(req);
 		
 		resp.sendRedirect("/admin/set");
 	}

@@ -69,7 +69,7 @@ $(document).ready(function(){
 		<c:when test="${member.admin ne 'N'}">
 			<input type="hidden" value="del" name="val" >
 			<input type="hidden" id="del"  name="userno" value="${member.userno }">
-			<td><button class="btn btn-default" id="delAdminBtn">관리자 권한삭제</button></td>
+			<td><button class="btn btn-danger" id="delAdminBtn">관리자 권한삭제</button></td>
 		</c:when>
 	</c:choose>
 </tr>
@@ -78,7 +78,7 @@ $(document).ready(function(){
 </table>
 </form>
 
-<%-- <c:import url="/WEB-INF/views/admin/layout/paging2.jsp"/> --%>
+<c:import url="/WEB-INF/views/admin/layout/adminSet_paging.jsp"/>
 
 </div>
 </body>

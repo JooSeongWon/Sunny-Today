@@ -36,7 +36,6 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
-		System.out.println( count );
 		return count;
 	}
 	
@@ -44,7 +43,6 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	public int selectCntId(Connection conn, String search) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		System.out.println("selectId" + search);
 		
 		String sql = ""
 				+ "SELECT count(*) FROM member"
@@ -154,45 +152,37 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	
 	
 	@Override
-	public Member setAdmin(String userno, Connection conn) {
+	public int setAdmin(int userno, Connection conn) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 	    
 		String sql = ""
-	  	      	+"UPDATE MEMBER SET ADMIN = 'A' "
+	  	      	+"UPDATE MEMBER SET ADMIN = 'A'"
 				+" WHERE USER_NO = ?";
 				
-	  	      
-	  	      Member member = new Member();
+			int result = 0;
+			
 	  	      try {
 	  	         ps = conn.prepareStatement(sql);
-	  	         ps.setString(1, userno);
+	  	         ps.setInt(1, userno);
 
-	  	         rs = ps.executeQuery();
-	  	         while(rs.next()) {
-	  	            member.setUserno(rs.getInt("user_no"));
-	  	            member.setUserid(rs.getString("id"));
-	  	            member.setNick(rs.getString("nick"));
-	  	            member.setEmail(rs.getString("email"));
-	  	            member.setCreate_date(rs.getDate("create_date"));
-	  	            member.setAdmin(rs.getString("admin"));
-	  	         }
+	  	         result = ps.executeUpdate();
+	  	   
 	  	      } catch (SQLException e) {
 	  	         e.printStackTrace();
 	  	      }finally {
 	  	         JDBCTemplate.close(rs);
 	  	         JDBCTemplate.close(ps);
 	  	      }
-	  	      System.out.println(member.getAdmin());
 		
-		return member;
+		return result;
 	}
 	
 	
 	@Override
-	public Member delAdmin(String userno, Connection conn) {
+	public int delAdmin(String userno, Connection conn) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 	
 }
