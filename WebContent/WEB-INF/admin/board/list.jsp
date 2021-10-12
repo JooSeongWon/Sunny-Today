@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:import url="/WEB-INF/views/user/layout/header.jsp" />
-
+<c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
+<div id="body" class="container">
 <script type="text/javascript">
 $(document).ready(function() {
 	
@@ -14,7 +14,8 @@ $(document).ready(function() {
 	
 	//게시판 추가버튼 동작
 	$("#btnBoardUp").click(function() {
-		$(location).attr("href", "/SunnyToday/admin/board/update?boardno=${viewBoard.boardno }");
+		$(location).attr("href", "/SunnyToday/admin/board/write");
+// 		$(location).attr("href", "/SunnyToday/admin/board/write?boardno=${viewBoard.board_no }");
 	});
 	
 	//체크된 게시판
@@ -30,6 +31,19 @@ $(document).ready(function() {
 // 	$(".btnCheck").click(function() {
 // 	});
 	
+	$("#check").click(function(){
+	if($("#check").is(":checked")){
+		
+	$('#Arthur').css("visibility", "hidden"); 
+	
+	} else {
+		
+	$('#Arthur').css("display", "inline"); 
+		
+	}
+
+	});
+	
 	//전체 체크박스 동작
 	$(".checkAll").click(function() {
 		$(".checkBoard").prop("checked", this.checked );
@@ -37,7 +51,7 @@ $(document).ready(function() {
 	
 	//수정버튼 동작
 	$("#btnUpdate").click(function() {
-		$(location).attr("href", "/SunnyToday/admin/board/update?boardno=${viewBoard.boardno }");
+		$(location).attr("href", "/SunnyToday/admin/board/update?boardno=${viewBoard.board_no }");
 	});
 	
 	//삭제버튼 동작
@@ -52,6 +66,19 @@ $(document).ready(function() {
 </script>
 
 <style>
+
+/* .checkBoard:checked i { */
+/*  visibility: visible; */
+/* } */
+
+/* i { */
+/* visibility: hidden; */
+/* } */
+
+/* #check:checked ~ * .down { */
+/*   visibility: visible; */
+/* } */
+
 
 #btnCheck {
 	background-color: black;
@@ -80,7 +107,7 @@ $(document).ready(function() {
 <br>
 
 </div>
-총 게시판 수 :
+<h3>총 게시판 수 :<c:out value="${boardCount}" /></h3>
 <br>
 
 
@@ -92,6 +119,7 @@ $(document).ready(function() {
 
 <table class="table table-hover">
 <tr>
+	<th></th>
 	<th><input type="checkbox" id= "checkAll" class="checkAll" name="checkAll" value="checkAll" ></th>
 	<th>No.</th>
 	<th>게시판명</th>
@@ -105,11 +133,12 @@ $(document).ready(function() {
 
 <c:forEach items="${boardList }" var="board">
 <tr>
-	<td><input type="checkbox" class="checkBoard" name="checkBoard" ></td>
-	<td>${board.board_no }</td> <%--No. --%> 
 	
+	<td id="Arthur"><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-down"></i></td>
+	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td>
+	<td>${board.board_no }</td> <%--No. --%> 
 	<td>${board.title }</td> 
-	<td>게시글 수</td>
+	<td><c:out value="${titleCount}" /></td>
 	<td>
 		<c:choose>
 			<c:when test="${board.list_grant eq 'N'}">전체</c:when>
@@ -147,4 +176,4 @@ $(document).ready(function() {
 
 <c:import url="/WEB-INF/views/user/layout/paging.jsp" />
 
-<c:import url="/WEB-INF/views/user/layout/footer.jsp" />
+<c:import url="/WEB-INF/views/admin/layout/footer111.jsp" />

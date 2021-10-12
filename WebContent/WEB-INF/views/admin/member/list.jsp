@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
+<div id="body" class="container">
 <style type="text/css">
 #searchBar{
 	background:#ccc;
