@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- 헤더 파일 불러오기 -->
 <c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
-
 <style type="text/css">
 #searchBar{
 	background:#ccc;
