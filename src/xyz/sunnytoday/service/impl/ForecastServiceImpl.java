@@ -1,5 +1,7 @@
 package xyz.sunnytoday.service.impl;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.Region;
 import xyz.sunnytoday.service.face.ForecastService;
@@ -13,7 +15,7 @@ import java.net.URL;
 
 public class ForecastServiceImpl implements ForecastService {
 
-    public void requestGeoLocationData(Region region) throws IOException,HTTPException {
+    public void requestGeoLocationData(Region region) throws IOException, HTTPException {
         String authenticationKey = AppConfig.getAppKeyRepository().getKey("shortTermForecast", "encoding");
 
         //api url
@@ -25,7 +27,7 @@ public class ForecastServiceImpl implements ForecastService {
                         "&pageNo=1" +
                         "&dataType=JSON" +
                         "&base_date=" + //발표 일
-                        AppConfig.getForecastRepository().getLastShortTermForecastVersion().substring(0,8) +
+                        AppConfig.getForecastRepository().getLastShortTermForecastVersion().substring(0, 8) +
                         "&base_time=" + //발표 시간
                         AppConfig.getForecastRepository().getLastShortTermForecastVersion().substring(8) +
                         "&nx=" + //타일 x좌표
@@ -53,7 +55,7 @@ public class ForecastServiceImpl implements ForecastService {
         }
         bufferedReader.close();
 
-//        JsonObject rootNode = JsonParser.parseString(stringBuffer.toString()).getAsJsonObject();
+        JsonObject rootNode = JsonParser.parseString(stringBuilder.toString()).getAsJsonObject();
 //        JsonObject geoLocation = rootNode.getAsJsonObject("geoLocation");
 //
 //        Map<String, String> result = new HashMap<>();
