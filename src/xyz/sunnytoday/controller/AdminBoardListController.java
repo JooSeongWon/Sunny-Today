@@ -35,12 +35,26 @@ public class AdminBoardListController extends HttpServlet {
 		
 		List<AdminBoard> boardList = boardService.getList(paging);
 		
-		System.out.println("BoardListController [GET] - " + boardList);
-		  
+		int boardCount = boardService.getCount(req);
+		
+		int titleCount = boardService.getTitleCount(req);
+	
+		
+//		System.out.println("count" + count);
+		
+//		System.out.println("BoardListController [GET] - " + boardList);
+		
+		
+		
 		//조회결과 MODEL값 전달
 		req.setAttribute("boardList", boardList);
+		
+		//총게시판 수 MODEL값 전달
+		req.setAttribute("boardCount", boardCount);
 
-		//페이징 정보 MODEL값 전달 ABC
+		req.setAttribute("titleCount", titleCount);
+		
+		//페이징 정보 MODEL값 전달
 		req.setAttribute("paging", paging);
 		
 		req.getRequestDispatcher("/WEB-INF/admin/board/list.jsp")

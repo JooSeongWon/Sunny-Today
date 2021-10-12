@@ -6,17 +6,19 @@ public class Question {
 	private int question_no;
 	private int user_no;
 	private Date write_date;
-	private Date anwer_date;
+	private Date answer_date;
 	private String title;
 	private String content;
+	private String answer;
 	private int admin_no;
 	private String id;
+	
 	
 	@Override
 	public String toString() {
 		return "Question [question_no=" + question_no + ", user_no=" + user_no + ", write_date=" + write_date
-				+ ", anwer_date=" + anwer_date + ", title=" + title + ", content=" + content + ", admin_no=" + admin_no
-				+ ", id=" + id + "]";
+				+ ", answer_date=" + answer_date + ", title=" + title + ", content=" + content + ", answer=" + answer
+				+ ", admin_no=" + admin_no + ", id=" + id + "]";
 	}
 	public int getQuestion_no() {
 		return question_no;
@@ -36,11 +38,11 @@ public class Question {
 	public void setWrite_date(Date write_date) {
 		this.write_date = write_date;
 	}
-	public Date getAnwer_date() {
-		return anwer_date;
+	public Date getAnswer_date() {
+		return answer_date;
 	}
-	public void setAnwer_date(Date anwer_date) {
-		this.anwer_date = anwer_date;
+	public void setAnswer_date(Date answer_date) {
+		this.answer_date = answer_date;
 	}
 	public String getTitle() {
 		return title;
@@ -65,6 +67,12 @@ public class Question {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 	
 }

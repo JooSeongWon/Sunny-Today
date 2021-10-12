@@ -23,7 +23,7 @@ public class AdminMemberListController extends HttpServlet {
 	MemberMenageService memberService = new MemberMenageServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/member/list [GET]");
+		System.out.println("/admin/member/list [GET]");
 		String location = "member";
 		Member param = new Member();
 		String option = req.getParameter("select_option");
@@ -48,13 +48,13 @@ public class AdminMemberListController extends HttpServlet {
 		//모델값 + 페이징 정보 전달
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
-		req.getRequestDispatcher("/WEB-INF/views/admin/member/list.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/admin/member/member_list.jsp").forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/member/list [POST]");
+		System.out.println("/admin/member/list [POST]");
 		 
-		resp.sendRedirect("/member/list");
+		resp.sendRedirect("/admin/member/list");
 		
 	}
 }

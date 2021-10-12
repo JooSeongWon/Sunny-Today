@@ -33,7 +33,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         String requestUrl = "/geolocation/v2/geoLocation";
         String timestamp = Long.toString(System.currentTimeMillis());
         requestUrl = requestUrl +
-                "?ext=t&" + // ???? ??
+                "?ext=t&" + // 추가정보 사용
                 "&ip=" +
                 ipAddress +
                 "&responseFormatType=json";
@@ -54,15 +54,15 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         }
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-        StringBuilder stringBuffer = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         String inputLine;
 
         while ((inputLine = bufferedReader.readLine()) != null) {
-            stringBuffer.append(inputLine);
+            stringBuilder.append(inputLine);
         }
         bufferedReader.close();
 
-        JsonObject rootNode = JsonParser.parseString(stringBuffer.toString()).getAsJsonObject();
+        JsonObject rootNode = JsonParser.parseString(stringBuilder.toString()).getAsJsonObject();
         JsonObject geoLocation = rootNode.getAsJsonObject("geoLocation");
 
         Map<String, String> result = new HashMap<>();
@@ -83,7 +83,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         return ipAdress;
     }
 
-    // ????
+    // 시그니처
     private String makeSignature(String timestamp, String url) throws NoSuchAlgorithmException, InvalidKeyException {
         String space = " ";// one space
         String newLine = "\n";// new line

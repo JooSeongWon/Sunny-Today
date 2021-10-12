@@ -41,6 +41,20 @@ public interface MemberMenageService {
 	 * @return - 조회된 문의 리스트 반환
 	 */
 	public List<Question> getQuestionList(Member param, Paging paging);
+
+	/**
+	 * 문의의 세부 사항을 요청
+	 * @param req - Http 요청 객체
+	 * @param param - Question dto 객체
+	 * @return - 조회된 Question 정보 객체를 반환 
+	 */
+	public Question getQuestionDetail(HttpServletRequest req, Question param);
+	
+	/**
+	 * 문의에 대한 답변을 적고 답변 일자를 DB에 기록을 요청
+	 * @param param - 답변을 담은 Question DTO객체
+	 */
+	public void updateAnswer(Question param);
 	
 
 }

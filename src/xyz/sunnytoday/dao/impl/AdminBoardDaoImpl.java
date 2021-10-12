@@ -112,9 +112,6 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		} finally {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
-			JDBCTemplate.close(conn);
-
-			
 		}
 		
 		return boardList;
@@ -146,38 +143,150 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		} finally {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
-			JDBCTemplate.close(conn);
 		}
 		
 		return count;	
 	}
-
+	
 	@Override
-	public int insert(Connection conn, AdminBoard board) {
+	public int boardCntAll(Connection conn){
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		//게시판 작성
+		//SQL 작성
 		String sql = "";
-		sql += "INSERT INTO board";
-		sql += " VALUES (?,?,?,?,?,?,?,?,?,?)";
+		sql += "SELECT count(*) count FROM board";
+		
+		//총 게시글 수
+		int boardCount = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+				boardCount = rs.getInt("count");
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return boardCount;	
+	}
+
+	@Override
+	public int titleCount(Connection conn) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//SQL 작성
+		String sql = "";
+		sql += "SELECT count(title) count FROM board";
+		
+		//총 게시글 수
+		int titleCount = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			if(rs.next())
+				titleCount = rs.getInt("count");
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return titleCount;	
+	}
+
+	@Override
+	public AdminBoard selectBoardByBoardno(Connection conn, AdminBoard board_no) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//SQL 작성
+		String sql = "";
+		sql += "SELECT * FROM board";
+		sql += " WHERE board_no = ?";
+		
+		//결과 저장할 Board객체
+		AdminBoard viewBoard = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			
+			ps.setInt(1, board_no.getBoard_no()); //조회할 게시글 번호 적용
+			
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			
+			//조회 결과 처리
+			while(rs.next()) {
+				viewBoard = new AdminBoard(); //결과값 저장 객체
+				
+				//결과값 한 행 처리
+				viewBoard.setBoard_no( rs.getInt("board_no") );
+//				viewBoard.setComments_grant( rs.getString("comments_grant"));
+//				viewBoard.setIndex(rs.getInt("index"));
+//				viewBoard.setLike(rs.getString("like"));
+				viewBoard.setList_grant(rs.getString("list_grant"));
+				viewBoard.setRead_grant(rs.getString("read_grant"));
+//				viewBoard.setShow(rs.getString("show"));
+				viewBoard.setTitle( rs.getString("title") );
+				viewBoard.setTitle_length(rs.getInt("title_length"));
+				viewBoard.setWrite_grant(rs.getString("write_grant"));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//최종 결과 반환
+		return viewBoard;	
+	}
+	
+	@Override
+	public int insert(Connection conn, AdminBoard board) {
+		
+		PreparedStatement ps = null;
+		
+		//SQL 작성
+		String sql = "";
+		sql += "INSERT INTO board(board_no, comments_grant, list_grant, read_grant, title, write_grant";
+		sql += ",(select NVL(max(\"INDEX\")+1,0) FROM BOARD)";
+		sql +=  ")";
+		sql += " VALUES (board_seq.nextval, ?, ?, ?, ?, ?)";
 		
 		int res = 0;
+		
 		try {
-			//DB작업
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, board.getBoard_no());
-			ps.setString(2, board.getComments_grant());
-			ps.setInt(3, board.getIndex());
-			ps.setString(4, board.getLike());
-			ps.setString(5, board.getList_grant());
-			ps.setString(6, board.getRead_grant());
-			ps.setString(7, board.getShow());
-			ps.setString(8, board.getTitle());
-			ps.setInt(9, board.getTitle_length());
-			ps.setString(10, board.getWrite_grant());
+//			ps.setInt(1, board.getBoard_no());
+			ps.setString(1, board.getComments_grant());
+//			ps.setString(3, board.getLike());
+			ps.setString(2, board.getList_grant());
+			ps.setString(3, board.getRead_grant());
+//			ps.setString(7, board.getShow());
+			ps.setString(4, board.getTitle());
+//			ps.setInt(4, board.getTitle_length());
+			ps.setString(5, board.getWrite_grant());
+			ps.setInt(6, board.getIndex());
 			
 			res = ps.executeUpdate();
 			
@@ -188,7 +297,12 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		}
 		
 		return res;	
-		}
+	
+	}
+
+
+
+
 
 	
 }
