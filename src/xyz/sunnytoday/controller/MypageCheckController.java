@@ -27,11 +27,11 @@ public class MypageCheckController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		//로그인 유저 세션의 아이디 얻기
-		Member loginUserId = mypageService.getUserid(req); 
+		//로그인 유저 세션의 유저넘버 얻기
+		Member loginUser = mypageService.getUser(req);
 		
-		//아이디로 유저정보 얻기 - member
-		Member loginmember = mypageService.selectMember(loginUserId);
+		//유저넘버로 유저정보 얻기 - member
+		Member loginmember = mypageService.selectMember(loginUser);
 		
 		//변경할 닉네임 얻기
 		String nick = req.getParameter("nick");
@@ -46,7 +46,7 @@ public class MypageCheckController extends HttpServlet {
 		String phone = req.getParameter("phone");
 		
 		//상태 업데이트
-		int phoneOpen = mypageService.phoneOpen(phone, loginUserId);
+		int phoneOpen = mypageService.phoneOpen(phone, loginUser);
 				
 		resp.getWriter().print(phoneOpen);
 		

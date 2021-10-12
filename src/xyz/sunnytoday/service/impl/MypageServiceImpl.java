@@ -84,10 +84,10 @@ public class MypageServiceImpl implements MypageService {
     
     
     @Override//
-    public int phoneOpen(String phone, Member loginUserId) {
+    public int phoneOpen(String phone, Member loginUser) {
     	Connection conn = JDBCTemplate.getConnection();
     	
-    	int phoneOpen = mypageDao.selectPhoneOpen(conn, phone, loginUserId);
+    	int phoneOpen = mypageDao.selectPhoneOpen(conn, phone, loginUser);
     	
     	JDBCTemplate.close(conn);
     	
