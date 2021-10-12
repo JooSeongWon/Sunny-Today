@@ -27,11 +27,14 @@
     </script>
     
     <style type="text/css">
-    button {
+    #userid, #userpw {
     	width: 300px;
     	height: 32px;
     }
-    
+    button {
+    	width: 300px;
+    	height: 32px;
+    }   
     </style>
     
 </head>
@@ -47,25 +50,25 @@
 <a href="<%=request.getContextPath() %>/member/join">회원가입</a>
 <hr>
 
-<form action="/member/login" method="post" class="form-horizontal" style="text-align: center;">
+<form action="/member/login" method="post" style="text-align: center;">
 
-	<div class="loginform">
+	<div class="form-group">
 		<label for="userid" class="control-label"></label>
-		<input type="text" id="userid" name="userid" class="form-control" value="아이디" />
+		<input type="text" id="userid" name="userid" value="아이디" />
 	</div>
 	
-	<div class="loginform">
+	<div class="form-group">
 		<label for="userpw" class="control-label"></label>
-		<input type="text" id="userpw" name="userpw" class="form-control" value="비밀번호" />
+		<input type="text" id="userpw" name="userpw" value="비밀번호" />
 	</div>
 	
-	<div>
+	<div class="form-group">
 		<input type="checkbox" id="loginMaintain" /><label for="loginMaintain">로그인 유지</label>
 		<a href="<%=request.getContextPath() %>/find/id">아이디 찾기</a> ㅣ
 		<a href="<%=request.getContextPath() %>/find/password">비밀번호 찾기</a>
 	</div>
 	
-	<div class="loginform">
+	<div class="form-group">
 		<button type="button" id="btnLogin">로그인</button><hr><br>
 		<button type="button" id="btnNaverLogin" style="background-color: rgb(46, 204, 113);">Naver</button><br>
 		<button type="button" id="btnGoogleLogin" style="background-color: rgb(89, 181, 244);">Google</button>
@@ -74,6 +77,7 @@
 </form>
 
 </div>
+
 
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>

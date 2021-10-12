@@ -12,7 +12,7 @@ public interface MemberDao {
 	 * @param member
 	 * @return
 	 */
-	public int selectCntMemberUseridUserpw(Connection connection, Member member);
+	public int selectCntMemberByUseridUserpw(Connection connection, Member member);
 
 	/**
 	 * 
@@ -21,6 +21,14 @@ public interface MemberDao {
 	 * @return
 	 */
 	public Member selectMemberByUserid(Connection connection, Member member);
+
+	/**
+	 * 
+	 * @param conn
+	 * @param member
+	 * @return
+	 */
+	public int insert(Connection conn, Member member);
 
 
 }

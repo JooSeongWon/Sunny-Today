@@ -37,8 +37,8 @@ tr td:last-child {
    border-right: none;
 }
 
-#dayWeek {
-	align-content: center;
+tr#dayWeek th {
+	text-align: center;
 }
 
 
@@ -79,4 +79,8 @@ tr td:last-child {
 .scheduleBnt {
 	margin: auto;
 	width: 200px;
+}
+
+.schedule {
+	background-color: red;
 }

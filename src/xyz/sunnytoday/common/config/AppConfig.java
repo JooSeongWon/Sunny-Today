@@ -52,6 +52,7 @@ public class AppConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        forecastRepository.updateLastShortTermForecastVersion();
 
         //Task
         taskScheduler = new TaskScheduler();

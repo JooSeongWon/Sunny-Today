@@ -15,7 +15,7 @@ public class MemberDaoImpl implements MemberDao {
 	private ResultSet rs = null; //SQL 조회 결과 객체
 	
 	@Override
-	public int selectCntMemberUseridUserpw(Connection connection, Member member) {
+	public int selectCntMemberByUseridUserpw(Connection connection, Member member) {
 
 		//SQL 작성
 		String sql = "";
@@ -54,8 +54,67 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public Member selectMemberByUserid(Connection connection, Member member) {
-		// TODO Auto-generated method stub
-		return null;
+
+		//SQL 작성
+		String sql = "";
+		sql += "SELECT * FROM member";
+		sql += " WHERE 1=1";
+		sql += "	AND userid = ?";
+		
+		//조회결과를 저장할 객체
+		Member result = null;
+		
+		try {
+			ps = connection.prepareStatement(sql);
+		
+			ps.setString(1, member.getUserid());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				result = new Member();
+				
+				result.setUserid( rs.getString("userid") );
+				result.setUserpw( rs.getString("userpw") );
+				result.setUserno( rs.getInt("userno") );
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int insert(Connection conn, Member member) {
+		
+		String sql = "";
+		sql += "INSERT INTO member ( userid, userpw, usernick )";
+		sql += " VALUES( ?, ?, ? )";
+		
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, member.getUserid());
+			ps.setString(2, member.getUserpw());
+			ps.setString(3, member.getEmail());
+			ps.setString(4, member.getNick());
+			
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
 	}
 
 }

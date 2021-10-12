@@ -9,25 +9,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import xyz.sunnytoday.dto.AdminBoard;
 import xyz.sunnytoday.service.face.AdminBoardService;
 import xyz.sunnytoday.service.impl.AdminBoardServiceImpl;
 
-
-@WebServlet("/admin/board/update")
-public class AdminBoardUpdateController extends HttpServlet {
+@WebServlet("/admin/board/view")
+public class AdminBoardViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	//BoardService 객체 생성
-	private final AdminBoardService boardService = new AdminBoardServiceImpl();
 
+	private final AdminBoardService boardService = new AdminBoardServiceImpl();
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
-		req.getRequestDispatcher("/WEB-INF/admin/board/update.jsp")
-		.forward(req, resp);
+		//전달파라미터 얻기 - board_no
+		AdminBoard board_no = boardService.getBoardno(req);
+
+		//상세보기 결과 조회
+		AdminBoard viewBoard = boardService.view(board_no);
 		
+		req.setAttribute("viewBoard", viewBoard);
+
+		req.getRequestDispatcher("/WEB-INF/admin/board/view.jsp").forward(req, resp);		
 	}
-	
-		
-		
 }

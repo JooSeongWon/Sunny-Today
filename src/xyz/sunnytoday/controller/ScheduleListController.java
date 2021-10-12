@@ -19,34 +19,26 @@ public class ScheduleListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	//서비스 객체 생성
-	ScheduleService scheduleService = new ScheduleServiceImpl();
+	private ScheduleService scheduleService = new ScheduleServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		//세션 객체
-		HttpSession session = req.getSession();
-		
-		//임시 아이디
-		session.setAttribute("user_no", 2);
-		
-		//회원번호가 세션에 없을 시 접속불가 설정
-		if(session.getAttribute("user_no") == null) {
-			req.setAttribute("user_no_ok", "N");
-		}
-		
-		//USER_ID를 schedule DTO에 저장
-		Schedule schedule = scheduleService.getSchedule(req);
-		
-		//USER_ID와 일치하는 일정 조회
-		List<Schedule> scheduleList = scheduleService.selectSchedule(schedule);
-		
-		//조회결과 전달
-		req.setAttribute("scheduleList", scheduleList);
-		
-		System.out.println(scheduleList);
-		
-		req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule.jsp").forward(req, resp);
+		//로그인 확인
+		if(req.getSession().getAttribute("member") == null) {
+			req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule.jsp").forward(req, resp);
+        } else {
+        	//USER_NO를 schedule DTO에 저장
+        	Schedule schedule = scheduleService.getSchedule(req);
+        	
+        	//USER_NO와 일치하는 일정 조회
+        	List<Schedule> scheduleList = scheduleService.selectSchedule(schedule);
+        	
+        	//조회결과 전달
+        	req.setAttribute("scheduleList", scheduleList);
+        	
+        	req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule.jsp").forward(req, resp);
+        }
 		
 	}
 	

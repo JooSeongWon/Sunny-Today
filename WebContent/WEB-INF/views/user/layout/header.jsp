@@ -9,8 +9,8 @@
 <header>
     <div id="header">
         <div class="enter">
-            <a href="#">LOGIN |</a>
-            <a href="#"> JOIN US</a>
+            <a href="<%=request.getContextPath() %>/member/login">LOGIN |</a>
+            <a href="<%=request.getContextPath() %>/member/join"> JOIN US</a>
         </div>
         <h1 class="header__title">오늘도 맑음 <i class="fas fa-sun"></i></h1>
     </div>
