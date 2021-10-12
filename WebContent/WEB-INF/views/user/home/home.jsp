@@ -13,13 +13,6 @@
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/home_style.css" rel="stylesheet">
     <script src="${jsPath}/home_script.js"></script>
-    <style>
-        h1 {
-            display: flex;
-            flex-flow: column;
-            cont;
-        }
-    </style>
 
 </head>
 <body>
