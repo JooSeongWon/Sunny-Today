@@ -2,6 +2,31 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
+
+<style type="text/css">
+
+#searchBar{
+	background:#ccc;
+}
+
+#question_table > thead {
+	background:#DFD;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#searchBtn").click(function(){
+		console.log("searchBtn clicked");
+		$("#search").submit()
+	});
+	
+	$('.check-all').click(function(){
+		$('.ab').prop('checked', this.checked);
+	})
+});
+</script>
+
 <div id="body" class="container">
 <h1>1:1 문의 관리</h1>
 <hr>
@@ -17,24 +42,51 @@
 	
 </div>
 </form>
-<table class="table">
+<form action="<%=request.getContextPath() %>>/admin/member/question" method="post">
+
+<div class="text-left">
+	<button id="deleteBtn" type="button" class="btn btn-primary">삭제</button>
+</div>
+
+<table class="table" id="question_table">
+<thead>
 <tr>
+	<th><input type="checkbox" name="select_all" class="check-all"></th>
 	<th>No.</th>
 	<th>처리 상황</th>
 	<th>제목</th>
 	<th>아이디</th>
 	<th>작성일</th>
 </tr>
+</thead>
+<tbody>
+<% int i = 0; %>
 <c:forEach items="${list }" var="question">
 <tr>
+	<td><input type="checkbox" name="cb<%=i %>" class="ab"></td>
 	<td>${question.question_no }</td>
-	<td>[처리상황]</td>
-	<td>${question.title }</td>
+	<c:choose>
+		<c:when test="${question.answer eq '' or question.answer eq null }">
+			<td>[처리 전]</td>
+		</c:when>
+		<c:when test="${question.answer ne '' and question.answer ne null }">
+			<td>[처리 완료]</td>
+		</c:when>
+	</c:choose>
+	<td><a href="<%=request.getContextPath() %>/admin/answer/view?question_no=${question.question_no }">${question.title }</a></td>
 	<td>${question.id }</td>
-	<td>${question.wirte_date }</td>
+	<td>${question.write_date }</td>
+	<% i++; %>
 </tr>
 </c:forEach>
+</tbody>
+
 </table>
+</form>
+
+<c:import url="/WEB-INF/views/admin/layout/question_paging.jsp"/>
 </div>
+
+
 </body>
 </html>

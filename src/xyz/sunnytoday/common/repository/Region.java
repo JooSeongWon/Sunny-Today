@@ -12,8 +12,8 @@ public class Region {
     private final int y;
 
     private String shortTermForecastVersion;
-    private List<ForeCast> shortTermForecasts;
-    private List<ForeCast> mediumTermForecasts;
+    private List<Forecast> shortTermForecasts;
+    private List<Forecast> mediumTermForecasts;
 
     public Region(String country, String r1, String r2, String code, int x, int y) {
         this.country = country;
@@ -48,11 +48,11 @@ public class Region {
         return y;
     }
 
-    public List<ForeCast> getShortTermForecasts() {
+    public List<Forecast> getShortTermForecasts() {
         return shortTermForecasts;
     }
 
-    public List<ForeCast> getMediumTermForecasts() {
+    public List<Forecast> getMediumTermForecasts() {
         return mediumTermForecasts;
     }
 
@@ -63,13 +63,13 @@ public class Region {
     }
 
     //단기예보 업데이트
-    public void updateShortTermForeCast(List<ForeCast> shortTermForecasts, String shortTermForecastVersion) {
+    public void updateShortTermForeCast(List<Forecast> shortTermForecasts, String shortTermForecastVersion) {
         this.shortTermForecastVersion = shortTermForecastVersion;
         this.shortTermForecasts = shortTermForecasts;
     }
 
     //중기예보 업데이트
-    public void updateMediumTermForeCast(List<ForeCast> mediumTermForecasts) {
+    public void updateMediumTermForeCast(List<Forecast> mediumTermForecasts) {
         this.mediumTermForecasts = mediumTermForecasts;
     }
 
