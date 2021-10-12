@@ -21,8 +21,8 @@ public class MemberDaoImpl implements MemberDao {
 		String sql = "";
 		sql += "SELECT count(*) FROM member";
 		sql += " WHERE 1=1";
-		sql += "	AND userid = ?";
-		sql += "	AND userpw = ?";
+		sql += "	AND id = ?";
+		sql += "	AND password = ?";
 		
 		//결과 저장할 변수
 		int cnt = -1;
