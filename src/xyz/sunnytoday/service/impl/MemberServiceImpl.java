@@ -1,6 +1,7 @@
 package xyz.sunnytoday.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,5 +47,38 @@ public class MemberServiceImpl implements MemberService {
 	public Member info(Member member) {
 		return memberDao.selectMemberByUserid(JDBCTemplate.getConnection(), member);
 	}
+
+	@Override
+	public Member getJoinMember(HttpServletRequest req) {
+
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		Member member = new Member();
+		
+		member.setUserid(req.getParameter("userid"));
+		member.setUserpw(req.getParameter("userpw"));
+		member.setEmail(req.getParameter("email"));
+		member.setNick(req.getParameter("nick"));
+		
+		return member;
+	}
+
+	@Override
+	public void join(Member member) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		if( memberDao.insert(conn, member) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+	}
+	
+	
 
 }

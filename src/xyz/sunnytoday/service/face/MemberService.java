@@ -30,4 +30,17 @@ public interface MemberService {
 	 */
 	public Member info(Member member);
 
+	/**
+	 * 
+	 * @param req
+	 * @return
+	 */
+	public Member getJoinMember(HttpServletRequest req);
+
+	/**
+	 * 
+	 * @param param
+	 */
+	public void join(Member member);
+
 }
