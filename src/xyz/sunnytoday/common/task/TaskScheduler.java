@@ -20,13 +20,13 @@ public class TaskScheduler implements Runnable {
     @Override
     public void run() {
         while (isEnable) {
-            taskList.forEach(Runnable::run);
             try {
                 //noinspection BusyWait
                 Thread.sleep(5 * 60 * 1000);
             } catch (InterruptedException e) {
                 System.out.println("[Exception] TaskScheduler 인터럽트");
             }
+            taskList.forEach(Runnable::run);
         }
     }
 
