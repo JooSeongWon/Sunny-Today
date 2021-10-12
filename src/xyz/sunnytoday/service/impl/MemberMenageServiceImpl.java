@@ -104,7 +104,6 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 	public List<Question> getQuestionList(Member param, Paging paging) {
 		System.out.println("getQuestionList");
 		Connection conn = JDBCTemplate.getConnection();
-		System.out.println("param : " + param);
 		List<Question> list = null;
 		if(param.getUserid() != null && !"".equals(param.getUserid())) {
 			list = questionDao.searchUserId(param, paging, conn);
@@ -116,6 +115,39 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 		
 		JDBCTemplate.close(conn);
 		return list;
+	}
+
+	@Override
+	public Question getQuestionDetail(HttpServletRequest req, Question param) {
+		System.out.println("getQuestionDetail called");
+	
+		if(req.getParameter("question_no") != null && !"".equals(req.getParameter("question_no"))) {
+			param.setQuestion_no(Integer.parseInt(req.getParameter("question_no")));
+			Connection conn = JDBCTemplate.getConnection();
+			param = questionDao.getQuestionDatil(conn, param);
+			
+			JDBCTemplate.close(conn);
+			return param;
+		}else {
+			System.out.println("question_no가 null이거나 값이 존재 하지 않습니다.");
+			return null;
+		}
+
+	}
+
+	@Override
+	public void updateAnswer(Question param) {
+		System.out.println("updateAnswer called");
+		Connection conn = JDBCTemplate.getConnection();
+		int res = 0;
+		res = questionDao.setUpdateAnswer(conn, param);
+		if(res != 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		
 	}
 
 }

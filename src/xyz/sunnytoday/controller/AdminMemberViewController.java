@@ -18,9 +18,9 @@ public class AdminMemberViewController extends HttpServlet {
 	MemberMenageService memberService = new MemberMenageServiceImpl();
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/member/view [GET]");
+		System.out.println("/admin/member/view [GET]");
 		Member param = memberService.getMemberDetailList(req);
 		req.setAttribute("member", param);
-		req.getRequestDispatcher("/WEB-INF/views/admin/member/view.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/admin/member/member_view.jsp").forward(req, resp);
 	}
 }

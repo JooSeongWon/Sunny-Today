@@ -24,7 +24,7 @@ public class AdminMemberQuestion extends HttpServlet {
 	MemberMenageService memberService = new MemberMenageServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/member/question [GET]");
+		System.out.println("/admin/member/question [GET]");
 		Member param = new Member();
 		String option = req.getParameter("select_option");
 		String search = req.getParameter("search");
@@ -43,12 +43,13 @@ public class AdminMemberQuestion extends HttpServlet {
 			paging = memberService.getPaging(req, param, location);
 			list = memberService.getQuestionList(param, paging);
 		}
+		req.setAttribute("paging", paging);
 		req.setAttribute("list", list);
 		req.getRequestDispatcher("/WEB-INF/views/admin/member/question.jsp").forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/member/question [POST]");
-		resp.sendRedirect("/member/question");
+		resp.sendRedirect("/admin/member/question");
 	}
 }
