@@ -101,6 +101,24 @@
 </section>
 
 </div>
+
+<div class="btnWriteStart">
+<button class="btnWrite">글쓰기</button>
+</div>
+
+<div class="searchArea">
+<form action="/board/Asking?search=" method="get">
+	<select name="select">
+			<option value="title" >제목</option>
+			<option value="content">본문</option>
+			<option value="nick">작성자</option>
+	</select>
+	<input type="text" name="keyword" placeholder="검색어 입력" />
+	<button class="search">검색</button>
+</form>
+</div>
+
+
 <div id='paging'>
 <c:import url="../layout/boardPaging.jsp" />
 </div>

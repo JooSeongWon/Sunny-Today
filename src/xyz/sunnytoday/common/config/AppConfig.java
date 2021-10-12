@@ -5,6 +5,7 @@ import xyz.sunnytoday.common.repository.ForecastRepository;
 import xyz.sunnytoday.common.task.TaskScheduler;
 import xyz.sunnytoday.common.task.TaskConfig;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -16,13 +17,13 @@ public class AppConfig {
     private ForecastRepository forecastRepository;
 
     // 초기화 구문
-    public static void Init(String xmlConfigFileUrl) {
+    public static void Init(String configPath) {
         // 첫 생성 객체가 항상 그대로 싱글턴으로 유지됨을 보장한다.
         if (instance != null) {
             return;
         }
 
-        instance = new AppConfig(xmlConfigFileUrl);
+        instance = new AppConfig(configPath);
     }
 
     public static AppKeyRepository getAppKeyRepository() {
@@ -45,12 +46,12 @@ public class AppConfig {
         appKeyRepository = new AppKeyRepository(xmlConfigParser.getAppKeys());
 
         //예보 저장소
-        /*RegionParser regionParser = new RegionParser(path + "city.txt");
+        RegionParser regionParser = new RegionParser(path + "city.properties");
         try {
             forecastRepository = new ForecastRepository(regionParser.parseRegions());
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
         //Task
         taskScheduler = new TaskScheduler();

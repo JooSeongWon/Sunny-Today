@@ -2,9 +2,8 @@ package xyz.sunnytoday.common.config;
 
 import xyz.sunnytoday.common.repository.Region;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +16,9 @@ public class RegionParser {
 
     public Map<String, Region> parseRegions() throws IOException {
         Map<String, Region> regions = new HashMap<>();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+        FileInputStream input = new FileInputStream(filePath);
+        InputStreamReader reader=new InputStreamReader(input, StandardCharsets.UTF_8);
+        BufferedReader bufferedReader = new BufferedReader(reader);
 
         String str;
         while ((str = bufferedReader.readLine()) != null) {

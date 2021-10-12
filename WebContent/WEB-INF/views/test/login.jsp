@@ -21,10 +21,6 @@
 
         function insertSample() {
             document.querySelector('#userno').setAttribute('value', '10');
-            document.querySelector('#userid').setAttribute('value', 'sunny');
-            document.querySelector('#nick').setAttribute('value', 'rainy');
-            document.querySelector('#admin').setAttribute('value', 'N');
-            document.querySelector('#pictureno').setAttribute('value', 'Null');
         }
 
         function logout() {
@@ -47,19 +43,15 @@
 
 <%--비로그인 상태에서는 로그인 입력창을 보여줍니다.--%>
 <c:choose>
-    <c:when test="${empty sessionScope.member}">
+    <c:when test="${empty sessionScope.userno}">
         <form action="${pageContext.request.contextPath}/test/login" method="post">
             <label>userNo : <input type="text" name="userno" id="userno"></label>&nbsp;&nbsp;&nbsp;
-            <label>userId : <input type="text" name="userid" id="userid"></label>&nbsp;&nbsp;&nbsp;
-            <label>nick : <input type="text" name="nick" id="nick"></label>&nbsp;&nbsp;&nbsp;
-            <label>nick : <input type="text" name="admin" id="admin"></label>&nbsp;&nbsp;&nbsp;
-            <label>nick : <input type="text" name="pictureno" id="pictureno"></label><br>
             <button>로그인</button> &nbsp;&nbsp;&nbsp;
             <button onclick="insertSample();" type="button">샘플 값 채우기</button>
         </form>
     </c:when>
     <c:otherwise>
-        로그인 되어 있습니다. userId =  ${sessionScope.member.userid}  /   Nick = ${sessionScope.member.nick} <br>
+        로그인 되어 있습니다. userno =  ${sessionScope.userno} <br>
         <button onclick="logout();">로그아웃</button>
     </c:otherwise>
 </c:choose>

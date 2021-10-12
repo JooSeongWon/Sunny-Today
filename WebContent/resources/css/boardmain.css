@@ -18,6 +18,15 @@
 	margin: 0 auto;
 }
 
+#full_article {
+	text-align: center;
+	margin: 15px;
+	font-size: var(--font-regular);
+}
+
+
+
+
 table {
 	width: 80%;
 	margin: 35px auto;
@@ -76,10 +85,28 @@ td, th {
 	width:10%;
 }
 
+.searchArea {
+	text-align: center;
+	padding-left: 200px;
+}
+
+.btnWriteStart {
+	clear:both;
+	text-align: right;
+	margin: 0px 100px;
+}
+
+.btnWrite {
+  border-radius: 28px;
+  font-size: var(--font-small);
+  background: var(--color-sky);
+  padding: 10px 20px 10px 20px;
+}
+
 #paging {
 	text-align: center;
 	clear:both;
-	padding:19px;
+	padding-left:200px;
 }
 
 

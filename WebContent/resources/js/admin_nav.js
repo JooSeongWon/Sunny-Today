@@ -84,12 +84,13 @@ $(document).ready(function(){
 		}else {  
 			//이동 트리거 넣어주세요
 		 	jQuery('#fashion_icon1').css("display", "none");
-		   	jQuery('#fashion_icon2').css("display", "block");
+		   	jQuery('#fashion_icon2').css("display", "inline");
 		} 
 	})
 	
 	// 페이지 이동 -> AJAX로 하면 자연스러울거 같네요
 	//-> 첫페이지를 헤더로 잡고 div하나 만들어서 적용해야 하겠네요
+	
 	$('#member_list').click(function(){
 		console.log("member_list clicked");
 		$(location).attr("href", "/admin/member/list");
@@ -116,5 +117,13 @@ $(document).ready(function(){
 	$('#member_statisics').click(function(){
 		console.log("member_statisics clicked");
 		$(location).attr("href", "/admin/member/statisics");
+	})
+	
+	$('#board_menage').click(function(){
+		$(location).attr("href", "/admin/board/list");
+	})
+	
+	$('#total_board_setting').click(function(){
+//		$(location).attr("href", "admin");
 	})
 });
