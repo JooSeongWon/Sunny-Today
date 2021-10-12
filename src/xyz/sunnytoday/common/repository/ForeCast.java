@@ -1,6 +1,6 @@
 package xyz.sunnytoday.common.repository;
 
-public class ForeCast {
+public class Forecast {
     private final int minTemperatures;
     private final int maxTemperatures;
     private final int chanceOfRain;
@@ -8,7 +8,7 @@ public class ForeCast {
     private final String baseDate;
     private final String baseTime;
 
-    public ForeCast(String baseDate, String baseTime, int minTemperatures, int maxTemperatures, int chanceOfRain, String weather) {
+    public Forecast(String baseDate, String baseTime, int minTemperatures, int maxTemperatures, int chanceOfRain, String weather) {
         this.baseDate = baseDate;
         this.baseTime = baseTime;
         this.minTemperatures = minTemperatures;
