@@ -58,5 +58,21 @@ public interface QuestionMenageDao {
 	 * @return - 조회된 문의 리스트 반환 	
 	 */
 	public List<Question> getQuestionList(Connection conn, Paging paging);
+	
+	/**
+	 * 조회된 문의 사항의 세부 정보를 조회
+	 * @param conn - DB 연결 객체
+	 * @param param - Question dto 객체
+	 * @return - 조회된 문의사항의 세부 정보 반환
+	 */
+	public Question getQuestionDatil(Connection conn, Question param);
+
+	/**
+	 * 입력된 답변을 DB에 저장
+	 * @param conn - DB연결 객체
+	 * @param param - Question dto 객체
+	 * @return - 답변을 DB에 저장
+	 */
+	public int setUpdateAnswer(Connection conn, Question param);
 
 }
