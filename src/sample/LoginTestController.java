@@ -1,7 +1,5 @@
 package sample;
 
-import xyz.sunnytoday.dto.Member;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
