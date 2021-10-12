@@ -18,7 +18,7 @@
 
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/boardmain.css" rel="stylesheet">
-    <script src="${jsPath}/home_script.js"></script>
+    <script src="${jsPath}/board_script.js"></script>
 
 </head>
 <body>
@@ -28,15 +28,15 @@
 <c:import url="../layout/navbar.jsp"/>
 
 	<div class="How_was_your_day">
-		<h2>커뮤니티</h2>
-		당신의 오늘은 어떠셨나요?
+		<h2>일상룩</h2>
+		일상에 활기를 더하는 다양한 룩을 만나보자
 	</div>
 	<hr>
 	
 <div>
 <div class="menu-left">
 	<div><h2>카테고리</h2></div>
-	<div><a href="/board/list">전체 글</a></div>
+	<div><a href="/board/main">전체 글</a></div>
 	<div><a href="/board/list/daily">일상룩</a></div>
 	<div><a href="/board/list/buy">지름 게시판</a></div>
 	<div><a href="/board/list/share">정보공유</a></div>
@@ -46,6 +46,12 @@
 
 <section class="main-board">
 <div id='full_article'>일상룩</div>
+
+<div id="btnBox">
+	<button id="btnWrite">글쓰기</button>
+</div>
+
+
 <table>
 <thead>
 	<tr class="division">
@@ -64,30 +70,36 @@
 	<tr>
 		<td colspan="6">공지글</td>
 	</tr>
-	<% for(int i=0; i<boardDailyList.size(); i++) {%>
+<c:forEach items="${boardDailyList }" var="boardDailyList">
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
-		<a href="/board/detail?postno=<%=boardDailyList.get(i).getPost_no() %>">제목</a>
+		<a href="/board/detail?postno=${boardDailyList.post.post_no }">
+		${boardDailyList.post.title }
+		</a>
 	</td>
-	<td rowspan="2"><i class="far fa-smile"></i>사용자</td>
+	<td rowspan="2">
+		<i class="far fa-smile"></i>${boardDailyList.post.user_no }
+	</td>
 	<td rowspan="2">
 		<i class="fas fa-circle fa-3x"></i>
 		<div id='circle-grade'>평점</div>
 	</td>
-	<td rowspan="2">작성된 날짜</td>
+	<td rowspan="2">
+		${boardDailyList.post.write_date }
+	</td>
 	<td rowspan="2">추천수</td>
 </tr>
 <tr>
-	<td id='content'>본문입니다</td>
+	<td id='content'>${boardDailyList.post.content }</td>
 </tr>
-<%} %>
+</c:forEach>
 </tbody>
 </table>
 </section>
 </div>
 <div id='paging'>
-<c:import url="../layout/paging.jsp" />
+<c:import url="../layout/boardPaging.jsp" />
 </div>
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>

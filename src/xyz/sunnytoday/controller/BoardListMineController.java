@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +27,7 @@ public class BoardListMineController extends HttpServlet {
 
 		Paging paging = boardService.getPaging(req);
 		
-		List<Post> list = boardService.getList(paging);
+		List<Map<String, Object>> list = boardService.getMineList(req, paging);
 		
 		req.setAttribute("boardMineList", list);
 		

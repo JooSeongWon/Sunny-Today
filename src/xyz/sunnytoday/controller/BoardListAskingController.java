@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,13 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.common.Paging;
-import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
-/**
- * Servlet implementation class BoardAskingListController
- */
 @WebServlet("/board/list/asking")
 public class BoardListAskingController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,7 +25,7 @@ public class BoardListAskingController extends HttpServlet {
 		
 		Paging paging = boardService.getPaging(req);
 		
-		List<Post> list = boardService.getList(paging);
+		List<Map<String, Object>> list = boardService.getAskingList(req, paging);
 		
 		req.setAttribute("boardAskingList", list);
 		

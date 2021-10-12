@@ -38,10 +38,18 @@ td, th {
 	border-top: none;
 }
 
-#full_article {
+.thumbnail {
 	text-align: center;
-	font-size: var(--font-regular);
-	margin: 10px;
+}
+
+#circle-grade {
+	text-align: center;
+	line-height: 300%;
+	width: 50%;
+	margin: 0 auto;
+	border-radius: 50%;
+	background-color: var(--color-sky);
+	
 }
 
 .division > th:nth-child(1) {
@@ -71,13 +79,7 @@ td, th {
 #paging {
 	text-align: center;
 	clear:both;
+	padding:19px;
 }
 
-.fa-circle {
-	float: left;
-	color: var(--color-sky);
-}
 
-#circle-grade {
-	float: left;
-}

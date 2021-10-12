@@ -14,9 +14,6 @@ import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
-/**
- * Servlet implementation class BoardMainController
- */
 @WebServlet("/board/main")
 public class BoardMainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -29,7 +26,7 @@ public class BoardMainController extends HttpServlet {
 		Paging paging = boardService.getPaging(req);
 		
 		List<Post> list = boardService.getList(paging);
-		
+
 		req.setAttribute("boardMainList", list);
 		
 		req.setAttribute("paging", paging);
