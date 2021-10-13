@@ -40,6 +40,33 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	}
 	
 	@Override
+	public int selectCntAdmin(Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+ "SELECT count(*) FROM member"
+				+ " WHERE Admin = 'A' ";
+				
+		int count = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return count;
+	}
+	
+	@Override
 	public int selectCntId(Connection conn, String search) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -71,7 +98,8 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	public List<Member> All(Connection conn, Paging paging) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-	    String sql = ""
+	    
+		String sql = ""
 	    		+"SELECT * FROM("
 	    		+ " SELECT rownum rnum, B.* FROM("
 	    		+ "    SELECT user_no, id, nick, email, create_date, admin"
@@ -82,6 +110,7 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	      		+ " WHERE rnum BETWEEN ? AND ?";
 	      
 	      List<Member> list = new ArrayList<>();
+	      
 	      try {
 	         ps = conn.prepareStatement(sql);
 	         ps.setInt(1, paging.getStartNo());
@@ -112,18 +141,20 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	public List<Member> searchId(String param, Paging paging, Connection conn) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-	    String sql = ""
-	      +"SELECT * FROM("
-	      + " SELECT rownum rnum, B.* FROM("
-	      + "    SELECT user_no, id, nick, email, create_date, admin"
-	      + "   FROM member"
-	      + "   	WHERE id = ?"
-	      + "   ORDER BY user_no DESC"
-	      + " )B "
-	      + ") MEMBER_BOARD"
-	      + " WHERE rnum BETWEEN ? AND ?";
+	    
+		String sql = ""
+				+"SELECT * FROM("
+				+ " SELECT rownum rnum, B.* FROM("
+				+ "    SELECT user_no, id, nick, email, create_date, admin"
+				+ "   FROM member"
+				+ "   	WHERE id = ?"
+				+ "   ORDER BY user_no DESC"
+				+ " )B "
+				+ ") MEMBER_BOARD"
+				+ " WHERE rnum BETWEEN ? AND ?";
 	      
 	      List<Member> list = new ArrayList<>();
+	      
 	      try {
 	         ps = conn.prepareStatement(sql);
 	         ps.setString(1, param);
@@ -150,6 +181,48 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	      return list;
 	}
 	
+	@Override
+	public List<Member> selectAdmin(Connection conn, Paging paging) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+	    
+		String sql = ""
+	    		+"SELECT * FROM("
+	    		+ " SELECT rownum rnum, B.* FROM("
+	    		+ "    SELECT user_no, id, nick, email, create_date, admin"
+	      		+ "   FROM member"
+	    		+ "     WHERE admin = 'A'"
+	      		+ "   ORDER BY user_no DESC"
+	      		+ " )B "
+	      		+ ") MEMBER_BOARD"
+	      		+ " WHERE rnum BETWEEN ? AND ?";
+	      
+	      List<Member> list = new ArrayList<>();
+	      
+	      try {
+	         ps = conn.prepareStatement(sql);
+	         ps.setInt(1, paging.getStartNo());
+	         ps.setInt(2, paging.getEndNo());
+	         rs = ps.executeQuery();
+	         while(rs.next()) {
+	            Member member = new Member();
+	            member.setUserno(rs.getInt("user_no"));
+	            member.setUserid(rs.getString("id"));
+	            member.setNick(rs.getString("nick"));
+	            member.setEmail(rs.getString("email"));
+	            member.setCreate_date(rs.getDate("create_date"));
+	            member.setAdmin(rs.getString("admin"));
+	            list.add(member);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         JDBCTemplate.close(rs);
+	         JDBCTemplate.close(ps);
+	      }
+	      
+	      return list;
+	}
 	
 	@Override
 	public int setAdmin(int userno, Connection conn) {
@@ -160,29 +233,50 @@ public class AdminMemberDaoImpl implements AdminMemberDao {
 	  	      	+"UPDATE MEMBER SET ADMIN = 'A'"
 				+" WHERE USER_NO = ?";
 				
-			int result = 0;
+		int result = 0;
 			
-	  	      try {
-	  	         ps = conn.prepareStatement(sql);
-	  	         ps.setInt(1, userno);
+	  	try {
+	  		ps = conn.prepareStatement(sql);
+	  	    ps.setInt(1, userno);
 
-	  	         result = ps.executeUpdate();
+	  	    result = ps.executeUpdate();
 	  	   
-	  	      } catch (SQLException e) {
-	  	         e.printStackTrace();
-	  	      }finally {
-	  	         JDBCTemplate.close(rs);
-	  	         JDBCTemplate.close(ps);
-	  	      }
+	  	    } catch (SQLException e) {
+	  	    	e.printStackTrace();
+	  	    }finally {
+	  	    	JDBCTemplate.close(rs);
+	  	        JDBCTemplate.close(ps);
+	  	    }
 		
 		return result;
 	}
 	
 	
 	@Override
-	public int delAdmin(String userno, Connection conn) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delAdmin(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+"UPDATE MEMBER SET ADMIN = 'N'"
+				+" WHERE USER_NO = ?";
+		
+		int result = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno);
+			
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return result;
 	}
 	
 }

@@ -10,16 +10,6 @@ $(document).ready(function(){
 		$("#search").submit()
 	});
 
-	$("#viewBtn").click(function(){
-		console.log("searchBtn clicked");
-		$("#allsearch").submit()
-	});
-
-	$("#searchAdminBtn").click(function(){
-		console.log("searchAdminBtn clicked");
-		$("#admin").submit()
-	});
-
 	$("#setAdminBtn").click(function(){
 		console.log("setAdminBtn clicked");
 		$("#setAdmin").submit()
@@ -30,6 +20,7 @@ $(document).ready(function(){
 		$("#delAdmin").submit()
 	});
 	
+	
 });
 </script>
 
@@ -37,42 +28,19 @@ $(document).ready(function(){
 
 <div id="body" class="container">
 
-<h1>관리자 설정</h1>
+<h1>쪽지 전송</h1>
 <hr>
 
-<div class="col-md-11">
+<form action="<%=request.getContextPath() %>/admin/set" id="search" method="get">
 
-<div class="row" >
-
-<div class="col-md-6">
-	<form action="<%=request.getContextPath() %>/admin/set" id="search" method="get">
-		<label>&nbsp;회원 검색
-		<input class="search-query" type="text" name="search" placeholder="search"/>
-		</label>
+<div class="text-left" id="searchBar">
+	<label>&nbsp;회원 검색
+	<input class="search-query" type="text" name="search" placeholder="search"/>
+	</label>
 	<button class="btn btn-default" id="searchBtn" type="button">검색</button>
-	</form>
 </div>
 
-<div class="col-md-6">
-	<div class="form-inline text-right">
-	<form action="<%=request.getContextPath() %>/admin/set" id="admin" method="get" class="form-group">
-		<label>&nbsp;관리자보기</label>
-		<input type="hidden" name="search" value="adminlist"/>
-		<button class="btn btn-info" id="searchAdminBtn" type="button">확인</button>
-	</form>
-	<form action="<%=request.getContextPath() %>/admin/set" id="allsearch" method="get" class="form-group">
-		<label>&nbsp;전체 보기</label>
-		<input type="hidden" name="search" value=""/>
-		<button class="btn btn-default" id="viewBtn" type="button">확인</button>
-	</form>
-	</div>
-</div>
-
-</div>
-
-
-
-
+</form>
 
 <table class="table">
 <tr>
@@ -95,22 +63,23 @@ $(document).ready(function(){
 		<form action="<%=request.getContextPath() %>/admin/set" id="setAdmin" method="post">
 			<input type="hidden" id="set" name="userno" value="${member.userno }">
 			<input type="hidden" name="val" value="set">
-			<td class="text-right"><button class="btn btn-default" id="setAdminBtn">관리자 권한지정</button></td>
+			<td><button class="btn btn-default" id="setAdminBtn">관리자 권한지정</button></td>
 		</form>
 		</c:when>
 		<c:when test="${member.admin ne 'N'}">
 		<form action="<%=request.getContextPath() %>/admin/set" id="delAdmin" method="post">
 			<input type="hidden" id="del"  name="userno" value="${member.userno }">
 			<input type="hidden" name="val" value="del">
-			<td class="text-right"><button class="btn btn-danger" id="delAdminBtn">관리자 권한삭제</button></td>
+			<td><button class="btn btn-danger" id="delAdminBtn">관리자 권한삭제</button></td>
 		</form>
 		</c:when>
 	</c:choose>
 </tr>
 </c:forEach>
 </table>
-<c:import url="/WEB-INF/views/admin/layout/adminSet_paging.jsp"/>
-</div>
 
+<c:import url="/WEB-INF/views/admin/layout/adminSet_paging.jsp"/>
+
+</div>
 </body>
 </html>

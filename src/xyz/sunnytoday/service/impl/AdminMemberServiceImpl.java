@@ -22,7 +22,10 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		String param = req.getParameter("curPage");
 		String search =  req.getParameter("search");
 		
+		System.out.println(search);
+		
 		int curPage = 0;
+		
 		if(param != null && !"".equals(param)) {
 			curPage = Integer.parseInt(param);
 		}else {
@@ -32,11 +35,14 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		
 		int totalCount = 0;
 		
-		if(search != null && !"".equals(search)) {
-			totalCount = memberDao.selectCntId(conn,search); 
+		if( search != null && search.equals("adminlist")) {
+			totalCount = memberDao.selectCntAdmin(conn);
 		} else {
-			totalCount = memberDao.selectCntAll(conn); 
-			System.out.println(totalCount);
+			if(search != null && !"".equals(search)) {
+				totalCount = memberDao.selectCntId(conn,search); 
+			} else {
+				totalCount = memberDao.selectCntAll(conn); 
+			}			
 		}
 		
 		Paging paging = new Paging(totalCount, curPage);
@@ -52,10 +58,14 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		List<Member> list = null;
 		String param = req.getParameter("search");
 		
-		if(param != null && !"".equals(param)) {
-			list = memberDao.searchId(param, paging, conn);
+		if( param != null && param.equals("adminlist")) {
+			list = memberDao.selectAdmin(conn, paging);
 		} else {
-			list = memberDao.All(conn, paging);
+			if(param != null && !"".equals(param)) {
+				list = memberDao.searchId(param, paging, conn);
+			} else {
+				list = memberDao.All(conn, paging);
+			}
 		}
 		
 		JDBCTemplate.close(conn);
@@ -71,13 +81,18 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 		String userno = req.getParameter("userno");
 		String state = req.getParameter("val");
 		
-		
+		System.out.println(state.getClass().getName());
+		System.out.println("Service"+state);
+		System.out.println("Service" + userno);
+		System.out.println(state.equals("del"));
 		
 		if(userno != null && !"".equals(userno)) {
-			if(state == "set") {
+			if(state.equals("set")) {
 				member = memberDao.setAdmin(Integer.parseInt(userno), conn);
-			} else if(state == "del") {
-				member = memberDao.setAdmin(Integer.parseInt(userno), conn);
+			} else if(state.equals("del")) {
+				member = memberDao.delAdmin(Integer.parseInt(userno), conn);
+			} else {
+				System.out.println("실패");
 			}
 		}
 		

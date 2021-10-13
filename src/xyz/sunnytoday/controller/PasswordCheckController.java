@@ -38,6 +38,6 @@ public class PasswordCheckController extends HttpServlet {
 		
 		
 		
-		resp.sendRedirect(location);
+//		resp.sendRedirect(location);
 	}
 }
