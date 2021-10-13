@@ -27,6 +27,9 @@
     </script>
     
     <style type="text/css">
+    h1 {
+		text-align: center;
+	}
     #userid, #userpw {
     	width: 300px;
     	height: 32px;
@@ -35,6 +38,40 @@
     	width: 300px;
     	height: 32px;
     }   
+    form#login-form {
+    	max-width: 300px;
+    	display: flex;
+    	flex-flow: column;
+    	margin: 30px auto;
+    }
+    .form-group {
+    	max-width: 300px;
+    	display: flex;
+    	justify-content: space-between;
+    	margin-bottom: 20px;
+    }
+    .form-group a, .form-group label {
+    	font-size: var(--font-micro);
+    }
+    input {
+    	margin-top: 5px;
+    }
+    button {
+    	margin-top: 3px;
+    }
+    .login_form__title {
+    	display: flex;
+    	justify-content: space-between;
+    }
+    .login_form__title a{
+    	position: relative;
+    	top: 60px;
+    	height: 30px;
+    }
+    .line {
+    	height: 1px;
+    	background-color: black;
+    }
     </style>
     
 </head>
@@ -46,38 +83,36 @@
 
 <div>
 
-<h1 style="color: rgb(94, 94, 94);">회원 로그인</h1>
-<a href="<%=request.getContextPath() %>/member/join">회원가입</a>
-<hr>
+<form id="login-form" action="<%=request.getContextPath() %>/member/login" method="post">
 
-<form action="/member/login" method="post" style="text-align: center;">
-
-	<div class="form-group">
-		<label for="userid" class="control-label"></label>
-		<input type="text" id="userid" name="userid" value="아이디" />
+	<div class="login-form__header">
+		<div class="login_form__title">
+			<h1 style="color: rgb(94, 94, 94);">회원 로그인</h1>
+			<a href="<%=request.getContextPath() %>/member/join">회원가입</a>
+		</div>
+		
+		<div class="line"></div>
 	</div>
 	
-	<div class="form-group">
-		<label for="userpw" class="control-label"></label>
-		<input type="text" id="userpw" name="userpw" value="비밀번호" />
-	</div>
+	<input type="text" id="userid" name="userid" placeholder="아이디" />
+	<input type="password" id="userpw" name="userpw" placeholder="비밀번호" />
 	
 	<div class="form-group">
-		<input type="checkbox" id="loginMaintain" /><label for="loginMaintain">로그인 유지</label>
-		<a href="<%=request.getContextPath() %>/find/id">아이디 찾기</a> ㅣ
-		<a href="<%=request.getContextPath() %>/find/password">비밀번호 찾기</a>
+		<label><input type="checkbox" id="loginMaintain" />로그인 유지</label>
+		
+		<div>
+			<a href="<%=request.getContextPath() %>/find/id">아이디 찾기</a> ㅣ
+			<a href="<%=request.getContextPath() %>/find/password">비밀번호 찾기</a>
+		</div>
 	</div>
 	
-	<div class="form-group">
-		<button type="button" id="btnLogin">로그인</button><hr><br>
-		<button type="button" id="btnNaverLogin" style="background-color: rgb(46, 204, 113);">Naver</button><br>
-		<button type="button" id="btnGoogleLogin" style="background-color: rgb(89, 181, 244);">Google</button>
-	</div>
+	<button type="button" id="btnLogin">로그인</button>
+	<button type="button" id="btnNaverLogin" style="background-color: rgb(46, 204, 113);">Naver</button>
+	<button type="button" id="btnGoogleLogin" style="background-color: rgb(89, 181, 244);">Google</button>
 
 </form>
 
 </div>
-
 
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>
