@@ -4,6 +4,7 @@ import xyz.sunnytoday.common.repository.AppKeyRepository;
 import xyz.sunnytoday.common.repository.ForecastRepository;
 import xyz.sunnytoday.common.task.TaskScheduler;
 import xyz.sunnytoday.common.task.TaskConfig;
+import xyz.sunnytoday.service.impl.ForecastServiceImpl;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -24,6 +25,9 @@ public class AppConfig {
         }
 
         instance = new AppConfig(configPath);
+
+        //task 실행
+        instance.taskScheduler.enable();
     }
 
     public static AppKeyRepository getAppKeyRepository() {
@@ -53,6 +57,8 @@ public class AppConfig {
             e.printStackTrace();
         }
         forecastRepository.updateLastShortTermForecastVersion();
+        forecastRepository.setMediumTermWeathers(regionParser.getForecastWeatherMap());
+        forecastRepository.setMediumTermTemperatures(regionParser.getForecastTemperatureMap());
 
         //Task
         taskScheduler = new TaskScheduler();
@@ -69,8 +75,5 @@ public class AppConfig {
                 e.printStackTrace();
             }
         });
-
-        //실행
-        taskScheduler.enable();
     }
 }

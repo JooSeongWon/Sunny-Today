@@ -33,6 +33,7 @@
 	</script>
 	
 	<style type="text/css">
+		
 	
 	</style>
     
@@ -43,29 +44,46 @@
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
-<div style="text-align: center;">
+<div>
 
 <h1>정보입력</h1>
-<hr>
+<h5>(*)은 필수 입력입니다.</h5>
 
-<form action="/memeber/join" method="post">
+<form action="<%=request.getContextPath() %>/memeber/join" method="post">
 
 	<div class="form-group">
-		<label for="userid" class="control-label">아이디</label>
-		<input type="text" id="userid" name="userid" />
+	
+		<label>아이디*<input type="text" id="userid" name="userid" placeholder="4자 ~ 20자 사이 영문자/숫자"/></label>	
+		<label>비밀번호*<input type="password" class="userpw" name="userpw" /></label>
+		<label>비밀번호 확인*<input type="password" class="userpw" name="userpw" /></label>		
+		<label>이메일 주소*<input type="text" class="email" name="email" /> @
+			<select>
+				<option value="">직접 입력</option>
+				<option value="naver.com">naver.com</option>
+				<option value="nate.com">nate.com</option>
+				<option value="hanmail.com">hanmail.com</option>
+				<option value="gmail.com">gmail.com</option>
+				<option value="daum.net">daum.net</option>	
+			</select>
+		</label>
+		
+		<div class="line"></div>
+		
+		<label>닉네임*<input type="text" id="nick" name="nick" /></label>
+		<label>전화번호
+			<select>
+				<option value="010">010</option>
+				<option value="011">011</option>
+				<option value="012">012</option>
+				<option value="031">031</option>
+			</select>
+			 - <input type="text" id="phone" name="phone" /> - <input type="text" id="phone" name="phone" />
+		</label>
+		
+		<div class="line"></div>
+		
 	</div>
-	<div class="form-group">
-		<label for="userpw"	class="control-label">비밀번호</label>
-		<input type="text" class="userpw" name="userpw" />
-	<div class="form-group">
-		<label for="email" class="control-label">이메일</label>
-		<input type="text" class="email" name="email" />
-	</div>
-	<hr>
-	<div class="form-group">
-		<label for="nick" class="control-label">닉네임</label>
-		<input type="text" class="nick" name="nick" />
-	</div>
+
 	<div>
 		<button type="button" id="btnJoin" class="btn btn-primary">가입</button>
 		<button type="button" id="btnCancel" class="btn btn-danger">취소</button>

@@ -1,35 +1,44 @@
 package xyz.sunnytoday.common.repository;
 
 public class Forecast {
-    public static final int SUNNY = 1;
-    public static final int CLOUDY = 3;
-    public static final int BLUR = 4;
-
-    private final int temperatures;
-    private final int chanceOfRain;
-    private final String weather;
     private final String baseDate;
     private final String baseTime;
 
-    public Forecast(String baseDate, String baseTime, int temperatures, int chanceOfRain, String weather) {
-        this.baseDate = baseDate;
-        this.baseTime = baseTime;
-        this.temperatures = temperatures;
-        this.chanceOfRain = chanceOfRain;
-        this.weather = weather;
+    private final ForecastWeather forecastWeather;
+    private final ForecastTemperature forecastTemperature;
+
+    //빈객체 (api 오류가 너무 많아요 ㅠㅠ 공공api... 정상데이터 수신 못한경우 빈객체 반환용)
+    private static final Forecast emptyInstance = new Forecast("0000", "0000", 0, 0, "맑음");
+
+    public static Forecast getEmptyInstance() {
+        return emptyInstance;
     }
 
+    public Forecast(String baseDate, String baseTime, int temperature, int chanceOfRain, String weather) {
+        this.baseDate = baseDate;
+        this.baseTime = baseTime;
+        this.forecastWeather = new ForecastWeather(baseDate, weather, chanceOfRain);
+        this.forecastTemperature = new ForecastTemperature(baseDate, temperature);
+    }
 
-    public int getTemperatures() {
-        return temperatures;
+    //중기예보 생성
+    public Forecast(ForecastWeather forecastWeather, ForecastTemperature forecastTemperature) {
+        this.baseDate = forecastWeather.getBaseDate();
+        this.baseTime = "0000";
+        this.forecastWeather = forecastWeather;
+        this.forecastTemperature = forecastTemperature;
+    }
+
+    public int getTemperature() {
+        return this.forecastTemperature.getTemperature();
     }
 
     public int getChanceOfRain() {
-        return chanceOfRain;
+        return this.forecastWeather.getChanceOfRain();
     }
 
     public String getWeather() {
-        return weather;
+        return this.forecastWeather.getWeather();
     }
 
     public String getBaseDate() {
@@ -40,14 +49,17 @@ public class Forecast {
         return baseTime;
     }
 
+    public int getIntBastTime() {
+        return Integer.parseInt(baseTime) / 100;
+    }
+
     @Override
     public String toString() {
         return "Forecast{" +
-                "temperatures=" + temperatures +
-                ", chanceOfRain=" + chanceOfRain +
-                ", weather='" + weather + '\'' +
-                ", baseDate='" + baseDate + '\'' +
+                "baseDate='" + baseDate + '\'' +
                 ", baseTime='" + baseTime + '\'' +
+                ", forecastWeather=" + forecastWeather +
+                ", forecastTemperature=" + forecastTemperature +
                 '}';
     }
 }
