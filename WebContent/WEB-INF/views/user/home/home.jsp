@@ -12,7 +12,7 @@
 
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/home_style.css" rel="stylesheet">
-    <script src="${jsPath}/home_script.js"></script>
+    <script src="${jsPath}/home_script.js" defer></script>
 
 </head>
 <body>
@@ -27,19 +27,100 @@
         <div class="weather">
             <div class="weather__main">
                 <p class="weather__date"><fmt:formatDate value="<%=new Date()%>" pattern="yy.MM.dd HH:mm"/></p>
-                <c:import url="weather-card.jsp"/>
-                <p class="weather__region">서울 / 대한민국 <i class="fas fa-map-marker-alt"></i></p>
-                <p class="weather__description">오늘 날씨는 흐리고 어쩌고 저쩌고~~</p>
+                <div class="weather-card">
+                    <div class="weather-card__image">
+                        <c:choose>
+                            <c:when test="${requestScope.sForecast[0].weather eq '맑음'}">
+                                <i class="fas fa-sun"></i>
+                            </c:when>
+                            <c:when test="${requestScope.sForecast[0].weather eq '구름많음'}">
+                                <c:choose>
+                                    <c:when test="${requestScope.sForecast[0].chanceOfRain >= 40}">
+                                        <i class="fas fa-cloud-sun-rain"></i>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="fas fa-cloud-sun"></i>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <c:when test="${requestScope.sForecast[0].weather eq '흐림'}">
+                                <c:choose>
+                                    <c:when test="${requestScope.sForecast[0].chanceOfRain >= 40}">
+                                        <i class="fas fa-cloud-showers-heavy"></i>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="fas fa-cloud"></i>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                        </c:choose>
+                    </div>
+                    <p class="weather-card__detail">
+                        <%-- span 태그들 기온/강수확률 --%>
+                        <i class="fas fa-temperature-high temperatures"></i>
+                        <span class="weather-card__temperatures">${requestScope.sForecast[0].temperature}</span>℃
+                        &nbsp;&nbsp;
+                        <i class="fas fa-tint rain"></i>
+                        <span class="weather-card__rain">${requestScope.sForecast[0].chanceOfRain}</span>%
+                    </p>
+                </div>
+                <p class="weather__region">
+                    ${requestScope.r1}
+                    <c:if test="${not empty requestScope.r2}"> / ${requestScope.r2}</c:if>
+                    <i class="fas fa-map-marker-alt"></i></p>
+                <p class="weather__description">지금 날씨는 [${requestScope.sForecast[0].weather}] 입니다.<br>모바일 데이터 환경에서는 정확하지
+                    않을 수 있습니다.</p>
             </div>
             <div class="slider">
                 <div class="slider__arrow"><i class="fas fa-chevron-left"></i></div>
                 <div class="slider__wrap">
                     <div class="slider__contents">
-                        <c:import url="weather-card.jsp"/>
-                        <c:import url="weather-card.jsp"/>
-                        <c:import url="weather-card.jsp"/>
-                        <c:import url="weather-card.jsp"/>
-                        <c:import url="weather-card.jsp"/>
+
+                        <c:forEach var="i" begin="1" end="6">
+                            <%String am = "sun";%>
+                            <c:if test="${requestScope.sForecast[i].intBastTime >= 20 || requestScope.sForecast[i].intBastTime < 6}">
+                                <%am = "moon";%>
+                            </c:if>
+                            <div class="weather-card">
+                                <div class="weather-card__image">
+                                    <c:choose>
+                                        <c:when test="${requestScope.sForecast[i].weather eq '맑음'}">
+                                            <i class="fas fa-<%=am%>"></i>
+                                        </c:when>
+                                        <c:when test="${requestScope.sForecast[i].weather eq '구름많음'}">
+                                            <c:choose>
+                                                <c:when test="${requestScope.sForecast[i].chanceOfRain >= 40}">
+                                                    <i class="fas fa-cloud-<%=am%>-rain"></i>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <i class="fas fa-cloud-<%=am%>"></i>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:when test="${requestScope.sForecast[i].weather eq '흐림'}">
+                                            <c:choose>
+                                                <c:when test="${requestScope.sForecast[i].chanceOfRain >= 40}">
+                                                    <i class="fas fa-cloud-showers-heavy"></i>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <i class="fas fa-cloud"></i>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                    </c:choose>
+
+                                </div>
+                                <div class="weather-card__time">${requestScope.sForecast[i].intBastTime} : 00</div>
+                                <div class="weather-card__detail">
+                                        <%-- span 태그들 기온/강수확률 --%>
+                                    <i class="fas fa-temperature-high temperatures"></i>
+                                    <span class="weather-card__temperatures">${requestScope.sForecast[i].temperature}</span>℃
+                                    <i class="fas fa-tint rain"></i>
+                                    <span class="weather-card__rain">${requestScope.sForecast[i].chanceOfRain}</span>%
+                                </div>
+                            </div>
+                        </c:forEach>
+
                     </div>
                 </div>
                 <div class="slider__arrow"><i class="fas fa-chevron-right"></i></div>

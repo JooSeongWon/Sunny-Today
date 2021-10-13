@@ -20,14 +20,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GeoLocationServiceImpl implements GeoLocationService {
     private final AppKeyRepository appKeyRepository = AppConfig.getAppKeyRepository();
 
     @Override
-    public Map<String, String> requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException, HTTPException {
+    public String[] requestGeoLocationData(String ipAddress) throws IOException, NoSuchAlgorithmException, InvalidKeyException, HTTPException {
         //api url
         String hostName = "https://geolocation.apigw.ntruss.com";
         String requestUrl = "/geolocation/v2/geoLocation";
@@ -53,7 +51,7 @@ public class GeoLocationServiceImpl implements GeoLocationService {
             throw new HTTPException(responseCode);
         }
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), StandardCharsets.UTF_8));
         StringBuilder stringBuilder = new StringBuilder();
         String inputLine;
 
@@ -65,10 +63,14 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         JsonObject rootNode = JsonParser.parseString(stringBuilder.toString()).getAsJsonObject();
         JsonObject geoLocation = rootNode.getAsJsonObject("geoLocation");
 
-        Map<String, String> result = new HashMap<>();
-        result.put("country", geoLocation.get("country").getAsString());
-        result.put("r1", geoLocation.get("r1").getAsString());
-        result.put("r2", geoLocation.get("r2").getAsString());
+        String[] result = new String[2];
+        result[0] = geoLocation.get("r1").getAsString();
+        String r2 = geoLocation.get("r2").getAsString();
+        if (r2.endsWith("구")) {
+            result[1] = "";
+        } else {
+            result[1] = geoLocation.get("r2").getAsString();
+        }
 
         return result;
     }

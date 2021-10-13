@@ -7,6 +7,12 @@ public class Forecast {
     private final ForecastWeather forecastWeather;
     private final ForecastTemperature forecastTemperature;
 
+    //빈객체 (api 오류가 너무 많아요 ㅠㅠ 공공api... 정상데이터 수신 못한경우 빈객체 반환용)
+    private static final Forecast emptyInstance = new Forecast("0000", "0000", 0, 0, "맑음");
+
+    public static Forecast getEmptyInstance() {
+        return emptyInstance;
+    }
 
     public Forecast(String baseDate, String baseTime, int temperature, int chanceOfRain, String weather) {
         this.baseDate = baseDate;
@@ -41,6 +47,10 @@ public class Forecast {
 
     public String getBaseTime() {
         return baseTime;
+    }
+
+    public int getIntBastTime() {
+        return Integer.parseInt(baseTime) / 100;
     }
 
     @Override

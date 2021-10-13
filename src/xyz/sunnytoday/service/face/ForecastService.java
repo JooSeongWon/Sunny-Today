@@ -32,4 +32,10 @@ public interface ForecastService {
      * @return 날씨정보 리스트
      */
     List<Forecast> getMediumTermForecast(String city);
+
+
+    /**
+     * api 오류시에 빈 객체로 채운다.
+     */
+    void setEmptyMediumTermForecast();
 }

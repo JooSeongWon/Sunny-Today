@@ -25,13 +25,6 @@ public class AppConfig {
         }
 
         instance = new AppConfig(configPath);
-        
-        //중기예보 업데이트
-        try {
-            new ForecastServiceImpl().updateMediumTermForecast();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         //task 실행
         instance.taskScheduler.enable();

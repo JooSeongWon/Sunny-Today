@@ -193,6 +193,7 @@ footer {
     background-color: var(--color-sky);
     border: 1px solid white;
     color: var(--color-white);
+    z-index: 9;
 }
 .top.active {
     display: block;

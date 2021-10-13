@@ -1,9 +1,6 @@
 package xyz.sunnytoday.service.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.*;
 import xyz.sunnytoday.service.face.ForecastService;
@@ -29,7 +26,8 @@ public class ForecastServiceImpl implements ForecastService {
     public List<Forecast> getShortTermForecast(String city) {
 
         if (!this.forecastRepository.isContainsCity(city)) {
-            throw new IllegalArgumentException("없는 도시입니다.");
+            System.out.println("[ERROR]데이터에 없는 도시를 조회했습니다. 서울특별시 날씨로 대체합니다. 원래 조회한 도시 : " + city);
+            city = "서울특별시";
         }
 
         Region region = this.forecastRepository.getRegion(city);
@@ -37,10 +35,24 @@ public class ForecastServiceImpl implements ForecastService {
         if (region.needShortTermForecastUpdate()) {
             try {
                 this.updateShortTermForecast(region);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("[ERROR] 단기 날씨조회에 실패했습니다. 빈 날씨 객체로 대체합니다." + e.getMessage());
+
+                List<Forecast> emptyList = new ArrayList<>();
+
+                for (int i = 0; i < 7; i++) {
+                    emptyList.add(Forecast.getEmptyInstance());
+                }
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                LocalDateTime baseLocalDate = LocalDateTime.parse(simpleDateFormat.format(new Date()), DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+                emptyList.add(new Forecast(baseLocalDate.plusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd")), "1500", 0, 0, "맑음"));
+                emptyList.add(new Forecast(baseLocalDate.plusDays(2).format(DateTimeFormatter.ofPattern("yyyyMMdd")), "1500", 0, 0, "맑음"));
+
+                return emptyList;
             }
         }
+
 
         return region.getShortTermForecasts();
     }
@@ -48,7 +60,8 @@ public class ForecastServiceImpl implements ForecastService {
     @Override
     public List<Forecast> getMediumTermForecast(String city) {
         if (!this.forecastRepository.isContainsCity(city)) {
-            throw new IllegalArgumentException("없는 도시입니다.");
+            System.out.println("[ERROR]데이터에 없는 도시를 조회했습니다. 서울특별시 날씨로 대체합니다. 원래 조회한 도시 : " + city);
+            city = "서울특별시";
         }
 
         return this.forecastRepository.getMediumTermForecast(city);
@@ -110,9 +123,11 @@ public class ForecastServiceImpl implements ForecastService {
             URL url = new URL(builder.toString());
             String responseJson = getResponseJson(url);
 
+
             //item 아래 아이템이 하나만 들어옴
             JsonObject rootNode = JsonParser.parseString(responseJson).getAsJsonObject().getAsJsonObject("response");
             JsonObject item = rootNode.getAsJsonObject("body").getAsJsonObject("items").getAsJsonArray("item").get(0).getAsJsonObject();
+
 
             //3~10일뒤 날씨 저장
             for (int i = 3; i <= 10; i++) {
@@ -164,6 +179,45 @@ public class ForecastServiceImpl implements ForecastService {
 
         this.forecastRepository.setLastMediumTermForecastVersion(baseDate + baseTime);
         return true;
+    }
+
+    @Override
+    public void setEmptyMediumTermForecast() {
+
+        List<String> weatherKeys = this.forecastRepository.getMediumTermWeatherKeyList();
+        List<String> temperatureKeys = this.forecastRepository.getMediumTermTemperatureKeyList();
+        Map<String, List<ForecastWeather>> forecastWeatherMap = new HashMap<>();
+        Map<String, List<ForecastTemperature>> forecastTemperatureMap = new HashMap<>();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date now = new Date();
+
+        LocalDateTime baseLocalDate = LocalDateTime.parse(simpleDateFormat.format(now), DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
+        for (String tempKey : temperatureKeys) {
+            List<ForecastTemperature> list = new ArrayList<>();
+
+            for (int i = 3; i <= 10; i++) {
+                list.add(new ForecastTemperature(baseLocalDate.plusDays(i).format(DateTimeFormatter.ofPattern("yyyyMMdd")), 0));
+            }
+
+            forecastTemperatureMap.put(tempKey, list);
+        }
+
+        for (String weatherKey : weatherKeys) {
+            List<ForecastWeather> list = new ArrayList<>();
+
+            for (int i = 3; i <= 10; i++) {
+                list.add(new ForecastWeather(baseLocalDate.plusDays(i).format(DateTimeFormatter.ofPattern("yyyyMMdd")), "맑음", 0));
+            }
+
+            forecastWeatherMap.put(weatherKey, list);
+        }
+
+
+        this.forecastRepository.setMediumTermTemperatures(forecastTemperatureMap);
+        this.forecastRepository.setMediumTermWeathers(forecastWeatherMap);
+        this.forecastRepository.setLastMediumTermForecastVersion("200001010000");
     }
 
 
