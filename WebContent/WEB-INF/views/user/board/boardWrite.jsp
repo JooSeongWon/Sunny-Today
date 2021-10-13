@@ -13,34 +13,9 @@
     <title>오늘도 맑음 -게시글 작성</title>
 
     <%--페이지별 css/ js--%>
-    <link href="${cssPath}/boardmain.css" rel="stylesheet">
-    
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-	<script type="text/javascript" src="/resources/se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-	<script type="text/javascript">
-	//<form>태그에 submit이 수행되면 스마트에디터에 작성한 내용을 <textarea>에 반영한다
-	function submitContents(elClickedObj){
-		
-		//에디터의 내용을 #content에 반영해준다
-		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
-		
-		try {
-			//<form>태그의 submit을 수행한다
-			elClickedObj.form.submit();
-		} catch(e) {}
-	}
-	</script>
-	
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$("#btnWrite").click(function() {
-			//스마트에디터의 내용을 <textarea>에 적용하는 함수를 호출한다
-			submitContents( $("#btnWrite") )
-			$("form").submit();
-		})	
-	})
-	
-	</script>
+    <link href="${cssPath}/board.css" rel="stylesheet">
+    <script src="${jsPath}/board_script.js"></script>
+
 
 </head>
 <body>
@@ -55,46 +30,33 @@
 </div>
 <hr>
 	
-<div>
+<div class="writearea">
 	<form action="<%=request.getContextPath() %>/board/write" method="post" enctype="multipart/form-data">
-		<h1>제목</h1>
+		<input type="text" name="title" id="writeTitle" placeholder="제목을 입력하세요"/>
 		<hr>
 		<div class="select">
 			<select name="select">
-				<option value="title" >제목</option>
-				<option value="content">본문</option>
-				<option value="nick">작성자</option>
+				<option value="daily">일상룩</option>
+				<option value="buy">지름 게시판</option>
+				<option value="share">정보공유</option>
+				<option value="asking">질문 응답</option>
 			</select>
 		</div>
-<!-- 		<div class="file"> -->
-<!-- 		첨부 : <input type="file" name="file" /><br><br>	 -->
-<!-- 		</div> -->
-		
-<!-- 		<div id="preview"></div> -->
-		<div>
-		<textarea class="editor" name="content" id="content"/></textarea>
+		<div class="file">
+		첨부 : <input type="file" name="file" id="upload" accept="image/gif, image/jpeg, image/png"  /><br><br>	
 		</div>
+		
+		<div id="preview"></div>
+		<div>
+		<textarea name="content" id="writeContent" placeholder="내용을 입력하세요"/></textarea>
+		</div>
+		
+		<hr>
 
-		<button id="btnWrite">작성</button>
+		<button id="btnWriteSubmit">저장</button>
+		<button id="btnWriteCancel">취소</button>
 	</form>
 </div>
-
-
-
-<!-- <textarea>태그에 스마트에디터2 적용하는 스크립트(반드시<textarea>보다 아래에 적어야 함) -->
-<script type="text/javascript">
-var oEditors = [];
-nhn.husky.EZCreator.createInIFrame({
-	oAppRef: oEditors,
-	elPlaceHolder: "content",
-	sSkinURI: "/resources/se2/SmartEditor2Skin.html",
-	fCreator: "createSEditor2"
-});
-</script>
-
-
-
-
 
 
 

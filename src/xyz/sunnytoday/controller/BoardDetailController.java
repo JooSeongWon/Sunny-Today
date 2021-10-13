@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.dto.File;
+import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
@@ -21,11 +23,16 @@ public class BoardDetailController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-//		Board boardno = boardService.getBoardno(req);
-//		Board detailBoard = boardService.detail(boardno);
-//		
-//		req.setAttribute("detailBoard", detailBoard );
-//		req.setAttribute( "nick", boardService.getNick(detailBoard) );
+		Post post_no = boardService.getPostno(req);
+		Post detailBoard = boardService.detail(post_no);
+		
+		req.setAttribute("detailBoard", detailBoard );
+		req.setAttribute( "nick", boardService.getNick(detailBoard) );
+		
+		File detailFile = boardService.detailFile(detailBoard);
+		req.setAttribute("detailFile", detailFile);
+		
+		req.getRequestDispatcher("/WEB-INF/views/user/board/boardDetail.jsp").forward(req, resp);
 		
 	}
 	

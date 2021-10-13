@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.common.Paging;
+import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Post;
 
 public interface BoardService {
@@ -66,5 +68,54 @@ public interface BoardService {
 	 * @return 일상룩 목록을 리스트로 반환
 	 */
 	public List<Map<String, Object>> getDailyList(HttpServletRequest req, Paging paging);
+
+	/**
+	 * 게시글 작성
+	 * 	입력한 게시글 내용을 DB에 저장
+	 * 
+	 * @param req - 요청정보 객체(게시글내용 + 첨부파일)
+	 * 
+	 */
+	public void write(HttpServletRequest req);
+
+	/**
+	 * 요청파라미터 얻기
+	 * 
+	 * @param req - 요청정보객체
+	 * @return Post - 전달파라미터 Postno를 포함한 객체
+	 */
+	public Post getPostno(HttpServletRequest req);
+
+	/**
+	 * 주어진 Postno를 이용하여 게시글을 조회한다
+	 * 조회된 게시글의 조회수를 1 증가시킨다
+	 * 
+	 * @param Postno - Postno를 가지고 있는 객체
+	 * @return Post - 조회된 게시글
+	 */
+	public Post detail(Post post_no);
+	
+	/**
+	 * Post 객체의 id 를 이용한 닉네임 조회
+	 * 
+	 * @param detailBoard - 조회할 게시글 정보
+	 * @return String - 게시글 작성자의 닉네임
+	 */
+	public String getNick(Post detailBoard);
+
+	/**
+	 * 첨부파일 정보 조회
+	 * 
+	 * @param detailBoard - 첨부파일과 연결된 게시글번호를 포함한 DTO객체
+	 * @return BoardFile - 첨부파일 정보 DTO객체
+	 */
+	public File detailFile(Post detailBoard);
+
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param post - 삭제할 게시글 번호를 가진 객체
+	 */
+	public void delete(Post post);
 
 }

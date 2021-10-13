@@ -17,8 +17,5 @@
 </header>
 <a href="#" class="top">
     <i class="fas fa-arrow-up"></i>
-<<<<<<< HEAD
+
 </a>
-=======
-</a>
->>>>>>> dba018ca9b35035f126a217b52043e668bd472f5

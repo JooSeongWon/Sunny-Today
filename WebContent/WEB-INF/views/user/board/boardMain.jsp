@@ -17,7 +17,7 @@
     <title>오늘도 맑음 -전체 카테고리</title>
 
     <%--페이지별 css/ js--%>
-    <link href="${cssPath}/boardmain.css" rel="stylesheet">
+    <link href="${cssPath}/board.css" rel="stylesheet">
     <script src="${jsPath}/board_script.js"></script>
 
 </head>
@@ -99,7 +99,15 @@
 </div>
 
 <div class="btnWriteStart">
+<%-- <c:if test="${not empty login }"> --%>
+<%-- <form action="<%=request.getContextPath() %>/board/write"> --%>
+<!-- <button class="btnWrite">글쓰기</button> -->
+<!-- </form> -->
+<%-- </c:if> --%>
+
+<%-- <c:if test="${empty login }"> --%>
 <button class="btnWrite">글쓰기</button>
+<%-- </c:if> --%>
 </div>
 
 <div class="searchArea">

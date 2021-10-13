@@ -1,3 +1,5 @@
+/* 메인과 카테고리 리스트 */
+
 .menu-left {
     float: left;
     width: 15%;
@@ -23,8 +25,6 @@
 	margin: 15px;
 	font-size: var(--font-regular);
 }
-
-
 
 
 table {
@@ -109,4 +109,25 @@ td, th {
 	padding-left:200px;
 }
 
+/* Write css--------------------------- */
 
+.writearea {
+	width: 60%;
+	text-align: center;
+	margin: 0 auto;
+	padding-top:10px;	
+	padding-bottom: 40px;
+}
+
+#writeTitle {
+	text-align: left;
+}
+
+#writeContent {
+	width: 80%;
+	height: 300px;
+	resize: none;
+	border: none;
+	font-size: var(--font-micro);
+	font-family: "Noto Sans KR", sans-serif;
+}

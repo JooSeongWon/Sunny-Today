@@ -19,7 +19,27 @@ public class BoardWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/board/write [GET]");
+		
+		//로그인 되어있지 않으면 리다이렉트 
+//		if( req.getSession().getAttribute("login") == null
+//				|| !(boolean)req.getSession().getAttribute("login") ) {
+//			
+//			resp.sendRedirect("/");
+//			
+//			return;
+//		}
+		
+		req.getRequestDispatcher("/WEB-INF/views/user/board/boardWrite.jsp").forward(req, resp);
+		
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		
+		boardService.write(req);
+		
+		resp.sendRedirect("/board/main");
 		
 	}
 	

@@ -17,7 +17,7 @@
     <title>오늘도 맑음 -전체 카테고리</title>
 
     <%--페이지별 css/ js--%>
-    <link href="${cssPath}/boardmain.css" rel="stylesheet">
+    <link href="${cssPath}/board.css" rel="stylesheet">
     <script src="${jsPath}/board_script.js"></script>
 
 </head>
@@ -76,7 +76,6 @@
 		<i class="far fa-smile"></i>${boardMineList.post.user_no }
 	</td>
 	<td rowspan="2">
-		<i class="fas fa-circle fa-3x"></i>
 		<div id='circle-grade'>평점</div>
 	</td>
 	<td rowspan="2">
