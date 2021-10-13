@@ -388,6 +388,10 @@ public class ForecastServiceImpl implements ForecastService {
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
 
+        httpURLConnection.setConnectTimeout(5000);
+        httpURLConnection.setConnectTimeout(5000);
+
+
         int responseCode = httpURLConnection.getResponseCode();
         if (responseCode != 200) {
             System.out.println(httpURLConnection.getResponseMessage());
