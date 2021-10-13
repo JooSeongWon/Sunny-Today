@@ -42,9 +42,10 @@ public class MemberLoginController extends HttpServlet {
 			member = memberService.info(member);
 			
 			//세션정보 저장하기
-			HttpSession session = req.getSession();
-			session.setAttribute("login", login);
+			HttpSession session = req.getSession(); 
 			session.setAttribute("userno", member.getUserno());
+		} else {
+			System.out.println("로그인 실패");//여기에 실패시 어떻게 할건지 만들면되요
 		}
 		
 		//메인페이지로 리다이렉트

@@ -19,12 +19,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member getLoginMember(HttpServletRequest req) {
 		
-		try {
-			req.setCharacterEncoding("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
 		Member member = new Member();
 		
 		member.setUserid( req.getParameter("userid") );
