@@ -1,35 +1,38 @@
 package xyz.sunnytoday.common.repository;
 
 public class Forecast {
-    public static final int SUNNY = 1;
-    public static final int CLOUDY = 3;
-    public static final int BLUR = 4;
-
-    private final int temperatures;
-    private final int chanceOfRain;
-    private final String weather;
     private final String baseDate;
     private final String baseTime;
 
-    public Forecast(String baseDate, String baseTime, int temperatures, int chanceOfRain, String weather) {
+    private final ForecastWeather forecastWeather;
+    private final ForecastTemperature forecastTemperature;
+
+
+    public Forecast(String baseDate, String baseTime, int temperature, int chanceOfRain, String weather) {
         this.baseDate = baseDate;
         this.baseTime = baseTime;
-        this.temperatures = temperatures;
-        this.chanceOfRain = chanceOfRain;
-        this.weather = weather;
+        this.forecastWeather = new ForecastWeather(baseDate, weather, chanceOfRain);
+        this.forecastTemperature = new ForecastTemperature(baseDate, temperature);
     }
 
+    //중기예보 생성
+    public Forecast(ForecastWeather forecastWeather, ForecastTemperature forecastTemperature) {
+        this.baseDate = forecastWeather.getBaseDate();
+        this.baseTime = "0000";
+        this.forecastWeather = forecastWeather;
+        this.forecastTemperature = forecastTemperature;
+    }
 
-    public int getTemperatures() {
-        return temperatures;
+    public int getTemperature() {
+        return this.forecastTemperature.getTemperature();
     }
 
     public int getChanceOfRain() {
-        return chanceOfRain;
+        return this.forecastWeather.getChanceOfRain();
     }
 
     public String getWeather() {
-        return weather;
+        return this.forecastWeather.getWeather();
     }
 
     public String getBaseDate() {
@@ -43,11 +46,10 @@ public class Forecast {
     @Override
     public String toString() {
         return "Forecast{" +
-                "temperatures=" + temperatures +
-                ", chanceOfRain=" + chanceOfRain +
-                ", weather='" + weather + '\'' +
-                ", baseDate='" + baseDate + '\'' +
+                "baseDate='" + baseDate + '\'' +
                 ", baseTime='" + baseTime + '\'' +
+                ", forecastWeather=" + forecastWeather +
+                ", forecastTemperature=" + forecastTemperature +
                 '}';
     }
 }
