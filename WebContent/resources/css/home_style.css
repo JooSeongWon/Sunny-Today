@@ -68,23 +68,39 @@
 
 /* slider  */
 .slider {
-    margin: 30px;
+    margin: 30px auto;
     display: flex;
-    max-width: 420px;
+    width: 360px;
 }
 
 .slider__wrap {
-    overflow: hidden;
+    width: 100%;
 }
 
 .slider__contents {
     position: relative;
-    display: flex;
-    flex-wrap: nowrap;
+    width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
+.slider__contents.active {
+    cursor: grabbing;
+}
 .slider__wrap .weather-card {
+    display: inline-block;
+}
+
+.slider__wrap .weather-card:not(.weather-card:first-child) {
     margin-left: 30px;
+}
+
+.slider__wrap .weather-card__detail {
+    display: flex;
+}
+
+.slider__wrap .weather-card__detail .rain {
+    margin-left: 10px;
 }
 
 .slider__arrow {
@@ -218,6 +234,9 @@
 
     .slider {
         max-width: 200px;
+    }
+    .slider__contents {
+        width: 160px;
     }
 
     .weather {
