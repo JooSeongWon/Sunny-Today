@@ -48,4 +48,10 @@ public interface AdminBoardDao {
 	public AdminBoard selectBoardByBoardno(Connection conn, AdminBoard board_no);
 	
 	public int insert(Connection conn, AdminBoard board);
+
+	public int delete(Connection conn, AdminBoard board);
+	
+	public int update(Connection conn, AdminBoard board);
+
 }
+

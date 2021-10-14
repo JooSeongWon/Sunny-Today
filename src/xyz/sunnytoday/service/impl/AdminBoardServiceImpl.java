@@ -20,9 +20,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public List<AdminBoard> getList() {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		
+		List<AdminBoard> boardList = boardDao.selectAll(conn);
 		//Board 테이블의 총 게시글 수를 조회한다
-		return boardDao.selectAll(conn);
+		
+		JDBCTemplate.close(conn);
+		return boardList;
 		
 	}
 
@@ -31,9 +33,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		Connection conn = JDBCTemplate.getConnection();
 
 		//게시글 전체 조회 결과 처리 - 페이징 추가
-		return boardDao.selectAll(conn, paging);
+		List<AdminBoard> getList = boardDao.selectAll(conn, paging);
 		
-	}
+		JDBCTemplate.close(conn);
+		return getList;
+	}	
 	
 	
 
@@ -51,7 +55,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		}
 		
 		//Board 테이블의 총 게시글 수를 조회한다
-		int totalCount = boardDao.selectCntAll(JDBCTemplate.getConnection());
+		int totalCount = boardDao.selectCntAll(conn);
 		
 		//Paging객체 생성
 		Paging paging = new Paging(totalCount, curPage);
@@ -63,16 +67,21 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public int getCount(HttpServletRequest req) {
 		Connection conn = JDBCTemplate.getConnection();
-
 		
-		return boardDao.boardCntAll(conn);
+		int boardCount = boardDao.boardCntAll(conn);
+		JDBCTemplate.close(conn);
+
+		return boardCount;
 	}
 
 	@Override
 	public int getTitleCount(HttpServletRequest req) {
 		Connection conn = JDBCTemplate.getConnection();
 
-		return boardDao.titleCount(conn);
+		int titleCount = boardDao.titleCount(conn);
+		JDBCTemplate.close(conn);
+
+		return titleCount;
 
 	}
 	
@@ -110,17 +119,17 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		AdminBoard bor = new AdminBoard();
 			
 //		bor.setBoard_no(Integer.parseInt(req.getParameter("board_no")) );
+//		bor.setIndex(0);
+//		bor.setLike("Y");
 		bor.setComments_grant(req.getParameter("comments_grant"));
-//		bor.setLike(req.getParameter("like"));
-		bor.setIndex(0);
-		bor.setLike("Y");
+		bor.setLike(req.getParameter("like"));
 		bor.setList_grant(req.getParameter("list_grant"));
 		bor.setRead_grant(req.getParameter("read_grant"));
-//		bor.setShow(req.getParameter("show"));
+		bor.setShow(req.getParameter("show"));
 		bor.setTitle( req.getParameter("title") );
-//		bor.setTitle_length(Integer.parseInt(req.getParameter("title_length")));
+		bor.setTitle_length(Integer.parseInt(req.getParameter("title_length")));
 		bor.setWrite_grant(req.getParameter("write_grant"));
-		bor.setIndex(Integer.parseInt(req.getParameter("index")));
+//		bor.setIndex(Integer.parseInt(req.getParameter("index")));
 		
 		System.out.println(bor);
 		
@@ -130,7 +139,45 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		} else {
 			JDBCTemplate.rollback(conn);
 		}
+		JDBCTemplate.close(conn);
+
 	}
+
+	@Override
+	public void deleteByAdBoard(AdminBoard board) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		if( boardDao.delete(conn, board) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+
+		 
+	}
+
+	@Override
+	public void updateByAdBoard(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+
+		AdminBoard board = null;
+		
+		board = new AdminBoard();	
+
+		
+		if(board != null) {
+			if( boardDao.update(conn, board) > 0 ) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollback(conn);
+			}
+
+		}
+		JDBCTemplate.close(conn);
+
+	}
+
 
 
 

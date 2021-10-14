@@ -89,24 +89,29 @@ $(document).ready(function() {
 	</td>
 </tr>
 
-<!-- <tr> -->
-<!-- 	<td>추천 기능</td> -->
-<!-- 	<td> -->
-<!-- 		<input type="radio">사용 &nbsp;&nbsp; <input type="radio">미사용 -->
-<!-- 	</td> -->
-<!-- </tr> -->
-
+<tr>
+	<td>추천 기능</td>
+	<td>
+		<input type="radio" name="like" value="Y">사용 &nbsp;&nbsp; <input type="radio" name="like" value="N">미사용
+	</td>
+</tr>
+<tr>
+	<td>게시물 보기</td>
+	<td>
+		<input type="radio" name="show" value="Y">사용 &nbsp;&nbsp; <input type="radio" name="show" value="N">미사용
+	</td>
+</tr>
 <!-- <tr> -->
 <!-- 	<td>댓글 허용</td> -->
 <!-- 	<td> -->
-<!-- 		<input type="radio">허용 &nbsp;&nbsp; <input type="radio">비허용 -->
+<!-- 		<input type="radio" name="comments_grant">허용 &nbsp;&nbsp; <input type="radio">비허용 -->
 <!-- 	</td> -->
 <!-- </tr> -->
 
-<!-- <tr> -->
-<!-- 	<td>제목 글자수</td> -->
-<!-- 	<td><input type="text" maxlength="20" value="text1"></td> -->
-<!-- </tr> -->
+<tr>
+	<td>제목 글자수</td>
+	<td><input type="number" name="title_length" maxlength="20" value="20"></td>
+</tr>
 
 
 </table>

@@ -236,12 +236,12 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 				
 				//결과값 한 행 처리
 				viewBoard.setBoard_no( rs.getInt("board_no") );
-//				viewBoard.setComments_grant( rs.getString("comments_grant"));
-//				viewBoard.setIndex(rs.getInt("index"));
-//				viewBoard.setLike(rs.getString("like"));
+				viewBoard.setComments_grant( rs.getString("comments_grant"));
+				viewBoard.setIndex(rs.getInt("index"));
+				viewBoard.setLike(rs.getString("like"));
 				viewBoard.setList_grant(rs.getString("list_grant"));
 				viewBoard.setRead_grant(rs.getString("read_grant"));
-//				viewBoard.setShow(rs.getString("show"));
+				viewBoard.setShow(rs.getString("show"));
 				viewBoard.setTitle( rs.getString("title") );
 				viewBoard.setTitle_length(rs.getInt("title_length"));
 				viewBoard.setWrite_grant(rs.getString("write_grant"));
@@ -267,10 +267,12 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		
 		//SQL 작성
 		String sql = "";
-		sql += "INSERT INTO board(board_no, comments_grant, list_grant, read_grant, title, write_grant";
-		sql += ",(select NVL(max(\"INDEX\")+1,0) FROM BOARD)";
-		sql +=  ")";
-		sql += " VALUES (board_seq.nextval, ?, ?, ?, ?, ?)";
+		sql += "INSERT INTO board(board_no, comments_grant, \"LIKE\"";
+		sql += " , list_grant, read_grant, \"SHOW\", \"TITLE\"";
+		sql += " , title_length, write_grant";
+//		sql += "FROM BOARD)";
+		sql += " )";
+		sql += " VALUES (board_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		int res = 0;
 		
@@ -279,14 +281,14 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 			
 //			ps.setInt(1, board.getBoard_no());
 			ps.setString(1, board.getComments_grant());
-//			ps.setString(3, board.getLike());
-			ps.setString(2, board.getList_grant());
-			ps.setString(3, board.getRead_grant());
-//			ps.setString(7, board.getShow());
-			ps.setString(4, board.getTitle());
-//			ps.setInt(4, board.getTitle_length());
-			ps.setString(5, board.getWrite_grant());
-			ps.setInt(6, board.getIndex());
+			ps.setString(2, board.getLike());
+			ps.setString(3, board.getList_grant());
+			ps.setString(4, board.getRead_grant());
+			ps.setString(5, board.getShow());
+			ps.setString(6, board.getTitle());
+			ps.setInt(7, board.getTitle_length());
+			ps.setString(8, board.getWrite_grant());
+//			ps.setInt(9, board.getIndex());
 			
 			res = ps.executeUpdate();
 			
@@ -299,6 +301,81 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		return res;	
 	
 	}
+
+	@Override
+	public int delete(Connection conn, AdminBoard board) {
+		//다음 게시글 번호 조회 쿼리
+		String sql = "";
+		sql += "DELETE board";
+		sql += " WHERE board_no = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null; 
+		
+		int res = -1;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, board.getBoard_no());
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int update(Connection conn, AdminBoard board) {
+		//다음 게시글 번호 조회 쿼리
+		String sql = "";
+		sql += "UPDATE board";
+		sql += " SET  = comments_grant ?,";
+		sql += " 	\"LIKE\" = ?";
+		sql += " 	list_grant = ?";
+		sql += " 	read_grant = ?";
+		sql += " 	\"SHOW\" = ?";
+		sql += " 	\"TITLE\" = ?";
+		sql += " 	title_length = ?";
+		sql += " 	write_grant = ?";
+		sql += " WHERE board_no = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null; 
+		
+		int res = -1;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, board.getComments_grant());
+			ps.setString(2, board.getLike());
+			ps.setString(3, board.getList_grant());
+			ps.setString(4, board.getRead_grant());
+			ps.setString(5, board.getShow());
+			ps.setString(6, board.getTitle());
+			ps.setInt(7, board.getTitle_length());
+			ps.setString(8, board.getWrite_grant());
+			ps.setInt(9, board.getBoard_no());
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+
+	
 
 
 

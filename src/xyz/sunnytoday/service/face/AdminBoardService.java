@@ -61,4 +61,7 @@ public interface AdminBoardService {
 	
 	public void write(HttpServletRequest req);
 	
+	public void deleteByAdBoard(AdminBoard board);
+	
+	public void updateByAdBoard(HttpServletRequest req);	
 }
