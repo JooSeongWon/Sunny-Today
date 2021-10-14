@@ -7,7 +7,7 @@ import xyz.sunnytoday.dto.Event;
 import xyz.sunnytoday.dto.MessageEvent;
 import xyz.sunnytoday.util.Paging;
 
-public interface MessageEventDao {
+public interface AdminMessageEventDao {
 	
 	/**
 	 * 검색 이벤트 수 조회
@@ -62,5 +62,37 @@ public interface MessageEventDao {
 	 * @return 성공여부
 	 */
 	public int insertMessage(Connection conn, MessageEvent messageEvent);
+	
+	/**
+	 * 특정 이벤트 조회
+	 * 
+	 * @param messageno - 조회할 messageno를 가진 객체
+	 * @return MessageEvent - 조회된 결과 객체
+	 */
+	public MessageEvent selectByMessageno(Connection conn, MessageEvent messageno);
+	
+	/**
+	 * 메세지 수정
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param message - 수정할 내용을 담은 객체
+	 */
+	public int update(Connection conn, MessageEvent message);
+	
+	/**
+	 * 메세지 삭제
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param message - 삭제할 내용을 담은 객체
+	 */
+	public int delete(Connection conn, MessageEvent message);
+	
+	/**
+	 * 메세지 삭제
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param arr2 - 삭제할 객체
+	 */
+	public int deleteAll(Connection conn, int arr2);
 
 }

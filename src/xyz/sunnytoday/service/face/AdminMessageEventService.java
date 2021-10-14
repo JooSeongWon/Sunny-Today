@@ -8,7 +8,7 @@ import xyz.sunnytoday.dto.Event;
 import xyz.sunnytoday.dto.MessageEvent;
 import xyz.sunnytoday.util.Paging;
 
-public interface MessageEventService {
+public interface AdminMessageEventService {
 	
 	/**
 	 * 페이징 객체 생성
@@ -44,5 +44,43 @@ public interface MessageEventService {
 	 * @param req - 요청정보객체
 	 */
 	public void write(HttpServletRequest req);
+
+	/**
+	 * 요청파라미터 얻기
+	 * 
+	 * @param req - 요청정보객체
+	 * @return MessageEvent - 전달파라미터 MessageEvent_no를 포함한 객체
+	 */
+	public MessageEvent getEno(HttpServletRequest req);
+
+	/**
+	 * 주어진 MessageEvent_no를 이용하여 게시글을 조회한다
+	 * 
+	 * @param messageno - messageno를 가지고 있는 객체
+	 * @return MessageEvent - 조회된 이벤트문
+	 */
+	public MessageEvent view(MessageEvent messageno);
+
+	/**
+	 * 쪽지이벤트 수정
+	 * 
+	 * @param req - 요청 정보 객체
+	 */
+	public void update(HttpServletRequest req);
+	
+	
+	/**
+	 * 쪽지이벤트 삭제
+	 * 
+	 * @param message - 삭제할 쪽지번호를 가진 객체
+	 */
+	public void delete(MessageEvent message);
+
+	/**
+	 * 쪽지이벤트 삭제
+	 * 
+	 * @param arr2 - 삭제할 쪽지번호를 가진 객체
+	 */
+	public void deleteAll(int arr2);
 
 }

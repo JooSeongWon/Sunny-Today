@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xyz.sunnytoday.common.JDBCTemplate;
-import xyz.sunnytoday.dao.face.MessageEventDao;
+import xyz.sunnytoday.dao.face.AdminMessageEventDao;
 import xyz.sunnytoday.dto.Event;
 import xyz.sunnytoday.dto.MessageEvent;
 import xyz.sunnytoday.util.Paging;
 
-public class MessageEventDaoImpl implements MessageEventDao {
+public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 	
 	@Override
 	public int selectCntAll(Connection conn) {
@@ -215,6 +215,140 @@ public class MessageEventDaoImpl implements MessageEventDao {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public MessageEvent selectByMessageno(Connection conn, MessageEvent messageno) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+	    		+"        SELECT MESSAGE_E_NO ,M.EVENT_NO ,TITLE ,CONTENT, e.name"  
+	    		+"        FROM message_event M" 
+	    		+"        INNER JOIN Event E"  
+	    		+"        ON M.EVENT_NO = E.EVENT_NO" 
+				+"			WHERE MESSAGE_E_NO = ? ";
+
+		
+		MessageEvent message = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, messageno.getMessage_e_no());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				message = new MessageEvent();
+				
+				message.setMessage_e_no(rs.getInt("message_e_no"));
+				message.setEvent_no(rs.getInt("event_no"));
+				message.setTitle(rs.getString("title"));
+				message.setContent( rs.getString("content") );
+				message.setEvent_no( rs.getInt("event_no") );
+				message.setName(rs.getString("name"));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+
+		return message;
+	}
+	
+	@Override
+	public int update(Connection conn, MessageEvent message) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+" UPDATE MESSAGE_EVENT"
+				+" SET EVENT_NO = ?,"
+				+" TITLE = ?,"
+				+" CONTENT = ? "
+				+" WHERE MESSAGE_E_NO = ? ";
+		
+		int res = -1;
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, message.getEvent_no());
+			ps.setString(2, message.getTitle());
+			ps.setString(3, message.getContent());
+			ps.setInt(4, message.getMessage_e_no());
+			
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public int delete(Connection conn, MessageEvent message) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+" DELETE MESSAGE_EVENT"
+				+" WHERE MESSAGE_E_NO = ? ";
+		
+		int res = -1;
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, message.getMessage_e_no());
+			
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
+	
+	@Override
+	public int deleteAll(Connection conn, int arr2) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+" DELETE MESSAGE_EVENT"
+				+" WHERE MESSAGE_E_NO = ? ";
+		
+		int res = -1;
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, arr2);
+			
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
 	}
 	
 }

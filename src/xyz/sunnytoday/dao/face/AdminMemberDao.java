@@ -26,6 +26,16 @@ public interface AdminMemberDao {
 	public int selectCntId(Connection conn, String search);
 	
 	/**
+	 * Member테이블 전체 조회
+	 * 	페이징 처리 추가
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @param conn - DB연결 객체
+	 * @return List<Member> - Member테이블 전체 조회 결과 리스트
+	 */
+	public List<Member> All(Connection conn, Paging paging);
+
+	/**
 	 * Member테이블 특정회원 조회
 	 * 페이징 처리 추가
 	 * 
@@ -35,17 +45,6 @@ public interface AdminMemberDao {
 	 * @return List<Member> - Member테이블  id = search 조회 결과 리스트
 	 */
 	public List<Member> searchId(String param, Paging paging, Connection conn);
-	
-
-	/**
-	 * Member테이블 전체 조회
-	 * 	페이징 처리 추가
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @param conn - DB연결 객체
-	 * @return List<Member> - Member테이블 전체 조회 결과 리스트
-	 */
-	public List<Member> All(Connection conn, Paging paging);
 	
 	/**
 	 * 관리자권한 등록

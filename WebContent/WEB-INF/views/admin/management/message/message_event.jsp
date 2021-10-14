@@ -9,21 +9,39 @@ $(document).ready(function(){
 		$("#search").submit()
 	});
 
+	$("#btnAllDel").click(function(){
+// 		 $("input[name='delno[]']:checked").each(function(){
+// 			var check = $(this).val();
+// 			console.log(check);
+// 		});
+		if( confirm("쪽지를 삭제하시겠습니까?") ) {	
+			$("#Alldel").submit()
+		}
+	});
+
 	$("#messagewrite").click(function(){
-		$(location).attr("href", "/admin/message/write");
+		$(location).attr("href", "/admin/message/event/write");
 	});
 
 	$("#eventwrite").click(function(){
 		$(location).attr("href", "/admin/message/write");
 	});
 	
-	$("#setmessageBtn").click(function(){
-		alert($(this).attr('value'));
+	$("button[name=btnUpdate]").click(function() {
+		console.log("btn")
+		$(location).attr("href", "/admin/message/update?no="+$(this).attr('value'));
 	});
 
-	$("#delMessageBtn").click(function(){
-		$("#delMessage").submit()
+	$("button[name=btnDelete]").click(function() {
+		if( confirm("쪽지를 삭제하시겠습니까?") ) {
+			$(location).attr("href", "/admin/message/delete?no="+$(this).attr('value'));
+		}
 	});
+	
+	$('.check-all').click(function(){
+		$('.check').prop('checked', this.checked);
+	})
+	
 });
 </script>
 
@@ -49,7 +67,7 @@ $(document).ready(function(){
 
 <div class="col-md-4">
 	<div class="form-group text-right">
-		<button class="btn btn-default" id="Eventwrite" type="button">이벤트등록</button>
+		<button class="btn btn-default" id="eventwrite" type="button">이벤트등록</button>
 		<button class="btn btn-info" id="messagewrite" type="button">쪽지등록</button>
 	</div>
 </div>
@@ -57,27 +75,25 @@ $(document).ready(function(){
 </div>
 
 
-
-<form action="<%=request.getContextPath() %>/admin/message/event" id="message">
+<form action="<%=request.getContextPath() %>/admin/message/delete" id="Alldel" method="post">
 <table class="table">
 <tr>
-	<th></th>
+	<th><input type="checkbox" name="check-all" class="check-all"></th>
 	<th>No.</th>
 	<th>이벤트 이름</th>
 	<th>제목</th>
-	<th></th>
+	<th class="text-right"><button class="btn btn-danger" id="btnAllDel" type="button">삭제</button></th>
 
 </tr>
 <c:forEach items="${list }" var="messageEvent">
 <tr>
-	<td></td>
+	<td><input type="checkbox" name="delno[]" value="${messageEvent.message_e_no }" class="check"></td>
 	<td>${messageEvent.message_e_no }</td>
 	<td>${messageEvent.name }</td>
-	<td>${messageEvent.title }</td>
+	<td><a href="<%=request.getContextPath() %>/admin/message/event/view?no=${messageEvent.message_e_no }">${messageEvent.title }</td>
 	<td class="text-right">
-		<input type="hidden" name="messageno" value="${messageEvent.message_e_no }" >
-		<button class="btn btn-default" id="setmessageBtn" name="btn" value="up">수정</button>
-		<button class="btn btn-danger" id="delmessageBtn" name="btn" value="del">삭제</button>
+		<button type="button" class="btn btn-default" name="btnUpdate" value="${messageEvent.message_e_no }">수정</button>
+		<button type="button" class="btn btn-danger" name="btnDelete" value="${messageEvent.message_e_no }">삭제</button>
 	</td>
 </tr>
 </c:forEach>

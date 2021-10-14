@@ -24,10 +24,10 @@ function submitContents(elClickedObj) {
 $(document).ready(function() {
 	
 	//작성버튼 동작
-	$("#btnWrite").click(function() {
+	$("#btnUpdate").click(function() {
 		
 		//스마트 에디터의 내용을 <textarea>에 적용하는 함수를 호출한다
-		submitContents( $("#btnWrite") )
+		submitContents( $("#btnUpdate") )
 		
 		$("form").submit();
 	});
@@ -35,11 +35,6 @@ $(document).ready(function() {
 	//취소버튼 동작
 	$("#btnCancel").click(function() {
 		history.go(-1);
-	});
-	
-	$("#A").change(function() {
-	    var value = $(this).val();
-		console.log(value)
 	});
 	
 });
@@ -61,13 +56,14 @@ $(document).ready(function() {
 <div class="col-md-11">
 
 
-<form action="/admin/message/write" method="post">
+<form action="/admin/message/update" method="post">
 <table class="table table-bordered">
 <tr>
 <td class="active">분류명</td>
 <td colspan="2">
-<select name="event" id="A" class="form-control">
-<c:forEach items="${event }" var="e">
+<select name="event" class="form-control">
+    <option value="${message.event_no }" selected="selected" >${message.name }</option>
+<c:forEach items="${event }" var="e">	
     <option value="${e.event_no }">${e.name }</option>
 </c:forEach>
 </select>
@@ -76,7 +72,7 @@ $(document).ready(function() {
 
 <tr>
 <td class="active">쪽지 제목</td>
-<td colspan="2"><input type="text" name="title" class="form-control"></td>
+<td colspan="2"><input type="text" name="title" class="form-control" value="${message.title }"></td>
 </tr>
 
 <tr>
@@ -86,14 +82,15 @@ $(document).ready(function() {
 <tr>
 <tr>
 <td class="active">본문</td>
-<td><textarea id="content" name="content"></textarea></td>
+<td><textarea id="content" name="content">${message.content }</textarea></td>
 </tr>
 
 </table>
+	<input type="hidden" name="message_e_no" value="${message.message_e_no }" >
 </form>
 
-<div class="text-center">	
-	<button type="button" id="btnWrite" class="btn btn-info">등록</button>
+<div class="text-center">
+	<button type="button" id="btnUpdate" class="btn btn-info">등록</button>
 	<button type="button" id="btnCancel" class="btn btn-danger">취소</button>
 </div>
 

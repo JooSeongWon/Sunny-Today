@@ -13,8 +13,8 @@ $(document).ready(function(){
 		$('.check').prop('checked', this.checked);
 	})
 	
-	$("#sendBtn").click(function(){
-		$("#send").submit()
+	$("#send").click(function(){
+		$("#Alldel").submit()
 	});
 	
 });
@@ -43,12 +43,13 @@ $(document).ready(function(){
 	</form>
 </div>
 
-<form action="<%=request.getContextPath() %>/admin/message/write" id="send" method="post" class="form-group">
+<form action="<%=request.getContextPath() %>/admin/set" id="allsearch" method="get" class="form-group">
 <table class="table">
 <tr>
 <th colspan="3"><span>&nbsp; 총 회원수 : ${paging.totalCount }</span></th>
 <th colspan="3" class="text-right">
-	<button class="btn btn-default" id="sendBtn" type="button">쪽지발송</button>
+	<input type="hidden" name="search" value=""/>
+	<button class="btn btn-default" id="viewBtn" type="button">쪽지발송</button>
 </th>
 </tr>
 <tr>

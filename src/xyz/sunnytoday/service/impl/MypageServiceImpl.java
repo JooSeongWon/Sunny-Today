@@ -6,7 +6,6 @@ import java.sql.Connection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.MypageDao;

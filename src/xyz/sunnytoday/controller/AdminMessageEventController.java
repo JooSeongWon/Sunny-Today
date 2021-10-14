@@ -9,39 +9,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import xyz.sunnytoday.dto.Member;
-import xyz.sunnytoday.service.face.AdminMemberService;
-import xyz.sunnytoday.service.impl.AdminMemberServiceImpl;
+import xyz.sunnytoday.dto.MessageEvent;
+import xyz.sunnytoday.service.face.AdminMessageEventService;
+import xyz.sunnytoday.service.impl.AdminMessageEventServiceImpl;
 import xyz.sunnytoday.util.Paging;
 
-@WebServlet("/admin/set")
-public class AdminSetController extends HttpServlet {
+@WebServlet("/admin/message/event")
+public class AdminMessageEventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private AdminMemberService memberService = new AdminMemberServiceImpl();
+	private AdminMessageEventService messageService = new AdminMessageEventServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/admin/set [get]");
+		System.out.println("/message/event [GET]");
 		
 		//요청파라미터를 전달하여 Paging객체 생성하기
-		Paging paging = memberService.getPaging(req);
+		Paging paging = messageService.getPaging(req);
 		
-		//아이디 조회
-		List<Member> list = memberService.getlist(req, paging);
+		//메시지이벤트 조회
+		List<MessageEvent> list = messageService.getlist(req, paging);
 		
 		
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
-		req.getRequestDispatcher("/WEB-INF/views/admin/management/admin_set.jsp").forward(req, resp);
+		
+		req.getRequestDispatcher("/WEB-INF/views/admin/management/message/message_event.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/admin/set [Post]");
+		System.out.println("/message/event [POST]");
 		
-		memberService.getuserno(req);
-		
-		resp.sendRedirect("/admin/set");
 	}
 }

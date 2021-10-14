@@ -6,27 +6,22 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#searchBtn").click(function(){
-		console.log("searchBtn clicked");
 		$("#search").submit()
 	});
 
 	$("#viewBtn").click(function(){
-		console.log("searchBtn clicked");
 		$("#allsearch").submit()
 	});
 
 	$("#searchAdminBtn").click(function(){
-		console.log("searchAdminBtn clicked");
 		$("#admin").submit()
 	});
 
 	$("#setAdminBtn").click(function(){
-		console.log("setAdminBtn clicked");
 		$("#setAdmin").submit()
 	});
 
-	$("#deltAdminBtn").click(function(){
-		console.log("delAdminBtn clicked");
+	$("#delAdminBtn").click(function(){
 		$("#delAdmin").submit()
 	});
 	
