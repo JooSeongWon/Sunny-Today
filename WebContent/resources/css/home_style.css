@@ -30,6 +30,12 @@
     margin-top: 30px;
 }
 
+.region-description {
+    color: var(--color-orange);
+    font-size: var(--font-micro);
+    display: none;
+}
+
 
 /* weather-card */
 
@@ -60,9 +66,18 @@
     display: none;
 }
 
-.weather__main .weather-card__image i,
-.weather__region i {
+.weather__main .weather-card__image i {
     cursor: pointer;
+    transition: all 200ms linear;
+}
+
+.weather__main .weather-card__image i:hover {
+    transform: scale(1.1);
+    color: var(--color-orange);
+}
+
+.weather__main .weather-card__image i:hover + .region-description {
+    display: block;
 }
 
 
@@ -87,6 +102,7 @@
 .slider__contents.active {
     cursor: grabbing;
 }
+
 .slider__wrap .weather-card {
     display: inline-block;
 }
@@ -207,11 +223,306 @@
     border-radius: 50%;
 
     cursor: pointer;
+    transition: all 200ms ease-in;
+}
+
+.costume__refresh:hover {
+    transform: scale(1.2) rotate(-0.5turn);
+    background-color: var(--color-red);
+
+}
+
+/* schedule */
+#schedule {
+    max-width: 1200px;
+    margin: 50px auto;
+    display: flex;
+    flex-flow: column;
+}
+
+.schedule__title {
+    text-align: center;
+    color: var(--color-dark-grey);
+}
+
+.schedule-slider {
+    padding: 0 50px;
+    width: 100%;
+    user-select: none;
+    cursor: default;
+}
+
+.schedule-cards {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.schedule-cards.active {
+    cursor: grabbing;
+}
+
+.schedule-card {
+    display: inline-block;
+    width: 20%;
+    height: 300px;
+}
+
+.schedule-card:not(.schedule-card:first-child) {
+    margin-left: 30px;
+}
+
+.card__wrap {
+    border: 1px solid var(--color-dark-sky);
+    border-radius: 20%;
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    height: 100%;
+
+}
+
+.card__month {
+    text-align: center;
+    font-weight: var(--weight-bold);
+    color: var(--color-light-grey);
+}
+
+.card__top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: var(--weight-regular);
+}
+
+.card__day {
+    font-weight: var(--weight-semi-bold);
+    color: var(--color-dark-grey);
+}
+
+.card__day.holiday {
+    color: var(--color-red);
+}
+
+.card__day.saturday {
+    color: var(--color-blue);
+}
+
+.card__bottom {
+    text-align: center;
+    color: var(--color-sky);
+}
+
+.card__body {
+    height: 180px;
+}
+
+.card__forecast {
+    font-size: var(--font-micro);
+    color: var(--color-light-grey);
+}
+
+/* best posts */
+#best-posts {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.left {
+    width: 70%;
+    display: flex;
+    flex-flow: column;
+
+    background-color: var(--color-dark-sky);
+    color: var(--color-white);
+}
+
+.left__title {
+    text-align: center;
+}
+
+.post {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+    width: 100%;
+    border-top: 1px solid var(--color-white);
+    cursor: pointer;
+}
+
+.post:hover {
+    color: var(--color-dark-grey);
+    background-color: var(--color-white);
+}
+
+.post__img {
+    border: 1px solid var(--color-white);
+}
+
+.post__title {
+    width: 80%;
+}
+
+.post__title span {
+    color: var(--color-red);
+}
+
+.post__like-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--color-light-sky);
+    color: var(--color-orange);
+    text-align: center;
+    line-height: 30px;
+    font-size: 8px;
+    font-weight: var(--weight-bold);
+    margin-top: 5px;
+}
+
+.right {
+    width: 25%;
+    background-color: var(--color-sky);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.notice__title {
+    text-align: center;
+}
+
+.notice-post {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    background-color: var(--color-white);
+    margin-bottom: 10px;
+    transition: all 200ms linear;
+}
+
+.notice-post:hover {
+    transform: scale(1.1, 1.2);
+}
+
+.event .notice-post {
+    background-color: var(--color-yellow);
+}
+
+.event .notice__title {
+    color: var(--color-orange);
+}
+
+.notice-post__description {
+    color: var(--color-dark-grey);
+    padding: 5px;
+    font-size: var(--font-micro);
+}
+
+.new-icon {
+    background-color: var(--color-red);
+    color: var(--color-white);
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    border-radius: 10%;
+
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+
+    position: absolute;
+    left: -10px;
+    top: -10px;
 }
 
 
 /* Responsive */
+@media screen and (max-width: 1000px) {
+    /* schedule */
+    .schedule-card {
+        width: 25%;
+    }
+
+    .schedule-card:not(.schedule-card:first-child) {
+        margin-left: 25px;
+    }
+
+    /* best posts */
+    .left {
+        width: 60%;
+    }
+
+    .right {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    /* weather */
+    .weather {
+        margin-right: 0;
+    }
+
+    /* schedule */
+    .schedule-card {
+        width: 35%;
+    }
+
+    /* best posts */
+    .post__like-num {
+        display: none;
+    }
+
+    .left {
+        width: 50%;
+    }
+
+    .right {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    /* schedule */
+    .schedule-card {
+        width: 40%;
+    }
+
+    .schedule-card:not(.schedule-card:first-child) {
+        margin-left: 20px;
+    }
+
+    /* best posts */
+    #best-posts {
+        flex-flow: column;
+    }
+
+    .left {
+        width: 100%;
+    }
+
+    .right {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    /* schedule */
+    .schedule-card {
+        width: 60%;
+    }
+}
+
 @media screen and (max-width: 400px) {
+    /* weather */
     .clothes {
         display: flex;
         flex-flow: column;
@@ -235,11 +546,17 @@
     .slider {
         max-width: 200px;
     }
+
     .slider__contents {
         width: 160px;
     }
 
     .weather {
         margin: auto;
+    }
+
+    /* schedule */
+    .schedule-card {
+        width: 80%;
     }
 }
