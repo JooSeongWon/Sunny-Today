@@ -31,12 +31,12 @@ public class BoardDeleteController extends HttpServlet {
 		
 		
 		
-		Post post = boardService.getPostno(req);
+		Post post_no = boardService.getPostno(req);
 		
-		boardService.delete(post);
+		boardService.delete(post_no);
 		
 		//목록으로 리다이렉트
-		resp.sendRedirect("/board/list");
+		resp.sendRedirect("/board/main");
 		
 	}
 	

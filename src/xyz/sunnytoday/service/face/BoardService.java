@@ -123,7 +123,7 @@ public interface BoardService {
 	 * 
 	 * @param post - 삭제할 게시글 번호를 가진 객체
 	 */
-	public void delete(Post post);
+	public void delete(Post post_no);
 
 	/**
 	 * 게시글 수정
@@ -131,6 +131,13 @@ public interface BoardService {
 	 * @param req - 요청 정보 객체
 	 */
 	public void update(HttpServletRequest req);
+
+	/**
+	 * list에서 post_no을 추출하여 file객체 얻어온 후 썸네일 조회 
+	 * @param list - post값이 들어있음
+	 * @return file객체
+	 */
+	public File thumFileShow(List<Map<String, Object>> list);
 
 
 

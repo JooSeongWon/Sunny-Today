@@ -37,8 +37,12 @@
 		<span id="detailNick">작성자: ${nick }</span>
 		<span id="btnlist">	
 			<button id="btnReport">신고</button>
-			<a href="/board/update?postno=${detailBoard.post_no }"><button id="btnUpdate">수정</button></a>
+			<a href="/board/update?postno=${detailBoard.post_no }">
+			<button id="btnUpdate">수정</button>
+			</a>
+			<a href="/board/delete?postno=${detailBoard.post_no }">
 			<button id="btnDelete">삭제</button>
+			</a>
 		</span>
 		</div>
 		

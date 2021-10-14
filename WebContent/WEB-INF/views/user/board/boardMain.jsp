@@ -65,7 +65,7 @@
 	</tr>
 <c:forEach items="${boardMainList }" var="boardMainList">
 <tr>
-	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
+	<td rowspan="2"><img class="thumbnail" src="/upload/${mainThumFile.thumbnail_url }" alt="썸네일"></td>
 	<td id='title'>
 		<a href="/board/detail?postno=${boardMainList.post.post_no }">
 		${boardMainList.post.title }

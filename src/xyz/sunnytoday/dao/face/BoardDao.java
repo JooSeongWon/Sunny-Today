@@ -141,7 +141,7 @@ public interface BoardDao {
 	 * @param post_no - 조회할 post_no를 가진 객체
 	 * @return Post - 조회된 결과 객체
 	 */
-	public Post selectBoardByPostno(Connection conn, Post post_no);
+	public Post selectPostByPostno(Connection conn, Post post_no);
 
 	/**
 	 * id를 이용해 nick을 조회한다
@@ -178,9 +178,9 @@ public interface BoardDao {
 	/**
 	 * 게시글에 첨부된 파일 기록 삭제
 	 * 
-	 * @param post - 삭제할 게시글번호를 담은 객체
+	 * @param file_no - 삭제할 게시글번호를 담은 객체
 	 */
-	public int deleteFile(Connection conn, Post post);
+	public int deleteFile(Connection conn, int file_no);
 
 	/**
 	 * 게시글 삭제
@@ -188,6 +188,23 @@ public interface BoardDao {
 	 * @param post - 삭제할 게시글번호를 담은 객체
 	 */
 	public int delete(Connection conn, Post post);
+
+	/**
+	 * postno에 맞는 file을 선택하여 삭제
+	 * 
+	 * @param conn
+	 * @param post_no - post no
+	 * @return
+	 */
+	public PostFile selectFileByPostno(Connection conn, Post post_no);
+
+	/**
+	 * postno에 맞는 file을 검색
+	 * @param conn 
+	 * @param file_no - postno이 있는 객체
+	 * @return
+	 */
+	public File selectThum(Connection conn, PostFile file_no);
 
 
 

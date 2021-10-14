@@ -54,15 +54,18 @@ $(document).ready(function() {
 	//게시글 상세보기 수정버튼 동작
 	$(".btnUpdate").click(function() {
 		console.log("click")
-//		$(location).attr("href", "/board/update?postno=${detailBoard.post_no }");
+		$(location).attr("href", "/board/update?postno=${detailBoard.post_no }");
 	});
 	
 	//게시글 상세보기 삭제버튼 동작
-	$("#btnDelete").click(function() {
-		if( confirm("게시글을 삭제하시겠습니까?") ) {
-			$(location).attr("href", "/board/delete?postno=${detailBoard.post_no }");
-		}
+	$(".btnDelete").click(function() {
+		$(location).attr("href", "/board/update?postno=${detailBoard.post_no }");
 	});
+//		showModal(게시글을 삭제하시겠습니까?, 
+//			삭제한 게시글은 복구할 수 없습니다, 
+//			$(location).attr("href", "/board/delete?postno=${detailBoard.post_no }), 
+//			$(location).attr("href", "/board/detail?postno=${detailBoard.post_no }));
+//	);
 	
 	//게시글 상세보기 뒤로가기버튼 동작
 	$("#btnList").click(function() {
@@ -78,8 +81,6 @@ $(document).ready(function() {
 	$("#btnUpdateCancel").click(function() {
 		history.go(-1);
 	});
-	
-		
 })
 
 

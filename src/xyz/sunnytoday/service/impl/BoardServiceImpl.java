@@ -348,7 +348,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		//게시글 조회
-		Post post = boardDao.selectBoardByPostno(conn, post_no); 
+		Post post = boardDao.selectPostByPostno(conn, post_no); 
 		
 		return post;
 		
@@ -541,21 +541,59 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void delete(Post post) {
+	public void delete(Post post_no) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 		
-		if( boardDao.deleteFile(conn, post) > 0 ) {
+		int postno = post_no.getPost_no();
+		System.out.println( postno );
+		
+		PostFile postFile = new PostFile();
+		postFile = boardDao.selectFileByPostno(conn, post_no);
+		
+		System.out.println(postFile);
+		
+		if( postFile != null ) {
+			
+			int file_no = postFile.getFile_no();
+			
+			if( boardDao.deleteFile(conn, file_no) > 0 ) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollback(conn);
+			}
+		}
+		
+		if( boardDao.delete(conn, post_no) > 0 ) {
 			JDBCTemplate.commit(conn);
 		} else {
 			JDBCTemplate.rollback(conn);
 		}
 		
-		if( boardDao.delete(conn, post) > 0 ) {
-			JDBCTemplate.commit(conn);
-		} else {
-			JDBCTemplate.rollback(conn);
+	}
+	
+	@Override
+	public File thumFileShow(List<Map<String, Object>> list) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		File file = new File();
+		Post post_no = new Post();
+		PostFile file_no = new PostFile();
+
+		for ( int i=0; i < list.size(); i++ ){
+			post_no = (Post) list.get(i).get("post");
 		}
+		
+		System.out.println("post_no : " + post_no.getPost_no());
+		
+		file_no = boardDao.selectFileByPostno(conn, post_no);
+		
+		System.out.println("file_no : " + file_no);
+		
+//		file = boardDao.selectThum(conn, file_no);
+		
+		return file;
 		
 	}
 		

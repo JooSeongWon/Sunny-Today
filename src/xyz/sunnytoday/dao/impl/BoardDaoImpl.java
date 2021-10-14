@@ -646,7 +646,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public Post selectBoardByPostno(Connection conn, Post post_no) {
+	public Post selectPostByPostno(Connection conn, Post post_no) {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;		
@@ -863,20 +863,20 @@ public class BoardDaoImpl implements BoardDao {
 	}
 	
 	@Override
-	public int deleteFile(Connection conn, Post post) {
+	public int deleteFile(Connection conn, int file_no) {
 		
 		PreparedStatement ps = null; 
 		
 		String sql = "";
 		sql += "DELETE file";
-		sql += " WHERE boardno = ?";
+		sql += " WHERE file_no = ?";
 				
 		int res = -1;
 		
 		try {
 			//DB작업
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, post.getPost_no());
+			ps.setInt(1, file_no);
 
 			res = ps.executeUpdate();
 			
@@ -888,6 +888,87 @@ public class BoardDaoImpl implements BoardDao {
 		}
 		
 		return res;
+	}
+	
+	@Override
+	public PostFile selectFileByPostno(Connection conn, Post post_no) {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		
+		String sql = "";
+		sql += "SELECT file_no FROM post_file";
+		sql += " WHERE post_no = ?";
+
+		PostFile postFile = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			//file이 없는 경우에는 file_no을 찾을수가 없어서 오류가 남
+			ps.setInt(1, post_no.getPost_no());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				postFile = new PostFile();
+				
+				postFile.setPost_no( rs.getInt("post_no") );
+				postFile.setFile_no( rs.getInt("file_no") );
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+				
+		return postFile;
+		
+	}
+	
+	@Override
+	public File selectThum(Connection conn, PostFile file_no) {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		
+		String sql = "";
+		sql += "SELECT * FROM \"FILE\"";
+		sql += " WHERE file_no = ?";
+
+		File file = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, file_no.getFile_no());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				file = new File();
+				
+				file.setFile_no( rs.getInt("file_no") );
+				file.setUrl( rs.getString("url") );
+				file.setThumbnail_url( rs.getString("thumbnail_url") );
+				file.setOrigin_name( rs.getString("origin_name") );
+				file.setUser_no( rs.getInt("user_no") );
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+				
+		return file;
+		
 	}
 
 

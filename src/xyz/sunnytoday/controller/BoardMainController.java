@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.common.Paging;
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
@@ -32,6 +33,15 @@ public class BoardMainController extends HttpServlet {
 
 		req.setAttribute("boardMainList", list);
 		req.setAttribute("paging", paging);
+		
+		for( Map<String, Object> e : list ) {
+			System.out.println( e );
+		}		
+		
+		File mainThumFile = boardService.thumFileShow(list);
+		req.setAttribute("mainThumFile", mainThumFile);
+
+		System.out.println("mainThumFile : " + mainThumFile );
 
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardMain.jsp").forward(req, resp);
 	}
