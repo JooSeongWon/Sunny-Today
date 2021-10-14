@@ -10,6 +10,7 @@ import java.util.List;
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.MemberMenageDao;
 import xyz.sunnytoday.dto.Member;
+import xyz.sunnytoday.dto.Report;
 import xyz.sunnytoday.util.Paging;
 
 public class MemberMenageDaoImpl implements MemberMenageDao{
@@ -17,83 +18,99 @@ public class MemberMenageDaoImpl implements MemberMenageDao{
 	private ResultSet rs = null;
 	
 	@Override
-	public int selectCntAll(Connection conn) {
-		System.out.println("selectCntAll called");
+	public int searchCnt(Connection conn, Member param, String location) {
+		System.out.println("searchCnt called");
+		System.out.println("loction : " + location );
 		String sql = "";
-		sql += "SELECT count(*) FROM member";
-		int res = 0;
-		try {
-			ps = conn.prepareStatement(sql);
-
-			rs = ps.executeQuery();
-			while(rs.next()) {
-				res = rs.getInt(1);
+		sql += "SELECT count(*) ";
+		if(location == "member") { 
+			sql += " FROM member m";
+			if(param.getNick() != null && !"".equals(param.getNick())) {
+				sql += " WHERE m.nick LIKE ?";
+			}else if(param.getUserid() != null && !"".equals(param.getUserid())) {
+				sql += " WHERE m.id LIKE ?";
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
+		}else if(location == "question") {
+			sql += " FROM private_question pq, member m";
+			sql += " WHERE pq.user_no = m.user_no";
+			if(param.getNick() != null && !"".equals(param.getNick())) {
+				sql += " AND m.nick LIKE ?";
+			}else if(param.getUserid() != null && !"".equals(param.getUserid())) {
+				sql += " AND m.id LIKE ?";
+			}
 		}
 		
-		return res;
-	}
-	
-	@Override
-	public int selectIdCntAll(Connection conn, Member param) {
-		System.out.println("selectIdCntAll called");
-
-		String sql = "";
-		sql += "SELECT count(*) FROM member";
-		sql += " WHERE id LIKE ?";
 		int res = 0;
+		
 		try {
+			int paramIdx = 1;
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + param.getUserid() + "%");
+
+			if(param.getUserid() != null && !"".equals(param.getUserid())) {
+				ps.setString(paramIdx++, "%" + param.getUserid() +"%");
+			}else if(param.getNick() != null && !"".equals(param.getNick())) {
+				ps.setString(paramIdx++, "%" + param.getNick() +"%");
+			}
+
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				res = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
+			JDBCTemplate.close(ps);		
 		}
 
 		return res;
-	}
+	}	
 	
 	@Override
-	public int selectNickCntAll(Connection conn, Member param) {
-		System.out.println("selectNickCntAll called");
-
+	public int searchReportCnt(Connection conn, Member param1, Report param2) {
+		System.out.println("searchReportCnt called");
 		String sql = "";
-		sql += "SELECT count(*) FROM member";
-		sql += " WHERE nick LIKE ?";
+		sql += "SELECT count(*) ";
+		sql += " FROM user_report ur, member m";
+		sql += " WHERE m.user_no = ur.user_no";
+		if(param1.getNick() != null && !"".equals(param1.getNick())) {
+			sql += " AND m.nick LIKE ?";
+		}else if(param1.getUserid() != null && !"".equals(param1.getUserid())) {
+			sql += " AND m.id LIKE ?";
+		}
+		if(param2.getReport_type() != null && !"".equals(param2.getReport_type())) {
+			sql += " AND ur.report_type LIKE ?";
+		}
 		int res = 0;
+		
 		try {
+			int paramIdx = 1;
 			ps = conn.prepareStatement(sql);
-			
-			ps.setString(1, "%" + param.getNick() + "%");
+
+			if(param1.getUserid() != null && !"".equals(param1.getUserid())) {
+				ps.setString(paramIdx++, "%" + param1.getUserid() +"%");
+			}else if(param1.getNick() != null && !"".equals(param1.getNick())) {
+				ps.setString(paramIdx++, "%" + param1.getNick() +"%");
+			}
+			if(param2.getReport_type() != null && !"".equals(param2.getReport_type())) {
+				ps.setNString(paramIdx, "%" + param2.getReport_type() + "%");
+			}
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				res = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
+			JDBCTemplate.close(ps);		
 		}
-		return res;
+
+		return res;	
 	}
-	
+
 	@Override
-	public List<Member> getMemberList(Connection conn, Paging paging) {
+	public List<Member> getMemberList(Connection conn, Paging paging, Member param) {
 		System.out.println("getMemberList");
 		//방문횟수 제외
 		String sql = "";
@@ -101,16 +118,28 @@ public class MemberMenageDaoImpl implements MemberMenageDao{
 		sql += " SELECT rownum rnum, B.* FROM(";
 		sql += " 	SELECT user_no, id, nick, email, create_date"; 
 		sql += "	FROM member";
+		if(param.getUserid() != null && !"".equals(param.getUserid())) {
+			sql +=	" WHERE id LIKE ?";
+		}else if(param.getNick() != null && !"".equals(param.getNick())) {
+			sql +=	" WHERE nick LIKE ?";
+		}
 		sql += "	ORDER BY user_no DESC";
 		sql += " )B ";
-		sql += ") MEMBER_BOARD";
+		sql += " ) MEMBER_BOARD";
 		sql += " WHERE rnum BETWEEN ? AND ?";
 		
 		List<Member> list = new ArrayList<>();
 		try {
+			int paramIdx = 1;
+			
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, paging.getStartNo());
-			ps.setInt(2, paging.getEndNo());
+			if(param.getUserid() != null && !"".equals(param.getUserid())) {
+				ps.setString(paramIdx++, "%" + param.getUserid() +"%");
+			}else if(param.getNick() != null && !"".equals(param.getNick())) {
+				ps.setString(paramIdx++, "%" + param.getNick() +"%");
+			}
+			ps.setInt(paramIdx++, paging.getStartNo());
+			ps.setInt(paramIdx++, paging.getEndNo());
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				Member member = new Member();
@@ -160,83 +189,5 @@ public class MemberMenageDaoImpl implements MemberMenageDao{
 		}
 		
 		return param;
-	}
-
-	@Override
-	public List<Member> searchUserId(Member param, Paging paging, Connection conn) {
-		System.out.println("searchUserId called");
-		String sql = "";
-		sql += "SELECT * FROM(";
-		sql += " SELECT rownum rnum, B.* FROM(";
-		sql += " 	SELECT user_no, id, nick, email, create_date"; 
-		sql += "	FROM member";
-		sql += "	WHERE id LIKE ?";
-		sql += "	ORDER BY user_no DESC";
-		sql += " )B ";
-		sql += ") MEMBER_BOARD";
-		sql += " WHERE rnum BETWEEN ? AND ?";
-		List<Member> list = new ArrayList<>();
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + param.getUserid() + "%");
-			ps.setInt(2, paging.getStartNo());
-			ps.setInt(3, paging.getEndNo());
-			rs = ps.executeQuery();
-			while(rs.next()) {
-				Member member = new Member();
-				member.setUserno(rs.getInt("user_no"));
-				member.setUserid(rs.getString("id"));
-				member.setNick(rs.getString("nick"));
-				member.setEmail(rs.getString("email"));
-				member.setCreate_date(rs.getDate("create_date"));
-				list.add(member);			
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		
-		return list;
-	}
-	public List<Member> searchUserNick(Member param, Paging paging, Connection conn) {
-		System.out.println("searchUserNick called");
-		String sql = "";
-		sql += "SELECT * FROM(";
-		sql += " SELECT rownum rnum, B.* FROM(";
-		sql += " 	SELECT user_no, id, nick, email, create_date"; 
-		sql += "	FROM member";
-		sql += "	WHERE nick LIKE ?";
-		sql += "	ORDER BY user_no DESC";
-		sql += " )B ";
-		sql += ") MEMBER_BOARD";
-		sql += " WHERE rnum BETWEEN ? AND ?";
-		List<Member> list = new ArrayList<>();
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + param.getNick() + "%");
-			ps.setInt(2, paging.getStartNo());
-			ps.setInt(3, paging.getEndNo());
-			rs = ps.executeQuery();
-			while(rs.next()) {
-				Member member = new Member();
-				member.setUserno(rs.getInt("user_no"));
-				member.setUserid(rs.getString("id"));
-				member.setNick(rs.getString("nick"));
-				member.setEmail(rs.getString("email"));
-				member.setCreate_date(rs.getDate("create_date"));
-				list.add(member);			
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		
-		return list;
 	}
 }

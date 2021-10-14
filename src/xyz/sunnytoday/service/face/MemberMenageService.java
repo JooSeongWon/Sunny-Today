@@ -1,11 +1,13 @@
 package xyz.sunnytoday.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Question;
+import xyz.sunnytoday.dto.Report;
 import xyz.sunnytoday.util.Paging;
 
 public interface MemberMenageService {
@@ -18,6 +20,15 @@ public interface MemberMenageService {
 	 * @return - 페이징 결과 반환
 	 */
 	public Paging getPaging(HttpServletRequest req, Member param, String location);
+	
+	/**
+	 * 리스트의 페이징 처리
+	 * @param req - Http 요청 객체
+	 * @param param1 - member DTO 객체
+	 * @param param2 - report DTO 객체
+	 * @return - 페이징 결과 반환
+	 */	
+	public Paging getReportPaging(HttpServletRequest req, Member param1, Report param2);
 	
 	/**
 	 * 회원의 세부 정보 조회
@@ -55,6 +66,50 @@ public interface MemberMenageService {
 	 * @param param - 답변을 담은 Question DTO객체
 	 */
 	public void updateAnswer(Question param);
+	
+	/**
+	 * 선택된 문의글을 모두 삭제
+	 * @param param - 삭제할 문의글의 번호를 담은 DTO 객체
+	 */
+	public void deleteQuestion(Question param);
+	
+//	/**
+//	 * 신고된 회원의 리스트를 요청
+//	 * @param param - 검색 정보를 담고 있는 member dto 객체
+//	 * @param paging - 페이징 정보 객체
+//	 * @return - 조회된 신고자 리스트
+//	 */
+//	public List<Map<String, Object>> getReportList(Member param, Paging paging);
+
+
+	/**
+	 * 선택된 신고글을 모두 삭제
+	 * @param param - 삭제할 문의글의 번호를 담은 DTO 객체
+	 */
+	public void deleteReport(Report param);
+
+	/**
+	 * 신고글의 세부사항을 조회
+	 * @param req - 클릭된 신고글의 요청 정보
+	 * @return - 반환된 세부 리스트
+	 */
+	public List<Map<String, Object>> getReportDatil(HttpServletRequest req);
+	
+	/**
+	 * 신고된 회원의 리스트를 요청
+	 * @param param1 - 검색 정보를 담고 있는 Member dto 객체
+	 * @param param2 - 검색 정보를 담고 있는 Report dto 객체
+	 * @param paging - 페이징 정보 객체
+	 * @return - 조회된 신고자 리스트
+	 */
+	public List<Map<String, Object>> getReportList(Member param1, Report param2, Paging paging);
+
+	/**
+	 * 신고 접수 / 관리자가 지정한 회원을 제재목록에 추가
+	 * @param req - 제재 일 수 및 제대 대상
+	 */
+	public void insertBan(HttpServletRequest req);
+
 	
 
 }

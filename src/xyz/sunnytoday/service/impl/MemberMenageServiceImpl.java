@@ -2,22 +2,27 @@ package xyz.sunnytoday.service.impl;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.MemberMenageDao;
 import xyz.sunnytoday.dao.face.QuestionMenageDao;
+import xyz.sunnytoday.dao.face.ReportHandlingDao;
 import xyz.sunnytoday.dao.impl.MemberMenageDaoImpl;
 import xyz.sunnytoday.dao.impl.QuestionMenageDaoImpl;
+import xyz.sunnytoday.dao.impl.ReportHandingDaoImpl;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Question;
+import xyz.sunnytoday.dto.Report;
 import xyz.sunnytoday.service.face.MemberMenageService;
 import xyz.sunnytoday.util.Paging;
 
 public class MemberMenageServiceImpl implements MemberMenageService {
 	MemberMenageDao memberDao = new MemberMenageDaoImpl();
 	QuestionMenageDao questionDao = new QuestionMenageDaoImpl();
+	ReportHandlingDao reportDao = new ReportHandingDaoImpl();
 	@Override
 	public Paging getPaging(HttpServletRequest req, Member param, String location) {
 		System.out.println("getMemberPaging called");
@@ -34,34 +39,8 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int totalCount = 0; 
-		if(location == "member") {
-			System.out.println("paging member");
-			if(param.getUserid() != null && !"".equals(param.getUserid())) {
-				//id로 조회된 총 회원 수 조회
-				totalCount = memberDao.selectIdCntAll(conn, param);
-			}else if(param.getNick() != null && !"".equals(param.getNick())) {
-				//nick으로 검색된 총 회원 수 조회
-				totalCount = memberDao.selectNickCntAll(conn, param);
-			}else {
-				//member테이블의 총 회원수 조회
-				totalCount = memberDao.selectCntAll(conn);		
-			}
-		}else if(location == "question") {
-			System.out.println("paging question");
-			if(param.getUserid() != null && !"".equals(param.getUserid())) {
-				//id로 조회된 총 회원 수 조회
-				totalCount = questionDao.selectIdCntAll(conn, param);
-			}else if(param.getNick() != null && !"".equals(param.getNick())) {
-				//nick으로 검색된 총 회원 수 조회
-				totalCount = questionDao.selectNickCntAll(conn, param);
-			}else {
-				//member테이블의 총 회원수 조회
-				totalCount = questionDao.selectCntAll(conn);		
-			}
-		}else {
-			System.out.println("location [Error]");
-		}
-		
+		totalCount = memberDao.searchCnt(conn, param, location);
+
 		//Paging 객체 생성
 		Paging paging = new Paging(totalCount, curPage);
 		
@@ -74,15 +53,8 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 	public List<Member> getUserList(Member param, Paging paging) {
 		System.out.println("getSearchUserList called");
 		Connection conn = JDBCTemplate.getConnection();
-		System.out.println("param : " + param);
-		List<Member> list = null;
-		if(param.getUserid() != null && !"".equals(param.getUserid())) {
-			list = memberDao.searchUserId(param, paging, conn);
-		}else if(param.getNick() != null && !"".equals(param.getNick())) {
-			list = memberDao.searchUserNick(param, paging, conn);
-		}else {
-			list = memberDao.getMemberList(conn, paging);
-		}
+		
+		List<Member> list = memberDao.getMemberList(conn, paging, param);
 		
 		JDBCTemplate.close(conn);
 		return list;
@@ -147,6 +119,94 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 			JDBCTemplate.rollback(conn);
 		}
 		JDBCTemplate.close(conn);
+		
+	}
+
+	@Override
+	public void deleteQuestion(Question param) {
+		System.out.println("deleteQuestion called");
+		Connection conn = JDBCTemplate.getConnection();
+		int res = 0;
+		res = questionDao.deleteQuestion(conn, param);
+		
+		if(res != 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		
+	}
+
+
+	@Override
+	public void deleteReport(Report param) {
+		System.out.println("deleteReportSerive called");
+		Connection conn = JDBCTemplate.getConnection();
+		int res = 0;
+		res = reportDao.deleteReport(conn, param);
+		
+		if(res != 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getReportDatil(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+		Report param = new Report();
+		param.setReport_no(Integer.parseInt(req.getParameter("report_no")));
+		param.setReport_type(req.getParameter("report_type"));
+		List<Map<String, Object>> mapList = reportDao.ReportDatilList(param, conn);
+		
+		JDBCTemplate.close(conn);
+		return mapList;
+	}
+
+	@Override
+	public Paging getReportPaging(HttpServletRequest req, Member param1, Report param2) {
+		System.out.println("getMemberPaging called");
+		String page = req.getParameter("curPage");
+		System.out.println("curPage : " + page );
+		int curPage = 0;
+		if(page != null && !"".equals(page)) {
+			curPage = Integer.parseInt(page);
+		}else {
+			System.out.println("[WARNING] curPage값이 null이거나 비어있음");
+		}
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int totalCount = 0; 
+		totalCount = memberDao.searchReportCnt(conn, param1, param2);
+
+		//Paging 객체 생성
+		Paging paging = new Paging(totalCount, curPage);
+		
+		JDBCTemplate.close(conn);
+		
+		return paging;
+	}
+
+	@Override
+	public List<Map<String, Object>> getReportList(Member param1, Report param2, Paging paging) {
+		Connection conn = JDBCTemplate.getConnection();
+
+		List<Map<String, Object>> mapList = reportDao.searchReportList(param1, param2, paging, conn);
+		
+		JDBCTemplate.close(conn);
+		return mapList;
+
+	}
+
+	@Override
+	public void insertBan(HttpServletRequest req) {
+		// TODO Auto-generated method stub
 		
 	}
 
