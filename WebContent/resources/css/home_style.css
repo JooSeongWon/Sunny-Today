@@ -209,9 +209,139 @@
     cursor: pointer;
 }
 
+/* schedule */
+#schedule {
+    max-width: 1200px;
+    margin: 50px auto;
+    display: flex;
+    flex-flow: column;
+}
+
+.schedule__title {
+    text-align: center;
+    color: var(--color-dark-grey);
+}
+
+.schedule-slider {
+    padding: 0 50px;
+    width: 100%;
+    user-select: none;
+    cursor: default;
+}
+
+.schedule-cards {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.schedule-cards.active {
+    cursor: grabbing;
+}
+
+.schedule-card {
+    display: inline-block;
+    width: 20%;
+    height: 300px;
+}
+
+.schedule-card:not(.schedule-card:first-child) {
+    margin-left: 30px;
+}
+
+.card__wrap {
+    border: 1px solid var(--color-dark-sky);
+    border-radius: 20%;
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    height: 100%;
+
+}
+
+.card__month {
+    text-align: center;
+    font-weight: var(--weight-bold);
+    color: var(--color-light-grey);
+}
+
+.card__top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: var(--weight-regular);
+}
+
+.card__day {
+    font-weight: var(--weight-semi-bold);
+    color: var(--color-dark-grey);
+}
+
+.card__day.holiday{
+    color: var(--color-red);
+}
+
+.card__day.saturday {
+    color: var(--color-blue);
+}
+
+.card__bottom {
+    text-align: center;
+    color: var(--color-sky);
+}
+
+.card__body {
+    height: 180px;
+}
+
+.card__forecast {
+    font-size: var(--font-micro);
+    color: var(--color-light-grey);
+}
+
+
+
 
 /* Responsive */
+@media screen and (max-width: 1000px) {
+    /* schedule */
+    .schedule-card {
+        width: 25%;
+    }
+
+    .schedule-card:not(.schedule-card:first-child) {
+        margin-left: 25px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    /* schedule */
+    .schedule-card {
+        width: 35%;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    /* schedule */
+    .schedule-card {
+        width: 40%;
+    }
+
+    .schedule-card:not(.schedule-card:first-child) {
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    /* schedule */
+    .schedule-card {
+        width: 60%;
+    }
+}
+
 @media screen and (max-width: 400px) {
+    /* weather */
     .clothes {
         display: flex;
         flex-flow: column;
@@ -241,5 +371,10 @@
 
     .weather {
         margin: auto;
+    }
+
+    /* schedule */
+    .schedule-card {
+        width: 80%;
     }
 }
