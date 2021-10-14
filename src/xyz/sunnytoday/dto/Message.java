@@ -3,60 +3,62 @@ package xyz.sunnytoday.dto;
 import java.util.Date;
 
 public class Message {
-	private int MESSAGE_NO;	
-	private int TOO;
-	private int FROMM;
-	private Date POST_DATE;
-	private String READ;
-	private String TITLE;
-	private String CONTENT;
+	private int message_no;	
+	private int too;
+	private int fromm;
+	private Date post_date;
+	private String read;
+	private String title;
+	private String content;
 	
 	@Override
 	public String toString() {
-		return "Message [MESSAGE_NO=" + MESSAGE_NO + ", TOO=" + TOO + ", FROMM=" + FROMM + ", POST_DATE=" + POST_DATE
-				+ ", READ=" + READ + ", TITLE=" + TITLE + ", CONTENT=" + CONTENT + "]";
+		return "Message [message_no=" + message_no + ", too=" + too + ", fromm=" + fromm + ", post_date=" + post_date
+				+ ", read=" + read + ", title=" + title + ", content=" + content + "]";
 	}
-	public int getMESSAGE_NO() {
-		return MESSAGE_NO;
+	public int getMessage_no() {
+		return message_no;
 	}
-	public void setMESSAGE_NO(int mESSAGE_NO) {
-		MESSAGE_NO = mESSAGE_NO;
+	public void setMessage_no(int message_no) {
+		this.message_no = message_no;
 	}
-	public int getTOO() {
-		return TOO;
+	public int getToo() {
+		return too;
 	}
-	public void setTOO(int tOO) {
-		TOO = tOO;
+	public void setToo(int too) {
+		this.too = too;
 	}
-	public int getFROMM() {
-		return FROMM;
+	public int getFromm() {
+		return fromm;
 	}
-	public void setFROMM(int fROMM) {
-		FROMM = fROMM;
+	public void setFromm(int fromm) {
+		this.fromm = fromm;
 	}
-	public Date getPOST_DATE() {
-		return POST_DATE;
+	public Date getPost_date() {
+		return post_date;
 	}
-	public void setPOST_DATE(Date pOST_DATE) {
-		POST_DATE = pOST_DATE;
+	public void setPost_date(Date post_date) {
+		this.post_date = post_date;
 	}
-	public String getREAD() {
-		return READ;
+	public String getRead() {
+		return read;
 	}
-	public void setREAD(String rEAD) {
-		READ = rEAD;
+	public void setRead(String read) {
+		this.read = read;
 	}
-	public String getTITLE() {
-		return TITLE;
+	public String getTitle() {
+		return title;
 	}
-	public void setTITLE(String tITLE) {
-		TITLE = tITLE;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getCONTENT() {
-		return CONTENT;
+	public String getContent() {
+		return content;
 	}
-	public void setCONTENT(String cONTENT) {
-		CONTENT = cONTENT;
+	public void setContent(String content) {
+		this.content = content;
 	}
+	
+	
 	
 }
