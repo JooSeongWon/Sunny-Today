@@ -465,6 +465,11 @@
 }
 
 @media screen and (max-width: 750px) {
+    /* weather */
+    .weather {
+        margin-right: 0;
+    }
+
     /* schedule */
     .schedule-card {
         width: 35%;

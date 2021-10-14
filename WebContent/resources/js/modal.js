@@ -43,8 +43,8 @@ const modalDomObj = document.createElement('div');
 const modalTitleDomObj = document.createElement('h3');
 const modalDescriptionDomObj = document.createElement('p');
 const modalButtonSetDomObj = document.createElement('div');
-const modalOkBtnDomObj = document.createElement('a');
-const modalCancelBtnDomObj = document.createElement('a');
+const modalOkBtnDomObj = document.createElement('div');
+const modalCancelBtnDomObj = document.createElement('div');
 
 //돔 트리 구성
 modalButtonSetDomObj.appendChild(modalOkBtnDomObj);
@@ -79,7 +79,8 @@ $(modalOkBtnDomObj).css({
     color: 'var(--color-blue)',
     background: 'none',
     border: '1px solid var(--color-blue)',
-    borderRadius: '4px'
+    borderRadius: '4px',
+    cursor: 'pointer'
 });
 $(modalCancelBtnDomObj).css({
     display: 'inline-block',
@@ -91,13 +92,11 @@ $(modalCancelBtnDomObj).css({
     background: 'none',
     border: '1px solid var(--color-red)',
     borderRadius: '4px',
-    marginLeft: '20px'
+    marginLeft: '20px',
+    cursor: 'pointer'
 });
 
-//버튼 콜백함수 지정, 앵커태그 링크 이동 막음
-modalOkBtnDomObj.setAttribute('href', '#');
-modalCancelBtnDomObj.setAttribute('href', '#');
-
+//버튼 콜백함수 지정
 let modalOkEvent;
 let modalCancelEvent;
 
@@ -117,10 +116,12 @@ function modalBtnClicked(callback) {
 
 //모달 띄우기
 function showModal(title, msg, okCallBack, cancelCallBack) {
+    const okCallBackT = (okCallBack === undefined) ? ()=>{} : okCallBack;
+
     modalTitleDomObj.innerText = title;
     modalDescriptionDomObj.innerText = msg;
 
-    modalOkEvent = () => modalBtnClicked(okCallBack);
+    modalOkEvent = () => modalBtnClicked(okCallBackT);
     modalOkBtnDomObj.addEventListener('click', modalOkEvent);
     modalCancelBtnDomObj.style.display = 'none';
 

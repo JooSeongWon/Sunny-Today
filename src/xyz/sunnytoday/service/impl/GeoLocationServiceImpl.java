@@ -48,7 +48,8 @@ public class GeoLocationServiceImpl implements GeoLocationService {
         int responseCode = httpURLConnection.getResponseCode();
 
         if (responseCode != 200) {
-            throw new HTTPException(responseCode);
+            System.out.println("[ERROR] 네이버 api 서버문제 혹은 모바일 데이터 위치조회 실패입니다. http 응답 코드 : " + responseCode);
+            return new String[]{"서울특별시", ""};
         }
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(), StandardCharsets.UTF_8));
