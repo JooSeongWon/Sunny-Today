@@ -140,6 +140,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		sql +=		" ORDER BY report_no DESC";
 		sql += 	" ) R";
 		sql += " ) report_board";
+		
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String, Object> map = null;
 
@@ -179,9 +180,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 				map.put("m", member);
 				map.put("p", post);
 				map.put("cm", comments);
-				
-				System.out.println(map);
-				
+				list.add(map);//빼먹지 말자		
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

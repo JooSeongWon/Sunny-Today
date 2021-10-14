@@ -46,19 +46,19 @@ $(document).ready(function(){
 	<td class="info">제목</td>
 	<td colspan="3">${map.rpc.title }</td>
 </tr>
-<!-- <tr> -->
-<%-- <c:choose> --%>
-<%-- 	<c:when test="${map.rp.report_type ne 'P' }"> --%>
-<!-- 			<td class="info">내용</td> -->
-<%-- 			<td colspan="3">${map.cm.content }</td> --%>
-<%-- 	</c:when> --%>
+<tr>
+<c:choose>
+	<c:when test="${map.rp.report_type ne 'P' }">
+			<td class="info">내용</td>
+			<td colspan="3">${map.cm.content }</td>
+	</c:when>
 
-<%-- 	<c:when test="${map.rp.report_type eq 'P' }"> --%>
-<!-- 			<td class="info">내용</td> -->
-<%-- 			<td colspan="3">${map.p.content }</td> --%>
-<%-- 	</c:when> --%>
-<%-- </c:choose> --%>
-<!-- </tr> -->
+	<c:when test="${map.rp.report_type eq 'P' }">
+			<td class="info">내용</td>
+			<td colspan="3">${map.p.content }</td>
+	</c:when>
+</c:choose>
+</tr>
 
 <tr>
 	<td class="info">신고내용</td>
@@ -96,9 +96,9 @@ $(document).ready(function(){
 
 </table>
 
-<%-- <input type="hidden" name="report_no" value="${map.rp.report_no }"/> --%>
-<%-- <input type="hidden" name="user_no" value="${map.m.userno }"> --%>
-<%-- <input type="hidden" name="report_type" value="${map.rp.report_type }"> --%>
+<input type="hidden" name="report_no" value="${map.rp.report_no }"/>
+<input type="hidden" name="user_no" value="${map.m.userno }">
+<input type="hidden" name="report_type" value="${map.rp.report_type }">
 
 </c:forEach>
 <br>
