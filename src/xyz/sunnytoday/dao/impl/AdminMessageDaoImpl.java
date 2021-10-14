@@ -297,10 +297,44 @@ public class AdminMessageDaoImpl implements AdminMessageDao {
 	      return list;
 	}
 	
-	
-	
-	
-	
+	@Override
+	public List<Member> selectByUserno(int[] userno, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Member> list = new ArrayList<>(); 
+
+		for(int i=0; i<userno.length; i++ ) {
+			int j = userno[i];
+
+			String sql = "" + "SELECT user_no, id, nick, email, create_date, admin FROM MEMBER" + " WHERE user_no = ? ";
+
+			try {
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, j);
+
+				rs = ps.executeQuery();
+
+				while (rs.next()) {
+					Member member = new Member();
+
+					member.setUserno(rs.getInt("user_no"));
+					member.setUserid(rs.getString("id"));
+					member.setNick(rs.getString("nick"));
+					member.setEmail(rs.getString("email"));
+					member.setCreate_date(rs.getDate("create_date"));
+					member.setAdmin(rs.getString("admin"));
+
+					list.add(member);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rs);
+				JDBCTemplate.close(ps);
+			}
+		}
+		return list;
+	}
 	
 	
 	

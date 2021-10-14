@@ -18,7 +18,7 @@ public interface AdminMessageService {
 	 * @param req - 요청정보 객체
 	 * @return 페이징 계산이 완료된 Paging 객체
 	 */
-	Paging getPaging(HttpServletRequest req);
+	public Paging getPaging(HttpServletRequest req);
 	
 	
 	/**
@@ -28,6 +28,21 @@ public interface AdminMessageService {
 	 * @param paging - 페이징 정보 객체
 	 * @return List<Member> - 회원 조회 결과 리스트
 	 */
-	List<Member> getlist(HttpServletRequest req, Paging paging);
+	public List<Member> getlist(HttpServletRequest req, Paging paging);
+
+	/**
+	 * 전달파라미터 얻기
+	 * 
+	 * @param req - 요청정보 객체
+	 * @return int[] - 배열로 반환
+	 */
+	public int[] getParam(HttpServletRequest req);
+
+	/**
+	 * 회원 조회
+	 * @param userno - 전달받은 유저넘버
+	 * @return List<Member> - 회원 조회 결과 리스트
+	 */
+	public List<Member> getlist(int[] userno);
 
 }

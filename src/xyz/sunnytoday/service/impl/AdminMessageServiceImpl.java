@@ -96,4 +96,30 @@ public class AdminMessageServiceImpl implements AdminMessageService {
 		
 		return list;
 	}
+	
+	@Override
+	public int[] getParam(HttpServletRequest req) {
+		String[] arr = req.getParameterValues("no[]");
+		int cnt = arr.length;
+		int[] userno = new int[cnt];
+		
+		for( int i=0; i< arr.length; i++) {
+			userno[i] = Integer.parseInt(arr[i]);
+		}
+		
+		return userno;
+	}
+	
+	@Override
+	public List<Member> getlist(int[] userno) {
+		Connection conn = JDBCTemplate.getConnection();
+		List<Member> list = null;
+		
+		list = messageDao.selectByUserno(userno , conn);
+
+		JDBCTemplate.close(conn);
+		return list;
+	}
+	
+	
 }

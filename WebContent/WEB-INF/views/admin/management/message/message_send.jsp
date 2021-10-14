@@ -43,7 +43,7 @@ $(document).ready(function(){
 	</form>
 </div>
 
-<form action="<%=request.getContextPath() %>/admin/message/write" id="send" method="post" class="form-group">
+<form action="<%=request.getContextPath() %>/admin/message/write" id="send" method="get" class="form-group">
 <table class="table">
 <tr>
 <th colspan="3"><span>&nbsp; 총 회원수 : ${paging.totalCount }</span></th>

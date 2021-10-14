@@ -86,6 +86,15 @@ public interface AdminMessageDao {
 	 */
 	public List<Member> searchEmail(Connection conn, String search, Paging paging);
 	
+	/**
+	 * Member테이블 선택회원 조회
+	 * 
+	 * @param userno - 유저 넘버
+	 * @param conn - DB연결 객체
+	 * @return List<Member> - Member테이블 조회결과 리스트
+	 */
+	public List<Member> selectByUserno(int[] userno, Connection conn);
+	
 
 
 }
