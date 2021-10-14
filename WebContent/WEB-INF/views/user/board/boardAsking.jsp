@@ -47,11 +47,6 @@
 <section class="main-board">
 <div id='full_article'>질문 응답</div>
 
-<div id="btnBox">
-	<button id="btnWrite">글쓰기</button>
-</div>
-
-
 <table>
 <thead>
 	<tr class="division">
@@ -74,12 +69,13 @@
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
-		<a href="/board/detail?postno=${boardAskingList.post.post_no }">
+		<a href="/board/detail?board=${boardAskingList.board.title }&postno=${boardAskingList.post.post_no }">
 		${boardAskingList.post.title }
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardAskingList.post.user_no }
+		<i class="far fa-smile"></i>${boardAskingList.nick }
+		<i class="far fa-smile"></i>
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>

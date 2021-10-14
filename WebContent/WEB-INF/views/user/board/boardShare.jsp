@@ -73,7 +73,7 @@
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardShareList.post.user_no }
+		<i class="far fa-smile"></i>${boardShareList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>

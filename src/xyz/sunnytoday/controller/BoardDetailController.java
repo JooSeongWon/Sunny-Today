@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Post;
+import xyz.sunnytoday.dto.PostFile;
 import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
@@ -24,6 +25,7 @@ public class BoardDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		Post post_no = boardService.getPostno(req);
+		
 		Post detailBoard = boardService.detail(post_no);
 		
 		req.setAttribute("detailBoard", detailBoard );
@@ -31,6 +33,9 @@ public class BoardDetailController extends HttpServlet {
 		
 		File detailFile = boardService.detailFile(detailBoard);
 		req.setAttribute("detailFile", detailFile);
+				
+		System.out.println("detailBoard : " + detailBoard);
+		System.out.println("detailFile : " + detailFile );
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardDetail.jsp").forward(req, resp);
 		

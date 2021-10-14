@@ -49,10 +49,6 @@
 <section class="main-board">
 <div id='full_article'>지름 게시판</div>
 
-<div id="btnBox">
-	<button id="btnWrite">글쓰기</button>
-</div>
-
 <table>
 <thead>
 	<tr class="division">
@@ -80,7 +76,7 @@
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardBuyList.post.user_no }
+		<i class="far fa-smile"></i>${boardBuyList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>

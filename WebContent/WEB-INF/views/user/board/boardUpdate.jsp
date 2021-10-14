@@ -25,14 +25,15 @@
 <c:import url="../layout/navbar.jsp"/>
 
 <div class="How_was_your_day">
-	<h2>글 작성</h2>
-	당신의 이야기를 들려주세요 :)
+	<h2>글 수정</h2>
+	놓치신게 있었나요? 편하게 고쳐주세요!
 </div>
 <hr>
 	
 <div class="writearea">
-	<form action="<%=request.getContextPath() %>/board/write" method="post" enctype="multipart/form-data">
-		<input type="text" name="title" id="writeTitle" placeholder="제목을 입력하세요"/>
+	<form action="<%=request.getContextPath() %>/board/update" method="post" enctype="multipart/form-data">
+<%-- 	<input type="hidden" name="boardno" value="${updateBoard.boardno }" /> --%>
+		<input type="text" name="title" id="writeTitle" value="${updateBoard.title }"/>
 		<hr>
 		<div>
 			<span>
@@ -51,13 +52,13 @@
 		
 		<div id="preview"></div>
 		<div>
-		<textarea name="content" id="writeContent" placeholder="내용을 입력하세요"/></textarea>
+		<textarea name="content" id="writeContent">${updateBoard.content }</textarea>
 		</div>
 		
 		<hr>
 
-		<button id="btnWriteSubmit">저장</button>
-		<button id="btnWriteCancel">취소</button>
+		<button type="button" id="btnUpdateOk">수정</button>
+		<button type="button" id="btnUpdateCancel">취소</button>
 	</form>
 </div>
 

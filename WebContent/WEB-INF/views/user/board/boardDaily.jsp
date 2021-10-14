@@ -47,10 +47,6 @@
 <section class="main-board">
 <div id='full_article'>일상룩</div>
 
-<div id="btnBox">
-	<button id="btnWrite">글쓰기</button>
-</div>
-
 
 <table>
 <thead>
@@ -79,7 +75,7 @@
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardDailyList.post.user_no }
+		<i class="far fa-smile"></i>${boardDailyList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>

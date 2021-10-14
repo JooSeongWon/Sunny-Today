@@ -9,10 +9,8 @@ $(document).ready(function() {
 		if( !files[0].type.includes("image") ) {
 			alert("이미지가 아닙니다")
 			
-			//선택한 파일 해제하기
 			e.target.value = null;
-			
-			//이벤트 처리 중단시키기
+						
 			return false;
 		}
 		
@@ -35,17 +33,49 @@ $(document).ready(function() {
 	
 	//게시글 작성 클릭	
 	$(".btnWrite").click(function() {	
-		console.log("click")
 		location.href="/board/write";
 	});
 	
-	//게시글 저장버튼 동작
+	//게시글 작성 저장버튼 동작
 	$(".btnWriteSubmit").click(function() {	
 		$("form").submit();
 	});
 	
-	//게시글 취소버튼 동작
+	//게시글 작성 취소버튼 동작
 	$(".btnWriteCancel").click(function() {
+		history.go(-1);
+	});
+	
+	//게시글 상세보기 신고버튼 동작
+	$(".btnReportCancel").click(function() {
+		
+	});
+	
+	//게시글 상세보기 수정버튼 동작
+	$(".btnUpdate").click(function() {
+		console.log("click")
+//		$(location).attr("href", "/board/update?postno=${detailBoard.post_no }");
+	});
+	
+	//게시글 상세보기 삭제버튼 동작
+	$("#btnDelete").click(function() {
+		if( confirm("게시글을 삭제하시겠습니까?") ) {
+			$(location).attr("href", "/board/delete?postno=${detailBoard.post_no }");
+		}
+	});
+	
+	//게시글 상세보기 뒤로가기버튼 동작
+	$("#btnList").click(function() {
+		history.go(-1);
+	});
+	
+	//게시글 수정버튼 동작
+	$("#btnUpdateOk").click(function() {
+		$("form").submit();
+	});
+	
+	//게시글 수정취소버튼 동작
+	$("#btnUpdateCancel").click(function() {
 		history.go(-1);
 	});
 	

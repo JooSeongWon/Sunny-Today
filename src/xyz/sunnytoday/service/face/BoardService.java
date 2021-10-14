@@ -18,7 +18,7 @@ public interface BoardService {
 	 * @param paging - 페이징 정보 객체
 	 * @return 전체 목록을 리스트로 반환
 	 */
-	public List<Post> getList(Paging paging);
+	public List<Map<String, Object>> getList(Paging paging);
 	
 	/**
 	 * 페이징 객체 생성
@@ -96,6 +96,13 @@ public interface BoardService {
 	public Post detail(Post post_no);
 	
 	/**
+	 * 주어진 postno을 이용하여 usernick을 조회한다
+	 * @param post_no - postno 를 가지고 있는 객체
+	 * @return string - usernick
+	 */
+	public String SearchNick(Post post_no);
+
+	/**
 	 * Post 객체의 id 를 이용한 닉네임 조회
 	 * 
 	 * @param detailBoard - 조회할 게시글 정보
@@ -106,10 +113,10 @@ public interface BoardService {
 	/**
 	 * 첨부파일 정보 조회
 	 * 
-	 * @param detailBoard - 첨부파일과 연결된 게시글번호를 포함한 DTO객체
-	 * @return BoardFile - 첨부파일 정보 DTO객체
+	 * @param post_no - 첨부파일과 연결된 게시글번호를 포함한 DTO객체
+	 * @return File - 첨부파일 정보 DTO객체
 	 */
-	public File detailFile(Post detailBoard);
+	public File detailFile(Post post_no);
 
 	/**
 	 * 게시글 삭제
@@ -117,5 +124,14 @@ public interface BoardService {
 	 * @param post - 삭제할 게시글 번호를 가진 객체
 	 */
 	public void delete(Post post);
+
+	/**
+	 * 게시글 수정
+	 * 
+	 * @param req - 요청 정보 객체
+	 */
+	public void update(HttpServletRequest req);
+
+
 
 }

@@ -165,12 +165,12 @@
                 int shortEnd = 0;
                 int index = 0;
             %>
-            <c:forEach var="i" begin="1" end="${requestScope.sForecast.size()}">
-                <%index++;%>
-                <c:if test="${requestScope.sForecast[requestScope.sForecast.size() - i].baseDate eq requestScope.mForecast[0].baseDate}">
-                    <%shortEnd = sForecastSize - (index + 1);%>
-                </c:if>
-            </c:forEach>
+<%--             <c:forEach var="i" begin="1" end="${requestScope.sForecast.size()}"> --%>
+<%--                 <%index++;%> --%>
+<%--                 <c:if test="${requestScope.sForecast[requestScope.sForecast.size() - i].baseDate eq requestScope.mForecast[0].baseDate}"> --%>
+<%--                     <%shortEnd = sForecastSize - (index + 1);%> --%>
+<%--                 </c:if> --%>
+<%--             </c:forEach> --%>
 
 
             <%

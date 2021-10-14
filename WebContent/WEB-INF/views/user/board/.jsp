@@ -31,30 +31,26 @@
 <hr>
 
 <div class="detailarea">
-		<div id="detailTitle">${detailBoard.title }</div>
+		<div id="detailTitle">제목</div>
 		<hr>
-		<div>	
-		<span id="detailNick">작성자: ${nick }</span>
-		<span id="btnlist">	
+		<div>
+		<p id="detailNick">작성자: 작성자nick</p>
+		<p>	
 			<button id="btnReport">신고</button>
-			<a href="/board/update?postno=${detailBoard.post_no }"><button id="btnUpdate">수정</button></a>
+			<button id="btnUpdate">수정</button>
 			<button id="btnDelete">삭제</button>
-		</span>
+		</p>
 		</div>
+			
+		<div id="preview"></div>
+		<div> content </div>
 		
-		<c:if test="${not empty detailFile }">
-		<div id="preview">
-			<img src="/upload/${detailFile.url }">
-		</div>
-		</c:if>
-		<div id="detailContent"> ${detailBoard.content } </div>
-		
-		<div id="likeList">
-		<span id="like">추천</span>
-		<span id="disLike">반대</span>		
+		<div>
+		<p>추천</p>
+		<p>반대</p>		
 		</div>	
 
-		<button id="btnList">뒤로가기</button>
+		<button id="btnList">목록으로</button>
 		<hr>
 	
 </div>

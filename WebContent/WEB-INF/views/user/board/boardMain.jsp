@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% 
-	List<Post> boardMainList = (List) request.getAttribute("boardMainList");
-%>
 
 <!doctype html>
 <html lang="ko">
@@ -29,12 +26,11 @@
 
 	<div class="How_was_your_day">
 		<h2>커뮤니티</h2>
-		당신의 오늘은 어떠셨나요?
+		당신의 오늘은 어떠셨나요 ?
 	</div>
 	<hr>
 	
 <div>
-
 <div class="menu-left">
 	<div><h2>카테고리</h2></div>
 	<div><a href="/board/main">전체 글</a></div>
@@ -44,8 +40,6 @@
 	<div><a href="/board/list/asking">질문 응답</a></div>
 	<div><a href="/board/list/mine">내가 쓴 글</a></div>
 </div>
-
-
 
 <section class="main-board">
 <div id='full_article'>전체 글</div>
@@ -73,45 +67,39 @@
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
-		<a href="/board/detail?postno=${boardMainList.post_no }">
-		${boardMainList.title }
+		<a href="/board/detail?postno=${boardMainList.post.post_no }">
+		${boardMainList.post.title }
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardMainList.user_no }
+		<i class="far fa-smile"></i>${boardMainList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>
 	</td>
 	<td rowspan="2">
-		${boardMainList.write_date }
+		${boardMainList.post.write_date }
 	</td>
 	<td rowspan="2">추천수</td>
 </tr>
 <tr>
-	<td id='content'>${boardMainList.content }</td>
+	<td id='content'>${boardMainList.post.content }</td>
 </tr>
 </c:forEach>
 </tbody>
+
 </table>
 
 </section>
+
 </div>
 
 <div class="btnWriteStart">
-<%-- <c:if test="${not empty login }"> --%>
-<%-- <form action="<%=request.getContextPath() %>/board/write"> --%>
-<!-- <button class="btnWrite">글쓰기</button> -->
-<!-- </form> -->
-<%-- </c:if> --%>
-
-<%-- <c:if test="${empty login }"> --%>
 <button class="btnWrite">글쓰기</button>
-<%-- </c:if> --%>
 </div>
 
 <div class="searchArea">
-<form action="/board/main" method="get">
+<form action="/board/Asking?search=" method="get">
 	<select name="select">
 			<option value="title" >제목</option>
 			<option value="content">본문</option>
@@ -122,9 +110,11 @@
 </form>
 </div>
 
+
 <div id='paging'>
 <c:import url="../layout/boardPaging.jsp" />
 </div>
+
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>
 </body>
