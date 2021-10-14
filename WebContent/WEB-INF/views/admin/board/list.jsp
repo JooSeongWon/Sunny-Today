@@ -52,7 +52,7 @@ $(document).ready(function() {
 	$(".checkAll").click(function() {
 		$(".checkBoard").prop("checked", this.checked );
 	});
-	
+
 	//수정버튼 동작
 	$(".btnUpdate").click(function(e) {
 		$(location).attr("href", "/SunnyToday/admin/board/update?board_no="+ $(this).attr("data-boardNo")); 
@@ -68,11 +68,10 @@ $(document).ready(function() {
 	$(".btnDelete").click(function(e) {
 		if( confirm("게시판을 삭제하시겠습니까?") ) {
 			$(location).attr("href", `/SunnyToday/admin/board/delete?board_no=\${$(this).attr("data-boardNo")}`);
-		}
+			}
 	});
-	
-	
-	
+
+
 });
 
 </script>
@@ -179,27 +178,27 @@ $(document).ready(function() {
 	<td>
 		<c:choose>
 			<c:when test="${board.list_grant eq 'N'}">전체</c:when>
-			<c:when test="${board.list_grant eq 'A'}">회원</c:when>
-			<c:when test="${board.list_grant eq 'M'}">관리자</c:when>
+			<c:when test="${board.list_grant eq 'M'}">회원</c:when>
+			<c:when test="${board.list_grant eq 'A'}">관리자</c:when>
 		</c:choose>
 	</td>
 	<td>
 		<c:choose>
 			<c:when test="${board.read_grant eq 'N'}">전체</c:when>
-			<c:when test="${board.read_grant eq 'A'}">회원</c:when>
-			<c:when test="${board.read_grant eq 'M'}">관리자</c:when>
+			<c:when test="${board.read_grant eq 'M'}">회원</c:when>
+			<c:when test="${board.read_grant eq 'A'}">관리자</c:when>
 		</c:choose>
 	</td>
 	<td>
 		<c:choose>
-			<c:when test="${board.write_grant eq 'A'}">회원</c:when>
-			<c:when test="${board.write_grant eq 'M'}">관리자</c:when>
+			<c:when test="${board.write_grant eq 'M'}">회원</c:when>
+			<c:when test="${board.write_grant eq 'A'}">관리자</c:when>
 		</c:choose>
 	</td>
 	<td>
 		<c:choose>
-			<c:when test="${board.comments_grant eq 'A'}">회원</c:when>
-			<c:when test="${board.comments_grant eq 'M'}">관리자</c:when>
+			<c:when test="${board.comments_grant eq 'M'}">회원</c:when>
+			<c:when test="${board.comments_grant eq 'A'}">관리자</c:when>
 		</c:choose>
 	</td>
 	<td>

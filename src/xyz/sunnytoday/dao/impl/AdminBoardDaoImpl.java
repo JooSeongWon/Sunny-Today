@@ -336,13 +336,13 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		//다음 게시글 번호 조회 쿼리
 		String sql = "";
 		sql += "UPDATE board";
-		sql += " SET  = comments_grant ?,";
-		sql += " 	\"LIKE\" = ?";
-		sql += " 	list_grant = ?";
-		sql += " 	read_grant = ?";
-		sql += " 	\"SHOW\" = ?";
-		sql += " 	\"TITLE\" = ?";
-		sql += " 	title_length = ?";
+		sql += " SET comments_grant = ?,";
+		sql += " 	\"LIKE\" = ?,";
+		sql += " 	list_grant = ?,";
+		sql += " 	read_grant = ?,";
+		sql += " 	\"SHOW\" = ?,";
+		sql += " 	\"TITLE\" = ?,";
+		sql += " 	title_length = ?,";
 		sql += " 	write_grant = ?";
 		sql += " WHERE board_no = ?";
 		

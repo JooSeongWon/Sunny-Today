@@ -164,7 +164,20 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		AdminBoard board = null;
 		
 		board = new AdminBoard();	
-
+		//지금 보시면 req는 가져오는데 여기서 파라미터 넘어온거 꺼내서 보드에 안넣어주고 계세요파라미터넘어온거꺼내는방법
+		//을모르겠네여..
+		
+		//예를들어 input태그 name이 title인 데이터를 가져와볼게요
+		
+		board.setComments_grant(req.getParameter("comments_grant"));
+		board.setLike(req.getParameter("like"));
+		board.setList_grant(req.getParameter("list_grant"));
+		board.setRead_grant(req.getParameter("read_grant"));
+		board.setShow(req.getParameter("show"));
+		board.setTitle(req.getParameter("title"));
+		board.setTitle_length(Integer.parseInt(req.getParameter("title_length")));
+		board.setWrite_grant(req.getParameter("write_grant"));
+		board.setBoard_no(Integer.parseInt(req.getParameter("board_no")));
 		
 		if(board != null) {
 			if( boardDao.update(conn, board) > 0 ) {

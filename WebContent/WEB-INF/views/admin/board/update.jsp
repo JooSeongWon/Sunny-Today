@@ -5,7 +5,6 @@
 <div id="body" class="container">
 <script type="text/javascript">
 $(document).ready(function() {
-	
 	//확인버튼 동작
 	$("#btnOk").click(function() {
 		
@@ -131,16 +130,34 @@ $(document).ready(function() {
 <tr>
 	<td>추천 기능</td>
 	<td>
-	
-		<input type="radio" name="like" value="${updateBoard.like}">사용
-		<input type="radio" name="like" value="${updateBoard.like}">미사용
+<!-- 	[].forEach.call(document.querySelectorAll('[name='like']') , e => if(e.value == 'Y') e.checked = true) -->
+<c:choose>
+<c:when test="${updateBoard.like eq 'Y'}">
+		<input type="radio" name="like" value="Y" checked>사용
+		<input type="radio" name="like" value="N">미사용
+</c:when>
+<c:otherwise>
+		<input type="radio" name="like" value="Y">사용
+		<input type="radio" name="like" value="N" checked>미사용
+</c:otherwise>
+</c:choose>
 	</td>
 </tr>
 <tr>
 	<td>게시물 보기</td>
 	<td>
-		<input type="radio" name="show" value="${updateBoard.show}">사용
-		<input type="radio" name="show" value="${updateBoard.show}">미사용
+	<c:choose>
+<c:when test="${updateBoard.show eq 'Y'}">
+		<input type="radio" name="show" value="Y" checked>사용
+		<input type="radio" name="show" value="N">미사용
+</c:when>
+<c:otherwise>
+		<input type="radio" name="show" value="Y">사용
+		<input type="radio" name="show" value="N" checked>미사용
+</c:otherwise>
+</c:choose>
+<%-- 		<input type="radio" name="show" value="${updateBoard.show}">사용 --%>
+<%-- 		<input type="radio" name="show" value="${updateBoard.show}">미사용 --%>
 	</td>
 </tr>
 

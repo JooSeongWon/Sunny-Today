@@ -14,24 +14,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.common.util.Paging;
 import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.AdminBoardService;
+import xyz.sunnytoday.service.face.AdminPostService;
 import xyz.sunnytoday.service.impl.AdminBoardServiceImpl;
+import xyz.sunnytoday.service.impl.AdminPostServiceImpl;
 	
 @WebServlet("/admin/post/list")
 public class AdminPostListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private AdminBoardService boardService = new AdminBoardServiceImpl();
+	private AdminPostService postService = new AdminPostServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 //		//요청파라미터를 전달하여 Paging객체 생성하기
-		Paging paging = boardService.getPaging(req);
+		Paging paging = postService.getPaging(req);
 		
-//		System.out.println("BoardListController [GET] - " + paging);
-		//페이징 정보 MODEL값 전달
+		List<Post> postList = postService.getList(paging);
+		
+//		System.out.println("PostListController [GET] - " + paging);
+		
 		req.setAttribute("paging", paging);
+		
+		req.setAttribute("postList", postList);
 
 		req.getRequestDispatcher("/WEB-INF/views/admin/post/list.jsp")
 		.forward(req, resp);
