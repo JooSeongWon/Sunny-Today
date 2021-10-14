@@ -5,6 +5,7 @@
 <%@ page import="xyz.sunnytoday.common.repository.Forecast" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!doctype html>
 <html lang="ko">
@@ -24,6 +25,9 @@
 <c:import url="../layout/header.jsp"/>
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
+
+<button onclick="test(1);">테스트1</button>
+<button onclick="test(2);">테스트2</button>
 
 <%--오늘날씨 & 의상추천--%>
 <section id="service">
@@ -58,6 +62,7 @@
                                 </c:choose>
                             </c:when>
                         </c:choose>
+                        <p class="region-description">수동으로 위치 재설정</p>
                     </div>
                     <p class="weather-card__detail">
                         <%-- span 태그들 기온/강수확률 --%>
@@ -155,8 +160,8 @@
 </section>
 
 <%--스케쥴 카드--%>
-<section class="schedule">
-    <h1>다가오는 일정</h1>
+<section id="schedule">
+    <h1 class="schedule__title">다가오는 일정</h1>
     <div class="schedule-slider">
         <div class="schedule-cards">
             <%--단기예보에서 꺼낼날씨--%>
@@ -165,9 +170,9 @@
                 int shortEnd = 0;
                 int index = 0;
             %>
-            <c:forEach var="i" begin="1" end="${requestScope.sForecast.size()}">
+            <c:forEach var="i" begin="1" end="${fn:length(requestScope.sForecast)}">
                 <%index++;%>
-                <c:if test="${requestScope.sForecast[requestScope.sForecast.size() - i].baseDate eq requestScope.mForecast[0].baseDate}">
+                <c:if test="${requestScope.sForecast[fn:length(requestScope.sForecast)  - i].baseDate eq requestScope.mForecast[0].baseDate}">
                     <%shortEnd = sForecastSize - (index + 1);%>
                 </c:if>
             </c:forEach>
@@ -183,62 +188,65 @@
                 Calendar calendar = Calendar.getInstance();
             %>
 
-            <c:if test="${pageScope.shortEnd >= 7 && requestScope.sForecast.size() > 7}">
+            <c:if test="${pageScope.shortEnd >= 7 && fn:length(requestScope.sForecast) > 7}">
                 <c:forEach var="i" begin="7" end="${pageScope.shortEnd}">
                     <%
                         calendar.add(Calendar.DATE, 1);
 
                         String addClass;
-                        if (Calendar.DAY_OF_WEEK == 1) { //일요일
+                        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                             addClass = " holiday";
-                        } else if (Calendar.DAY_OF_WEEK == 7) { //토요일
+                        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
                             addClass = " saturday";
                         } else {
                             addClass = "";
                         }
                     %>
                     <div class="schedule-card">
-                        <div class="card__month"><%=monthFormat.format(calendar.getTime())%>
-                        </div>
-                        <div class="card__top">
-                            <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
+                        <div class="card__wrap">
+                            <div class="card__month"><%=monthFormat.format(calendar.getTime())%>
                             </div>
-                            <div class="card__holiday-title"></div>
-                            <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
-                        </div>
-                        <div class="card__body"></div>
-                        <div class="card__bottom">
-                            <c:choose>
-                                <c:when test="${requestScope.sForecast[i].weather eq '맑음'}">
-                                    <i class="fas fa-sun"></i>
-                                </c:when>
-                                <c:when test="${requestScope.sForecast[i].weather eq '구름많음'}">
-                                    <c:choose>
-                                        <c:when test="${requestScope.sForecast[i].chanceOfRain >= 40}">
-                                            <i class="fas fa-cloud-sun-rain"></i>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <i class="fas fa-cloud-sun"></i>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when>
-                                <c:when test="${requestScope.sForecast[i].weather eq '흐림'}">
-                                    <c:choose>
-                                        <c:when test="${requestScope.sForecast[i].chanceOfRain >= 40}">
-                                            <i class="fas fa-cloud-showers-heavy"></i>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <i class="fas fa-cloud"></i>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when>
-                            </c:choose>
-                            <div class="card__forecast">
-                                <i class="fas fa-temperature-high temperatures"></i>
-                                <span class="weather-card__temperatures">${requestScope.sForecast[i].temperature}</span>℃
-                                &nbsp;&nbsp;
-                                <i class="fas fa-tint rain"></i>
-                                <span class="weather-card__rain">${requestScope.sForecast[i].chanceOfRain}</span>%
+
+                            <div class="card__top">
+                                <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
+                                </div>
+                                <div class="card__holiday-title"></div>
+                                <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                            </div>
+                            <div class="card__body"></div>
+                            <div class="card__bottom">
+                                <c:choose>
+                                    <c:when test="${requestScope.sForecast[i].weather eq '맑음'}">
+                                        <i class="fas fa-sun"></i>
+                                    </c:when>
+                                    <c:when test="${requestScope.sForecast[i].weather eq '구름많음'}">
+                                        <c:choose>
+                                            <c:when test="${requestScope.sForecast[i].chanceOfRain >= 40}">
+                                                <i class="fas fa-cloud-sun-rain"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="fas fa-cloud-sun"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:when test="${requestScope.sForecast[i].weather eq '흐림'}">
+                                        <c:choose>
+                                            <c:when test="${requestScope.sForecast[i].chanceOfRain >= 40}">
+                                                <i class="fas fa-cloud-showers-heavy"></i>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <i class="fas fa-cloud"></i>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                </c:choose>
+                                <div class="card__forecast">
+                                    <i class="fas fa-temperature-high temperatures"></i>
+                                    <span class="weather-card__temperatures">${requestScope.sForecast[i].temperature}</span>℃
+                                    &nbsp;&nbsp;
+                                    <i class="fas fa-tint rain"></i>
+                                    <span class="weather-card__rain">${requestScope.sForecast[i].chanceOfRain}</span>%
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -252,67 +260,140 @@
                 calendar.add(Calendar.DATE, -1);
             %>
 
-            <c:forEach var="i" begin="0" end="${requestScope.mForecast.size() -1}">
+            <c:forEach var="i" begin="0" end="${fn:length(requestScope.mForecast) -1}">
                 <%
                     calendar.add(Calendar.DATE, 1);
 
                     String addClass;
-                    if (Calendar.DAY_OF_WEEK == 1) { //일요일
+                    if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                         addClass = " holiday";
-                    } else if (Calendar.DAY_OF_WEEK == 7) { //토요일
+                    } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
                         addClass = " saturday";
                     } else {
                         addClass = "";
                     }
                 %>
                 <div class="schedule-card">
-                    <div class="card__month"><%=monthFormat.format(calendar.getTime())%>
-                    </div>
-                    <div class="card__top">
-                        <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
+                    <div class="card__wrap">
+                        <div class="card__month"><%=monthFormat.format(calendar.getTime())%>
                         </div>
-                        <div class="card__holiday-title"></div>
-                        <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
-                    </div>
-                    <div class="card__body"></div>
-                    <div class="card__bottom">
-                        <c:choose>
-                            <c:when test="${requestScope.mForecast[i].weather eq '맑음'}">
-                                <i class="fas fa-sun"></i>
-                            </c:when>
-                            <c:when test="${requestScope.mForecast[i].weather eq '구름많음'}">
-                                <c:choose>
-                                    <c:when test="${requestScope.mForecast[i].chanceOfRain >= 40}">
-                                        <i class="fas fa-cloud-sun-rain"></i>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="fas fa-cloud-sun"></i>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:when>
-                            <c:when test="${requestScope.mForecast[i].weather eq '흐림'}">
-                                <c:choose>
-                                    <c:when test="${requestScope.mForecast[i].chanceOfRain >= 40}">
-                                        <i class="fas fa-cloud-showers-heavy"></i>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="fas fa-cloud"></i>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:when>
-                        </c:choose>
-                        <div class="card__forecast">
-                            <i class="fas fa-temperature-high temperatures"></i>
-                            <span class="weather-card__temperatures">${requestScope.mForecast[i].temperature}</span>℃
-                            &nbsp;&nbsp;
-                            <i class="fas fa-tint rain"></i>
-                            <span class="weather-card__rain">${requestScope.mForecast[i].chanceOfRain}</span>%
+                        <div class="card__top">
+                            <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
+                            </div>
+                            <div class="card__holiday-title"></div>
+                            <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                        </div>
+                        <div class="card__body"></div>
+                        <div class="card__bottom">
+                            <c:choose>
+                                <c:when test="${requestScope.mForecast[i].weather eq '맑음'}">
+                                    <i class="fas fa-sun"></i>
+                                </c:when>
+                                <c:when test="${requestScope.mForecast[i].weather eq '구름많음'}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.mForecast[i].chanceOfRain >= 40}">
+                                            <i class="fas fa-cloud-sun-rain"></i>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="fas fa-cloud-sun"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when>
+                                <c:when test="${requestScope.mForecast[i].weather eq '흐림'}">
+                                    <c:choose>
+                                        <c:when test="${requestScope.mForecast[i].chanceOfRain >= 40}">
+                                            <i class="fas fa-cloud-showers-heavy"></i>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="fas fa-cloud"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when>
+                            </c:choose>
+                            <div class="card__forecast">
+                                <i class="fas fa-temperature-high temperatures"></i>
+                                <span class="weather-card__temperatures">${requestScope.mForecast[i].temperature}</span>℃
+                                &nbsp;&nbsp;
+                                <i class="fas fa-tint rain"></i>
+                                <span class="weather-card__rain">${requestScope.mForecast[i].chanceOfRain}</span>%
+                            </div>
                         </div>
                     </div>
                 </div>
             </c:forEach>
         </div>
     </div>
+</section>
+
+<section id="best-posts">
+    <div class="left">
+        <h1 class="left__title">인기 게시글</h1>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+    <%--test 더미--%>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="notice">
+            <h3 class="notice__title">공지사항</h3>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+        </div>
+
+        <div class="notice event">
+            <h3 class="notice__title">이벤트</h3>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post event">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post event">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+        </div>
+    </div>
+
 </section>
 
 <%--footer--%>
