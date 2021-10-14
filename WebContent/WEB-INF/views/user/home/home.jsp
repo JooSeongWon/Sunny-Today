@@ -26,6 +26,9 @@
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
+<button onclick="test(1);">테스트1</button>
+<button onclick="test(2);">테스트2</button>
+
 <%--오늘날씨 & 의상추천--%>
 <section id="service">
     <div class="service__wrap">
@@ -59,6 +62,7 @@
                                 </c:choose>
                             </c:when>
                         </c:choose>
+                        <p class="region-description">수동으로 위치 재설정</p>
                     </div>
                     <p class="weather-card__detail">
                         <%-- span 태그들 기온/강수확률 --%>
@@ -322,11 +326,72 @@
 </section>
 
 <section id="best-posts">
-    <div class="best-posts__left">
-
+    <div class="left">
+        <h1 class="left__title">인기 게시글</h1>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+    <%--test 더미--%>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
+        <div class="post" data-board="5" data-post="10">
+            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
+            <div class="post__title">title<span>(50)</span></div>
+            <div class="post__like-num">15</div>
+        </div>
     </div>
-    <div class="bes-posts__right">
+    <div class="right">
+        <div class="notice">
+            <h3 class="notice__title">공지사항</h3>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+        </div>
 
+        <div class="notice event">
+            <h3 class="notice__title">이벤트</h3>
+            <div class="notice-post">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post event">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+            <div class="notice-post event">
+                <div class="new-icon">N</div>
+                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
+            </div>
+        </div>
     </div>
 
 </section>

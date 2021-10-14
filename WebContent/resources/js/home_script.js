@@ -44,3 +44,17 @@ sliderContents.addEventListener('mouseup', scrollEnd);
 scheduleContents.addEventListener('mouseup', scrollEnd);
 sliderContents.addEventListener('touchend', scrollEnd);
 scheduleContents.addEventListener('touchend', scrollEnd);
+
+
+//모달 테스트
+function test(num) {
+    if (num === 1) {
+        showModal("테스트1", "테스트입니다 여긴 설명입니다."
+            , () => console.log('ok클릭!'));
+
+    } else {
+        showModal("테스트1", "테스트입니다 여긴 설명입니다.테스트입니다 여긴 설명입니다.테스트입니다 여긴 설명입니다.테스트입니다 여긴 설명입니다.테스트입니다 여긴 설명입니다.테스트입니다 여긴 설명입니다."
+            , () => console.log('ok클릭!'), () => console.log('캔슬!'));
+
+    }
+}
