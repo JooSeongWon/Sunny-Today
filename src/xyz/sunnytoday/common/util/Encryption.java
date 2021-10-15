@@ -24,7 +24,7 @@ public class Encryption {
 
         return Base64.getEncoder().encodeToString(bytes);
     }
-
+    
     //패스워드와 salt를 넣어 비밀번호 암호화시에 널리쓰이는 PBKDF2WithHmacSHA256 알고리즘으로 암호화 합니다.
     public static String encodePassword(String password, String salt) {
 
