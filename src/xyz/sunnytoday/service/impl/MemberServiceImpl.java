@@ -63,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
         resultMap.put("result", false);
 
         if (decryptParams == null) { //복호화 실패
-            resultMap.put("msg", "요청 데이터에 이상이 발견되었습니다 새로고침을 시도해보세요.");
+            resultMap.put("msg", "서버에서 데이터를 읽지 못했습니다 브라우저를 재시작 해보세요.");
             return resultMap;
         }
 

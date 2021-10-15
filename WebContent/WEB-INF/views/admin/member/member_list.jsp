@@ -24,7 +24,6 @@ $(document).ready(function(){
 		$('.ab').prop('checked', this.checked);
 	})
 });
-
 </script>
 
 <title>회원 목록</title>
