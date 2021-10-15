@@ -24,7 +24,7 @@ $(document).ready(function(){
 	});
 
 	$("#eventwrite").click(function(){
-		$(location).attr("href", "/admin/message/write");
+		$(location).attr("href", "/admin/message/event/title/write");
 	});
 	
 	$("button[name=btnUpdate]").click(function() {

@@ -10,6 +10,7 @@ import java.util.List;
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.AdminMessageDao;
 import xyz.sunnytoday.dto.Member;
+import xyz.sunnytoday.dto.Message;
 import xyz.sunnytoday.util.Paging;
 
 public class AdminMessageDaoImpl implements AdminMessageDao {
@@ -336,7 +337,11 @@ public class AdminMessageDaoImpl implements AdminMessageDao {
 		return list;
 	}
 	
-	
+	@Override
+	public int send(Connection conn, Message message) {
+		
+		return 0;
+	}
 	
 	
 	
