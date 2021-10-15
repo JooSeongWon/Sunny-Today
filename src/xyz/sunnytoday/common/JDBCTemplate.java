@@ -26,10 +26,10 @@ public class JDBCTemplate {
                 dataSource = (DataSource) context.lookup("java:comp/env/oracle.xe");
             }
             connection = dataSource.getConnection();
-            /*while (connection.isClosed()) {
+            while (connection.isClosed()) {
                 System.out.println("closedConnection = " + connection);
                 connection = dataSource.getConnection();
-            }*/
+            }
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }

@@ -11,23 +11,23 @@ import xyz.sunnytoday.dto.Member;
 
 public class MypageDaoImpl implements MypageDao {
 	
-	@Override
-	public Member selectMemberById(Connection conn, String loginUserId) {
+	@Override //완
+	public Member selectMemberByUserno(Connection conn, Member loginUser) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		String sql = ""
 			+ "SELECT NICK, EMAIL, PHONE, BIRTH "
-			+ "PICTURE_NO, BIRTH_OPEN, PHONE_OPEN"
+			+ "PICTURE_NO, BIRTH_OPEN, PHONE_OPEN, Userpw"
 			+ "FROM MEMBER"
-			+ " WHERE id = ?";
+			+ " WHERE USERNO = ?";
 		
 		Member result = null;
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			
-			ps.setString(1, loginUserId);
+			ps.setInt(1, loginUser.getUserno());
 			
 			rs = ps.executeQuery();
 			
@@ -41,6 +41,7 @@ public class MypageDaoImpl implements MypageDao {
 				result.setPictureno(rs.getInt("picture_no"));
 				result.setPhone_open(rs.getString("phone_open"));
 				result.setBirth_open(rs.getString("birth_open"));
+				result.setUserpw(rs.getString("userpw"));
 				
 			}
 			
@@ -54,7 +55,8 @@ public class MypageDaoImpl implements MypageDao {
 		return result;
 	}
 	
-	@Override
+	
+	@Override//
 	public int nickCheck(Connection conn, String nick) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -88,9 +90,8 @@ public class MypageDaoImpl implements MypageDao {
 		return result;
 	}
 	
-	
 	@Override
-	public int selectPhoneOpen(Connection conn, String phone, String loginUserId) {
+	public int selectPhoneOpen(Connection conn, String phone, Member loginUserId) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -104,7 +105,7 @@ public class MypageDaoImpl implements MypageDao {
 			ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, phone);
-			ps.setString(2, loginUserId);
+			ps.setString(2, loginUserId.getUserid());
 			
 			rs = ps.executeQuery();
 			
@@ -118,4 +119,38 @@ public class MypageDaoImpl implements MypageDao {
 		return result;
 	}
 	
+	
+	
+	@Override
+	public int updateMember(Connection conn, Member param, Member loginUserId) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int result = 0;
+		
+		String sql = ""
+			+ "UPDATE MEMBER SET (NICK, PHONE, BIRTH) "
+			+ " = ( ?, ?, ? ) "
+			+ " WHERE ID = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, param.getNick());
+			ps.setString(2, param.getPhone());
+//			ps.setDate(3, param.getBirth());
+			ps.setString(4, loginUserId.getUserid());
+			
+			rs = ps.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+
+		
+		return result;
+	}
 }

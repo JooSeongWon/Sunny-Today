@@ -5,16 +5,24 @@ import javax.servlet.http.HttpServletRequest;
 import xyz.sunnytoday.dto.Member;
 
 public interface MypageService {
+	
+	public Member getUser(HttpServletRequest req);
 
-	public Member selectMember(String loginUserId);
+	public Member selectMember(Member loginUserId);
 
+	public void update(HttpServletRequest req);
+	
 	public int nickCheck(String nick);
-
-	public int phoneOpen(String phone, String loginUserId);
-
+	
+	
+	
+	
 	public Member getchangeMember(HttpServletRequest req);
 
-	public void change(Member param);
+	public int phoneOpen(String phone, Member loginUser);
+
+	
+
 
 
 }

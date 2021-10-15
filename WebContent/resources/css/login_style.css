@@ -1,0 +1,141 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+#login {
+    display: flex;
+    align-content: center;
+    margin: 50px auto;
+    width: 400px;
+}
+
+.login-form {
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+    width: 100%;
+
+    color: var(--color-dark-grey);
+    text-align: center;
+}
+
+.login__title {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 10px;
+}
+
+.login__title h1 {
+    margin: 10px 0;
+}
+
+.join-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    height: 20px;
+    font-size: var(--font-micro);
+    text-decoration: underline;
+}
+
+.line {
+    height: 1px;
+    background-color: #616161;
+}
+
+.data {
+    display: flex;
+    width: 100%;
+    margin-top: 16px;
+    border: 1px solid var(--color-grey);
+    border-radius: 4px;
+    padding: 7px 10px;
+}
+
+.data i {
+    color: var(--color-light-grey);
+}
+
+.data__input {
+    flex-grow: 1;
+    background: none;
+    border: none;
+    margin-left: 5px;
+}
+.etc {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+}
+
+.label-keep {
+    cursor: pointer;
+}
+
+.find {
+    display: flex;
+    color: var(--color-grey);
+    user-select: none;
+    font-size: var(--font-micro);
+}
+
+.find__id,
+.find__pw {
+    cursor: pointer;
+}
+
+.buttons {
+    display: flex;
+    flex-flow: column;
+    margin-top: 24px;
+}
+
+.button {
+    height: 35px;
+    line-height: 35px;
+    border: 1px solid var(--color-light-grey);
+    border-radius: 4px;
+    margin: 8px 0;
+
+    display: flex;
+    justify-content: center;
+    position: relative;
+    font-weight: var(--weight-bold);
+    color: var(--color-white);
+    cursor: pointer;
+}
+
+#buttons__google {
+    margin-top: 0;
+}
+
+.button__logo {
+    position: absolute;
+    left: 16px;
+    bottom: 2px;
+    font-size: var(--font-medium);
+    transform: rotate(0.06turn);
+}
+
+#buttons__origin {
+    background-color: var(--color-dark-grey);
+}
+
+#buttons__naver {
+    background-color: var(--color-green);
+}
+
+#buttons__google {
+    background-color: var(--color-blue);
+}
+
+@media screen and (max-width: 450px) {
+    #login {
+        width: 100%;
+        padding: 10px;
+    }
+}
