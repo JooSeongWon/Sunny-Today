@@ -46,7 +46,7 @@ public class AdminMemberQuestion extends HttpServlet {
 		req.setAttribute("list", list);
 		req.getRequestDispatcher("/WEB-INF/views/admin/member/question.jsp").forward(req, resp);
 	}
-	@SuppressWarnings("null")
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/member/question [POST]");

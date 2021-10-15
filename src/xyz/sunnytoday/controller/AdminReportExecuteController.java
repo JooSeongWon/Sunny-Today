@@ -35,6 +35,7 @@ public class AdminReportExecuteController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 
 		memberService.insertBan(req);
+		memberService.updateExecuteResult(req);
 		resp.sendRedirect("/admin/member/report");
 	}
 }

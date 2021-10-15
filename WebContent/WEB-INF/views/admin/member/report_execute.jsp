@@ -66,9 +66,16 @@ $(document).ready(function(){
 </tr>
 
 <tr>
-	<td class="info">제재 기간</td>
-	<td colspan="3"><select name="idStop">
+	<td class="info">제재 형태 </td>
+	<td><select name="Ban_type">
 			<option value="non-subject">제재 대상 아님</option>
+			<option value="login">로그인</option>
+			<option value="write_post">게시물 작성</option>
+		</select></td>
+		
+	<td class="info">제재 기간</td>
+	<td><select name="Ban_date">
+			<option value="non">없음</option>
 			<option value="1week">1주일</option>
 			<option value="1month">1개월</option>
 			<option value="3month">3개월</option>
@@ -79,19 +86,35 @@ $(document).ready(function(){
 </tr>
 
 <c:choose>
+	<c:when test="${map.rp.execute_result ne null and map.rp.execute_result ne ''  }">
+	<tr>
+		<td class="info">처리 결과</td>
+		<td colspan="3">${map.rp.execute_result }<input type="hidden" name="memo" value="${map.rp.execute_result }"></td>
+	</tr>
+	</c:when>
+
+	<c:when test="${map.rp.execute_result eq null or map.rp.execute_result eq ''  }">
+	<tr>
+		<td class="info">처리 결과 작성</td>
+		<td colspan="3"><textarea class="form-control h-25" rows="6" name="execute_result" placeholder="insert result"></textarea></td>
+	</tr>
+	</c:when>
+</c:choose>
+
+<c:choose>
 	<c:when test="${map.rp.memo ne null and map.rp.memo ne ''  }">
 	<tr>
 		<td class="info">관리자 메모</td>
-		<td colspan="3">${map.rp.memo }</td>
+		<td colspan="3">${map.rp.memo }<input type="hidden" name="memo" value="${map.rp.memo }"></td>
+		
 	</tr>
 	</c:when>
 	<c:when test="${map.rp.memo eq null or map.rp.memo eq ''  }">
 	<tr>
 		<td class="info">관리자 메모</td>
-		<td colspan="3"><textarea name="memo" placeholder="insert memo"></textarea></td>
+		<td colspan="3"><textarea class="form-control h-25" rows="6" name="memo" placeholder="insert memo"></textarea></td>
 	</tr>
 	</c:when>
-
 </c:choose>
 
 </table>
@@ -99,6 +122,7 @@ $(document).ready(function(){
 <input type="hidden" name="report_no" value="${map.rp.report_no }"/>
 <input type="hidden" name="user_no" value="${map.m.userno }">
 <input type="hidden" name="report_type" value="${map.rp.report_type }">
+<input type="hidden" name="reason" value="${map.rpc.title }">
 
 </c:forEach>
 <br>

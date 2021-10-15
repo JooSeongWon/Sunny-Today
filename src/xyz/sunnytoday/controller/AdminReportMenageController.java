@@ -42,6 +42,8 @@ public class AdminReportMenageController extends HttpServlet {
 				param2.setReport_type("P");
 			}else if("comment".equals(category_option)){
 				param2.setReport_type("C");
+			}else {
+				param2.setReport_type(null);
 			}
 			
 			if("userid".equals(search_option)) {
@@ -50,7 +52,6 @@ public class AdminReportMenageController extends HttpServlet {
 				param1.setNick(search);
 			}	
 		}
-		
 		paging = memberService.getReportPaging(req, param1, param2);
 		list = memberService.getReportList(param1, param2, paging);
 		
@@ -66,8 +67,13 @@ public class AdminReportMenageController extends HttpServlet {
     	req.setCharacterEncoding("UTF-8");
 		String chNum = null; // 받아올 파라미터의 이름 설정
 		int count = 0;
+		String location = "report";
+		Member param = new Member();
+		
+		int cntRow = memberService.cntList(req, param, location);
+		
 		//선택한 항목의 갯 수 확인
-		for(int i=0; i < 10; i++) {
+		for(int i=0; i < cntRow; i++) {
 			chNum = "ch" + i; // 파라미터의 뒷번호를 for문으로 자동 생성
 			if(req.getParameter(chNum) != null && !"".equals(req.getParameter(chNum))) {
 				  count++; //선택된 항목이 있다면 카운트 증가
@@ -84,7 +90,7 @@ public class AdminReportMenageController extends HttpServlet {
 			int cnt = 0;
 			//요청 객체의 모든 값을 조회해야 선택된 값인지 판별이 가능합니다.
 			// -> 참고로 저는 한페이지당 10개씩 출력해서 10으로 잡았습니다. -> 바꾸셔도 됩니다.
-			for(int i=0; i < 10; i++) {
+			for(int i=0; i < cntRow; i++) {
 				chNum = "ch" + i;
 				
 				if(req.getParameter(chNum) != null && !"".equals(req.getParameter(chNum))) {
@@ -94,11 +100,11 @@ public class AdminReportMenageController extends HttpServlet {
 			}
 			
 			cnt = 0;
-			Report param = new Report();
+			Report report = new Report();
 			
 			for(int i=0; i < report_no.length; i++) {
-				param.setReport_no(report_no[i]);
-				memberService.deleteReport(param);
+				report.setReport_no(report_no[i]);
+				memberService.deleteReport(report);
 			}
 
 			

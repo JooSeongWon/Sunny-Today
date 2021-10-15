@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.ReportHandlingDao;
 import xyz.sunnytoday.dto.Comments;
@@ -29,7 +31,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		String sql ="";
 		sql += "SELECT * FROM (";
 		sql +=	" SELECT rownum rnum, R.* FROM(";
-		sql +=		" SELECT ur.report_no, rc.title, m.id, ur.report_date, ur.report_type, m.user_no";
+		sql +=		" SELECT ur.report_no, rc.title, m.id, ur.report_date, ur.report_type, m.user_no, ur.execute_result";
 		sql +=		" FROM user_report ur, member m, report_category rc";
 		sql +=		" WHERE m.user_no = ur.user_no and ur.report_c_no = rc.report_c_no";
 		
@@ -74,11 +76,14 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 				Report_Category report_c = new Report_Category();
 				Member member = new Member();
 				report.setReport_no(rs.getInt("report_no"));
-				report_c.setTitle(rs.getString("title"));
-				member.setUserno(rs.getInt("user_no"));
-				member.setUserid(rs.getString("id"));
 				report.setReport_date(rs.getDate("report_date"));
 				report.setReport_type(rs.getString("report_type"));
+				report.setExecute_result(rs.getString("execute_result"));
+				
+				report_c.setTitle(rs.getString("title"));
+				
+				member.setUserno(rs.getInt("user_no"));
+				member.setUserid(rs.getString("id"));
 				
 				map.put("rp", report);
 				map.put("rpc", report_c);
@@ -89,9 +94,6 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
 		}
 		
 		return list;
@@ -124,11 +126,12 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		String sql ="";
 		sql += "SELECT * FROM (";
 		sql +=	" SELECT rownum rnum, R.* FROM(";
-		sql +=		" SELECT ur.report_no, rc.title, m.id, m.user_no, ur.report_type, ur.report_date, ur.detail, ur.memo";
+		sql +=		" SELECT ur.report_no, rc.title, m.id, m.user_no, ur.report_type,";
+		sql +=		"ur.report_date, ur.detail, ur.memo, ur.execute_result";
 		if(param.getReport_type() != null && !"".equals(param.getReport_type())) {
-			if(param.getReport_type() == "C" && "C".equals(param.getReport_type())) {
+			if(param.getReport_type() == "C") {
 				sql +=  	" , cm.content, cm.comment_no ";
-			}else {
+			}else if(param.getReport_type() == "P"){
 				sql +=		", p.post_no, p.content";
 			}
 		}
@@ -161,25 +164,28 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 				report.setDetail(rs.getNString("detail"));
 				report.setMemo(rs.getString("memo"));
 				report.setReport_type(rs.getString("report_type"));
+				report.setExecute_result(rs.getString("execute_result"));
 				
 				report_c.setTitle(rs.getString("title"));
 				
 				member.setUserid(rs.getString("id"));
 				member.setUserno(rs.getInt("user_no"));
-				if(param.getReport_type() == "C" && "C".equals(param.getReport_type())) {
+				if(param.getReport_type() == "C") {
 					comments.setContent(rs.getString("content"));
 					comments.setComment_no(rs.getInt("comment_no"));
-	
-				}else {
+					map.put("cm", comments);
+					
+				}else if(param.getReport_type() == "P") {
 					post.setPost_no(rs.getInt("post_no"));
 					post.setContent(rs.getString("content"));
-					
+					map.put("p", post);	
 				}
+				
 				map.put("rp", report);
 				map.put("rpc", report_c);
 				map.put("m", member);
-				map.put("p", post);
-				map.put("cm", comments);
+				
+
 				list.add(map);//빼먹지 말자		
 			}
 		} catch (SQLException e) {
@@ -191,6 +197,73 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		}
 		
 		return list;
+	}
+
+	@Override
+	public int insertBan(Connection conn, HttpServletRequest req) {
+		System.out.println("insertBan called");
+		String sql = "";
+		sql += "INSERT INTO ban (ban_no, user_no, ban_type, expiry_date, reason)";
+		sql += " VALUES (ban_seq.nextval, ?, ?, sysdate + ?, ?)";
+		int res = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, Integer.parseInt(req.getParameter("user_no")));
+			if(req.getParameter("Ban_type") == "login") {
+				ps.setString(2, "L");
+			}else {
+				ps.setString(2, "W");
+			}
+			
+			if(req.getParameter("Ban_date") == "1week") {
+				ps.setInt(3, 7);
+			}else if(req.getParameter("Ban_date") == "1month") {
+				ps.setInt(3, 30);
+			}else if(req.getParameter("Ban_date") == "3month") {
+				ps.setInt(3, 90);
+			}else if(req.getParameter("Ban_date") == "1year") {
+				ps.setInt(3, 365);
+			}else{
+				ps.setInt(3, 9999);	
+			}
+			ps.setString(4, req.getParameter("reason"));
+			res = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int updateResult(Connection conn, HttpServletRequest req) {
+		System.out.println("updateResult called");
+
+		String sql = "";
+		sql += "UPDATE user_report SET execute_result = ?, memo = ?";
+		sql += " WHERE report_no = ?";
+		
+		int res = 0; 
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, req.getParameter("execute_result"));
+			ps.setString(2, req.getParameter("memo"));
+			ps.setString(3, req.getParameter("report_no"));
+			res = ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
 	}
 	
 	

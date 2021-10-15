@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Report;
 import xyz.sunnytoday.util.Paging;
@@ -36,5 +38,21 @@ public interface ReportHandlingDao {
 	 * @return - 조회된 리스트를 반환
 	 */
 	public List<Map<String, Object>> ReportDatilList(Report param, Connection conn);
+
+	/**
+	 * 제재목록에 회원 추가
+	 * @param conn - DB 연결 객체
+	 * @param req - 제재할 회원의 요청 객체
+	 * @return - 추가 성공 여부 반환
+	 */
+	public int insertBan(Connection conn, HttpServletRequest req);
+
+	/**
+	 * 신고 처리 결과를 저장
+	 * @param conn - DB 연결 객체
+	 * @param req - 저장할 정보를 담은 요청 객체
+	 * @return - 추가 성공 여부 반환
+	 */
+	public int updateResult(Connection conn, HttpServletRequest req);
 
 }

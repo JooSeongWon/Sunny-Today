@@ -11,14 +11,14 @@ public class Report {
 	private String detail;
 	private String report_type;
 	private int comment_no;
-	private String excute_result;
+	private String execute_result;
 	private String memo;
 	
 	@Override
 	public String toString() {
 		return "Report [report_no=" + report_no + ", report_c_no=" + report_c_no + ", user_no=" + user_no
 				+ ", target_no=" + target_no + ", report_date=" + report_date + ", detail=" + detail + ", report_type="
-				+ report_type + ", comment_no=" + comment_no + ", excute_result=" + excute_result + ", memo=" + memo
+				+ report_type + ", comment_no=" + comment_no + ", execute_result=" + execute_result + ", memo=" + memo
 				+ "]";
 	}
 	
@@ -70,11 +70,11 @@ public class Report {
 	public void setComment_no(int comment_no) {
 		this.comment_no = comment_no;
 	}
-	public String getExcute_result() {
-		return excute_result;
+	public String getExecute_result() {
+		return execute_result;
 	}
-	public void setExcute_result(String excute_result) {
-		this.excute_result = excute_result;
+	public void setExecute_result(String execute_result) {
+		this.execute_result = execute_result;
 	}
 	public String getMemo() {
 		return memo;

@@ -95,15 +95,16 @@ $(document).ready(function(){
 	</c:choose>
 	
 	<c:choose>
-		<c:when test="${map.rp.excute_result eq null or map.rp.excute_result eq '' }">
+		<c:when test="${map.rp.execute_result eq null or map.rp.execute_result eq '' }">
 			<td>[처리 전]</td>
 		</c:when>
 	
-		<c:when test="${map.rp.excute_result ne null and map.rp.excute_result ne '' }">
+		<c:when test="${map.rp.execute_result ne null and map.rp.execute_result ne '' }">
 			<td>[처리 완료]</td>
 		</c:when>
 
 	</c:choose>
+	
 	<td><a href="<%=request.getContextPath() %>/admin/report/execute?report_no=${map.rp.report_no }&report_type=${map.rp.report_type }">${map.rpc.title }</a></td>
 	<td>${map.m.userid }</td>
 	<td>${map.rp.report_date }</td>

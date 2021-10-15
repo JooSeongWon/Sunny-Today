@@ -45,7 +45,7 @@ $(document).ready(function(){
 </tr>
 <tr>
 	<td class="info"><br><br><br><div class="text-center">답변</div></td>
-	<td colspan="3"><textarea class="form-control h-25" rows="6" id="answer" name="answer"></textarea></td>
+	<td colspan="3"><textarea class="form-control h-25" rows="6" name="answer"></textarea></td>
 </tr>
 </table>
 <br>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import xyz.sunnytoday.dto.Ban;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Question;
 import xyz.sunnytoday.dto.Report;
@@ -109,6 +110,42 @@ public interface MemberMenageService {
 	 * @param req - 제재 일 수 및 제대 대상
 	 */
 	public void insertBan(HttpServletRequest req);
+
+	/**
+	 * 신고결과를 테이블에 저장
+	 * @param req - 저장할 결과 정보를 가진 요청 객체
+	 */
+	public void updateExecuteResult(HttpServletRequest req);
+
+	/**
+	 * 제재된 회왼의 목록을 리스트로 요청
+	 * @param param - 검색 파라미터를 담은 DTO 객체
+	 * @param paging - 페이징 객체
+	 * @return - 조회된 리스트를 반환
+	 */
+	public List<Map<String, Object>> getPurnishList(Member param, Paging paging);
+
+	/**
+	 * 선택된 회원의 정보를 제재 리스트에서 삭제하는 것으로 복구
+	 * @param param - 복구할 회원 정보
+	 */
+	public void deletePurnish(Ban param);
+
+	/**
+	 * 리스트의 갯수를 반환
+	 * @param req - Http 요청 객체
+	 * @param param - member DTO 객체
+	 * @param location - 페이징 호출 위치
+	 * @return - 게시글의 총 갯수
+	 */
+	public int cntList(HttpServletRequest req, Member param, String location);
+
+	/**
+	 * 제재된 회원의 세부 정보를 조회
+	 * @param req - 조회할 회원의 정보를 담은 요청 객체
+	 * @return - 조회된 리스트 반환
+	 */
+	public List<Map<String, Object>> getPurnishDatailList(HttpServletRequest req);
 
 	
 

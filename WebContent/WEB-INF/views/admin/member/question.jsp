@@ -68,7 +68,6 @@ $(document).ready(function(){
 <c:forEach items="${list }" var="question">
 <tr>
 	<td><input type="checkbox" name="ch<%=i %>" class="ab" value="${question.question_no }"></td>
-<%-- 	<td><input type="checkbox" name="ch" class="ab" value="<%=listMap.get(i).get("quesion_no") %>"></td> --%>
 	<td>${question.question_no }</td>
 	<c:choose>
 		<c:when test="${question.answer eq '' or question.answer eq null }">

@@ -13,6 +13,7 @@ import xyz.sunnytoday.dao.face.ReportHandlingDao;
 import xyz.sunnytoday.dao.impl.MemberMenageDaoImpl;
 import xyz.sunnytoday.dao.impl.QuestionMenageDaoImpl;
 import xyz.sunnytoday.dao.impl.ReportHandingDaoImpl;
+import xyz.sunnytoday.dto.Ban;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Question;
 import xyz.sunnytoday.dto.Report;
@@ -23,6 +24,14 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 	MemberMenageDao memberDao = new MemberMenageDaoImpl();
 	QuestionMenageDao questionDao = new QuestionMenageDaoImpl();
 	ReportHandlingDao reportDao = new ReportHandingDaoImpl();
+	@Override
+	public int cntList(HttpServletRequest req, Member param, String location) {
+		int totalCount = 0;
+		Connection conn = JDBCTemplate.getConnection();
+		totalCount = memberDao.searchCnt(conn, param, location);
+		JDBCTemplate.close(conn);
+		return totalCount;
+	}
 	@Override
 	public Paging getPaging(HttpServletRequest req, Member param, String location) {
 		System.out.println("getMemberPaging called");
@@ -35,12 +44,10 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 		}else {
 			System.out.println("[WARNING] curPage값이 null이거나 비어있음");
 		}
+		int totalCount = cntList(req, param, location); 
 		
 		Connection conn = JDBCTemplate.getConnection();
-		
-		int totalCount = 0; 
-		totalCount = memberDao.searchCnt(conn, param, location);
-
+				
 		//Paging 객체 생성
 		Paging paging = new Paging(totalCount, curPage);
 		
@@ -195,6 +202,7 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 
 	@Override
 	public List<Map<String, Object>> getReportList(Member param1, Report param2, Paging paging) {
+		System.out.println("getReportList called");
 		Connection conn = JDBCTemplate.getConnection();
 
 		List<Map<String, Object>> mapList = reportDao.searchReportList(param1, param2, paging, conn);
@@ -206,8 +214,81 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 
 	@Override
 	public void insertBan(HttpServletRequest req) {
-		// TODO Auto-generated method stub
+		System.out.println("insertBan called");
+		if(req.getParameter("Ban_type") != "non-subject" && req.getParameter("Ban_date") != "non") {
+			Connection conn =JDBCTemplate.getConnection();
 		
+			int res = 0;
+			res = reportDao.insertBan(conn, req);
+			if(res == 0) {
+				JDBCTemplate.rollback(conn);
+			}else {
+				JDBCTemplate.commit(conn);
+			}
+			JDBCTemplate.close(conn);
+		}else {
+			System.out.println("기간에 대한 요청정보가 없거나 제재대상이 없습니다.");
+			System.out.println("Ban_type : " + req.getParameter("Ban_type"));
+			System.out.println("Ban_date : " + req.getParameter("Ban_date"));
+		}
+	}
+
+	@Override
+	public void updateExecuteResult(HttpServletRequest req) {
+		Connection conn =JDBCTemplate.getConnection();
+		int res = 0;
+		if((req.getParameter("memo") != null && !"".equals(req.getParameter("memo")))  
+				|| (req.getParameter("execute_result") != null && !"".equals(req.getParameter("execute_result")))) {
+			res = reportDao.updateResult(conn, req);
+			if(res == 0) {
+				JDBCTemplate.rollback(conn);
+			}else {
+				JDBCTemplate.commit(conn);
+			}
+			JDBCTemplate.close(conn);
+		}else {
+			System.out.println("요청정보가 없습니다.");
+		}
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getPurnishList(Member param, Paging paging) {
+		System.out.println("getReportList called");
+		Connection conn = JDBCTemplate.getConnection();
+
+		List<Map<String, Object>> mapList = memberDao.searchPurnishList(param, paging, conn);
+		
+		JDBCTemplate.close(conn);
+		return mapList;
+	}
+
+	@Override
+	public void deletePurnish(Ban param) {
+		System.out.println("deletePurnishSerive called");
+		Connection conn = JDBCTemplate.getConnection();
+		int res = 0;
+		res = memberDao.deletePurnish(conn, param);
+		
+		if(res != 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		
+	}
+	@Override
+	public List<Map<String, Object>> getPurnishDatailList(HttpServletRequest req) {
+		System.out.println("getReportList called");
+		Connection conn = JDBCTemplate.getConnection();
+
+		List<Map<String, Object>> mapList = memberDao.getPurnishDetailList(req, conn);
+		
+		JDBCTemplate.close(conn);
+		return mapList;
 	}
 
 }
