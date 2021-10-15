@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException
 
+
 ;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.common.util.Paging;
-import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.service.face.AdminBoardService;
 import xyz.sunnytoday.service.impl.AdminBoardServiceImpl;
 	
@@ -29,8 +30,9 @@ public class AdminBoardListController extends HttpServlet {
 		Paging paging = boardService.getPaging(req);
 		
 		//게시글 전체 조회
-//		List<AdminBoard> boardList = boardService.getList();
-		List<AdminBoard> boardList = boardService.getList(paging);
+//		List<Board> boardList = boardService.getList();
+		
+		List<Board> boardList = boardService.getList(paging);
 		
 		int boardCount = boardService.getCount(req);
 		

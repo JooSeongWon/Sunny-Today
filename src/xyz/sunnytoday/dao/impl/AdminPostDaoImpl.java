@@ -1,60 +1,72 @@
 package xyz.sunnytoday.dao.impl;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.Paging;
 import xyz.sunnytoday.dao.face.AdminPostDao;
+import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
 
 public class AdminPostDaoImpl implements AdminPostDao{
 
-	@Override
-	public List<Post> selectAll(Connection conn, Paging paging) {
-		PreparedStatement ps = null;
+	public List<Map<String, Object>> selectAll(Connection conn, Paging paging) { 
+		
+		PreparedStatement ps = null; 
 		ResultSet rs = null;
-		
-	    String sql ="";
-	    sql += " SELECT * FROM (";
-	    sql += "	SELECT rownum rnum, POST.* FROM(SELECT post_no, b.title btitle, p.title ptitle, nick, write_date";
-	    sql += "		FROM board b";
-	    sql += "		INNER JOIN post p";
-	    sql += "		ON b.board_no = p.board_no";
-	    sql += "		INNER JOIN \"member\" m";
-	    sql += "		ON p.user_no = m.user_no";
-	    sql += "	ORDER BY post_no DESC) POST";
-	    sql += " ) BOARD";
-	    sql += " WHERE rnum BETWEEN ? AND ?";
-		
-		//결과 저장할 List
-		List<Post> postList = new ArrayList<>(); 
-		
+		String sql = "";
+		sql += " select ROWNUM, post_list.*";
+		sql += " from (select POST_NO, p.TITLE ptitle, b.TITLE btitle, WRITE_DATE, M.USER_NO, CONTENT, NICK";
+		sql += "       from POST p";
+		sql += "                inner join BOARD B";
+		sql += "                           on p.BOARD_NO = B.BOARD_NO";
+		sql += "                inner join MEMBER M";
+		sql += "                           on p.USER_NO = M.USER_NO";
+		sql += "       order by POST_NO desc) post_list";
+		sql += " where ROWNUM between ? and ?";
+
+	    List<Map<String, Object>> allList = new ArrayList<>(); 
+	    
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, paging.getStartNo());
 			ps.setInt(2, paging.getEndNo());
+//			System.out.println(paging.getStartNo());
+//			System.out.println(paging.getEndNo());
 			
 			rs = ps.executeQuery();
+			System.out.println(rs.next());
 			
 			while(rs.next()) {
-				Post p = new Post();
-				
-				p.setPost_no( rs.getInt("post_no") );
-				p.setTitle(rs.getString("btitle"));
-				p.setTitle(rs.getString("ptitle"));
-				p.setBoard_no( rs.getInt("board_no"));
-//				p.setNick(rs.getString("nick"));
-				p.setWrite_date(rs.getDate("write_date"));
-				
-				//리스트에 결과값 저장
-				postList.add(p);
-				
+				Map<String, Object> map = new HashMap<>();
+				Post post = new Post();
+				Board b = new Board();
+				Member member = new Member();
+				post.setPost_no( rs.getInt("post_no"));
+				post.setTitle(rs.getString("ptitle"));
+				b.setTitle(rs.getString("btitle"));
+				post.setWrite_date(rs.getDate("write_date"));
+				post.setUser_no(rs.getInt("user_no"));
+				member.setUserno(post.getUser_no());
+				post.setContent(rs.getString("content"));
+				member.setNick(rs.getString("nick"));
+//				
+//				//리스트에 결과값 저장
+				map.put("post",post);
+				map.put("board",b);
+				map.put("member",member);
+//				
+				allList.add(map);
 			}
 			
 		} catch (SQLException e) {
@@ -64,61 +76,10 @@ public class AdminPostDaoImpl implements AdminPostDao{
 			JDBCTemplate.close(ps);
 		}
 		
-		return postList;
+		return allList;
 	}
+
 	
-//	@Override
-//	public List<Post> selectAll(Connection conn, Paging paging) {
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//	
-//		String sql = "";
-//		sql += "SELECT * FROM (";
-//		sql += "	SELECT rownum rnum, B.* FROM (";
-//		sql += "		SELECT";
-//		sql += "		*";
-//		sql += "		FROM post";
-//		sql += "		ORDER BY post_no DESC";
-//		sql += "	) B";
-//		sql += " ) POST";
-//		sql += " WHERE rnum BETWEEN ? AND ?";
-//		
-//		//결과 저장할 List
-//		List<Post> postList = new ArrayList<>(); 
-//		
-//		try {
-//			ps = conn.prepareStatement(sql);
-//			ps.setInt(1, paging.getStartNo());
-//			ps.setInt(2, paging.getEndNo());
-//			
-//			rs = ps.executeQuery();
-//			
-//			while(rs.next()) {
-//				Post p = new Post();
-//				
-//				p.setPost_no( rs.getInt("post_no") );
-//				p.setBoard_no( rs.getInt("board_no"));
-////				p.setUser_no(rs.getInt("uesr_no"));
-//				p.setWrite_date(rs.getDate("write_date"));
-//				p.setLast_modify(rs.getDate("last_modify"));
-//				p.setTitle(rs.getString("title"));
-//				p.setContent(rs.getString("content"));
-//				p.setHit(rs.getInt("hit"));
-//				
-//				//리스트에 결과값 저장
-//				postList.add(p);
-//				
-//			}
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			JDBCTemplate.close(rs);
-//			JDBCTemplate.close(ps);
-//		}
-//		
-//		return postList;
-//	}
 
 	@Override
 	public int selectCntAll(Connection conn) {
@@ -149,5 +110,184 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		}
 		
 		return count;	
+	}
+	@Override
+	public Post selectPostByPostno(Connection conn, Post postno) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//SQL 작성
+		String sql = "";
+		sql += "SELECT * FROM post";
+		sql += " WHERE post_no = ?";
+		
+		//결과 저장할 Post객체
+		Post viewpost = null;
+		Board board = null;
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			
+			ps.setInt(1, postno.getPost_no()); //조회할 게시글 번호 적용
+			
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			
+			//조회 결과 처리
+			while(rs.next()) {
+				viewpost = new Post(); //결과값 저장 객체
+				
+				//결과값 한 행 처리
+				viewpost.setPost_no(rs.getInt("post_no"));
+				viewpost.setTitle(rs.getString("title"));
+//				카테고리
+//				닉네임
+				viewpost.setContent(rs.getString("content"));
+				viewpost.setWrite_date(rs.getDate("write_date"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//최종 결과 반환
+		return viewpost;	
+	}	
+	
+	@Override
+	public String selectNickByid(Connection conn, Post viewPost) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;		
+		
+		//SQL 작성
+		String sql = "";
+		sql += "SELECT nick FROM member";
+		sql += " WHERE user_no = ?";
+		
+		//결과 저장할 String 변수
+		String nick = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, viewPost.getUser_no()); //조회할 no 적용
+			
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			
+			//조회 결과 처리
+			while(rs.next()) {
+				nick = rs.getString("nick");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//최종 결과 반환
+		return nick;
+		
+	}
+
+
+	@Override
+	public int selectNextBoardno(Connection conn) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int insertFile(Connection conn, File postFile) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public File selectFile(Connection conn, File viewBoard) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int deleteFile(Connection conn, Post post) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int insert(Connection conn, Post post) {
+		// post/write에 값입력 쿼리
+		
+		PreparedStatement ps = null;
+		
+		//다음 게시글 번호 조회 쿼리
+		String sql = "";
+		sql += "INSERT INTO POST(POST_NO, BTITLE, FTITLE, NICK, CONTENT)";
+		sql += " VALUES (?, ?, ?, ?, ?)";
+		
+//		sql += " VALUES (post_seq.nextval, ?, ?, ?, 0)";
+		
+		int res = 0;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, post.getPost_no());
+			ps.setString(2, post.getTitle());
+			ps.setString(3, post.getTitle());
+//			ps.setString(4, post.getNick());
+//			ps.setString(5, post.getContent());
+			
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;	
+	}
+
+
+	@Override
+	public int update(Connection conn, Post post) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int delete(Connection conn, Post post) {
+		
+		String sql = "";
+		sql += "DELETE post";
+		sql += " WHERE post_no = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null; 
+		
+		int res = -1;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, post.getPost_no());
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
 	}
 }

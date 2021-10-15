@@ -9,7 +9,7 @@ import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.Paging;
 import xyz.sunnytoday.dao.face.AdminBoardDao;
 import xyz.sunnytoday.dao.impl.AdminBoardDaoImpl;
-import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.service.face.AdminBoardService;
 
 public class AdminBoardServiceImpl implements AdminBoardService {
@@ -17,10 +17,10 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	private AdminBoardDao boardDao = new AdminBoardDaoImpl();
 
 	@Override
-	public List<AdminBoard> getList() {
+	public List<Board> getList() {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		List<AdminBoard> boardList = boardDao.selectAll(conn);
+		List<Board> boardList = boardDao.selectAll(conn);
 		//Board 테이블의 총 게시글 수를 조회한다
 		
 		JDBCTemplate.close(conn);
@@ -29,11 +29,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public List<AdminBoard> getList(Paging paging) {
+	public List<Board> getList(Paging paging) {
 		Connection conn = JDBCTemplate.getConnection();
 
 		//게시글 전체 조회 결과 처리 - 페이징 추가
-		List<AdminBoard> getList = boardDao.selectAll(conn, paging);
+		List<Board> getList = boardDao.selectAll(conn, paging);
 		
 		JDBCTemplate.close(conn);
 		return getList;
@@ -86,9 +86,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 	
 	@Override
-	public AdminBoard getBoardno(HttpServletRequest req) {
+	public Board getBoardno(HttpServletRequest req) {
 		//boardno를 저장할 객체 생성
-		AdminBoard boardno = new AdminBoard();
+		Board boardno = new Board();
 		
 		//boardno 전달파라미터 검증 - null, ""
 		String param = req.getParameter("board_no");
@@ -103,20 +103,20 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 	
 	@Override
-	public AdminBoard view(AdminBoard board_no) {
+	public Board view(Board board_no) {
 		
 		Connection conn = JDBCTemplate.getConnection();
 
-		AdminBoard board = boardDao.selectBoardByBoardno(conn, board_no); 
+		Board board = boardDao.selectBoardByBoardno(conn, board_no); 
 		
 		JDBCTemplate.close(conn);
 		return board;
-		}
+	}
 	
 	@Override
 	public void write(HttpServletRequest req) {
 
-		AdminBoard bor = new AdminBoard();
+		Board bor = new Board();
 			
 //		bor.setBoard_no(Integer.parseInt(req.getParameter("board_no")) );
 //		bor.setIndex(0);
@@ -144,7 +144,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public void deleteByAdBoard(AdminBoard board) {
+	public void deleteByAdBoard(Board board) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		if( boardDao.delete(conn, board) > 0 ) {
@@ -161,9 +161,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public void updateByAdBoard(HttpServletRequest req) {
 		Connection conn = JDBCTemplate.getConnection();
 
-		AdminBoard board = null;
+		Board board = null;
 		
-		board = new AdminBoard();	
+		board = new Board();	
 		//지금 보시면 req는 가져오는데 여기서 파라미터 넘어온거 꺼내서 보드에 안넣어주고 계세요파라미터넘어온거꺼내는방법
 		//을모르겠네여..
 		

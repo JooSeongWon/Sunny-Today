@@ -5,6 +5,7 @@ import java.io.IOException
 ;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,20 +29,19 @@ public class AdminPostListController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
 //		//요청파라미터를 전달하여 Paging객체 생성하기
-		Paging paging = postService.getPaging(req);
+		Paging paging = postService.getPaging(req);		
+		List<Map<String, Object>> allList = postService.getList(req, paging);
 		
-		List<Post> postList = postService.getList(paging);
+		System.out.println(allList);
 		
-//		System.out.println("PostListController [GET] - " + paging);
 		
-		req.setAttribute("paging", paging);
-		
-		req.setAttribute("postList", postList);
+//		allList.forEach(System.out::println);
 
-		req.getRequestDispatcher("/WEB-INF/views/admin/post/list.jsp")
-		.forward(req, resp);
+		req.setAttribute("paging", paging);
+		req.setAttribute("allList", allList);
+		
+		req.getRequestDispatcher("/WEB-INF/views/admin/post/list.jsp").forward(req, resp);
 	}
 	
 }

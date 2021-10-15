@@ -1,6 +1,8 @@
 package xyz.sunnytoday.service.face;
 
+
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,8 +11,18 @@ import xyz.sunnytoday.dto.Post;
 
 public interface AdminPostService {
 
-	public List<Post> getList(Paging paging);
-
+	public List<Map<String, Object>> getList(HttpServletRequest req, Paging paging);
+	
 	public Paging getPaging(HttpServletRequest req);
+
+	public Post getPostno(HttpServletRequest req);
+	
+	public Post view(Post postno);
+	
+	public String getNick(Post viewPost);
+	
+	public void write(HttpServletRequest req);
+	
+	public void deletePost(Post post);
 
 }

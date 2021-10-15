@@ -12,12 +12,12 @@ import java.util.List;
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.Paging;
 import xyz.sunnytoday.dao.face.AdminBoardDao;
-import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.dto.Board;
 
 public class AdminBoardDaoImpl implements AdminBoardDao {
 
 	@Override
-	public List<AdminBoard> selectAll(Connection conn) {
+	public List<Board> selectAll(Connection conn) {
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -26,14 +26,14 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		sql += "SELECT * FROM board";
 		sql += " ORDER BY board_no DESC";
 		
-		List<AdminBoard> boardList = new ArrayList<>();
+		List<Board> boardList = new ArrayList<>();
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				AdminBoard b = new AdminBoard(); 
+				Board b = new Board(); 
 				b.setBoard_no( rs.getInt("board_no") );
 				b.setComments_grant( rs.getString("comments_grant"));
 				b.setIndex(rs.getInt("index"));
@@ -58,7 +58,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 	}
 
 	@Override
-	public List<AdminBoard> selectAll(Connection conn, Paging paging) {
+	public List<Board> selectAll(Connection conn, Paging paging) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 	
@@ -79,7 +79,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		sql += " WHERE rnum BETWEEN ? AND ?";
 		
 		//결과 저장할 List
-		List<AdminBoard> boardList = new ArrayList<>(); 
+		List<Board> boardList = new ArrayList<>(); 
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -89,7 +89,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				AdminBoard b = new AdminBoard();
+				Board b = new Board();
 				
 				b.setBoard_no( rs.getInt("board_no") );
 				b.setComments_grant( rs.getString("comments_grant"));
@@ -211,7 +211,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 	}
 
 	@Override
-	public AdminBoard selectBoardByBoardno(Connection conn, AdminBoard board_no) {
+	public Board selectBoardByBoardno(Connection conn, Board board_no) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -221,7 +221,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		sql += " WHERE board_no = ?";
 		
 		//결과 저장할 Board객체
-		AdminBoard viewBoard = null;
+		Board viewBoard = null;
 		
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
@@ -232,7 +232,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 			
 			//조회 결과 처리
 			while(rs.next()) {
-				viewBoard = new AdminBoard(); //결과값 저장 객체
+				viewBoard = new Board(); //결과값 저장 객체
 				
 				//결과값 한 행 처리
 				viewBoard.setBoard_no( rs.getInt("board_no") );
@@ -261,7 +261,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 	}
 	
 	@Override
-	public int insert(Connection conn, AdminBoard board) {
+	public int insert(Connection conn, Board board) {
 		
 		PreparedStatement ps = null;
 		
@@ -269,10 +269,10 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		String sql = "";
 		sql += "INSERT INTO board(board_no, comments_grant, \"LIKE\"";
 		sql += " , list_grant, read_grant, \"SHOW\", \"TITLE\"";
-		sql += " , title_length, write_grant";
+		sql += " , title_length, write_grant, \"INDEX\"";
 //		sql += "FROM BOARD)";
 		sql += " )";
-		sql += " VALUES (board_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
+		sql += " VALUES (board_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		int res = 0;
 		
@@ -288,7 +288,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 			ps.setString(6, board.getTitle());
 			ps.setInt(7, board.getTitle_length());
 			ps.setString(8, board.getWrite_grant());
-//			ps.setInt(9, board.getIndex());
+			ps.setInt(9, board.getIndex());
 			
 			res = ps.executeUpdate();
 			
@@ -303,7 +303,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 	}
 
 	@Override
-	public int delete(Connection conn, AdminBoard board) {
+	public int delete(Connection conn, Board board) {
 		//다음 게시글 번호 조회 쿼리
 		String sql = "";
 		sql += "DELETE board";
@@ -332,8 +332,8 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 	}
 
 	@Override
-	public int update(Connection conn, AdminBoard board) {
-		//다음 게시글 번호 조회 쿼리
+	public int update(Connection conn, Board board) {
+		
 		String sql = "";
 		sql += "UPDATE board";
 		sql += " SET comments_grant = ?,";

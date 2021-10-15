@@ -29,7 +29,6 @@ $(document).ready(function() {
 			$(location).attr("href", `/SunnyToday/admin/post/delete?post_no=\${$(this).attr("data-postNo")}`);
 		}
 	});
-	
 });
 
 </script>
@@ -51,7 +50,7 @@ $(document).ready(function() {
         display:block;
 }
 #searchTb {
-        width:600px;
+       width:720px;
         margin:auto;
 }
 </style>
@@ -75,9 +74,18 @@ $(document).ready(function() {
 <tr>
 	<td class="col-xs-3">등록일</td>
 		<td>
-			시작일~종료일 오늘 어제 1주일 1개월
+			<input type="date" height="10"> ~
+      		<input type="date">
+      		<button>오늘</button>
+      		<button>어제</button>
+      		<button>일주일</button>
+      		<button>한달</button>
+      		
 		</td>
+
+</td>
 </tr>
+
 <tr>
 	<td class="col-xs-3">키워드검색</td>
 		<td>
@@ -109,16 +117,37 @@ $(document).ready(function() {
 	<th>작성일</th>
 	<th>삭제</th>
 </tr>
-	
+
+<%-- ${postList}  --%>
+<%-- ${postList[0].post} --%>
+<%-- ${postList[1].post} --%>
+
+<%-- ${postList } --%>
+<%-- ${ postList[0].board.title} --%>
+<%-- ${postList}  --%>
+<%-- ${posrList[0].post.write_date } --%>
+
+<%-- ${allList.post_no } --%>
+<%-- ${allList[0]} --%>
+<%-- ${allList[0].post_no} --%>
+<%-- ${allList[1].post_no} --%>
+<%-- ${allList[1].post.post_no} --%>
+<%-- ${post } --%>
+<%-- ${board } --%>
+<%-- ${allList[0].title } --%>
+
+<%-- ${allList.post.title } --%>
+
+<%-- ${allList } --%>
 <form action="Admin/post/list" method="post">
-<c:forEach items="${postList }" var="post">
+<c:forEach items="${allList }" var="item">
 <tr>
 	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td>
-	<td>${post.post_no}</td> 
-	<td>${post.category }</td>
-	<td>${post.title }</td>
-	<td>${post.user_no}</td>
-	<td>${post.write_date }</td>
+	<td>${item.post.post_no } </td>
+	<td>${item.board.title}</td>
+	<td>${item.post.title }</td>
+	<td>${item.member.nick }</td>
+	<td>${item.post.write_date }</td>
 	<td>	
 		<button type="button" class="btn btn-danger btn-sm btnDelete" data-postNo="${post.post_no}">삭제</button>
 	</td>
@@ -126,7 +155,6 @@ $(document).ready(function() {
 </c:forEach>
 </form>
 </table>
-
 
 <c:import url="/WEB-INF/views/admin/post/paging.jsp" />
 

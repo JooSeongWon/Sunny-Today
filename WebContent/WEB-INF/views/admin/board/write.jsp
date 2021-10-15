@@ -41,7 +41,8 @@ $(document).ready(function() {
 			
 <table class="table table-bordered">
 <tr>
-	<td class="col-xs-2">카테고리명</td><td><input type="text" name="title"></td>
+	<td class="col-xs-2">카테고리명</td>
+	<td><input type="text" name="title"></td>
 </tr>
 
 <tr>
