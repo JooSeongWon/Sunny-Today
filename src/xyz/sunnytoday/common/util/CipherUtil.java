@@ -90,7 +90,7 @@ public class CipherUtil {
 
             return parameterMap;
         } catch (Exception e) {
-            System.out.println("[ERROR] RSA 복호화 실패 - 서버를 리로드 한경우 세션에 키가 다를 수 있으니 새로고침해주세요.");
+            System.out.println("[ERROR] RSA 복호화 실패");
         }
 
         return null;

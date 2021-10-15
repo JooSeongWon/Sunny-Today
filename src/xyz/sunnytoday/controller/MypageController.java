@@ -7,8 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
-import javax.xml.ws.Response;
 
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
