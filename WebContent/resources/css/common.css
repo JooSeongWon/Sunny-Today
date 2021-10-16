@@ -7,6 +7,10 @@
     --color-grey: #bebebe;
     --color-dark-grey: #616161;
     --color-light-grey: #d9d6d2;
+    --color-red: #ff4f4f;
+    --color-blue: #4f78ff;
+    --color-yellow: #f8ff6e;
+    --color-green: #1cb82e;
 
     /*아연님 사용컬러*/
     --color-sky: #b4cdef;
@@ -195,6 +199,7 @@ footer {
     color: var(--color-white);
     z-index: 9;
 }
+
 .top.active {
     display: block;
 }

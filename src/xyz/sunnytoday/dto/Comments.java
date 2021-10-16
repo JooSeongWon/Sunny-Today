@@ -1,5 +1,6 @@
 package xyz.sunnytoday.dto;
 
+<<<<<<< HEAD
 import java.sql.Date;
 
 public class Comments {
@@ -7,11 +8,19 @@ public class Comments {
 	private int comments_no;
 	private int post_no;
 	private int user_no;
+=======
+import java.util.Date;
+
+public class Comments {
+	private int comment_no;
+	private int post_no;
+>>>>>>> 562d24dceefc85b981c48708d67ee3326946d084
 	private Date write_date;
 	private Date last_modify;
 	private String content;
 	@Override
 	public String toString() {
+<<<<<<< HEAD
 		return "Comments [comments_no=" + comments_no + ", post_no=" + post_no + ", user_no=" + user_no
 				+ ", write_date=" + write_date + ", last_modify=" + last_modify + ", content=" + content + "]";
 	}
@@ -20,6 +29,16 @@ public class Comments {
 	}
 	public void setComments_no(int comments_no) {
 		this.comments_no = comments_no;
+=======
+		return "Comments [comment_no=" + comment_no + ", post_no=" + post_no + ", write_date=" + write_date
+				+ ", last_modify=" + last_modify + ", content=" + content + "]";
+	}
+	public int getComment_no() {
+		return comment_no;
+	}
+	public void setComment_no(int comment_no) {
+		this.comment_no = comment_no;
+>>>>>>> 562d24dceefc85b981c48708d67ee3326946d084
 	}
 	public int getPost_no() {
 		return post_no;
@@ -27,12 +46,15 @@ public class Comments {
 	public void setPost_no(int post_no) {
 		this.post_no = post_no;
 	}
+<<<<<<< HEAD
 	public int getUser_no() {
 		return user_no;
 	}
 	public void setUser_no(int user_no) {
 		this.user_no = user_no;
 	}
+=======
+>>>>>>> 562d24dceefc85b981c48708d67ee3326946d084
 	public Date getWrite_date() {
 		return write_date;
 	}
@@ -51,6 +73,10 @@ public class Comments {
 	public void setContent(String content) {
 		this.content = content;
 	}
+<<<<<<< HEAD
 
 
+=======
+		
+>>>>>>> 562d24dceefc85b981c48708d67ee3326946d084
 }

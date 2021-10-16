@@ -244,6 +244,7 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 	}
 	@Override
 	public int setUpdateAnswer(Connection conn, Question param) {
+		System.out.println("setUpdateAnswer called");
 		String sql = "";
 		sql += "UPDATE private_question set answer= ?, answer_date=sysdate";
 		sql += " WHERE question_no = ?";
@@ -256,6 +257,31 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public int deleteQuestion(Connection conn, Question param) {
+		System.out.println("deleteQuestion");
+		String sql = "";
+		sql += "DELETE FROM private_question";
+		sql += " WHERE question_no = ?";
+		int res = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, param.getQuestion_no());
+			res = ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
 		}
 		return res;
 	}

@@ -32,5 +32,6 @@
 </script>
 <script src="${requestScope.jsPath}/jquery-2.2.4.min.js"></script>
 <script src="${requestScope.jsPath}/common.js" defer></script>
+<script src="${requestScope.jsPath}/modal.js" defer></script>
 <%-- common style --%>
 <link rel="stylesheet" href="${requestScope.cssPath}/common.css">

@@ -11,9 +11,31 @@
     <title>오늘도 맑음 -뭐입지?</title>
     
     <%--페이지별 css/ js--%>
-    <link href="${cssPath}/mypage_style.css" rel="stylesheet">
-    <script src="${jsPath}/mypage_script.js"></script>
-    
+    <link href="${cssPath}/mypage2_style.css" rel="stylesheet">
+
+<script type="text/javascript">
+    $(document).ready(function(){
+    	$("#btn-check").click(function() {
+			console.log($("#btn-check").prop('checked') )
+		})
+    	
+    	$("#btnsubmit").click(function(){
+    		if($("#btn-check").prop('checked') == false){
+    			showModal("오늘도 맑음", "이용약관을 확인해주세요" )
+    			return;
+    		} else{
+    		$("#form").submit();
+    		}
+    		
+	    });
+    });
+</script>
+
+<style type="text/css">
+#content {
+	width: 98%;
+}
+</style>
 </head>
 <body>
 
@@ -24,57 +46,23 @@
 
 <div class="mypage-container">
 
+
 <div class="mypage">
-	<ul class="mypage_list">
-		<a href="<%=request.getContextPath() %>/mypage">
-			<li class="mypage_item" >프로필 수정</li>
-		</a>
-		<a href="<%=request.getContextPath() %>/taste">
-			<li class="mypage_item" >추가정보수정</li>
-		</a>
-		<a href="<%=request.getContextPath() %>/mypage/password">
-			<li class="mypage_item" >비밀번호 변경</li>
-		</a>
-		<a href="<%=request.getContextPath() %>/mypage/leaveid">
-			<li class="mypage_item" >회원탈퇴</li>
-		</a>
-	</ul>
-	
 	<div class="profile-container">
-	
-	<form action="/mypage" method="post" class="profile_form">
+	<div style="text-align: left;" ><h1>&nbsp;&nbsp;회원탈퇴</h1></div>
+	<hr>
+	<div style="text-align: left;" ><span>&nbsp;&nbsp;약관동의</span></div>
+	<form action="/leaveid" method="post" class="profile_form" enctype="multipart/form-data" >
 	<table class="profile_table">
 		<tr class="profile_list">
-			<td colspan="2" class="profile_item">
-				<div class="profile-img">프로필사진</div>
-			</td>
+			<td class="profile_item"><textarea readonly>이용약관</textarea></td>
 		</tr>
 		<tr class="profile_list">
-			<td class="profile_item" >닉네임</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="nick"/></td>
-			<td class="profile_item" ><input type="button" id="btn-check" value="중복검사"/></td>
-		</tr>
-		<tr class="profile_list">
-			<td class="profile_item" >전화번호</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="phone"/></td>
-			<td class="profile_item" >
-			<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-phone"/>
-				<span class="slider round"></span>
-			</label>
-			</td>
-		</tr>
-		<tr class="profile_list">
-			<td class="profile_item" >생년월일</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="birth"/></td>
-			<td class="profile_item" >
-				<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-birth"/>
-				<span class="slider round"></span>
-			</label>
-			</td>
+			<td class="profile_item" ><input type="checkbox" id="btn-check" class="buttonClass"/> 동의</td>
 		</tr>
 	</table>
+		<div><button type="button" id="btnsubmit" class="buttonClass">탈퇴하기</button></div>
+		<div><input type="text" style="visibility: hidden;" ></div>
 	</form>
 	</div>
 </div>

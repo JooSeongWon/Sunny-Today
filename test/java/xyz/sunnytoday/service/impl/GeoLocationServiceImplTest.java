@@ -23,6 +23,12 @@ class GeoLocationServiceImplTest {
                 System.out.println("response[" + i + "] = " + response[i]);
             }
 
+            response = geoLocationService.requestGeoLocationData("58.77.135.71");
+
+            for (int i = 0; i < response.length; i++) {
+                System.out.println("response[" + i + "] = " + response[i]);
+            }
+
             response = geoLocationService.requestGeoLocationData("106.102.128.15");
 
             for (int i = 0; i < response.length; i++) {
