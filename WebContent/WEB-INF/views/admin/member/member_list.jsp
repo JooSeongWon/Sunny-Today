@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 </form>
 
-<form action="<%=request.getContextPath()%>/admin/member/purnish" method="post" id="purnish">
+<form action="<%=request.getContextPath()%>/admin/member/list" method="post" id="purnish">
 <table class="table" id="member_table">
 <thead>
 <tr>
