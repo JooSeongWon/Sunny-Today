@@ -1,31 +1,31 @@
 package xyz.sunnytoday.service.face;
 
-import java.sql.Connection;
+
 import java.util.List;
 
 
 import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.common.util.Paging;
-import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.dto.Board;
 
 public interface AdminBoardService {
 
 	/**
 	 * 게시글 전체 조회
 	 * 
-	 * @return List<AdminBoard> - 게시글 전체 조회 결과 리스트
+	 * @return List<Board> - 게시글 전체 조회 결과 리스트
 	 */
-	public List<AdminBoard> getList();
+	public List<Board> getList();
 
 	/**
 	 * 게시글 전체 조회
 	 * 	페이징 처리 추가
 	 * 
 	 * @param paging - 페이징 정보 객체
-	 * @return List<AdminBoard> - 게시글 전체 조회 결과 리스트
+	 * @return List<Board> - 게시글 전체 조회 결과 리스트
 	 */
-	public List<AdminBoard> getList(Paging paging);
+	public List<Board> getList(Paging paging);
 	
 	
 	/**
@@ -47,18 +47,22 @@ public interface AdminBoardService {
 	 * 요청파라미터 얻기
 	 * 
 	 * @param req - 요청정보객체
-	 * @return AdminBoard - 전달파라미터 boardno를 포함한 객체
+	 * @return Board - 전달파라미터 boardno를 포함한 객체
 	 */
-	public AdminBoard getBoardno(HttpServletRequest req);
+	public Board getBoardno(HttpServletRequest req);
 	
 	/**
 	 * 주어진 boardno를 이용하여 게시글을 조회한다
 	 * 
 	 * @param boardno - boardno를 가지고 있는 객체
-	 * @return AdminBoard - 조회된 게시글
+	 * @return Board - 조회된 게시글
 	 */
-	public AdminBoard view(AdminBoard board_no);
+	public Board view(Board board_no);
 	
 	public void write(HttpServletRequest req);
 	
+	public void deleteByAdBoard(Board board);
+	
+	public void updateByAdBoard(HttpServletRequest req);
+
 }
