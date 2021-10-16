@@ -9,12 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+<<<<<<< HEAD
+import xyz.sunnytoday.dto.Member;
+import xyz.sunnytoday.service.face.AdminMessageService;
+=======
 import xyz.sunnytoday.dto.Event;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Message;
 import xyz.sunnytoday.service.face.AdminMessageEventService;
 import xyz.sunnytoday.service.face.AdminMessageService;
 import xyz.sunnytoday.service.impl.AdminMessageEventServiceImpl;
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 import xyz.sunnytoday.service.impl.AdminMessageServiceImpl;
 
 
@@ -23,12 +28,23 @@ public class AdminMessageWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private AdminMessageService messageService = new AdminMessageServiceImpl();
+<<<<<<< HEAD
+=======
 	private AdminMessageEventService eventService = new AdminMessageEventServiceImpl();
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/admin/message/write [GET]");
 		
+<<<<<<< HEAD
+		//전달파라미터 얻기
+		int[] userno = messageService.getParam(req);
+		
+		List<Member> list = messageService.getlist(userno);
+		
+		req.setAttribute("list", list);
+=======
 		//쪽지를 받을 회원 수
 		int totalcount = 0;
 		
@@ -62,6 +78,7 @@ public class AdminMessageWriteController extends HttpServlet {
 		//쪽지이벤트 리스트 전달
 		req.setAttribute("event", event);
 		
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		req.getRequestDispatcher("/WEB-INF/views/admin/management/message/message_sendWrite.jsp").forward(req, resp);
 	}
 	
@@ -69,6 +86,8 @@ public class AdminMessageWriteController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/admin/message/write [POST]");
 		
+<<<<<<< HEAD
+=======
 		//전달파라미터 얻기 - 쪽지 제목,내용
 		Message message = messageService.getContent(req);
 		
@@ -100,5 +119,6 @@ public class AdminMessageWriteController extends HttpServlet {
 		
 		
 		
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 	}
 }

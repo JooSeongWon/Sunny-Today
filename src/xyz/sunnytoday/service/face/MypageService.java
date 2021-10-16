@@ -6,6 +6,25 @@ import xyz.sunnytoday.dto.Member;
 
 public interface MypageService {
 	
+<<<<<<< HEAD
+	public Member getUser(HttpServletRequest req);
+
+	public Member selectMember(Member loginUserId);
+
+	public void update(HttpServletRequest req);
+	
+	public int nickCheck(String nick);
+	
+	
+	
+	
+	public Member getchangeMember(HttpServletRequest req);
+
+	public int phoneOpen(String phone, Member loginUser);
+
+	
+
+=======
 	/**
 	 * 로그인 유저 정보 얻기
 	 * 
@@ -55,6 +74,7 @@ public interface MypageService {
 
 	
 
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 
 }

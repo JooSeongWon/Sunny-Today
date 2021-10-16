@@ -25,6 +25,9 @@ public interface MypageDao {
 	 */
 	public int nickCheck(Connection conn, String nick);
 
+<<<<<<< HEAD
+	public Member selectMemberByUserno(Connection conn, Member loginUser);
+=======
 	/**
 	 * 유저정보, 공개 키를 통해 유저상태 업데이트
 	 * 
@@ -68,7 +71,15 @@ public interface MypageDao {
 	 * @return
 	 */
 	public Member getsalt(String userId, Connection conn);
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 
+<<<<<<< HEAD
+	public int selectPhoneOpen(Connection conn, String phone, Member loginUserId);
+
+	int updateMember(Connection conn, Member param, Member loginUserId);
+
+=======
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 }

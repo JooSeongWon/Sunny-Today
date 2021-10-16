@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+<<<<<<< HEAD
+=======
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
@@ -33,6 +36,12 @@ public class MypageCheckController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//로그인 유저 세션의 유저넘버 얻기
+<<<<<<< HEAD
+		Member loginUser = mypageService.getUser(req);
+		
+		//유저넘버로 유저정보 얻기 - member
+		Member loginmember = mypageService.selectMember(loginUser);
+=======
 		Object param = req.getSession().getAttribute("userno");
 		int userno = (int) param;
 		
@@ -50,6 +59,7 @@ public class MypageCheckController extends HttpServlet {
 			//json 형식으로 변환
 			Gson gson = new Gson();
 			String rs = gson.toJson(result);
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		
 			// 전송이 되는 부분
 			resp.getWriter().write(rs);
@@ -90,6 +100,11 @@ public class MypageCheckController extends HttpServlet {
 			
 		}
 		
+<<<<<<< HEAD
+		//상태 업데이트
+		int phoneOpen = mypageService.phoneOpen(phone, loginUser);
+=======
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 				
 		
 	}

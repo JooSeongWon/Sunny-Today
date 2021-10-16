@@ -83,6 +83,8 @@ public interface AdminMessageEventService {
 	 */
 	public void deleteAll(int arr2);
 
+<<<<<<< HEAD
+=======
 	/**
 	 * 이벤트 메세지 목록 조회
 	 * 
@@ -101,4 +103,5 @@ public interface AdminMessageEventService {
 	 */
 	public void titleWrite(HttpServletRequest req);
 
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 }
