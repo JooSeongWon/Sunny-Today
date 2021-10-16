@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Comments {
 
-	private int comment_no;
+	private int comments_no;
 	private int post_no;
 	private int user_no;
 	private Date write_date;
@@ -13,14 +13,14 @@ public class Comments {
 	
 	@Override
 	public String toString() {
-		return "Comment [comment_no=" + comment_no + ", post_no=" + post_no + ", user_no=" + user_no
+		return "Comments [comments_no=" + comments_no + ", post_no=" + post_no + ", user_no=" + user_no
 				+ ", write_date=" + write_date + ", last_modify=" + last_modify + ", content=" + content + "]";
 	}
 	public int getComments_no() {
-		return comment_no;
+		return comments_no;
 	}
-	public void setComments_no(int comment_no) {
-		this.comment_no = comment_no;
+	public void setComments_no(int comments_no) {
+		this.comments_no = comments_no;
 	}
 	public int getPost_no() {
 		return post_no;
