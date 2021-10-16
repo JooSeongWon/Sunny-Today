@@ -35,24 +35,6 @@ public class MypageServiceImpl implements MypageService {
 
     private MypageDao mypageDao = new MypageDaoImpl();
     
-
-    @Override//
-    public Member getUser(HttpServletRequest req) {
-    	//userno를 저장할 객체 생성
-    	Member userno = new Member();
-    	
-    	//userno 전달파라미터 검증 - null, ""
-    	String param = (String) req.getSession().getAttribute("userno");
-    	
-    	if(param!= null && !"".equals(param)) {
-    		
-    		//userno 추출
-    		userno.setUserno(Integer.parseInt(param));
-    	}
-    	
-    	return userno;
-    }
-    
     @Override
     public Member selectMember(int userno) {
     	Connection conn = JDBCTemplate.getConnection();
@@ -65,7 +47,6 @@ public class MypageServiceImpl implements MypageService {
     	return member;
     }
     
-
     @Override//
     public int nickCheck(String nick) {
     	Connection conn = JDBCTemplate.getConnection();
@@ -79,7 +60,7 @@ public class MypageServiceImpl implements MypageService {
     }
     
     
-    @Override
+    @Override//
     public int phoneOpen(String phone, Member member) {
     	Connection conn = JDBCTemplate.getConnection();
     	//return받을 결과값
@@ -95,7 +76,6 @@ public class MypageServiceImpl implements MypageService {
     	JDBCTemplate.close(conn);
     	return phoneOpen;
     }
-    
     
     @Override
     public int birthOpen(String birth, Member member) {

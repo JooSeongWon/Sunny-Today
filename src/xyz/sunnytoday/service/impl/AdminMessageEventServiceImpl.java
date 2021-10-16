@@ -176,7 +176,7 @@ public class AdminMessageEventServiceImpl implements AdminMessageEventService {
 		}
 		JDBCTemplate.close(conn);
 	}
-
+	
 	@Override
 	public List<MessageEvent> getEventList(HttpServletRequest req) {
 		Connection conn = JDBCTemplate.getConnection();

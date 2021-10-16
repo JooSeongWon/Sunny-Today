@@ -33,10 +33,8 @@ public class MypageController extends HttpServlet {
 		
 		
 //		//로그인 되어있지 않으면 리다이렉트 
-<<<<<<< HEAD
 //		if( req.getsession().getattribute("login") == null
 //				|| !(boolean)req.getsession().getattribute("login") ) {
-=======
 //		if( req.getSession().getAttribute("nick") == null
 //				|| !(boolean)req.getSession().getAttribute("nick") ) {
 >>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
