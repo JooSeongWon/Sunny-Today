@@ -172,7 +172,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 				member.setUserno(rs.getInt("user_no"));
 				if(param.getReport_type() == "C") {
 					comments.setContent(rs.getString("content"));
-					comments.setComment_no(rs.getInt("comment_no"));
+					comments.setComments_no(rs.getInt("comments_no"));
 					map.put("cm", comments);
 					
 				}else if(param.getReport_type() == "P") {
