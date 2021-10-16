@@ -94,5 +94,28 @@ public interface AdminMessageEventDao {
 	 * @param arr2 - 삭제할 객체
 	 */
 	public int deleteAll(Connection conn, int arr2);
+<<<<<<< HEAD
+=======
+	
+	/**
+	 * 특정 이벤트 조회
+	 * 
+	 * @param parseInt - 조회할 evnetno를 가진 객체
+	 * @param conn  - DB연결 객체
+	 * @return List<MessageEvent> - 조회된 결과 객체
+	 */
+	public List<MessageEvent> selectByEventNo(int parseInt, Connection conn);
+	
+	/**
+	 * 이벤트 분류 생성
+	 * 
+	 * @param event
+	 * @param conn 
+	 */
+	public int titleWrite(String event, Connection conn);
+
+	public List<MessageEvent> selectByMessageNo(int parseInt, Connection conn);
+
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 }

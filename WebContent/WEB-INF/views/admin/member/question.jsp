@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
 
+<c:import url="/WEB-INF/views/admin/layout/header.jsp"/>
+<title>문의 목록</title>
 <style type="text/css">
 
 #searchBar{
@@ -13,7 +14,6 @@
 	background:#DFD;
 }
 </style>
-
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#searchBtn").click(function(){
@@ -23,6 +23,10 @@ $(document).ready(function(){
 	
 	$('.check-all').click(function(){
 		$('.ab').prop('checked', this.checked);
+	})
+	$('#deleteBtn').click(function(){
+		console.log('#deleteBtn');
+		$('#deleteList').submit();
 	})
 });
 </script>
@@ -42,7 +46,7 @@ $(document).ready(function(){
 	
 </div>
 </form>
-<form action="<%=request.getContextPath() %>>/admin/member/question" method="post">
+<form action="<%=request.getContextPath() %>/admin/member/question" id="deleteList" method="post">
 
 <div class="text-left">
 	<button id="deleteBtn" type="button" class="btn btn-primary">삭제</button>
@@ -53,17 +57,17 @@ $(document).ready(function(){
 <tr>
 	<th><input type="checkbox" name="select_all" class="check-all"></th>
 	<th>No.</th>
-	<th>처리 상황</th>
+	<th>처리 상황</th> 
 	<th>제목</th>
 	<th>아이디</th>
 	<th>작성일</th>
 </tr>
 </thead>
 <tbody>
-<% int i = 0; %>
+<% int i=0; %>
 <c:forEach items="${list }" var="question">
 <tr>
-	<td><input type="checkbox" name="cb<%=i %>" class="ab"></td>
+	<td><input type="checkbox" name="ch<%=i %>" class="ab" value="${question.question_no }"></td>
 	<td>${question.question_no }</td>
 	<c:choose>
 		<c:when test="${question.answer eq '' or question.answer eq null }">
@@ -76,8 +80,8 @@ $(document).ready(function(){
 	<td><a href="<%=request.getContextPath() %>/admin/answer/view?question_no=${question.question_no }">${question.title }</a></td>
 	<td>${question.id }</td>
 	<td>${question.write_date }</td>
-	<% i++; %>
 </tr>
+<% i++; %>
 </c:forEach>
 </tbody>
 

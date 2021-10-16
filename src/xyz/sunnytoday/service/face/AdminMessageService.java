@@ -5,6 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.dto.Member;
+<<<<<<< HEAD
+=======
+import xyz.sunnytoday.dto.Message;
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 import xyz.sunnytoday.util.Paging;
 
 public interface AdminMessageService {
@@ -44,5 +48,21 @@ public interface AdminMessageService {
 	 * @return List<Member> - 회원 조회 결과 리스트
 	 */
 	public List<Member> getlist(int[] userno);
+<<<<<<< HEAD
+=======
+	
+	/**
+	 * 총 회원 수 조회
+	 */
+	public int totalUser();
+
+	/**
+	 * 메세지 보내기
+	 * 
+	 * @param req - 요청정보객체
+	 * @return 
+	 */
+	public Message getContent(HttpServletRequest req);
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 }

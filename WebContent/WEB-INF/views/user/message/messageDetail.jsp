@@ -19,7 +19,12 @@
     	$("#btnReply").click(function() {
     		location.href = "/message/send";
     	});
+    	
     });
+    
+    function goDelete() {
+		window.location.assign("<%= request.getContextPath() %>/message/delete")
+	}
     </script>
     
     <style type="text/css">
@@ -67,6 +72,9 @@
     #btnBox {
     	align-items: flex-end;
     }
+	#content {
+		pointer-events: none;
+	}
     </style>
     
 </head>
@@ -77,7 +85,7 @@
 <c:import url="../layout/navbar.jsp"/>
 
 <div id="container">
-<form id="message-detail" action="<%=request.getContextPath() %>/message/view" method="post">
+
 
 
 <br><br><br><br>
@@ -85,7 +93,6 @@
 <hr size="5" noshade>
 <h2>쪽지 상세</h2>
 <br><br>
-
 	<div id="square" style="background-color: #eaeff8;">
 		<div id="write-form">
 			<table id="fromm-title">
@@ -93,24 +100,22 @@
 					<td class="info">보낸 사람</td><td colspan="3">${viewMessage.fromm }</td>
 				</tr>		
 				<tr>
+					<td class="info">보낸 시간</td><td colspan="3">${viewMessage.post_date }</td>
+				</tr>
+				<tr>
 					<td class="info">제목</td><td colspan="3">${viewMessage.title }</td>
-				</tr>			
-			</table>
-		
-			<div><textarea name="content" id="content" placeholder="내용" required></textarea></div>
-					
+				</tr>							
+			</table>		
+			<div><textarea name="content" id="content" readonly>${viewMessage.content }</textarea></div>					
 		</div>
 				
-	<div id="btnBox">
-		<button type="button" id="btnReply">답장</button>
-		<button type="button" id="btnCancel">취소</button>
+		<div id="btnBox">
+			<button type="button" id="btnReply">답장</button>
+			<button type="button" id="btnCancel">목록</button>
+			<button onclick="goDelete()" type="submit" id="btnDelete">삭제</button>
+		</div>		
 	</div>
-		
-	</div>
 
-
-
-</form>
 </div>
 
 <br><br><br><br><br><br>

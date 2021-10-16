@@ -8,14 +8,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/mypage/taste")
-public class MypageTasteController extends HttpServlet {
+import xyz.sunnytoday.dto.Message;
+import xyz.sunnytoday.service.face.MessageService;
+import xyz.sunnytoday.service.impl.MessageServiceImpl;
+
+@WebServlet("/message/delete")
+public class MessageDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private MessageService messageService = new MessageServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/mypage/taste [GET]");
 		
-		req.getRequestDispatcher("/WEB-INF/views/user/mypage/change_Taste.jsp").forward(req, resp);
+		Message message = messageService.getMessage_No(req);
+	
+		messageService.deleteMessage(message);
+		
+		resp.sendRedirect("/message");
 	}
 }

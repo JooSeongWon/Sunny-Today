@@ -38,13 +38,11 @@ public class AdminMemberListController extends HttpServlet {
 			}else {
 				param.setNick(search);
 			}
-			paging = memberService.getPaging(req, param, location);
-			list = memberService.getUserList(param, paging);
-		}else {
-			paging = memberService.getPaging(req, param, location);
-			list = memberService.getUserList(param, paging);			
 		}
-
+		
+		paging = memberService.getPaging(req, param, location);
+		list = memberService.getUserList(param, paging);			
+		
 		//모델값 + 페이징 정보 전달
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);

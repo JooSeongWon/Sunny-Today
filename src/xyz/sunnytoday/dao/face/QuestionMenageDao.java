@@ -71,8 +71,16 @@ public interface QuestionMenageDao {
 	 * 입력된 답변을 DB에 저장
 	 * @param conn - DB연결 객체
 	 * @param param - Question dto 객체
-	 * @return - 답변을 DB에 저장
+	 * @return - 답변을 DB에 저장여부를 반환
 	 */
 	public int setUpdateAnswer(Connection conn, Question param);
+
+	/**
+	 * 선택된 번호가 들어간 모든 행을 삭제
+	 * @param conn - DB 연결 객체
+	 * @param param - Question dto 객체 -> 삭제할 번호가 들어가있음
+	 * @return - 삭제 성공 여부를 반환
+	 */
+	public int deleteQuestion(Connection conn, Question param);
 
 }

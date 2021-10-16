@@ -176,8 +176,53 @@ public class AdminMessageEventServiceImpl implements AdminMessageEventService {
 		}
 		JDBCTemplate.close(conn);
 	}
+<<<<<<< HEAD
 		
 		
+=======
+	
+	@Override
+	public List<MessageEvent> getEventList(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+		List<MessageEvent> elist = null;
+		String param = req.getParameter("no");
+		
+		if(param != null && !"".equals(param)) {
+			elist = messageDao.selectByEventNo(Integer.parseInt(param),conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return elist;
+	}
+	
+	@Override
+	public void titleWrite(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String event = req.getParameter("event");
+		
+		if( messageDao.titleWrite(event, conn) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+	}
+	
+	@Override
+	public List<MessageEvent> getMassageList(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+		List<MessageEvent> elist = null;
+		String param = req.getParameter("no");
+		
+		if(param != null && !"".equals(param)) {
+			elist = messageDao.selectByMessageNo(Integer.parseInt(param),conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		return elist;
+	}
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 }
 
 		
