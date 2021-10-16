@@ -7,56 +7,61 @@ import java.sql.SQLException;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.MypageDao;
+import xyz.sunnytoday.dto.Filee;
 import xyz.sunnytoday.dto.Member;
 
 public class MypageDaoImpl implements MypageDao {
 	
-	@Override //완
-	public Member selectMemberByUserno(Connection conn, Member loginUser) {
+	@Override
+	public Member selectMemberByUserno(Connection conn, int userno) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		String sql = ""
-			+ "SELECT NICK, EMAIL, PHONE, BIRTH "
-			+ "PICTURE_NO, BIRTH_OPEN, PHONE_OPEN, Userpw"
-			+ "FROM MEMBER"
-			+ " WHERE USERNO = ?";
+			+ "SELECT NICK, EMAIL, PHONE, BIRTH, "
+			+ " BIRTH_OPEN, PHONE_OPEN, user_no, id"
+			+ " FROM MEMBER"
+			+ " WHERE USER_NO = ?";
 		
-		Member result = null;
+		Member member = null;
 		
 		try {
-			ps = conn.prepareStatement(sql);
+			ps = conn.prepareStatement(sql); //SQL수행 객체
 			
-			ps.setInt(1, loginUser.getUserno());
+			ps.setInt(1, userno ); //유저 번호 적용
 			
-			rs = ps.executeQuery();
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
 			
+			//조회 결과 처리
 			while(rs.next()) {
-				result = new Member();
+				member = new Member(); //결과값 저장 객체
 				
-				result.setNick(rs.getString("nick"));
-				result.setEmail(rs.getString("email"));
-				result.setPhone(rs.getString("phone"));
-				result.setBirth(rs.getDate("birth"));
-				result.setPictureno(rs.getInt("picture_no"));
-				result.setPhone_open(rs.getString("phone_open"));
-				result.setBirth_open(rs.getString("birth_open"));
-				result.setUserpw(rs.getString("userpw"));
-				
+				//결과값 한 행 처리
+				member.setNick(rs.getString("nick"));
+				member.setEmail(rs.getString("email"));
+				member.setPhone(rs.getString("phone"));
+				member.setBirth(rs.getDate("birth"));
+				member.setBirth_open(rs.getString("birth_open"));
+				member.setPhone_open(rs.getString("phone_open"));
+				member.setUserno(rs.getInt("user_no"));
+				member.setUserid(rs.getString("id"));
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			//DB객체 닫기
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
 		
-		return result;
+		//최종 결과 반환
+		return member;
+		
 	}
 	
 	
-	@Override//
+	@Override
 	public int nickCheck(Connection conn, String nick) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -91,23 +96,24 @@ public class MypageDaoImpl implements MypageDao {
 	}
 	
 	@Override
-	public int selectPhoneOpen(Connection conn, String phone, Member loginUserId) {
+	public int updatePhoneOpen(Connection conn, String phone, Member member) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		int result = 0;
+		int result = -1;
 		
 		String sql = ""
-			+ "UPDATE MEMBER SET PHONE_OPEN = '?' "
-			+ " WHERE ID = ?";
+			+ "UPDATE MEMBER SET PHONE_OPEN = ? "
+			+ " WHERE user_no = ?";
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, phone);
-			ps.setString(2, loginUserId.getUserid());
+			ps.setInt(2, member.getUserno());
 			
-			rs = ps.executeQuery();
+			//-1 에러 , 1 성공
+			result = ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,29 +125,24 @@ public class MypageDaoImpl implements MypageDao {
 		return result;
 	}
 	
-	
-	
 	@Override
-	public int updateMember(Connection conn, Member param, Member loginUserId) {
+	public int updateBirthOpen(Connection conn, String birth, Member member) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		int result = 0;
+		int result = -1;
 		
 		String sql = ""
-			+ "UPDATE MEMBER SET (NICK, PHONE, BIRTH) "
-			+ " = ( ?, ?, ? ) "
-			+ " WHERE ID = ?";
+			+ "UPDATE MEMBER SET BIRTH_OPEN = ? "
+			+ " WHERE user_no = ?";
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			
-			ps.setString(1, param.getNick());
-			ps.setString(2, param.getPhone());
-//			ps.setDate(3, param.getBirth());
-			ps.setString(4, loginUserId.getUserid());
-			
-			rs = ps.executeQuery();
+			ps.setString(1, birth);
+			ps.setInt(2, member.getUserno());
+			//-1 에러 , 1 성공
+			result = ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,8 +150,115 @@ public class MypageDaoImpl implements MypageDao {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
-
 		
 		return result;
 	}
+	
+	
+	@Override
+	public int update(Connection conn, Member member) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//java utill Date 타입을 sql에 적용하기 위해 java.sql.date로 변화 
+		java.sql.Date date = (java.sql.Date) member.getBirth(); 
+		
+		String sql = ""
+			+"UPDATE MEMBER"
+			+ " SET nick = ? ,"
+			+ "		phone = ? ,"
+			+ "		birth = ? "
+			+ "	WHERE user_no = ? ";
+		
+		int res = -1;
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, member.getNick());
+			ps.setString(2, member.getPhone());
+			ps.setDate(3, date);
+			ps.setInt(4, member.getUserno());
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public int insertFile(Connection conn, Filee file) {
+		PreparedStatement ps = null;
+
+		String sql = ""
+			+ "INSERT INTO 'FILE'( file_no, user_no, url, thumbnail_url, origin_name )"
+			+ " VALUES( file_seq.nextval, ?, ?, ?, ? )";
+		
+			
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, file.getUser_no());
+			ps.setString(2, file.getUrl());
+			ps.setString(3, file.getThumbnail_url());
+			ps.setString(4, file.getOrigin_name());
+			
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public Member getsalt(String userId, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+			+ "SELECT salt, passwoard "
+			+ " FROM MEMBER"
+			+ " WHERE Id = ?";
+		
+		Member member = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); 
+			
+			ps.setString(1, userId ); 
+			
+			rs = ps.executeQuery(); 
+			
+			//조회 결과 처리
+			while(rs.next()) {
+				member = new Member();
+				
+				member.setSalt(rs.getString("salt"));
+				member.setUserpw(rs.getString("passwoard"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//최종 결과 반환
+		return member;
+	}
+	
+	
 }

@@ -223,11 +223,11 @@ public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 		ResultSet rs = null;
 		
 		String sql = ""
-	    		+"        SELECT MESSAGE_E_NO ,M.EVENT_NO ,TITLE ,CONTENT, e.name"  
-	    		+"        FROM message_event M" 
-	    		+"        INNER JOIN Event E"  
-	    		+"        ON M.EVENT_NO = E.EVENT_NO" 
-				+"			WHERE MESSAGE_E_NO = ? ";
+	    		+"SELECT MESSAGE_E_NO ,M.EVENT_NO ,TITLE ,CONTENT, e.name"  
+	    		+" FROM message_event M" 
+	    		+" INNER JOIN Event E"  
+	    		+"  ON M.EVENT_NO = E.EVENT_NO" 
+				+" WHERE MESSAGE_E_NO = ? ";
 
 		
 		MessageEvent message = null;
@@ -349,6 +349,115 @@ public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 		}
 		
 		return res;
+	}
+	
+	@Override
+	public int titleWrite(String event, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+"INSERT INTO EVENT (event_no, name )"
+				+ " VALUES ( EVENT_seq.nextval , ? )";
+	    
+		int res = 0 ;  
+		
+	      try {
+	         ps = conn.prepareStatement(sql);
+	         ps.setString(1, event );
+	         
+	         res = ps.executeUpdate();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         JDBCTemplate.close(rs);
+	         JDBCTemplate.close(ps);
+	      }
+	      return res;
+	}
+	
+	@Override
+	public List<MessageEvent> selectByEventNo(int parseInt, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String sql =""
+				+ "SELECT MESSAGE_E_NO ,M.EVENT_NO ,TITLE ,CONTENT, e.name"  
+				+ " FROM message_event M "
+				+ " INNER JOIN Event E "
+				+ "  ON M.EVENT_NO = E.EVENT_NO "
+				+ " WHERE m.EVENT_NO = ? ";
+		
+	      List<MessageEvent> elist = new ArrayList<>();
+	      
+	      System.out.println(parseInt);
+	      
+	      try {
+	         ps = conn.prepareStatement(sql);
+	         ps.setInt(1, parseInt);
+	         rs = ps.executeQuery();
+	         
+	         while(rs.next()) {
+	        	MessageEvent message = new MessageEvent();
+	        	
+	        	message.setMessage_e_no(rs.getInt("message_e_no"));
+	        	message.setEvent_no(rs.getInt("event_no"));
+	        	message.setTitle(rs.getString("title"));
+	        	message.setContent(rs.getString("content"));
+	        	message.setName(rs.getString("name"));
+	        	
+	            elist.add(message);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         JDBCTemplate.close(rs);
+	         JDBCTemplate.close(ps);
+	      }
+	      
+	      return elist;
+	}
+	
+	@Override
+	public List<MessageEvent> selectByMessageNo(int parseInt, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String sql =""
+				+ "SELECT MESSAGE_E_NO ,M.EVENT_NO ,TITLE ,CONTENT, e.name"  
+				+ " FROM message_event M "
+				+ " INNER JOIN Event E "
+				+ "  ON M.EVENT_NO = E.EVENT_NO "
+				+ " WHERE MESSAGE_E_NO = ? ";
+		
+	      List<MessageEvent> elist = new ArrayList<>();
+	      
+	      System.out.println(parseInt);
+	      
+	      try {
+	         ps = conn.prepareStatement(sql);
+	         ps.setInt(1, parseInt);
+	         rs = ps.executeQuery();
+	         
+	         while(rs.next()) {
+	        	MessageEvent message = new MessageEvent();
+	        	
+	        	message.setMessage_e_no(rs.getInt("message_e_no"));
+	        	message.setEvent_no(rs.getInt("event_no"));
+	        	message.setTitle(rs.getString("title"));
+	        	message.setContent(rs.getString("content"));
+	        	message.setName(rs.getString("name"));
+	        	
+	            elist.add(message);
+	         }
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         JDBCTemplate.close(rs);
+	         JDBCTemplate.close(ps);
+	      }
+	      
+	      return elist;
 	}
 	
 }

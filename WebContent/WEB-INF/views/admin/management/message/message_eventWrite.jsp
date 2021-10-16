@@ -37,11 +37,6 @@ $(document).ready(function() {
 		history.go(-1);
 	});
 	
-	$("#A").change(function() {
-	    var value = $(this).val();
-		console.log(value)
-	});
-	
 });
 </script>
 
@@ -61,12 +56,12 @@ $(document).ready(function() {
 <div class="col-md-11">
 
 
-<form action="/admin/message/write" method="post">
+<form action="/admin/message/event/write" method="post">
 <table class="table table-bordered">
 <tr>
 <td class="active">분류명</td>
 <td colspan="2">
-<select name="event" id="A" class="form-control">
+<select name="event" class="form-control">
 <c:forEach items="${event }" var="e">
     <option value="${e.event_no }">${e.name }</option>
 </c:forEach>
