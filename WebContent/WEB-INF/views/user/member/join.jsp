@@ -82,25 +82,25 @@
                     <div class="input__title">아이디</div>
                     <input type="text" class="input__box" placeholder="4자 ~ 20자 사이의 영소문자, 숫자" tabindex="1"
                            maxlength="20">
-                    <div class="input__notice"></div>
+                    <div class="input__notice">&nbsp;</div>
                 </label>
                 <label class="input">
                     <div class="input__title">비밀번호</div>
                     <input type="password" class="input__box" placeholder="8자 ~ 20자 사이의 영(대/소)문자 / 숫자 / 특수문자"
                            tabindex="1" maxlength="20">
-                    <div class="input__notice"></div>
+                    <div class="input__notice">&nbsp;</div>
                 </label>
                 <label class="input">
                     <div class="input__title">비밀번호 확인</div>
                     <input type="password" class="input__box" placeholder="비밀번호를 한번 더 입력해 주세요." tabindex="1"
                            maxlength="20">
-                    <div class="input__notice"></div>
+                    <div class="input__notice">&nbsp;</div>
                 </label>
                 <label class="input">
                     <div class="input__title">이메일 주소</div>
                     <input type="text" class="input__box" placeholder="이메일 인증이 필요하니 유효한 주소를 입력해주세요." tabindex="1"
                            maxlength="100">
-                    <div class="input__notice"></div>
+                    <div class="input__notice">&nbsp;</div>
                 </label>
                 <div class="line"></div>
             </div>
@@ -109,7 +109,7 @@
                     <div class="input__title">닉네임</div>
                     <input type="text" class="input__box" placeholder="2자 ~ 12자 한글 / 영문 / 숫자" tabindex="1"
                            maxlength="12">
-                    <div class="input__notice"></div>
+                    <div class="input__notice">&nbsp;</div>
                 </label>
                 <label id="tell" class="input-horizontal">
                     <div class="input__title">전화번호</div>
