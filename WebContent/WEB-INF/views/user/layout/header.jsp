@@ -12,7 +12,7 @@
         <div class="enter">
             <c:if test="${empty sessionScope.userno}">
                 <a href="<%=request.getContextPath() %>/login">LOGIN |</a>
-                <a href="<%=request.getContextPath() %>/test/join"> JOIN US</a>
+                <a href="<%=request.getContextPath() %>/join"> JOIN US</a>
             </c:if>
             <c:if test="${not empty sessionScope.userno}">
                 ${sessionScope.nick} 님, 안녕하세요! &nbsp;&nbsp;&nbsp;

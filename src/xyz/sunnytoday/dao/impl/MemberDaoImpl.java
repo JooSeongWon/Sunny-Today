@@ -72,6 +72,24 @@ public class MemberDaoImpl implements MemberDao {
         }
     }
 
+    @Override
+    public int selectCntUserId(Connection connection, String userId) throws SQLException {
+        String sql = "ID = ?";
+        return selectCntWhen(connection, sql, userId);
+    }
+
+    @Override
+    public int selectCntUerNick(Connection connection, String nick) throws SQLException {
+        String sql = "NICK = ?";
+        return selectCntWhen(connection, sql, nick);
+    }
+
+    @Override
+    public int selectCntUserEmail(Connection connection, String email) throws SQLException {
+        String sql = "EMAIL = ?";
+        return selectCntWhen(connection, sql, email);
+    }
+
     private Member buildMember(ResultSet resultSet) throws SQLException {
         Member member = new Member();
         member.setUserno(resultSet.getInt("user_no"));
@@ -90,5 +108,23 @@ public class MemberDaoImpl implements MemberDao {
         member.setPhone_open(resultSet.getString("phone_open"));
 
         return member;
+    }
+
+    private int selectCntWhen(Connection connection, String whereContext, String data) throws SQLException {
+        String sql = "select count(*) cnt from MEMBER where " + whereContext;
+        ResultSet resultSet = null;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, data);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("cnt");
+            }
+        } finally {
+            JDBCTemplate.close(resultSet);
+        }
+
+        return 0;
     }
 }

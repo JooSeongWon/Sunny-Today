@@ -382,7 +382,7 @@
                 <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
             </div>
         </div>
-
+        <div class="right__line"></div>
         <div class="notice event">
             <h3 class="notice__title">이벤트</h3>
             <div class="notice-post">

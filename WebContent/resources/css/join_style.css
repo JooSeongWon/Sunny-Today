@@ -1,0 +1,314 @@
+/* 공통 레이아웃 */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    --color-join-grey: #d5d0d0;
+    --color-join-dark-grey: #9b9b9b;
+}
+
+input {
+    outline: none;
+}
+
+#join {
+    display: flex;
+    align-content: center;
+    margin: 50px auto;
+    width: 600px;
+}
+
+.join__wrap {
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+    width: 100%;
+
+    color: var(--color-dark-grey);
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-join-grey);
+    padding: 0 20px;
+}
+
+.title h1 {
+    margin: 10px 0;
+}
+
+.title h1.active {
+    color: var(--color-dark-grey);
+}
+
+.line {
+    height: 2px;
+    background-color: var(--color-join-grey);
+}
+
+.button {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin: 50px 0;
+}
+
+.button div {
+    margin: 10px;
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+    font-size: var(--font-micro);
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.button__cancel {
+    background-color: var(--color-join-grey);
+}
+
+.button__next {
+    background-color: var(--color-dark-grey);
+    color: var(--color-white);
+}
+
+/* 약관동의 */
+.content {
+    display: none;
+}
+
+.content.active {
+    display: block;
+}
+
+.check {
+    margin-top: 40px;
+}
+
+.check__header {
+    display: flex;
+    color: #868686;
+    font-size: var(--font-regular);
+    user-select: none;
+    margin-bottom: 10px;
+}
+
+.check__header .fas {
+    color: #98bcff;
+}
+
+.check__title {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.check__icon {
+    cursor: pointer;
+}
+
+.check__description {
+    height: 150px;
+    width: 100%;
+    overflow: auto;
+    border: 2px solid var(--color-join-grey);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.check.marketing {
+    margin-bottom: 40px;
+}
+
+/* 정보입력 */
+.input {
+    display: flex;
+    flex-flow: column;
+    margin: 16px 40px 0 40px;
+}
+
+.origin .input:nth-child(4) {
+    margin-bottom: 16px;
+}
+
+.input__title {
+    color: var(--color-join-dark-grey);
+    font-size: var(--font-small);
+    font-weight: var(--weight-semi-bold);
+}
+
+.input-horizontal__content input,
+.input__box {
+    padding: 10px 15px;
+    color: var(--color-join-dark-grey);
+    border: 2px solid var(--color-join-grey);
+    border-radius: 4px;
+}
+
+.input__notice {
+    color: var(--color-green);
+    font-size: var(--font-micro);
+    text-align: right;
+}
+
+.input__notice.warning {
+    color: var(--color-red);
+}
+
+.input-horizontal {
+    display: flex;
+    margin: 16px 40px 0 40px;
+    flex-wrap: wrap;
+}
+
+.input-horizontal .input__title {
+    width: 120px;
+}
+
+.input-horizontal__content {
+    flex: 1 1;
+    display: flex;
+}
+
+.input-horizontal__content input {
+    box-sizing: content-box;
+    width: 30px;
+    flex-grow: 1;
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.input-horizontal__content .horizontal-bar {
+    background-color: var(--color-join-grey);
+    flex: 1 1;
+    max-width: 20px;
+    height: 2px;
+    margin: auto 10px;
+}
+
+.input-horizontal__content input.datePicker {
+    width: 200px;
+}
+.input-horizontal {
+    margin-top: 40px;
+}
+
+.input-horizontal__content.gender {
+    justify-content: space-between;
+}
+
+.gender-pick {
+    flex: 0 1 120px;
+    min-width: 60px;
+    border-radius: 4px;
+    border: 1px solid var(--color-join-grey);
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    font-weight: var(--weight-semi-bold);
+    font-size: var(--font-small);
+    color: var(--color-white);
+    background-color: var(--color-light-grey);
+    margin: 3px;
+}
+
+.gender-pick:hover {
+    background-color: #babaff;
+}
+
+.gender-pick.active {
+    background-color: var(--color-blue);
+}
+
+.line.last {
+    margin-top: 40px;
+}
+
+/* 메일 인증 */
+.content.active + .button {
+    display: none;
+}
+
+#certification {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.fa-envelope {
+    font-size: 60px;
+    color: var(--color-sky);
+}
+
+.certification__description {
+    color: var(--color-join-dark-grey);
+    font-size: var(--font-small);
+    font-weight: var(--weight-semi-bold);
+}
+
+.certification__description span {
+    color: #fca8a8;
+}
+
+.resend {
+    margin: 40px 0;
+    height: 30px;
+    line-height: 30px;
+}
+
+.fa-question-circle {
+    color: var(--color-orange);
+}
+
+.resend__description {
+    font-size: var(--font-micro);
+    text-decoration: underline;
+    color: var(--color-join-grey);
+    margin-left: 12px;
+}
+
+@media screen and (max-width: 650px) {
+    /* 공통 레이아웃 */
+    #join {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .title {
+        justify-content: flex-start;
+    }
+
+    .title h1 {
+        font-size: var(--font-regular);
+    }
+
+    /* 약관동의 */
+    .check__header {
+        font-size: var(--font-micro);
+        font-weight: var(--weight-semi-bold);
+    }
+
+    .check__content {
+        font-size: var(--font-micro);
+    }
+
+    /* 정보입력 */
+    .input {
+        margin: 10px 15px;
+    }
+    .input-horizontal {
+        margin: 20px 15px;
+    }
+
+    .gender-pick {
+        font-size: var(--font-micro);
+    }
+}
+
+
+

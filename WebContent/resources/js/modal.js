@@ -2,9 +2,10 @@
 
 /*
 * 일부로 이름 잘 안겹치게 길게길게 지었어요
-* 해당 코드는 JQuery 2.4.4에 의존하고 있습니다. (스타일 설정 부분)
 *  */
 
+//모달 사용중
+let isShowModal = false;
 
 //모달 z인덱스
 const modalZIndex = 9999;
@@ -80,7 +81,8 @@ $(modalOkBtnDomObj).css({
     background: 'none',
     border: '1px solid var(--color-blue)',
     borderRadius: '4px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    outline:'none'
 });
 $(modalCancelBtnDomObj).css({
     display: 'inline-block',
@@ -101,6 +103,9 @@ let modalOkEvent;
 let modalCancelEvent;
 
 function modalBtnClicked(callback) {
+    if (!isShowModal) {
+        return;
+    }
 
     callback();
 
@@ -111,12 +116,18 @@ function modalBtnClicked(callback) {
     modalOkBtnDomObj.removeEventListener('click', modalOkEvent);
     document.body.removeChild(modalBackGroundDomObj);
 
+    isShowModal = false;
     return false;
 }
 
-//모달 띄우기
+//모달 띄우기 - 사용시 이 함수만 고려
 function showModal(title, msg, okCallBack, cancelCallBack) {
-    const okCallBackT = (okCallBack === undefined) ? ()=>{} : okCallBack;
+    if (isShowModal) {
+        return;
+    }
+
+    const okCallBackT = (okCallBack === undefined) ? () => {
+    } : okCallBack;
 
     modalTitleDomObj.innerText = title;
     modalDescriptionDomObj.innerText = msg;
@@ -133,5 +144,14 @@ function showModal(title, msg, okCallBack, cancelCallBack) {
     }
 
     document.body.appendChild(modalBackGroundDomObj);
+    modalOkBtnDomObj.focus();
+    isShowModal = true;
 }
 
+//엔터키 이벤트
+modalOkBtnDomObj.setAttribute('tabindex', '-1');
+modalOkBtnDomObj.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+        modalOkBtnDomObj.click();
+    }
+});

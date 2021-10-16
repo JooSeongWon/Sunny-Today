@@ -1,9 +1,12 @@
 package xyz.sunnytoday.common.config;
 
 import xyz.sunnytoday.common.repository.AppKeyRepository;
+import xyz.sunnytoday.common.repository.Appkey;
 import xyz.sunnytoday.common.repository.ForecastRepository;
+import xyz.sunnytoday.common.repository.TemporaryMemberRepository;
 import xyz.sunnytoday.common.task.TaskScheduler;
 import xyz.sunnytoday.common.task.TaskConfig;
+import xyz.sunnytoday.common.task.TaskTimer;
 import xyz.sunnytoday.service.impl.ForecastServiceImpl;
 
 import java.io.IOException;
@@ -15,6 +18,7 @@ public class AppConfig {
     private static AppConfig instance;
     private final AppKeyRepository appKeyRepository;
     private final TaskScheduler taskScheduler;
+    private final TemporaryMemberRepository temporaryMemberRepository;
     private ForecastRepository forecastRepository;
 
     // 초기화 구문
@@ -36,6 +40,14 @@ public class AppConfig {
 
     public static ForecastRepository getForecastRepository() {
         return instance.forecastRepository;
+    }
+
+    public static void addTask(TaskTimer taskTimer) {
+        instance.taskScheduler.addTask(taskTimer);
+    }
+
+    public static TemporaryMemberRepository getTemporaryMemberRepo(){
+        return instance.temporaryMemberRepository;
     }
 
     // 자원정리
@@ -75,5 +87,8 @@ public class AppConfig {
                 e.printStackTrace();
             }
         });
+
+        //회원 임시 저장소
+        temporaryMemberRepository = new TemporaryMemberRepository();
     }
 }
