@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import xyz.sunnytoday.common.util.Paging;
-import xyz.sunnytoday.dto.AdminBoard;
+import xyz.sunnytoday.dto.Board;
 
 public interface AdminBoardDao {
 
@@ -15,7 +15,7 @@ public interface AdminBoardDao {
 	 * @param conn - DB연결 객체
 	 * @return List<Board> - Board테이블 전체 조회 결과 리스트
 	 */
-	public List<AdminBoard> selectAll(Connection conn);
+	public List<Board> selectAll(Connection conn);
 
 	/**
 	 * Board테이블 전체 조회
@@ -25,7 +25,7 @@ public interface AdminBoardDao {
 	 * @param conn - DB연결 객체
 	 * @return List<Board> - Board테이블 전체 조회 결과 리스트
 	 */
-	public List<AdminBoard> selectAll(Connection conn, Paging paging);
+	public List<Board> selectAll(Connection conn, Paging paging);
 	
 	/**
 	 * 총 게시글 수 조회
@@ -45,7 +45,14 @@ public interface AdminBoardDao {
 	 * @param boardno - 조회할 boardno를 가진 객체
 	 * @return Board - 조회된 결과 객체
 	 */
-	public AdminBoard selectBoardByBoardno(Connection conn, AdminBoard board_no);
+	public Board selectBoardByBoardno(Connection conn, Board board_no);
 	
-	public int insert(Connection conn, AdminBoard board);
+	public int insert(Connection conn, Board board);
+
+	public int delete(Connection conn, Board board);
+	
+	public int update(Connection conn, Board board);
+
+
 }
+
