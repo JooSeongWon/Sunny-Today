@@ -12,58 +12,29 @@ import xyz.sunnytoday.dto.Member;
 
 public class MypageDaoImpl implements MypageDao {
 	
-<<<<<<< HEAD
-	@Override //완
-	public Member selectMemberByUserno(Connection conn, Member loginUser) {
-=======
 	@Override
 	public Member selectMemberByUserno(Connection conn, int userno) {
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		String sql = ""
-<<<<<<< HEAD
 			+ "SELECT NICK, EMAIL, PHONE, BIRTH "
 			+ "PICTURE_NO, BIRTH_OPEN, PHONE_OPEN, Userpw"
 			+ "FROM MEMBER"
 			+ " WHERE USERNO = ?";
-=======
-			+ "SELECT NICK, EMAIL, PHONE, BIRTH, "
-			+ " BIRTH_OPEN, PHONE_OPEN, user_no, id"
-			+ " FROM MEMBER"
-			+ " WHERE USER_NO = ?";
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		
 		Member member = null;
 		
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
 			
-<<<<<<< HEAD
-			ps.setInt(1, loginUser.getUserno());
-=======
 			ps.setInt(1, userno ); //유저 번호 적용
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 			
 			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
 			
 			//조회 결과 처리
 			while(rs.next()) {
-<<<<<<< HEAD
-				result = new Member();
-				
-				result.setNick(rs.getString("nick"));
-				result.setEmail(rs.getString("email"));
-				result.setPhone(rs.getString("phone"));
-				result.setBirth(rs.getDate("birth"));
-				result.setPictureno(rs.getInt("picture_no"));
-				result.setPhone_open(rs.getString("phone_open"));
-				result.setBirth_open(rs.getString("birth_open"));
-				result.setUserpw(rs.getString("userpw"));
-=======
 				member = new Member(); //결과값 저장 객체
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 				
 				//결과값 한 행 처리
 				member.setNick(rs.getString("nick"));
@@ -90,11 +61,6 @@ public class MypageDaoImpl implements MypageDao {
 	}
 	
 	
-<<<<<<< HEAD
-	@Override//
-=======
-	@Override
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 	public int nickCheck(Connection conn, String nick) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -128,12 +94,7 @@ public class MypageDaoImpl implements MypageDao {
 		return result;
 	}
 	
-	@Override
-<<<<<<< HEAD
-	public int selectPhoneOpen(Connection conn, String phone, Member loginUserId) {
-=======
 	public int updatePhoneOpen(Connection conn, String phone, Member member) {
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -147,11 +108,7 @@ public class MypageDaoImpl implements MypageDao {
 			ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, phone);
-<<<<<<< HEAD
-			ps.setString(2, loginUserId.getUserid());
-=======
 			ps.setInt(2, member.getUserno());
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 			
 			//-1 에러 , 1 성공
 			result = ps.executeUpdate();
@@ -196,20 +153,7 @@ public class MypageDaoImpl implements MypageDao {
 	}
 	
 	
-<<<<<<< HEAD
 	
-	@Override
-	public int updateMember(Connection conn, Member param, Member loginUserId) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		int result = 0;
-		
-		String sql = ""
-			+ "UPDATE MEMBER SET (NICK, PHONE, BIRTH) "
-			+ " = ( ?, ?, ? ) "
-			+ " WHERE ID = ?";
-=======
 	@Override
 	public int update(Connection conn, Member member) {
 		PreparedStatement ps = null;
@@ -249,6 +193,7 @@ public class MypageDaoImpl implements MypageDao {
 	@Override
 	public int insertFile(Connection conn, Filee file) {
 		PreparedStatement ps = null;
+		ResultSet rs = null;
 
 		String sql = ""
 			+ "INSERT INTO 'FILE'( file_no, user_no, url, thumbnail_url, origin_name )"
@@ -256,19 +201,11 @@ public class MypageDaoImpl implements MypageDao {
 		
 			
 		int res = 0;
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			
-<<<<<<< HEAD
-			ps.setString(1, param.getNick());
-			ps.setString(2, param.getPhone());
-//			ps.setDate(3, param.getBirth());
-			ps.setString(4, loginUserId.getUserid());
-			
 			rs = ps.executeQuery();
-=======
 			ps.setInt(1, file.getUser_no());
 			ps.setString(2, file.getUrl());
 			ps.setString(3, file.getThumbnail_url());
@@ -311,21 +248,9 @@ public class MypageDaoImpl implements MypageDao {
 				member.setSalt(rs.getString("salt"));
 				member.setUserpw(rs.getString("passwoard"));
 			}
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-<<<<<<< HEAD
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-
-		
-		return result;
-	}
-=======
-			//DB객체 닫기
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
@@ -335,5 +260,4 @@ public class MypageDaoImpl implements MypageDao {
 	}
 	
 	
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 }

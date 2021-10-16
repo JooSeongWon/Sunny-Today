@@ -94,8 +94,6 @@ public interface AdminMessageEventDao {
 	 * @param arr2 - 삭제할 객체
 	 */
 	public int deleteAll(Connection conn, int arr2);
-<<<<<<< HEAD
-=======
 	
 	/**
 	 * 특정 이벤트 조회
@@ -116,6 +114,5 @@ public interface AdminMessageEventDao {
 
 	public List<MessageEvent> selectByMessageNo(int parseInt, Connection conn);
 
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 }

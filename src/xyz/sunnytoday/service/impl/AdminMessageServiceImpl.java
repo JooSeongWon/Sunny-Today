@@ -9,10 +9,7 @@ import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.AdminMessageDao;
 import xyz.sunnytoday.dao.impl.AdminMessageDaoImpl;
 import xyz.sunnytoday.dto.Member;
-<<<<<<< HEAD
-=======
 import xyz.sunnytoday.dto.Message;
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 import xyz.sunnytoday.service.face.AdminMessageService;
 import xyz.sunnytoday.util.Paging;
 
@@ -125,8 +122,6 @@ public class AdminMessageServiceImpl implements AdminMessageService {
 		return list;
 	}
 	
-<<<<<<< HEAD
-=======
 	@Override
 	public int totalUser() {
 		Connection conn = JDBCTemplate.getConnection();
@@ -167,6 +162,5 @@ public class AdminMessageServiceImpl implements AdminMessageService {
 		
 		return message;
 	}
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 	
 }
