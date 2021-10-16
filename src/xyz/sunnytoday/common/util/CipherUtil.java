@@ -2,9 +2,7 @@ package xyz.sunnytoday.common.util;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.security.*;

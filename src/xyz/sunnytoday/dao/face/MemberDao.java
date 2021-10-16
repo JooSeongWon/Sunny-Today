@@ -34,4 +34,28 @@ public interface MemberDao {
      * @throws SQLException 트랜잭션 단위 처리를 위해 SqlException의 핸들링을 미룹니다.
      */
     void insert(Connection connection, Member member) throws SQLException;
+
+    /**
+     * userId 가 존재하는지 체크합니다.
+     * @param connection jdbc connection 객체
+     * @param userId 체크할 userId
+     * @return 검색된 데이터 수
+     */
+    int selectCntUserId(Connection connection, String userId) throws  SQLException;
+
+    /**
+     * 닉네임이 존재하는지 체크합니다.
+     * @param connection jdbc connection 객체
+     * @param nick 체크할 닉네임
+     * @return 검색된 데이터 수
+     */
+    int selectCntUerNick(Connection connection, String nick) throws SQLException;
+
+    /**
+     * 이메일이 존재하는지 체크합니다.
+     * @param connection jdbc connection 객체
+     * @param email 체크할 이메일
+     * @return 검색된 데이터 수
+     */
+    int selectCntUserEmail(Connection connection, String email) throws SQLException;
 }

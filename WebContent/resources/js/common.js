@@ -30,22 +30,41 @@ document.addEventListener('scroll', () => {
 });
 
 /* RSA 공개키 가져오기 */
+let publicKey;
 const getRSAPublicKey = () => {
-    let publicKey = window.sessionStorage.getItem('publicKey');
-    //세션 스토리지에 키 없음! 요청하기!
-    if(publicKey === null) {
+    //키가 없음! AJAX를 통해 서버에서 받아옴
+    if (publicKey === undefined) {
         $.ajax({
             type: 'POST',
             url: contextPath + 'get/public/key',
             dataType: 'text',
-            async: false,
-            success: data => {
-                window.sessionStorage.setItem('publicKey', data);
-                publicKey = window.sessionStorage.getItem('publicKey');
-            } ,
-            error: console.log
+            async: false, //동기
+            success: data => publicKey = data,
+            error: console.log //시간나면 예외처리 할것
         });
     }
-
     return publicKey;
 };
+
+/* 데이터 암호화 */
+function encodeAllData(obj) {
+    for (let name in obj) {
+        obj[name] = encodeData(obj[name]);
+    }
+    return obj;
+}
+
+function encodeData(data) {
+    const publicKey = getRSAPublicKey();
+    const crypt = new JSEncrypt();
+    crypt.setPublicKey(publicKey);
+
+    return crypt.encrypt(data);
+}
+
+/* 버튼 엔터 키 입력 공용 이벤트 */
+function enterKeyDownEventBridge(e) {
+    if(e.key === 'Enter') {
+        this.click();
+    }
+}

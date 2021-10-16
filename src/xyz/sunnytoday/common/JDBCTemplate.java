@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 /**
- * 강사님이 준 JDBCTemplate 코드에 커넥션풀만 적용함.
+ * 강사님이 주신 JDBCTemplate 코드에 커넥션풀만 적용함.
  * 모든 메서드 사용방법이 같음 단 connection도 항상 close 해줘야함!
  */
 public class JDBCTemplate {
@@ -26,14 +26,9 @@ public class JDBCTemplate {
                 dataSource = (DataSource) context.lookup("java:comp/env/oracle.xe");
             }
             connection = dataSource.getConnection();
-            while (connection.isClosed()) {
-                System.out.println("closedConnection = " + connection);
-                connection = dataSource.getConnection();
-            }
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
-
 
 
         return connection;

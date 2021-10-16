@@ -4,6 +4,11 @@ body {
     flex-flow: column;
     justify-content: space-between;
 }
+
+input {
+    outline:none;
+}
+
 #login {
     display: flex;
     align-content: center;
@@ -74,6 +79,7 @@ body {
 
 .label-keep {
     cursor: pointer;
+    user-select: none;
 }
 
 .find {
