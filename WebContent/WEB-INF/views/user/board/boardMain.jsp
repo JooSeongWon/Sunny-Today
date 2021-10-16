@@ -63,9 +63,19 @@
 	<tr>
 		<td colspan="6">공지글</td>
 	</tr>
+	
 <c:forEach items="${boardMainList }" var="boardMainList">
 <tr>
-	<td rowspan="2"><img class="thumbnail" src="/upload/${mainThumFile.thumbnail_url }" alt="썸네일"></td>
+	<td rowspan="2">
+	<c:choose>
+	<c:when test="${empty boardMainList.file }">
+	<img class="thumbnail" src="https://via.placeholder.com/40" alt="no picture">
+	</c:when>
+	<c:otherwise>
+	<img class="thumbnail" src="${pageContext.request.contextPath}/upload/${boardMainList.file.thumbnail_url}" alt="no picture">
+	</c:otherwise>
+	</c:choose>
+	</td>
 	<td id='title'>
 		<a href="/board/detail?postno=${boardMainList.post.post_no }">
 		${boardMainList.post.title }
@@ -99,9 +109,9 @@
 </div>
 
 <div class="searchArea">
-<form action="/board/Asking?search=" method="get">
+<form action="/board/search" method="get">
 	<select name="select">
-			<option value="title" >제목</option>
+			<option value="title">제목</option>
 			<option value="content">본문</option>
 			<option value="nick">작성자</option>
 	</select>

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import xyz.sunnytoday.common.Paging;
 import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
@@ -54,7 +55,7 @@ public interface BoardDao {
 	 * @param paging - 페이징 정보 객체
 	 * @return 내가 쓴 글만 List로 반환
 	 */
-	public List<Map<String, Object>> selectMineListAll(Board board, Connection conn, Paging paging);
+	public List<Map<String, Object>> selectMineListAll(int userno, Connection conn, Paging paging);
 
 	/**
 	 * 정보공유만 전체 조회
@@ -144,7 +145,7 @@ public interface BoardDao {
 	public Post selectPostByPostno(Connection conn, Post post_no);
 
 	/**
-	 * id를 이용해 nick을 조회한다
+	 * userno를 이용해 nick을 조회한다
 	 * 
 	 * @param detailBoard - 조회할 userno를 가진 객체
 	 * @return String - 작성자 닉네임
@@ -204,7 +205,37 @@ public interface BoardDao {
 	 * @param file_no - postno이 있는 객체
 	 * @return
 	 */
-	public File selectThum(Connection conn, PostFile file_no);
+	public File selectThum(Connection conn, Post post);
+
+	/**
+	 * 서치된 리스트 조회
+	 * @param conn
+	 * @param paging
+	 * @param keyword - 검색 키워드
+	 * @param select - 검색하는 분류 (제목(title), 본문(content), 작성자(nick))
+	 * @param boardTitle - 카테고리 분류
+	 * @return
+	 */
+	public List<Map<String, Object>> selectSearchList(Connection conn, Paging paging, String boardTitle, String select, String keyword);
+
+	/**
+	 * post_no을 이용해서 댓글 리스트 조회
+	 * @param conn
+	 * @param post_no
+	 * @return
+	 */
+	public List<Comments> selectCommentPost(Connection conn, Post post_no);
+
+	/**
+	 * 댓글 추가
+	 * @param conn
+	 * @param post_no - 댓글 추가할 post_no
+	 * @param comments - 댓글 내용
+	 * @param userno - 댓글 작성한 사람
+	 * @return
+	 */
+	public int insertComment(Connection conn, Post post_no, String comments, int userno);
+
 
 
 

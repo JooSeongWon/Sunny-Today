@@ -16,6 +16,7 @@
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/board.css" rel="stylesheet">
     <script src="${jsPath}/board_script.js"></script>
+    <script src="${jsPath}/httpRequest.js"></script>
 
 </head>
 <body>
@@ -60,6 +61,35 @@
 
 		<button id="btnList">뒤로가기</button>
 		<hr>
+		
+		<form action="<%=request.getContextPath() %>/board/comments/insert" method="get">
+			<input type="hidden" name="postno" id="postno" value="${detailBoard.post_no }" />
+			<div>
+				<input type="checkbox" name="onlyWriter" id="onlyWriter"> 
+				<label for="onlyWriter">작성자만 보기</label>	
+			</div>
+			<div>
+				<span>${loginNick }</span>
+				<input type="text" name="commentsContent" id="commentsContent" placeholder="댓글을 작성해보세요" />
+				<input type="button" id="btnCommentsInsert" value="댓글입력"/>
+			</div>
+		</form>
+		<hr>
+		
+		<c:if test="${empty comments }">
+		<h3>댓글이 없습니다, 댓글을 작성해보세요!</h3>
+		</c:if>
+		
+		<c:if test="${not empty comments }">
+			<c:forEach items="${comments }" var="comments">
+				<table>
+					<tr id="comments">
+					</tr>		
+				</table>
+			</c:forEach>
+		</c:if>
+		
+		
 	
 </div>
 

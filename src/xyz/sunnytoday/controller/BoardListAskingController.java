@@ -29,6 +29,8 @@ public class BoardListAskingController extends HttpServlet {
 		
 		req.setAttribute("boardAskingList", list);
 		
+//		for( Map<String, Object> e : list ) { System.out.println( e ); };
+		
 		req.setAttribute("paging", paging);
 
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardAsking.jsp").forward(req, resp);

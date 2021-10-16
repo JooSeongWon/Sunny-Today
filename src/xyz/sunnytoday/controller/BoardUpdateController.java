@@ -29,6 +29,8 @@ public class BoardUpdateController extends HttpServlet {
 		req.setAttribute("updateBoard", updateBoard );
 		req.setAttribute( "nick", boardService.getNick(updateBoard) );
 		
+		System.out.println("updateBoard : " + updateBoard);
+		
 		File detailFile = boardService.detailFile(updateBoard);
 		req.setAttribute("detailFile", detailFile);
 		

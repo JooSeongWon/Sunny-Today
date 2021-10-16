@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.common.Paging;
 import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
+import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
 
 public interface BoardService {
@@ -137,7 +139,45 @@ public interface BoardService {
 	 * @param list - post값이 들어있음
 	 * @return file객체
 	 */
-	public File thumFileShow(List<Map<String, Object>> list);
+	public void setThumFile(List<Map<String, Object>> list);
+
+	/**
+	 * 사용자가 입력한 값에 따라서 검색된 리스트 조회
+	 * @param req 입력한 값
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> getSearchList(HttpServletRequest req, Paging paging);
+
+	/**
+	 * 로그인 되어있는 닉네임 세션에서 가져오기
+	 * @param req 
+	 * @return
+	 */
+	public String loginNick(HttpServletRequest req);
+
+	/**
+	 * postno에 맞는 댓글 리스트 가져오기
+	 * @param post_no - 게시글 번호
+	 * @return List<Comments> - 댓글 리스트
+	 */
+	public List<Comments> selectCommentPost(Post post_no);
+
+	/** 
+	 * 댓글 내용 가져오기
+	 * @param req - 댓글 내용이 든 req
+	 * @return
+	 */
+	public String getComments(HttpServletRequest req);
+
+	/**
+	 * 댓글 추가요청
+	 * @param post_no - 댓글 추가할 postno
+	 * @param comments - 댓글 내용
+	 * @param userno - 댓글 작성자
+	 */
+	public void insertComment(Post post_no, String comments, int userno);
+
 
 
 

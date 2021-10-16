@@ -190,10 +190,10 @@ td, th {
     position: relative;
 }
 
-#btnlist {
+#btnList {
 	display: inline-block;
     position: relative;
-    left: 65%;
+    left: 90%;
 }
 
 #detailContent {

@@ -69,7 +69,7 @@
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
-		<a href="/board/detail?board=${boardAskingList.board.title }&postno=${boardAskingList.post.post_no }">
+		<a href="/board/detail?postno=${boardAskingList.post.post_no }">
 		${boardAskingList.post.title }
 		</a>
 	</td>
@@ -102,9 +102,10 @@
 </div>
 
 <div class="searchArea">
-<form action="/board/Asking?search=" method="get">
+<form action="/board/search?" method="get">
+<input type="hidden" name="boardTitle" value="asking" />
 	<select name="select">
-			<option value="title" >제목</option>
+			<option value="title">제목</option>
 			<option value="content">본문</option>
 			<option value="nick">작성자</option>
 	</select>

@@ -81,6 +81,43 @@ $(document).ready(function() {
 	$("#btnUpdateCancel").click(function() {
 		history.go(-1);
 	});
+	
+	
+	
+	//댓글 js -----------------------------------------------------------
+	$("#btnCommentsInsert").click(function() {
+		
+		//요청 URL
+		var url = "/board/comments/insert"
+		
+		//요청 파라미터
+		var data = "&postno=" + $("#postno").val()
+			+ "&onlyWriter=" + $("#onlyWriter").val()
+			+ "&commentsContent=" + $("#commentsContent").val();
+		console.log("data", data)
+		
+		sendRequest("get", url, data, callback)
+		
+		return false;
+	});
+	
+	
+	
 })
 
+function callback() {
+	if(httpRequest.readyState == 4) {
+		if(httpRequest.status == 200) {
+			console.log("정상적인 AJAX 요청/응답 성공")
+			
+			printData();
+		} else {
+			console.log("AJAX 요청/응답 실패")
+		}
+	}
+}
 
+function printData() {
+	console.log("printData() called")
+	comments.innerHTML = httpRequest.responseText
+}

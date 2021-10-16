@@ -32,7 +32,10 @@
 	
 <div class="writearea">
 	<form action="<%=request.getContextPath() %>/board/update" method="post" enctype="multipart/form-data">
-<%-- 	<input type="hidden" name="boardno" value="${updateBoard.boardno }" /> --%>
+
+<%-- 	<input type="hidden" name="postno" value="${updateBoard.post_no }" /> --%>	
+	<input type="hidden" name="postno" value="${param.postno }" />
+
 		<input type="text" name="title" id="writeTitle" value="${updateBoard.title }"/>
 		<hr>
 		<div>
@@ -50,7 +53,11 @@
 		</span>
 		</div>
 		
-		<div id="preview"></div>
+		<c:if test="${not empty detailFile }">
+		<div id="preview">
+			<img src="/upload/${detailFile.url }">
+		</div>
+		</c:if>
 		<div>
 		<textarea name="content" id="writeContent">${updateBoard.content }</textarea>
 		</div>
