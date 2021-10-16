@@ -50,6 +50,7 @@ public interface MypageService {
 	 * @return
 	 */
 	public boolean checkPassword(HttpServletRequest req);
+
 	
 	
 

@@ -7,10 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-<<<<<<< HEAD
-=======
-import javax.websocket.Session;
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
@@ -32,12 +28,8 @@ public class MypageController extends HttpServlet {
 		int userno = (int) param;
 		
 		
-//		//로그인 되어있지 않으면 리다이렉트 
-//		if( req.getsession().getattribute("login") == null
-//				|| !(boolean)req.getsession().getattribute("login") ) {
 //		if( req.getSession().getAttribute("nick") == null
 //				|| !(boolean)req.getSession().getAttribute("nick") ) {
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 //			
 //			resp.sendredirect("/");
 //			
@@ -45,20 +37,17 @@ public class MypageController extends HttpServlet {
 //		}
 //		
 		//로그인 유저 세션의 유저넘버 얻기
-		Member loginUser = mypageService.getUser(req);
+//		Member loginUser = mypageService.getUser(req);
 		
 		//유저넘버로 유저정보 얻기 - member
-<<<<<<< HEAD
-		Member loginmember = mypageService.selectMember(loginUser);
+//		Member loginmember = mypageService.selectMember(loginUser);
 	
 		//유저정보 전달
-		req.setAttribute("loginmember", loginmember);
-=======
+//		req.setAttribute("loginmember", loginmember);
 		Member member = mypageService.selectMember(userno);
 	
 		//유저정보 전달
 		req.setAttribute("member", member);
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/mypage/mypage.jsp").forward(req, resp);
 	}
@@ -67,8 +56,6 @@ public class MypageController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("mypage [POST]");
 		
-<<<<<<< HEAD
-=======
 		//로그인 유저 세션의 유저넘버 얻기
 		Object param = req.getSession().getAttribute("userno");
 		int userno = (int) param;
@@ -76,7 +63,6 @@ public class MypageController extends HttpServlet {
 		//유저넘버로 유저정보 얻기 - member
 		Member loginmember = mypageService.selectMember(userno);
 		
->>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 		//업데이트
 		mypageService.update(req);
 		

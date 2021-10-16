@@ -69,9 +69,6 @@ public interface MypageDao {
 	 */
 	public Member getsalt(String userId, Connection conn);
 	
-	public int selectPhoneOpen(Connection conn, String phone, Member loginUserId);
-
-	int updateMember(Connection conn, Member param, Member loginUserId);
 
 
 }
