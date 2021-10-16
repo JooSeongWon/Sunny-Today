@@ -24,7 +24,7 @@ $(document).ready(function(){
 	});
 
 	$("#eventwrite").click(function(){
-		$(location).attr("href", "/admin/message/write");
+		$(location).attr("href", "/admin/message/event/title");
 	});
 	
 	$("button[name=btnUpdate]").click(function() {
@@ -56,7 +56,7 @@ $(document).ready(function(){
 
 <div class="row" >
 
-<div class="col-md-8">
+<div class="col-md-6">
 	<form action="<%=request.getContextPath() %>/admin/message/event" id="search" method="get" class="form-group">
 		<label>&nbsp;제목 검색
 			<input class="search-query" type="text" name="search" placeholder="search"/>
@@ -65,7 +65,7 @@ $(document).ready(function(){
 	</form>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-6" >
 	<div class="form-group text-right">
 		<button class="btn btn-default" id="eventwrite" type="button">이벤트등록</button>
 		<button class="btn btn-info" id="messagewrite" type="button">쪽지등록</button>

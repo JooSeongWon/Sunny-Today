@@ -93,32 +93,48 @@ $(document).ready(function(){
 	
 	$('#member_list').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/admin/member/list");
+//		$(location).attr("href", "/admin/member/list");
+		sendRequest(
+			"GET"
+			, "/WEB-INF/views/admin/member/member_list.jsp"
+			, resonsefunc);
 	})
 	
 	$('#member_question').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/admin/member/question");
+//		$(location).attr("href", "/admin/member/question");
+		sendRequest(
+			"GET"
+			, "/WEB-INF/views/admin/member/question.jsp"
+			, resonsefunc);
 	})
 	
 	$('#member_report').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/admin/member/report");
+//		$(location).attr("href", "/admin/member/report");
+		sendRequest(
+			"GET"
+			, "/WEB-INF/views/admin/member/report_list.jsp"
+			, resonsefunc);
 	})
 	
 	$('#purnish_list').click(function(){
 		console.log("member_list clicked");
-		$(location).attr("href", "/admin/purnish/list");
+//		$(location).attr("href", "/admin/purnish/list");
+		sendRequest(
+			"GET"
+			, "/WEB-INF/views/admin/member/purnish_list.jsp"
+			, resonsefunc);
 	})
-	$('#conn_analysis').click(function(){
-		console.log("conn_analysis clicked");
-		$(location).attr("href", "/admin/conn/analysis");		
-	})
-	$('#member_statisics').click(function(){
-		console.log("member_statisics clicked");
-		$(location).attr("href", "/admin/member/statisics");
-	})
-	
+//	$('#conn_analysis').click(function(){
+//		console.log("conn_analysis clicked");
+//		$(location).attr("href", "/admin/conn/analysis");		
+//	})
+//	$('#member_statisics').click(function(){
+//		console.log("member_statisics clicked");
+//		$(location).attr("href", "/admin/member/statisics");
+//	})
+//	
 	$('#board_menage').click(function(){
 		$(location).attr("href", "/admin/board/list");
 	})
@@ -126,4 +142,20 @@ $(document).ready(function(){
 	$('#total_board_setting').click(function(){
 //		$(location).attr("href", "admin");
 	})
+	
 });
+
+function resonsefunc(){
+	//응답 처리 코드
+	console.log("responsefunc() called");
+
+	if(httpRequest.readyState == 4){//DONE, 응답 완료
+		if(httpRequest.status == 200){// 200 OK, 정상응답
+			console.log("AJAX 정상 응답");
+			console.log(httpRequest.responseText);
+			body.innerHTML = httpRequest.responseText;
+		}else{
+			console.log("AJAX 요청/응답 에러");
+		}
+	}
+}

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import xyz.sunnytoday.dto.Member;
+import xyz.sunnytoday.dto.Message;
 import xyz.sunnytoday.util.Paging;
 
 public interface AdminMessageDao {
@@ -94,6 +95,14 @@ public interface AdminMessageDao {
 	 * @return List<Member> - Member테이블 조회결과 리스트
 	 */
 	public List<Member> selectByUserno(int[] userno, Connection conn);
+	
+	/**
+	 * 메세지 정보 입력
+	 * 
+	 * @param conn - DB연결 객체
+	 * @param message - 메세지 정보객체
+	 */
+	public int send(Connection conn, Message message);
 	
 
 

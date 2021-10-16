@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/httpRequest.js"></script>
 <!-- jquery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 

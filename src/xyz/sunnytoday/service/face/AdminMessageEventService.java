@@ -83,4 +83,22 @@ public interface AdminMessageEventService {
 	 */
 	public void deleteAll(int arr2);
 
+	/**
+	 * 이벤트 메세지 목록 조회
+	 * 
+	 * @param req - event_no
+	 * @return List<MessageEvent> - 메세지 이벤트 조회 결과 리스트
+	 */
+	public List<MessageEvent> getEventList(HttpServletRequest req);
+
+	
+	public List<MessageEvent> getMassageList(HttpServletRequest req);
+
+	/**
+	 * 메세지 이벤트 등록
+	 * 
+	 * @param req - 전달파라미터(분류,타이틀)
+	 */
+	public void titleWrite(HttpServletRequest req);
+
 }
