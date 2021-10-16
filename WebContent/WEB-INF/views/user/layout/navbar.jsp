@@ -20,7 +20,7 @@
             <a href="<%= request.getContextPath() %>/schedule">
                 <li class="navbar__item">내 일정</li>
             </a>
-            <a href="/board/main">
+            <a href="<%= request.getContextPath() %>/board/main">
                 <li class="navbar__item">커뮤니티</li>
             </a>
             <a href="#">

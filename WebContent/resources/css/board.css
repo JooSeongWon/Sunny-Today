@@ -1,0 +1,226 @@
+/* 메인과 카테고리 리스트 */
+
+.menu-left {
+    float: left;
+    width: 15%;
+    margin: 20px;
+}
+
+.How_was_your_day {
+	margin: 20px;
+}
+
+.menu-left div {
+	margin: 10px;
+}
+
+.main-board {
+	float: right;
+	width: 80%;
+	margin: 0 auto;
+}
+
+#full_article {
+	text-align: center;
+	margin: 15px;
+	font-size: var(--font-regular);
+}
+
+
+table {
+	width: 80%;
+	margin: 35px auto;
+	border-collapse: collapse;
+}
+
+td, th {
+	border-top: 2px solid var(--color-grey);
+	border-bottom: 2px solid var(--color-grey);
+	text-align: center;
+}
+
+#title {
+	border-bottom: none;
+}
+
+#content {
+	border-top: none;
+}
+
+.thumbnail {
+	text-align: center;
+}
+
+#circle-grade {
+	text-align: center;
+	line-height: 300%;
+	width: 50%;
+	margin: 0 auto;
+	border-radius: 50%;
+	background-color: var(--color-sky);
+}
+
+.division > th:nth-child(1) {
+	width: 10%;
+}
+
+.division > th:nth-child(2) {
+	width: 40%;
+}
+
+.division > th:nth-child(3) {
+	width: 15%;
+}
+
+.division > th:nth-child(4) {
+	width: 15%;
+}
+
+.division > th:nth-child(5) {
+	width: 10%;
+}
+
+.division > th:nth-child(6) {
+	width:10%;
+}
+
+.searchArea {
+	text-align: center;
+	padding-left: 200px;
+}
+
+.btnWriteStart {
+	clear:both;
+	text-align: right;
+	margin: 0px 100px;
+}
+
+.btnWrite {
+  border-radius: 28px;
+  font-size: var(--font-small);
+  background: var(--color-sky);
+  padding: 10px 20px 10px 20px;
+}
+
+#paging {
+	text-align: center;
+	clear:both;
+	padding-left:200px;
+}
+
+/* Write css--------------------------- */
+
+.writearea {
+	width: 60%;
+	margin: 0 auto;
+	padding-top:10px;	
+	padding-bottom: 40px;
+}
+
+#writeTitle {
+	width: 80%;
+    height: 40px;
+    border: none;
+}
+
+#writeContent {
+	width: 80%;
+	height: 300px;
+	resize: none;
+	border: none;
+	font-size: var(--font-micro);
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+.detailSelect {
+	display: inline-block;
+    position: relative;
+}
+
+.filebox {
+    position: relative;
+    left: 65%;
+}
+
+.filebox label {
+    display: inline-block;
+    padding: .5em .75em;
+    color: var(--color-white);
+    font-size: var(--font-micro);
+    line-height: normal;
+    vertical-align: middle;
+    background-color: var(--color-sky);
+    cursor: pointer;
+    border-radius: .50em;
+} 
+.filebox input[type="file"] { 
+	position: absolute; 
+	width: 1px; 
+	height: 1px; 
+	padding: 0; 
+	margin: -1px; 
+	overflow: hidden; 
+	clip:rect(0,0,0,0); 
+	border: 0; 
+}
+
+
+
+
+/* Detail css--------------------------- */
+
+.detailarea {
+	width: 60%;
+	margin: 0 auto;
+	padding-top:10px;	
+	padding-bottom: 40px;	
+}
+
+#detailTitle {	
+    text-align: left;
+    padding: 10px;
+    font-size: var(--font-medium);
+    font-weight: bold;
+    color: var(--color-dark-grey);
+}
+
+#detailNick {
+    font-size: var(--font-micro);
+    display: inline-block;
+    position: relative;
+}
+
+#btnList {
+	display: inline-block;
+    position: relative;
+    left: 90%;
+}
+
+#detailContent {
+	padding-top: 50px;
+	padding-bottom: 50px;
+	text-align: center;
+}
+
+#likeList {
+	text-align: center;
+}
+
+#like {
+	border-radius: 28px;
+	font-size: var(--font-small);
+	background: var(--color-sky);
+	padding: 10px 10px 10px 10px;
+}
+
+#disLike {
+	border-radius: 28px;
+	font-size: var(--font-small);
+	background: var(--color-gray);
+	padding: 10px 10px 10px 10px;
+	
+}
+
+
+
+}

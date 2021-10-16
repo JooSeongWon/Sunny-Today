@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <% 
-	List<Post> boardMainList = (List) request.getAttribute("boardMainList");
+	List<Post> boardShareList = (List) request.getAttribute("boardShareList");
 %>
 
 <!doctype html>
@@ -17,8 +17,8 @@
     <title>오늘도 맑음 -전체 카테고리</title>
 
     <%--페이지별 css/ js--%>
-    <link href="${cssPath}/boardmain.css" rel="stylesheet">
-    <script src="${jsPath}/home_script.js"></script>
+    <link href="${cssPath}/board.css" rel="stylesheet">
+    <script src="${jsPath}/board_script.js"></script>
 
 </head>
 <body>
@@ -28,15 +28,15 @@
 <c:import url="../layout/navbar.jsp"/>
 
 	<div class="How_was_your_day">
-		<h2>커뮤니티</h2>
-		당신의 오늘은 어떠셨나요?
+		<h2>정보공유</h2>
+		혼자만 알기 아까운 정보! 나눠봅시다!
 	</div>
 	<hr>
 	
 <div>
 <div class="menu-left">
 	<div><h2>카테고리</h2></div>
-	<div><a href="/board/list">전체 글</a></div>
+	<div><a href="/board/main">전체 글</a></div>
 	<div><a href="/board/list/daily">일상룩</a></div>
 	<div><a href="/board/list/buy">지름 게시판</a></div>
 	<div><a href="/board/list/share">정보공유</a></div>
@@ -64,30 +64,35 @@
 	<tr>
 		<td colspan="6">공지글</td>
 	</tr>
-	<% for(int i=0; i<boardMainList.size(); i++) {%>
+<c:forEach items="${boardShareList }" var="boardShareList">
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
-		<a href="/board/detail?postno=<%=boardMainList.get(i).getPost_no() %>">제목</a>
+		<a href="/board/detail?postno=${boardShareList.post.post_no }">
+		${boardShareList.post.title }
+		</a>
 	</td>
-	<td rowspan="2"><i class="far fa-smile"></i>사용자</td>
 	<td rowspan="2">
-		<i class="fas fa-circle fa-3x"></i>
+		<i class="far fa-smile"></i>${boardShareList.nick }
+	</td>
+	<td rowspan="2">
 		<div id='circle-grade'>평점</div>
 	</td>
-	<td rowspan="2">작성된 날짜</td>
+	<td rowspan="2">
+		${boardShareList.post.write_date }
+	</td>
 	<td rowspan="2">추천수</td>
 </tr>
 <tr>
-	<td id='content'>본문입니다</td>
+	<td id='content'>${boardShareList.post.content }</td>
 </tr>
-<%} %>
+</c:forEach>
 </tbody>
 </table>
 </section>
 </div>
 <div id='paging'>
-<c:import url="../layout/paging.jsp" />
+<c:import url="../layout/boardPaging.jsp" />
 </div>
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>

@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.common.Paging;
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
-/**
- * Servlet implementation class BoardMainController
- */
+import javax.servlet.http.HttpSession;
+
 @WebServlet("/board/main")
 public class BoardMainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,14 +26,20 @@ public class BoardMainController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		
 		Paging paging = boardService.getPaging(req);
-		
-		List<Post> list = boardService.getList(paging);
+		List<Map<String, Object>> list = boardService.getList(paging);
+
+		boardService.setThumFile(list);
 		
 		req.setAttribute("boardMainList", list);
-		
 		req.setAttribute("paging", paging);
+		
+//		for( Map<String, Object> e : list ) {
+//			System.out.println( e );
+//		}		
+//		System.out.println("mainThumFile : " + mainThumFile );
 
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardMain.jsp").forward(req, resp);
 	}
