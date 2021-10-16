@@ -1,5 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="xyz.sunnytoday.dto.Material"%>
+<%@ page import="xyz.sunnytoday.dto.Friend"%>
+<%@ page import="java.util.List"%>
+<%
+
+List<Material> materialList = (List) request.getAttribute("material"); 
+List<Friend> friendList = (List) request.getAttribute("friend"); 
+
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -10,61 +20,28 @@
     
     <link href="${cssPath}/schedule_write.css" rel="stylesheet">
     
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
     <script type="text/javascript">
     
-    var msg = '${msg}'
+	//잘못된 접근시 메인 일정으로 이동
+	if(<c:out value='${schedule.latitude}'/> === 0) {
+		window.location.href = '<%=request.getContextPath() %>/schedule';
+	}
     
-    if(msg != null) {
-	    if(msg === 'n') {
-			window.alert('중복된 일정은 입력할 수 없습니다!');
-			window.history.back();
-	    }
-    }
-    
-    $(function() {
-    	
-        $( "#schedule_date" ).datepicker();
-        
-	    $.datepicker.setDefaults({
-	        dateFormat: 'yy-mm-dd',
-			prevText: '이전 달',
-	        nextText: '다음 달',
-	        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-	        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-	        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-	        showMonthAfterYear: true,
-	        yearSuffix: '년',
-	        changeYear: true,
-	        changeMonth: true
-	    });
-	    
-	    $("#schedule_date").datepicker('setDate', 'today');
-	    
-    });
-    
-    
-    $(document).ready(function() {
-    	
-    	document.getElementById('submitBtn').onclick = function() {
-    		
-        	var check = document.getElementById('latitude').value;
-        	
-    	    if(check == "0") {
-    	    	window.alert('지도를 클릭해주세요!');
-    	    } else {
-    	    	document.getElementById('submit').click();
-    	    }
-    		
-    	}
-    })
-    
-  	   
+	$(document).ready(function() {
+		
+		document.getElementById('submitBtn').onclick = function() {
+			
+	    	var check = document.getElementById('latitude').value;
+	    	
+		    if(check == "0") {
+		    	window.alert('지도를 클릭해주세요!');
+		    } else {
+		    	document.getElementById('submit').click();
+		    }
+			
+		}
+	})
+	
 	$(document).ready(function() {
     	document.getElementById('area').addEventListener('keydown', function(event) {
     		
@@ -108,14 +85,14 @@
 	
 	$(document).ready (function() {
 			
-		var count = 0;
+		var count = <%=friendList.size() %>;
 			
 		$('.btnAdd').click (function() {
 				
 			if(count < 6) {
 				$('.addInput').append (
 					'<p class="addP"><button type="button" class="btnRemove">-</button> \
-					<input type="text" name="friend" target="target" size="7px" maxlength="6" placeholder="친구" required="required" /><br></p>'
+					<input type="text" name="friend" target="target" size="7px" maxlength="5" placeholder="친구" required="required" /><br></p>'
 				); //input 추가
 				
 				$('input[target]').keydown(function() {
@@ -144,14 +121,14 @@
 	
 	$(document).ready (function() {
 			
-		var count2 = 0;
+		var count2 = <%=materialList.size() %>;
 			
 		$('.btnAdd2').click (function() {
 				
 			if(count2 < 6) {
 				$('.addInput2').append (
 					'<p class="addP"><button type="button" class="btnRemove2">-</button> \
-					<input type="text" name="material" target="target" size="7px" maxlength="6" placeholder="준비물" required="required" /><br></p>'
+					<input type="text" name="material" target="target" size="7px" maxlength="5" placeholder="준비물" required="required" /><br><p>'
 				); //input 추가
 				
 				$('input[target]').keydown(function() {
@@ -167,7 +144,7 @@
 			
 			$('.btnRemove2').off('click').on('click', function() {
 				
-											// 여기서 this는 '.btnRemove2'
+											// 여기서 this는 '.btnRemove'
 				$(this).parent().remove();	// <p> 삭제
 				$(this).next().remove();	// <input> 삭제
 				$(this).next().remove();	// <br>
@@ -191,11 +168,14 @@
 <br><br><br><br><br>
 
 
-<form action="<%=request.getContextPath() %>/schedule/write" method="post" id="frm">
+<form action="<%=request.getContextPath() %>/schedule/update" method="post" id="frm">
 
 <div id="main" >
 	
 	<div id="side_left">
+		
+		<!-- form 값으로 보내는 scheduleCheckbox 값  -->
+		<input type="hidden" id="scheduleCheckbox" name="scheduleCheckbox" value="${schedule.schedule_date }" />
 	
 		<!-- form 값으로 보내는 위도, 경도 값 -->
 		<input type="hidden" id="latitude" name="latitude" value="0" />
@@ -217,7 +197,7 @@
 				
  					var container = document.getElementById('map');
  					var options = {
- 						center: new kakao.maps.LatLng(37.49799093779544, 127.02754223910571),
+ 						center: new kakao.maps.LatLng(<c:out value='${schedule.latitude}'/>, <c:out value='${schedule.longitude}'/>),
  						level: 3
  					};
  					
@@ -284,47 +264,79 @@
 	
 	    <div id="mid_content_box">
 	    
-	    	<input type="text" id="schedule_date" name="schedule_date" value="" readonly="readonly" required="required"  /><br>
-	    	<input type="text" id="schedule_title" name="schedule_title" value="" target="target" maxlength="15" placeholder="일정 이름을 입력해주세요" required="required" /><br>
-	    	<textarea id="schedule_content" name="schedule_content" placeholder="일정 내용을 입력해주세요" maxlength="660" required="required" ></textarea>
+	    	<input type="text" id="schedule_date" name="schedule_date" value="${schedule.schedule_date }" readonly="readonly"/><br>
+	    	<input type="text" id="schedule_title" name="schedule_title" value="${schedule.title }" target="target" maxlength="15" placeholder="일정 이름을 입력해주세요" required="required" /><br>
+	    	<textarea id="schedule_content" name="schedule_content" name="schedule_content" placeholder="일정 내용을 입력해주세요" maxlength="660" required="required">${schedule.content }</textarea>
 	    	
 	    	<button type="submit" id="submit" style="display: none;"></button>
-			<button type="button" id="submitBtn" class="btn">입력</button>
-	   		<button type="button" id="cancelBtn" class="btn" onclick="location.href = '<%=request.getContextPath() %>/schedule'">취소</button>
+			<button type="button" id="submitBtn" class="btn">수정</button>
+	   		<button type="button" id="cancelBtn" class="btn" onclick="location.href = '<%=request.getContextPath() %>/schedule/view?date=${schedule.schedule_date }'">취소</button>
 	   		
 	    </div>
 	   		
 	</div>
 	
 	<div id="side_rigth">
-		
+	
 		<div class="fixTop">
 		
 	    	<p><button type="button" class="btnAdd2">+</button> 준비물</p>
-	    	
-	   	</div>
-	    	
+		
+		</div>
+	
 	    <div class="side_rigth_box">
+	    	
+			<div class="addInput2">
 			
-			<div class="addInput2"></div>
+			<%
+			
+			for(int i=0; i<materialList.size(); i++) {
+				String material_name = materialList.get(i).getName();
+				
+				out.print("<p class='addP'><button type='button' class='btnRemove2'>-</button>&nbsp;"
+						+ "<input type='text' name='material' target='target' size='7px' maxlength='6' placeholder='친구' value='" 
+						+  material_name
+						+"' required='required' /><br></p>");
+				
+			}
+			
+			%>
+			
+			</div>
 	    
 	    </div>
 	    
 	    <div class="fixTop">
-	    
+	    	
 	    	<p><button type="button" class="btnAdd">+</button> 함께하는 친구</p>
 	    	
 	    </div>
 	    
 	    <div class="side_rigth_box">
 			
-			<div class="addInput"></div>
-	    
+			<div class="addInput">
+				
+			<%
+			
+			for(int i=0; i<friendList.size(); i++) {
+				String friend_name = friendList.get(i).getName();
+				
+				out.print("<p class='addP'><button type='button' class='btnRemove'>-</button>&nbsp;" 
+						+ "<input type='text' name='friend' target='target' size='7px' maxlength='6' placeholder='친구' value='" 
+						+  friend_name
+						+"' required='required' /><br></p>");
+				
+			}
+			
+			%>
+			
+			</div>
+	    	
 	    </div>
 	    
 	    <div class="side_rigth_box">
 	    
-	    	<textarea id="schedule_memo" name="schedule_memo" maxlength="60" placeholder="간단한 메모를 입력해주세요"></textarea>
+	    	<textarea id="schedule_memo" name="schedule_memo" maxlength="60" placeholder="간단한 메모를 입력해주세요" >${schedule.memo }</textarea>
 	    	
 		</div>
 		
@@ -340,7 +352,5 @@
 
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>
-
 </body>
 </html>
-

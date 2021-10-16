@@ -62,8 +62,10 @@ if(n_m == 13) {
     <script src="${jsPath}/home_script.js"></script>
     
     <script type="text/javascript">
+    
+    	var str = '<input type="checkbox" class="scheduleCheckbox" name="scheduleCheckbox" />';
     	
-		if(${empty member}) {
+		if(${empty userno}) {
 			window.alert("로그인이 필요합니다!")
 			window.location.assign("<%= request.getContextPath() %>/")
 		}
@@ -73,10 +75,107 @@ if(n_m == 13) {
 		}
 		
 		function goDelete() {
-			window.location.assign("<%= request.getContextPath() %>/schedule/delete")
+			document.getElementById("btnRight").style.display = "none";
+			document.getElementById("btnRightHide").style.display = "block";
+			
+			var sections = document.querySelectorAll('.scheduleCheckbox');
+			
+			for(var i=0; i<sections.length; i++) {
+				var item = sections.item(i);
+				item.style.display = 'block';
+			}
 		}
+		
+		function deleteFrm() {
+			document.getElementById('deleteFrm').submit();
+		}
+		
+		$(function(){
+			$("#<c:out value='${now}'/>").css({
+				"color": "orange",
+				"font-weight": "bold"
+			});
+		});
+		
+		$(function(){
+			$(".schedule a").css({
+				"color": "inherit"
+			});
+		});
+		
+		$(function() {
+			
+			if(<%=m+1 %> == '1') {
+				document.getElementById("<%=y %>0101").style.color = "red";
+			}
+			if(<%=m+1 %> == '2') {
+				document.getElementById("<%=y %>0211").style.color = "red";
+				document.getElementById("<%=y %>0212").style.color = "red";
+				document.getElementById("<%=y %>0213").style.color = "red";
+			}
+			if(<%=m+1 %> == '3') {
+				document.getElementById("<%=y %>0301").style.color = "red";
+			}
+			if(<%=m+1 %> == '4') {
+			}
+			if(<%=m+1 %> == '5') {
+				document.getElementById("<%=y %>0505").style.color = "red";
+				document.getElementById("<%=y %>0519").style.color = "red";
+			}
+			if(<%=m+1 %> == '6') {
+				document.getElementById("<%=y %>0606").style.color = "red";
+			}
+			if(<%=m+1 %> == '7') {
+			}
+			if(<%=m+1 %> == '8') {
+				document.getElementById("<%=y %>0815").style.color = "red";
+				document.getElementById("<%=y %>0816").style.color = "red";
+			}
+			if(<%=m+1 %> == '9') {
+				document.getElementById("<%=y %>0816").style.color = "red";
+			}
+			if(<%=m+1 %> == '10') {
+				console.log("10월")
+			}
+			if(<%=m+1 %> == '11') {
+				console.log("11월")
+			}
+			if(<%=m+1 %> == '12') {
+				console.log("12월")
+			}
+			
+			
+		})
+		
     
     </script>
+    
+    <style type ="text/css">
+
+.mid_content{
+display: inline-block;
+width:1123px;
+height:200px;
+background-color:green;
+margin-top: 15px;
+}
+.side_content_box{
+display: inline-block;
+width:180px;
+height:180px;
+background-color:white;
+margin: 9px;
+}
+.side_rigth_box{
+display: inline-block;
+width:610px;
+height:180px;
+background-color:white;
+margin: 9px;
+margin-left: 100px;
+}
+
+</style>
     
 </head>
 <body>
@@ -85,22 +184,26 @@ if(n_m == 13) {
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
-<br><br><br>
+<br><br><br><br>
 
-<br>
+
 
 <table>
-	<caption>
-		<form id="frm" method="post" action="<%=request.getContextPath() %>/schedule" style="width: 525px;">
-			<a href="<%=request.getContextPath() %>/schedule?year=<%=b_y %>&month=<%=b_m %>" class="fas fa-angle-left"></a>
-			
-			<input type="number" id="year" name="year" max="2100" min="2000" value="<%=y %>" />년 
-			<input type="number" id="month" name="month" max="12" min="1" value="<%=m+1 %>" />월
-			<input type="submit" style="display: none;" />
-			
-			<a href="<%=request.getContextPath() %>/schedule?year=<%=n_y %>&month=<%=n_m %>" class="fas fa-angle-right"></a>
-		</form>
+	<caption id="controllDay">
+		<div style="width: 400px;">
+			<form id="frm" method="get" action="<%=request.getContextPath() %>/schedule">
+				<a href="<%=request.getContextPath() %>/schedule?year=<%=b_y %>&month=<%=b_m %>" class="fas fa-angle-left"></a>
+				
+					<input type="number" id="year" name="year" max="2100" min="2000" value="<%=y %>" />년 
+					<input type="number" id="month" name="month" max="12" min="1" value="<%=m+1 %>" />월
+					<input type="submit" style="display: none;" />
+				
+				<a href="<%=request.getContextPath() %>/schedule?year=<%=n_y %>&month=<%=n_m %>" class="fas fa-angle-right"></a>
+			</form>
+		</div>
 	</caption>
+	
+<form id="deleteFrm" method="post" action="<%=request.getContextPath() %>/schedule/delete">
 	
 	<tr id="dayWeek">
 		<th style="color: red;">일</th>
@@ -111,7 +214,6 @@ if(n_m == 13) {
 		<th>금</th>
 		<th style="color: blue;">토</th>
 	</tr>
-	
 	<%
 	
 	int d = 1;
@@ -144,14 +246,21 @@ if(n_m == 13) {
 				
 				int count = 0;
 				
-				String zero = "0";
+				String zeroM = "0";
+				String zeroD = "0";
 				
 				if(d >= 10) {
-					zero = "";
+					zeroD = "";
 				}
 				
-				String strDate = y + "" + (m+1) + "" + zero + d;
+				if((m+1) >= 10) {
+					zeroM = "";
+				}
 				
+				String strDate = y + "" + zeroM + (m+1) + "" + zeroD + d;
+				String sqlDate = y + "-" + zeroM + (m+1) + "-" + zeroD + d;
+				
+				//DB에서 가져온 일정과 일치하는 날짜 분별
 				if(scheduleList != null) { 
 					for(int k = 0; k < scheduleList.size(); k++) {
 						Date schedule_day = scheduleList.get(k).getSchedule_date();
@@ -168,10 +277,19 @@ if(n_m == 13) {
 					}
 				}
 				
+				//이번달 td 생성
 				if(count == 0) {
-					out.print("<td style='color: " + color + "'; class='" + d + "'>"+ d + "</td>");
+					out.print("<td style='color: " + color + "'; class='" + d + "' id='" + strDate + "'>"+ d + "</td>");
 				} else if(count == 1) {
-					out.print("<td style='color: " + color + "'; class='schedule' id='" + strDate + "'><a>"+ d + "</a></td>");
+					out.print("<td style='color: " + color + "'; class='schedule' id='" + strDate + "'>" 
+							+ "<input type='checkbox' class='scheduleCheckbox' name='scheduleCheckbox'" 
+							+ " style='display: none;' value='" + sqlDate + "' />" 
+							+ "<a href='" 
+							+ request.getContextPath() 
+							+ "/schedule/view?date="
+							+ sqlDate 
+							+"'>"+ d + "</a>" 
+							+ "</td>");
 					count--;
 				}
 				
@@ -192,27 +310,47 @@ if(n_m == 13) {
 	
 	%>
 	
+</form>
 </table>
 
 <br>
 
-<div class="scheduleBnt">
+<div class="scheduleBnt" style="width: 275px; height: 100px;">
 
-	<button onclick="goWrite()" id="btnLeft" name="scheduleInsert">일정 입력</button>
-
-</div>
-
-
-
-<div class="scheduleBnt">
-
-	<button onclick="goDelete()" id="btnRight" name="scheduleDelete">일정 삭제</button>
+	<button type="button" onclick="goWrite()" id="btnLeft" class="btn" name="scheduleInsert">일정 입력</button>
+	<button type="button" onclick="goDelete()" id="btnRight" class="btn">일정 삭제</button>
+	<button type="button" onclick="deleteFrm()" id="btnRightHide" class="btn">일정 삭제</button>
 	
 </div>
 
 
 <br><br><br><br><br><br>
 
+<div style="background-color: gray; width: 100%; height: 1000px; text-align: center;">
+
+	<div class= "mid_content">
+		<div class= "side_content_box">
+    	
+	    	날씨
+	    	
+	    </div>
+	    
+    	<div class= "side_content_box">
+    	
+    		두번째 공간
+    	
+    	</div>
+    	
+    	<div class= "side_rigth_box">
+    	
+    	세번째 공간
+    	
+    	</div>
+	</div>
+	
+</div>
+
+<br><br><br><br><br><br>
 
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>

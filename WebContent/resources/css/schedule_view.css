@@ -1,0 +1,175 @@
+#side_left {
+	width: 450px;
+	height: 465px;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 15px;
+}
+
+.side_left_box {
+	width: 95%;
+	height: 69%;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 10px;
+}
+
+.top_left_box {
+	margin-left: 10px;
+	color: var(--color-dark-grey);
+	height: 48px;
+}
+
+.top_content_box {
+	text-align: center;
+	font-weight: bold;
+	font-size: 30px;
+	height: 48px;
+}
+
+.top_rigth_box {
+	height: 48px;
+}
+
+#mid_content {
+	width: 450px;
+	height: 465px;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 15px 20px;
+}
+
+
+#side_rigth {
+	width: 450px;
+	height: 465px;
+	background-color: #EAEFF8;
+	float: right;
+	margin: 15px;
+}
+
+.side_rigth_box {
+	width: 95%;
+	height: 20%;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 10px;
+	margin-top: 10px;
+	overflow: auto;
+}
+
+#main {
+	width: 1450px;
+	height: 485px;
+	background-color: #EAEFF8;
+	margin: auto;
+	border-radius: 10px;
+}
+
+#schedule_content {
+	background-color: var(--color-white);
+	border: 1px solid var(--color-dark-grey);
+	outline: none;
+	border-radius: 9px;
+	font-size: 15px;
+	width: 95%;
+	height: 25%;
+	float: left;
+	overflow: auto;
+	text-align: center;
+	padding: 1px 0;
+	margin: 10px;
+}
+
+#schedule_weather {
+	background-color: var(--color-white);
+	border: 1px solid var(--color-dark-grey);
+	outline: none;
+	border-radius: 9px;
+	font-size: 15px;
+	width: 95%;
+	height: 35%;
+	float: left;
+	text-align: center;
+	padding: 1px 0;
+	margin: 10px;
+	margin-top: 30px;
+}
+
+#schedule_memo {
+	background-color: var(--color-white);
+	border: 1px solid var(--color-dark-grey);
+	outline: none;
+	border-radius: 9px;
+	font-size: 15px;
+	width: 95%;
+	height: 12%;
+	float: left;
+	overflow: auto;
+	text-align: center;
+	padding: 1px 0;
+}
+
+.btn {
+	font-size: 15px;
+	font-family: Arial;
+	width: 100px;
+	height: 35px;
+	border-width: 1px;
+	color: #777777;
+	border-color: #dcdcdc;
+	font-weight: bold;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: linear-gradient(#ededed, #dfdfdf);
+}
+
+.btn:hover {
+	background: linear-gradient(#dfdfdf, #ededed);
+}
+
+#map {
+	border: 1px solid var(--color-dark-grey);
+}
+
+.addP {
+	margin-top: 15px;
+}
+
+#goList {
+	margin-top: 10px;
+	margin-left: 175px;
+}
+
+#weather {
+	border: 1px solid var(--color-dark-grey);
+	outline: none;
+	border-radius: 9px;
+	font-size: 15px;
+	width: 90px;
+	height: 90px;
+	float: left;
+	overflow: auto;
+	text-align: center;
+	padding: 1px 0;
+	display: inline-block;
+	margin: 10px 30px 0px 21%;
+}
+
+#clothes {
+	border: 1px solid var(--color-dark-grey);
+	outline: none;
+	border-radius: 9px;
+	font-size: 15px;
+	width: 90px;
+	height: 90px;
+	float: left;
+	overflow: auto;
+	text-align: center;
+	padding: 1px 0;
+	display: inline-block;
+	margin: 10px 20% 0px 30px;
+}

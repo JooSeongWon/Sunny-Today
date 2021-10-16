@@ -1,0 +1,274 @@
+#side_left {
+	width: 450px;
+	height: 465px;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 15px;
+}
+
+.side_left_box {
+	width: 95%;
+	height: 69%;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 10px;
+}
+
+#mid_content {
+	width: 450px;
+	height: 465px;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 15px 20px;
+}
+
+#mid_content_box {
+	width: 95%;
+	height: 55%;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 10px;
+	align-items: center;
+}
+
+#side_rigth {
+	width: 450px;
+	height: 465px;
+	background-color: #EAEFF8;
+	float: right;
+	margin: 15px;
+}
+
+.side_rigth_box {
+	width: 95%;
+	height: 21%;
+	background-color: #EAEFF8;
+	float: left;
+	margin: 10px;
+	margin-top: 10px;
+	overflow: auto;
+}
+
+#main {
+	width: 1450px;
+	height: 485px;
+	background-color: #EAEFF8;
+	margin: auto;
+	border-radius: 10px;
+}
+
+#submitBtn {
+	float: left;
+	margin-left: 15%;
+	margin-top: 30px;
+}
+
+#cancelBtn {
+	float: right;
+	margin-right: 15%;
+	margin-top: 30px;
+}
+
+#area {
+	width: 95%;
+	height: 24px; margin-left : 10px;
+	margin-top: 11px;
+	background-image: url(./search.png);
+	background-size: 10px;
+	background-position: 5px center;
+	background-repeat: no-repeat;
+	padding-left: 19px;
+	border: 1px solid var(--color-dark-grey);
+	box-sizing: border-box;
+	outline: none;
+	border-radius: 3px;
+	font-size: 15px;
+	margin-left: 10px;
+}
+
+.btnAdd {
+	font-size: 23px;
+	font-family: Arial;
+	width: 30px;
+	height: 30px;
+	border-width: 1px;
+	color: #666666;
+	border-color: #dcdcdc;
+	font-weight: bold;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: linear-gradient(#ffffff, #f6f6f6);
+}
+
+.btnAdd:hover {
+	background: linear-gradient(#f6f6f6, #ffffff);
+}
+
+.btnAdd2 {
+	font-size: 23px;
+	font-family: Arial;
+	width: 30px;
+	height: 30px;
+	border-width: 1px;
+	color: #666666;
+	border-color: #dcdcdc;
+	font-weight: bold;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: linear-gradient(#ffffff, #f6f6f6);
+}
+
+.btnAdd2:hover {
+	background: linear-gradient(#f6f6f6, #ffffff);
+}
+
+.btnRemove {
+	font-size: 23px;
+	font-family: Arial;
+	width: 30px;
+	height: 30px;
+	border-width: 1px;
+	color: #666666;
+	border-color: #dcdcdc;
+	font-weight: bold;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: linear-gradient(#ffffff, #f6f6f6);
+}
+
+.btnRemove:hover {
+	background: linear-gradient(#f6f6f6, #ffffff);
+}
+
+.btnRemove2 {
+	font-size: 23px;
+	font-family: Arial;
+	width: 30px;
+	height: 30px;
+	border-width: 1px;
+	color: #666666;
+	border-color: #dcdcdc;
+	font-weight: bold;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: linear-gradient(#ffffff, #f6f6f6);
+}
+
+.btnRemove2:hover {
+	background: linear-gradient(#f6f6f6, #ffffff);
+}
+
+.addP {
+	margin-top: 15px;
+}
+
+#schedule_date {
+	width: 95%;
+	margin-left: 10px;
+	background-image: url(./calendar.png);
+	background-size: 10px;
+	background-position: 5px center;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+	border: 1px solid var(--color-dark-grey);
+	box-sizing: border-box;
+	outline: none;
+	border-radius: 3px;
+	font-size: 15px;
+	font-family: 'Malgun Gothic';
+}
+
+#schedule_title {
+	width: 95%;
+	height: 30px;
+	margin-left: 10px;
+	margin-top: 50px;
+	background-size: 10px;
+	background-position: 5px center;
+	background-repeat: no-repeat;
+	padding-left: 10px;
+	border: 1px solid var(--color-dark-grey);
+	box-sizing: border-box;
+	outline: none;
+	border-radius: 3px;
+	font-size: 15px;
+}
+
+#schedule_content {
+	resize: none;
+	height: 200px;
+	width: 95%;
+	margin-left: 10px;
+	margin-top: 50px;
+	background-size: 10px;
+	background-position: 5px center;
+	background-repeat: no-repeat;
+	padding-left: 10px;
+	border: 1px solid var(--color-dark-grey);
+	box-sizing: border-box;
+	outline: none;
+	border-radius: 3px;
+	font-size: 15px;
+	font-family: 'Malgun Gothic';
+}
+
+#schedule_memo {
+	resize: none;
+	height: 62px;
+	width: 95%;
+	background-size: 10px;
+	background-position: 5px center;
+	background-repeat: no-repeat;
+	padding-left: 10px;
+	border: 1px solid var(--color-dark-grey);
+	box-sizing: border-box;
+	outline: none;
+	border-radius: 3px;
+	font-size: 15px;
+	font-family: 'Malgun Gothic';
+}
+
+.ui-datepicker-trigger {
+	cursor: pointer;
+}
+
+.hasDatepicker {
+	cursor: pointer;
+}
+
+.btn {
+	font-size: 15px;
+	font-family: Arial;
+	width: 100px;
+	height: 35px;
+	border-width: 1px;
+	color: #777777;
+	border-color: #dcdcdc;
+	font-weight: bold;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: linear-gradient(#ededed, #dfdfdf);
+}
+
+.btn:hover {
+	background: linear-gradient(#dfdfdf, #ededed);
+}
+
+#map {
+	border: 1px solid var(--color-dark-grey);
+}

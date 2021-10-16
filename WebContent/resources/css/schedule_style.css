@@ -3,7 +3,7 @@ table, th, td {
 }
 
 table {
-  border-collapse: collapse;
+	border-collapse: collapse;
 }
 
 td {
@@ -22,25 +22,24 @@ th {
 }
 
 tr th:first-child {
-   border-left: none;
+	border-left: none;
 }
 
 tr th:last-child {
-   border-right: none;
+	border-right: none;
 }
 
 tr td:first-child {
-   border-left: none;
+	border-left: none;
 }
 
 tr td:last-child {
-   border-right: none;
+	border-right: none;
 }
 
 tr#dayWeek th {
 	text-align: center;
 }
-
 
 #btnLeft {
 	float: left;
@@ -48,8 +47,13 @@ tr#dayWeek th {
 
 #btnRight {
 	float: right;
+	display: block;
 }
 
+#btnRightHide {
+	float: right;
+	display: none;
+}
 
 #year {
 	width: 84px;
@@ -57,7 +61,7 @@ tr#dayWeek th {
 	border: none;
 	font-size: 30px;
 }
-    
+
 #month {
 	width: 52px;
 	height: 50px;
@@ -65,13 +69,13 @@ tr#dayWeek th {
 	font-size: 30px;
 	text-align: right;
 }
-    
-#frm a:first-child {
+
+#controllDay a:first-child {
 	font-size: 50px;
 	float: left;
 }
-    
-#frm a:last-child {
+
+#controllDay a:last-child {
 	font-size: 50px;
 	float: right;
 }
@@ -82,5 +86,54 @@ tr#dayWeek th {
 }
 
 .schedule {
-	background-color: red;
+	background-color: #F2F2F2;
+	border-bottom : 2px solid gray;
+	position: relative;
+}
+
+.scheduleCheckbox {
+	position: absolute;
+	right: 0;
+	width: 15px;
+	height: 15px;
+}
+
+td.schedule:hover {
+	display: block;
+	box-shadow: 3px 3px 3px gray;
+}
+
+td.schedule>a {
+	width: 122px;
+	height: 74px;
+	display: block;
+}
+
+#frm>a {
+	color: #7a7a7a;
+}
+
+#frm>a:hover {
+	color: black;
+}
+
+.btn {
+	font-size: 15px;
+	font-family: Arial;
+	width: 100px;
+	height: 35px;
+	border-width: 1px;
+	color: #777777;
+	border-color: #dcdcdc;
+	font-weight: bold;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: linear-gradient(#ededed, #dfdfdf);
+}
+
+.btn:hover {
+	background: linear-gradient(#dfdfdf, #ededed);
 }
