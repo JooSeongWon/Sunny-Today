@@ -1,46 +1,35 @@
 package xyz.sunnytoday.service.face;
 
-import javax.servlet.http.HttpServletRequest;
-
 import xyz.sunnytoday.dto.Member;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+/**
+ * 회원 관련 로직 수행 service
+ */
 public interface MemberService {
 
-	/**
-	 * 로그인 정보 추출
-	 * 
-	 * @param req - 요청 정보 객체
-	 * @return - 로그인 정보
-	 */
-	 public Member getLoginMember(HttpServletRequest req);
+    /**
+     * userNo를 통해 회원을 조회합니다.
+     * 해당메서드는 패스워드와 salt를 반환하지 않습니다.
+     * @param userNo 검색할 userNo
+     * @return 찾은 회원 객체
+     */
+    Member getMemberByUserNoOrNull(int userNo);
 
-	 /**
-	  * 로그인 처리
-	  * 
-	  * @param member - 로그인 정보
-	  * @return true - 인증됨, false - 인증되지 않음
-	  */
-	public boolean login(Member member);
+    /**
+     * RSA 암호화된 요청 정보를 토대로 로그인을 시도하고 결과를 Map 객체로 반환합니다.
+     * @param request 로그인 요청정보
+     * @return 결과 {result : boolean, msg : string}
+     */
+    Map<String, Object> login(HttpServletRequest request);
 
-	/**
-	 * 유저 정보 가져오기
-	 * 
-	 * @param member - 회원 아이디를 가진 객체
-	 * @return member - 조회된 회원 정보
-	 */
-	public Member info(Member member);
-
-	/**
-	 * 
-	 * @param req
-	 * @return
-	 */
-	public Member getJoinMember(HttpServletRequest req);
-
-	/**
-	 * 
-	 * @param param
-	 */
-	public void join(Member member);
-
+    /**
+     * userId를 통해 회원을 조회합니다.
+     * 해당메서드는 패스워드와 salt를 반환하지 않습니다.
+     * @param userId 검색할 userId
+     * @return 찾은 회원 객체
+     */
+    Member getMemberByUserIdOrNull(String userId);
 }

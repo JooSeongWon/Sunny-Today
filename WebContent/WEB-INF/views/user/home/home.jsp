@@ -26,9 +26,6 @@
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
-<button onclick="test(1);">테스트1</button>
-<button onclick="test(2);">테스트2</button>
-
 <%--오늘날씨 & 의상추천--%>
 <section id="service">
     <div class="service__wrap">

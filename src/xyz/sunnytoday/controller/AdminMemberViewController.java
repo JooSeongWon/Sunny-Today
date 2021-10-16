@@ -1,7 +1,6 @@
 package xyz.sunnytoday.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,4 +22,5 @@ public class AdminMemberViewController extends HttpServlet {
 		req.setAttribute("member", param);
 		req.getRequestDispatcher("/WEB-INF/views/admin/member/member_view.jsp").forward(req, resp);
 	}
+	
 }
