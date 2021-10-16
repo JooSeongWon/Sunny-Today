@@ -2,7 +2,7 @@ package xyz.sunnytoday.dao.face;
 
 import java.sql.Connection;
 
-import xyz.sunnytoday.dto.Filee;
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 
 public interface MypageDao {
@@ -58,7 +58,7 @@ public interface MypageDao {
 	 * @param file - 첨부파일 정보
 	 * @return 삽입 결과
 	 */
-	public int insertFile(Connection conn, Filee file);
+	public int insertFile(Connection conn, File file);
 	
 	/**
 	 * 비밀번호 확인을 위해 id로 회원조회

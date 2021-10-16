@@ -1,6 +1,5 @@
 package xyz.sunnytoday.service.impl;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.text.DateFormat;
@@ -27,8 +26,8 @@ import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.CipherUtil;
 import xyz.sunnytoday.dao.face.MypageDao;
 import xyz.sunnytoday.dao.impl.MypageDaoImpl;
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
-import xyz.sunnytoday.dto.Filee;
 import xyz.sunnytoday.service.face.MypageService;
 
 public class MypageServiceImpl implements MypageService {
@@ -103,7 +102,7 @@ public class MypageServiceImpl implements MypageService {
     	Member member = null;
     	
     	//사진파일 정보 DTO 객체
-    	Filee file = null;
+    	File file = null;
     	
 		//파일업로드 형태의 데이터가 맞는지 검사
 		boolean isMultipart = false;
@@ -124,9 +123,9 @@ public class MypageServiceImpl implements MypageService {
 		factory.setSizeThreshold(1 * 1024 * 1024); //1MB
 
 		//임시 저장소 설정
-		File repository = new File(req.getServletContext().getRealPath("tmp"));
-		repository.mkdir(); //임시 저장소 폴더 생성
-		factory.setRepository(repository); //임시 저장소 폴더 지정
+//		File repository = new File(req.getServletContext().getRealPath("tmp"));
+//		repository.mkdir(); //임시 저장소 폴더 생성
+//		factory.setRepository(repository); //임시 저장소 폴더 지정
 		
 		
 		
@@ -199,28 +198,28 @@ public class MypageServiceImpl implements MypageService {
 			String uid = uuid.toString().split("-")[0]; //8자리 uuid
 			
 			//로컬 저장소의 업로드 폴더
-			File upFolder = new File(req.getServletContext().getRealPath("upload"));
-			upFolder.mkdir(); //폴더 생성
-			
-			//업로드 파일 객체
-			String origin = item.getName(); //원본파일명
-			String stored = origin + "_" + uid; //원본파일명_uid
-			File up = new File(upFolder, stored);
-			
+//			File upFolder = new File(req.getServletContext().getRealPath("upload"));
+//			upFolder.mkdir(); //폴더 생성
+//			
+//			//업로드 파일 객체
+//			String origin = item.getName(); //원본파일명
+//			String stored = origin + "_" + uid; //원본파일명_uid
+//			File up = new File(upFolder, stored);
+//			
 			
 			
 			try {
-				item.write(up); //실제 업로드(임시파일을 최종결과파일로 생성함)
+//				item.write(up); //실제 업로드(임시파일을 최종결과파일로 생성함)
 				item.delete(); //임시파일을 삭제
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 			//업로드된 파일의 정보 저장
-			file = new Filee();
-			file.setOrigin_name(origin);
+			file = new File();
+//			file.setOrigin_name(origin);
 			file.setUrl(req.getServletContext().getRealPath("upload"));
-			file.setThumbnail_url(req.getServletContext().getRealPath("upload")+stored);
+//			file.setThumbnail_url(req.getServletContext().getRealPath("upload")+stored);
 			
 		} //if( !item.isFormField() ) end
 	} //while( iter.hasNext() ) end
@@ -249,7 +248,7 @@ public class MypageServiceImpl implements MypageService {
 			
 			file.setUser_no(member.getUserno()); //유저 번호 입력 (FK)
 			
-			if( mypageDao.insertFile(conn, file) > 0 ) {
+//			if( mypageDao.insertFile(conn, file) > 0 ) {
 				JDBCTemplate.commit(conn);
 			} else {
 				JDBCTemplate.rollback(conn);
@@ -257,8 +256,8 @@ public class MypageServiceImpl implements MypageService {
 		}
 		
 		
-		JDBCTemplate.close(conn);
-    }
+//		JDBCTemplate.close(conn);
+//    }
     
     @Override
     public boolean checkPassword(HttpServletRequest req) {

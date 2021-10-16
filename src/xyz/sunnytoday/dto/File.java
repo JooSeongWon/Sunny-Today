@@ -1,6 +1,6 @@
 package xyz.sunnytoday.dto;
 
-public class Filee {
+public class File {
 
 	private int file_no;
 	private String url;
