@@ -29,15 +29,22 @@
     
     <style type="text/css">
     #msgTitle {
-    	width: 530px;
+    	width: 450px;
     	height: 30px;
     	margin: 10px;
     }
 	#content {
-		width: 530px;
+		width: 450px;
 		height: 280px;
 		resize: none;
 	}
+    #square {
+    	width: 550px;
+    	height: 500px;
+    	position: relative;
+    	margin: auto;
+    	border-radius: 15px;
+    }
     #container {
     	margin: auto;
     	text-align: center;
@@ -45,13 +52,6 @@
     .line {
     	height: 10px;
     	color: #eaeff8;
-    }
-    #square {
-    	height: 500px;
-    	width: 600px;
-    	position: relative;
-    	margin: auto;
-    	border-radius: 15px;
     }
     div#write-form {
     	position: absolute;
@@ -68,11 +68,14 @@
     	color: white;
     }
     hr {
-    	margin: o;
+    	margin: 0 auto;
     	padding: 0;
     	border: 0px;
     	background-color: #d7eafa;
     	width: 80px;
+    }
+    h2 {
+    	margin: 0 auto;
     }
     </style>
     
@@ -86,15 +89,21 @@
 <div id="container">
 <form id="message-send" action="<%=request.getContextPath() %>/message/send" method="post">
 
+<br>
 <hr size="5" noshade>
-<h2>쪽지 쓰기</h2>
+<h2>쪽지 쓰기</h2><br>
 
 	<div id="square" style="background-color: #eaeff8;">
 		<div id="write-form">
-			<div id="fromm">받는 사람&nbsp;&nbsp;|&nbsp;&nbsp;<input type="checkbox" />내게 쓰기&nbsp;&nbsp;&nbsp;<input type="text" name="too" placeholder="받는 사람" required /></div>		
+		
+			<div id="fromm">받는 사람&nbsp;&nbsp;|&nbsp;&nbsp;<input type="text" name="too" placeholder="받는 사람" required /></div>
+					
 			<div><input type="text" id="msgTitle" name="msgTitle" placeholder="제목" required/></div>
+			
 			<div><textarea name="content" id="content" placeholder="내용" required></textarea></div>
-			<div id="content_cnt" style="float: right;">0 / 500자</div>		
+			
+			<div id="content_cnt" style="float: right;">0 / 500자</div>	
+				
 		</div>
 		
 		<div id="btnBox">
