@@ -223,11 +223,19 @@ public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 		ResultSet rs = null;
 		
 		String sql = ""
+<<<<<<< HEAD
+	    		+"        SELECT MESSAGE_E_NO ,M.EVENT_NO ,TITLE ,CONTENT, e.name"  
+	    		+"        FROM message_event M" 
+	    		+"        INNER JOIN Event E"  
+	    		+"        ON M.EVENT_NO = E.EVENT_NO" 
+				+"			WHERE MESSAGE_E_NO = ? ";
+=======
 	    		+"SELECT MESSAGE_E_NO ,M.EVENT_NO ,TITLE ,CONTENT, e.name"  
 	    		+" FROM message_event M" 
 	    		+" INNER JOIN Event E"  
 	    		+"  ON M.EVENT_NO = E.EVENT_NO" 
 				+" WHERE MESSAGE_E_NO = ? ";
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 		
 		MessageEvent message = null;
@@ -351,6 +359,8 @@ public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 		return res;
 	}
 	
+<<<<<<< HEAD
+=======
 	@Override
 	public int titleWrite(String event, Connection conn) {
 		PreparedStatement ps = null;
@@ -460,4 +470,5 @@ public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 	      return elist;
 	}
 	
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 }

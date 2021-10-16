@@ -30,16 +30,28 @@ $(document).ready(function(){
 <div class="col-md-11">
 
 
+<<<<<<< HEAD
+<div>
+	<form action="<%=request.getContextPath() %>/admin/message" id="search" method="get">
+		<label for="search">&nbsp;회원 검색&nbsp;</label>
+		<select name="select">
+=======
 <div class="form-inline">
 	<form action="<%=request.getContextPath() %>/admin/message" id="search" method="get">
 		<label class="form-group" for="search">&nbsp;회원 검색&nbsp;</label>
 		<select name="select" class="form-control form-group">
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 			<option value="id">아이디</option>
 			<option value="nick">닉네임</option>
 			<option value="email">이메일</option>
 		</select>
+<<<<<<< HEAD
+		<input class="search-query" type="text" name="search" placeholder="search"/>
+	<button class="btn btn-default" id="searchBtn" type="button">검색</button>
+=======
 		<input class="form-control search-query form-group" type="text" name="search" placeholder="search"/>
 	<button class="btn btn-default form-group" id="searchBtn" type="button">검색</button>
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 	</form>
 </div>
 

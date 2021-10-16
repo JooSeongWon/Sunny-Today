@@ -18,10 +18,13 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+<<<<<<< HEAD
+=======
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.CipherUtil;
@@ -35,6 +38,61 @@ public class MypageServiceImpl implements MypageService {
 
     private MypageDao mypageDao = new MypageDaoImpl();
     
+<<<<<<< HEAD
+    @Override//
+    public Member getUser(HttpServletRequest req) {
+    	//userno를 저장할 객체 생성
+    	Member userno = new Member();
+    	
+    	//userno 전달파라미터 검증 - null, ""
+    	String param = (String) req.getSession().getAttribute("userno");
+    	
+    	if(param!= null && !"".equals(param)) {
+    		
+    		//userno 추출
+    		userno.setUserno(Integer.parseInt(param));
+    	}
+    	
+    	return userno;
+    }
+    
+    @Override//
+    public Member selectMember(Member loginUser) {
+   	   	
+    	Connection conn = JDBCTemplate.getConnection();
+        
+   	   	//userno로 맴버 추출
+   	   	Member member = mypageDao.selectMemberByUserno(conn, loginUser);
+   		
+       	JDBCTemplate.close(conn);
+
+		return member;
+    }
+    
+    @Override
+    public void update(HttpServletRequest req) {
+    	
+    	Member member = null;
+    	
+    	File file = null;
+    	
+    	//파일업로드 형태의 데이터가 맞는지 검사
+    	boolean isMultipart = false;
+//    	isMultipart = ServletFileUpload.isMultipartContent(req);
+    	
+    	if( !isMultipart ) {
+			System.out.println("[ERROR] multipart/form-data 형식이 아님");
+			
+			return; //write() 메소드 중단
+		}
+    	
+    	member = new Member();
+    	
+    	
+    }
+    
+    
+=======
     @Override
     public Member selectMember(int userno) {
     	Connection conn = JDBCTemplate.getConnection();
@@ -47,6 +105,7 @@ public class MypageServiceImpl implements MypageService {
     	return member;
     }
     
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
     @Override//
     public int nickCheck(String nick) {
     	Connection conn = JDBCTemplate.getConnection();
@@ -61,21 +120,30 @@ public class MypageServiceImpl implements MypageService {
     
     
     @Override//
+<<<<<<< HEAD
+    public int phoneOpen(String phone, Member loginUser) {
+=======
     public int phoneOpen(String phone, Member member) {
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
     	Connection conn = JDBCTemplate.getConnection();
     	//return받을 결과값
     	int phoneOpen = mypageDao.updatePhoneOpen(conn, phone, member); 
     	
+<<<<<<< HEAD
+    	int phoneOpen = mypageDao.selectPhoneOpen(conn, phone, loginUser);
+=======
     	//UPDATE 완료 시 1
     	if( phoneOpen > 0 ) {
     		JDBCTemplate.commit(conn);
 		} else {
 			JDBCTemplate.rollback(conn);
 		}
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
     	
     	JDBCTemplate.close(conn);
     	return phoneOpen;
     }
+    
     
     @Override
     public int birthOpen(String birth, Member member) {
@@ -260,6 +328,11 @@ public class MypageServiceImpl implements MypageService {
 		JDBCTemplate.close(conn);
     }
     
+<<<<<<< HEAD
+    
+
+
+=======
     @Override
     public boolean checkPassword(HttpServletRequest req) {
     	Connection conn = JDBCTemplate.getConnection();
@@ -285,4 +358,5 @@ public class MypageServiceImpl implements MypageService {
     }
     
  
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 }
