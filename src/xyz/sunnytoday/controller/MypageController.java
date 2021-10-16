@@ -36,14 +36,9 @@ public class MypageController extends HttpServlet {
 //			return;
 //		}
 //		
-		//로그인 유저 세션의 유저넘버 얻기
-//		Member loginUser = mypageService.getUser(req);
-		
-		//유저넘버로 유저정보 얻기 - member
-//		Member loginmember = mypageService.selectMember(loginUser);
 	
 		//유저정보 전달
-//		req.setAttribute("loginmember", loginmember);
+//		req.setAttribute("member", member);
 		Member member = mypageService.selectMember(userno);
 	
 		//유저정보 전달
