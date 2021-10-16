@@ -58,19 +58,20 @@ function clickCheckHeader(terms) {
 
 ///////////////////////////// 정보입력
 
-/* 정규식 - 서버에서 한번더 체크 */
-const regexEmail = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*@[0-9a-z]([-_.]?[0-9a-z])*\.[a-z]{2,3}$/;
-const regexPhone = [/^\d{3}$/, /^\d{3,4}$/, /^\d{4}$/];
-const regexId = /^[a-z0-9]{4,20}$/;
-const regexPw = /^(?=.*[a-zA-Z0-9$`~!@$!%*#^?&])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&]).{8,20}$/;
-const regexNick = /^[a-zA-Z0-9가-힣]{2,12}$/;
-
 /* 입력 데이터 */
 const INPUT_ID = 0;
 const INPUT_PW = 1;
 const INPUT_PW_CK = 2;
 const INPUT_EMAIL = 3;
 const INPUT_NICK = 4;
+
+// 정규식
+const regexList = [];
+regexList[INPUT_ID] = /^[a-z0-9]{4,20}$/;
+regexList[INPUT_PW] = /^(?=.*[a-zA-Z0-9$`~!@$!%*#^?&])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&]).{8,20}$/;
+regexList[INPUT_EMAIL] = /^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*@[0-9a-z]([-_.]?[0-9a-z])*\.[a-z]{2,3}$/;
+regexList[INPUT_NICK] = /^[a-zA-Z0-9가-힣]{2,12}$/;
+const regexPhone = [/^\d{3}$/, /^\d{3,4}$/, /^\d{4}$/];
 
 const GENDER_MALE = 0;
 const GENDER_FEMALE = 1;
@@ -121,7 +122,7 @@ function checkData(inputBoxNum) {
         case INPUT_ID:
             if (val.length < 4) {
                 setNotice(false, inputBoxNum, '4글자 이상 입력하세요.');
-            } else if (!regexId.test(val)) {
+            } else if (!regexList[inputBoxNum].test(val)) {
                 setNotice(false, inputBoxNum, '영문 소문자와 숫자만 입력하세요.');
             } else {
                 setNotice(true, inputBoxNum, '');
@@ -132,7 +133,7 @@ function checkData(inputBoxNum) {
         case INPUT_NICK:
             if (val.length < 2) {
                 setNotice(false, inputBoxNum, '2글자 이상 입력하세요.');
-            } else if (!regexNick.test(val)) {
+            } else if (!regexList[inputBoxNum].test(val)) {
                 setNotice(false, inputBoxNum, '영문자와 숫자, 한글만 입력하세요.');
             } else {
                 setNotice(true, inputBoxNum, '');
@@ -141,7 +142,7 @@ function checkData(inputBoxNum) {
             break;
 
         case INPUT_EMAIL:
-            if (!regexEmail.test(val)) {
+            if (!regexList[inputBoxNum].test(val)) {
                 setNotice(false, inputBoxNum, '유효한 이메일 형식이 아닙니다.');
             } else {
                 setNotice(true, inputBoxNum, '');
@@ -152,7 +153,7 @@ function checkData(inputBoxNum) {
         case INPUT_PW:
             if (val.length < 8) {
                 setNotice(false, inputBoxNum, '8글자 이상 입력하세요.');
-            } else if (!regexPw.test(val)) {
+            } else if (!regexList[inputBoxNum].test(val)) {
                 setNotice(false, inputBoxNum, '사용가능한 특수문자는 $`~!@$!%*#^?& 입니다.');
             } else {
                 setNotice(true, inputBoxNum, '유효한 비밀번호 입니다.');
@@ -170,11 +171,15 @@ function checkData(inputBoxNum) {
 }
 
 /* 로딩이미지 태그 생성 */
-function getLoadingAni() {
+function getLoadingAni(width, height) {
+
+    const w = width === undefined ? '30px' : width + 'px';
+    const h = height === undefined ? '30px' : height + 'px';
+
     const loadingAni = document.createElement('img');
     loadingAni.setAttribute('src', contextPath + 'resources/img/spinner.gif');
-    loadingAni.style.width = '30px';
-    loadingAni.style.height = '30px';
+    loadingAni.style.width = w;
+    loadingAni.style.height = h;
     loadingAni.style.display = 'inline-block';
 
     return loadingAni;
@@ -222,15 +227,139 @@ cancelBtn.addEventListener('click', askCancel);
 cancelBtn.addEventListener('keydown', enterKeyDownEventBridge);
 
 function checkInput() {
-    switch (currentSection) {
-        case SECTION_TERMS:
-            if (isChecked[CHECK_SERVICE] && isChecked[CHECK_PRIVACY]) {
-                doNext();
-            } else {
-                showModal('약관동의 오류', '필수 이용약관에 모두 동의하셔야만 회원가입이 가능합니다.');
-            }
-            break;
+    if (currentSection === SECTION_TERMS) {
+        //약관동의 확인 버튼 - 현재 마케팅 정보를 다루지 않아서 일단 데이터를 서버로 전송하지는 않음
+        if (isChecked[CHECK_SERVICE] && isChecked[CHECK_PRIVACY]) {
+            doNext();
+        } else {
+            showModal('약관동의 오류', '필수 이용약관에 모두 동의하셔야만 회원가입이 가능합니다.');
+        }
+        return;
     }
+
+    //정보입력 확인 버튼
+    if (currentSection === SECTION_INPUT_DATA) {
+        let isEmpty = false;
+
+        //빈칸 체크
+        for (let inputBox of inputBoxes) {
+            if (isEmpty) {
+                break;
+            }
+            if (inputBox.value.length === 0) {
+                isEmpty = true;
+            }
+        }
+        for (let inputBox of tellInputBoxes) {
+            if (isEmpty) {
+                break;
+            }
+            if (inputBox.value.length === 0) {
+                isEmpty = true;
+            }
+        }
+        if (birthDatePicker.value.length === 0) isEmpty = true;
+
+
+        if (isEmpty) {
+            showModal('입력오류', '빈칸을 모두 채워주세요!');
+            return;
+        }
+
+        //입력형식 검사
+        const inputTitles = ['아이디', '비밀번호', '비밀번호확인', '이메일', '닉네임'];
+        let isPass = true;
+        let i = userType === 'normal' ? INPUT_ID : INPUT_NICK; //소셜 가입은 아이디, 비번, 이메일 확인안함
+        while (i < inputBoxes.length) {
+            const val = inputBoxes[i].value;
+
+            if (i === INPUT_PW_CK) {
+                if (inputBoxes[INPUT_PW].value !== val) {
+                    isPass = false;
+                    break;
+                }
+                i++
+                continue;
+            }
+
+            if (!regexList[i].test(val)) {
+                isPass = false;
+                break;
+            }
+
+            i++
+        }
+
+        if (!isPass) {
+            showModal("입력오류", inputTitles[i] + " 입력을 확인하세요!");
+            return;
+        }
+
+        for (let i = 0; i < tellInputBoxes.length; i++) {
+            if (!regexPhone[i].test(tellInputBoxes[i].value)) {
+                showModal("입력오류", "핸드폰번호를 확인하세요!");
+                return;
+            }
+        }
+
+        //서버로 보낼 데이터
+        let reqData;
+        if (userType === 'normal') {
+            reqData = encodeAllData({
+                reqType: 'joinOriginMember',
+                userId: inputBoxes[INPUT_ID].value,
+                userPw: inputBoxes[INPUT_PW].value,
+                email: inputBoxes[INPUT_EMAIL].value,
+                nick: inputBoxes[INPUT_NICK].value,
+                phone: tellInputBoxes[0].value + tellInputBoxes[1].value + tellInputBoxes[2].value,
+                birth: birthDatePicker.value,
+                gender: genderButtons[currentGender].getAttribute('data-gender')
+            });
+        } else {
+            reqData = encodeAllData({
+                reqType: 'joinSocialMember',
+                nick: inputBoxes[INPUT_NICK].value,
+                phone: tellInputBoxes[0].value + tellInputBoxes[1].value + tellInputBoxes[2].value,
+                birth: birthDatePicker.value,
+                gender: genderButtons[currentGender].getAttribute('data-gender')
+            });
+        }
+
+        //로딩객체
+        const buttonSet = document.querySelector('.button');
+        buttonSet.removeChild(cancelBtn);
+        buttonSet.removeChild(nextBtn);
+        const loadingImg = getLoadingAni(50, 50);
+        buttonSet.appendChild(loadingImg);
+
+        //서버로 가입요청
+        $.ajax({
+            type: 'POST',
+            url: contextPath + 'join',
+            data: reqData,
+            dataType: 'json',
+            success: data => join(data, loadingImg),
+            error: () => {
+                buttonSet.removeChild(loadingImg);
+                buttonSet.appendChild(cancelBtn);
+                buttonSet.appendChild(nextBtn);
+                showModal('연결 오류', '서버와 정상적으로 통신하지 못했습니다.')
+            }
+        });
+    }
+}
+
+function join(data, loadingImg) {
+    document.querySelector('.button').removeChild(loadingImg);
+    document.querySelector('.button').appendChild(cancelBtn);
+    document.querySelector('.button').appendChild(nextBtn);
+
+    if (data.result) {
+        doNext();
+        return;
+    }
+
+    showModal('가입 오류', data.msg);
 }
 
 function doNext() {
