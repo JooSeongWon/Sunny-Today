@@ -1,4 +1,4 @@
-package sample;
+﻿package sample;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.CipherUtil;
@@ -26,12 +26,10 @@ public class MemberSampleCreate extends HttpServlet {
 
 
 
-            //아맞다 이버전에서는 로그인 저 문제 있어요 저거 다 고쳐놓긴했는데 아직 푸쉬를 안해서 브라우저 다른거 있어요?
-            //아이디 생성하고 싶으실때 여기에 입력하시고 주소창에 /member/add 하시면 돼요
-            //이러면 만들어진거에요 넵 감사합니다!
-            String userId = "dkdus03171"; //사용하실 유저아이디 4~20글자 사이
-            String userPw = "dkdur1234"; //사용하실 비밀번호 8~20글자 사이
-            String nick = "넵2"; //사용하실 닉네임 중복불가!
+
+            String userId = ""; //사용하실 유저아이디 4~20글자 사이
+            String userPw = ""; //사용하실 비밀번호 8~20글자 사이
+            String nick = ""; //사용하실 닉네임 중복불가!
 
 
 

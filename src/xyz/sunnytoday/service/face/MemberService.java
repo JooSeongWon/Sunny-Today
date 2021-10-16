@@ -1,6 +1,7 @@
 package xyz.sunnytoday.service.face;
 
 import xyz.sunnytoday.dto.Member;
+import xyz.sunnytoday.dto.ResponseMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -23,7 +24,7 @@ public interface MemberService {
      * @param request 로그인 요청정보
      * @return 결과 {result : boolean, msg : string}
      */
-    Map<String, Object> login(HttpServletRequest request);
+    ResponseMessage login(HttpServletRequest request);
 
     /**
      * userId를 통해 회원을 조회합니다.
@@ -32,4 +33,12 @@ public interface MemberService {
      * @return 찾은 회원 객체
      */
     Member getMemberByUserIdOrNull(String userId);
+
+
+    /**
+     * 회원가입 AJAX 요청 처리
+     * @param params 요청 파라미터맵
+     * @return 결과 메세지
+     */
+    public ResponseMessage processUserRequest(Map<String, String[]> params);
 }

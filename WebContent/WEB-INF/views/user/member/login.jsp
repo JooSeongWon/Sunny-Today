@@ -28,11 +28,11 @@
         <div class="line"></div>
         <div class="data">
             <label for="input-id"><i class="fas fa-user-tag"></i></label>
-            <input id="input-id" class="data__input" name="userId" type="text" maxlength="20" placeholder="아이디">
+            <input id="input-id" class="data__input" name="userId" type="text" maxlength="20" placeholder="아이디" tabindex="1">
         </div>
         <div class="data">
             <label for="input-pw"><i class="fas fa-user-lock"></i></label>
-            <input id="input-pw" class="data__input" name="userId" type="password" maxlength="20" placeholder="비밀번호">
+            <input id="input-pw" class="data__input" name="userId" type="password" maxlength="20" placeholder="비밀번호" tabindex="1">
         </div>
         <div class="etc">
             <label class="label-keep"><input type="checkbox" class="input-keep" name="willKeep" value="Y">로그인 유지</label>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="buttons">
-            <div id="buttons__origin" class="button">로그인</div>
+            <div id="buttons__origin" class="button" tabindex="1">로그인</div>
             <div class="line"></div>
             <div id="buttons__naver" class="button">
                 <div class="button__logo">N</div>
