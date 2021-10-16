@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.MypageDao;
-import xyz.sunnytoday.dto.Filee;
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 
 public class MypageDaoImpl implements MypageDao {
@@ -191,7 +191,7 @@ public class MypageDaoImpl implements MypageDao {
 	}
 	
 	@Override
-	public int insertFile(Connection conn, Filee file) {
+	public int insertFile(Connection conn, File file) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 

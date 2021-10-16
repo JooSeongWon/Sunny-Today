@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
@@ -21,23 +22,31 @@ public class PasswordCheckController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		//로그인 유저 세션의 아이디 얻기
-		Member loginUser = mypageService.getUser(req); 
-		
-		//아이디로 유저정보 얻기 - member
-		Member loginmember = mypageService.selectMember(loginUser);
+		//로그인 유저 세션의 유저넘버 얻기
+		Object param = req.getSession().getAttribute("userno");
+		int userno = (int) param;
+ 
+		//유저넘버로 유저정보 얻기 - member
+		Member member = mypageService.selectMember(userno);
+
+		//유저정보 전달
+		req.setAttribute("member", member);
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/mypage/pw_check.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		boolean user = mypageService.checkPassword(req);
 
-		
-		
-		
-		
-//		resp.sendRedirect(location);
+		if( user == true ) {
+			HttpSession session = req.getSession();
+			session.setAttribute("user", user );
+			session.setMaxInactiveInterval(15 * 60);
+
+			resp.sendRedirect("/leaveid");
+		} else {
+			resp.sendRedirect("/mypage/password/check");
+		}
 	}
 }
