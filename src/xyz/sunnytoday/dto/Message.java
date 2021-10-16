@@ -10,11 +10,19 @@ public class Message {
 	private String read;
 	private String title;
 	private String content;
+	private int rnum;
 	
 	@Override
 	public String toString() {
 		return "Message [message_no=" + message_no + ", too=" + too + ", fromm=" + fromm + ", post_date=" + post_date
 				+ ", read=" + read + ", title=" + title + ", content=" + content + "]";
+	}
+	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 	public int getMessage_no() {
 		return message_no;
@@ -58,7 +66,5 @@ public class Message {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
 	
 }

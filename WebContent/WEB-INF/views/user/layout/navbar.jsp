@@ -26,7 +26,7 @@
             <a href="#">
                 <li class="navbar__item">마이페이지</li>
             </a>
-            <a href="#">
+            <a href="<%= request.getContextPath() %>/message">
                 <li class="navbar__item">쪽지</li>
             </a>
             <a href="#">

@@ -37,6 +37,14 @@ $(document).ready(function() {
 		history.go(-1);
 	});
 	
+<<<<<<< HEAD
+	$("#A").change(function() {
+	    var value = $(this).val();
+		console.log(value)
+	});
+	
+=======
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 });
 </script>
 
@@ -56,12 +64,20 @@ $(document).ready(function() {
 <div class="col-md-11">
 
 
+<<<<<<< HEAD
+<form action="/admin/message/write" method="post">
+=======
 <form action="/admin/message/event/write" method="post">
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 <table class="table table-bordered">
 <tr>
 <td class="active">분류명</td>
 <td colspan="2">
+<<<<<<< HEAD
+<select name="event" id="A" class="form-control">
+=======
 <select name="event" class="form-control">
+>>>>>>> d567e8d14b7b5bda567b23c39c9eb843567d12a8
 <c:forEach items="${event }" var="e">
     <option value="${e.event_no }">${e.name }</option>
 </c:forEach>
