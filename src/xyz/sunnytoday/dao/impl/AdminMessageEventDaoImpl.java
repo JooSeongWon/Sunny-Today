@@ -352,6 +352,31 @@ public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 	}
 	
 	@Override
+	public int titleWrite(String event, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+"INSERT INTO EVENT (event_no, name )"
+				+ " VALUES ( EVENT_seq.nextval , ? )";
+	    
+		int res = 0 ;  
+		
+	      try {
+	         ps = conn.prepareStatement(sql);
+	         ps.setString(1, event );
+	         
+	         res = ps.executeUpdate();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         JDBCTemplate.close(rs);
+	         JDBCTemplate.close(ps);
+	      }
+	      return res;
+	}
+	
+	@Override
 	public List<MessageEvent> selectByEventNo(int parseInt, Connection conn) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;

@@ -90,7 +90,7 @@ public class AdminMessageWriteController extends HttpServlet {
 			String[] arr = req.getParameterValues("no[]");
 			totalcount = arr.length;
 			
-//			messageService.sendMessage(list, totalcount);
+			messageService.sendMessage(list, totalcount, message);
 			
 		} else {
 

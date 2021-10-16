@@ -103,7 +103,16 @@ public interface AdminMessageEventDao {
 	 * @return List<MessageEvent> - 조회된 결과 객체
 	 */
 	public List<MessageEvent> selectByEventNo(int parseInt, Connection conn);
+	
+	/**
+	 * 이벤트 분류 생성
+	 * 
+	 * @param event
+	 * @param conn 
+	 */
+	public int titleWrite(String event, Connection conn);
 
 	public List<MessageEvent> selectByMessageNo(int parseInt, Connection conn);
+
 
 }

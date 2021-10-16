@@ -13,7 +13,17 @@
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/mypage_style.css" rel="stylesheet">
     <script src="${jsPath}/mypage_script.js"></script>
-    
+
+<style type="text/css">
+
+.input-file-button{
+  padding: 5px;
+  background-color:var(--color-sky);
+  color: white;
+  cursor: pointer;
+  border-radius:42px;
+}
+</style>
 </head>
 <body>
 
@@ -24,13 +34,11 @@
 
 <div class="mypage-container">
 
+
 <div class="mypage">
 	<ul class="mypage_list">
 		<a href="<%=request.getContextPath() %>/mypage">
 			<li class="mypage_item" >프로필 수정</li>
-		</a>
-		<a href="<%=request.getContextPath() %>/mypage/taste">
-			<li class="mypage_item" >추가정보수정</li>
 		</a>
 		<a href="<%=request.getContextPath() %>/mypage/password">
 			<li class="mypage_item" >비밀번호 변경</li>
@@ -41,46 +49,72 @@
 	</ul>
 	
 	<div class="profile-container">
-	
-	<form action="/mypage" method="post" class="profile_form">
+
+	<form action="/mypage" method="post" class="profile_form" enctype="multipart/form-data" >
 	<table class="profile_table">
 		<tr class="profile_list">
-			<td colspan="2" class="profile_item">
-				<div class="profile-img">프로필사진</div>
+			<td colspan="3" class="profile_item">
+				<div class="profile-img">
+				<img src="" class="thumb">
+				</div>
+			</td>
+		</tr>
+		<tr class="profile_list">
+			<td class="profile_item" colspan="3" >
+					<div class="updatefile">
+					<label class="input-file-button" for="fileupload">
+  									사진선택
+					</label>
+						<input type="file" id="fileupload" name="imageSelector" accept="image/jpeg, image/jpg, image/png" multiple  >
+					</div>
 			</td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >닉네임</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" id="nick" name="nick" value="${loginmember.nick }"/></td>
-			<td class="profile_item" ><input type="button" id="btn-check" value="중복검사"/></td>
+			<td class="profile_item" ><input type="text" class="profile-setting" id="nick" name="nick" value="${member.nick }"/></td>
+			<td class="profile_item" ><input type="button" id="btn-check" class="buttonClass" value="중복검사"/></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >이메일</td>
 			<td class="profile_item" ><input type="text" class="profile-setting" 
-						name="email" disabled="disabled" value="${loginmember.email }"/></td>
+						name="email" disabled="disabled" value="${member.email }"/></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >전화번호</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" value="${loginmember.phone }"/></td>
+			<td class="profile_item" ><input type="text" name="phone" class="profile-setting" value="${member.phone }"/></td>
 			<td class="profile_item" >
 			<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-phone" name="phon_open" value="${loginmember.phone_open }"/>
+				<c:choose>
+				<c:when test="${member.phone_open == 'Y' }">
+					<input type="checkbox" class="btn-toggle" id="btn-private-phone" name="phon_open" checked="checked" value="${member.phone_open }"/>
+				</c:when>
+				<c:when test="${member.phone_open == 'N' }">
+					<input type="checkbox" class="btn-toggle" id="btn-private-phone" name="phon_open" value="${member.phone_open }"/>
+				</c:when>
+				</c:choose>
 				<span class="slider round"></span>
 			</label>
 			</td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >생년월일</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="birth" value="${loginmember.birth }"/></td>
+			<td class="profile_item" ><input type="date" class="profile-setting" name="birth" value="${member.birth }"/></td>
 			<td class="profile_item" >
 				<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-birth" value="${loginmember.birth_open }"/>
+				<c:choose>
+				<c:when test="${member.birth_open == 'Y' }">
+					<input type="checkbox" class="btn-toggle" id="btn-private-birth" name="birth_open" checked="checked" value="${member.birth_open }"/>
+				</c:when>
+				<c:when test="${member.birth_open == 'N' }">
+					<input type="checkbox" class="btn-toggle" id="btn-private-birth" name="birth_open" value="${member.birth_open }"/>
+				</c:when>
+				</c:choose>
 				<span class="slider round"></span>
 			</label>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" ><button id="btn">수정</button></td>
+			<td colspan="3" ><button id="btnsubmit" class="buttonClass">수정</button></td>
 		</tr>
 	</table>
 	</form>

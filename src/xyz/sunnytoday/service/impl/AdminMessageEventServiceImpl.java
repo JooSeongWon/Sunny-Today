@@ -190,7 +190,21 @@ public class AdminMessageEventServiceImpl implements AdminMessageEventService {
 		JDBCTemplate.close(conn);
 		return elist;
 	}
+	
+	@Override
+	public void titleWrite(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
 		
+		String event = req.getParameter("event");
+		
+		if( messageDao.titleWrite(event, conn) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+	}
+	
 	@Override
 	public List<MessageEvent> getMassageList(HttpServletRequest req) {
 		Connection conn = JDBCTemplate.getConnection();

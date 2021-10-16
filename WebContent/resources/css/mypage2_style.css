@@ -2,7 +2,7 @@
 	display: flex;
   	justify-content: center;
  	align-items: center;
- 	min-height: 100vh;
+ 	min-height: 50vh;
 }
 
 .mypage {
@@ -37,7 +37,7 @@
     flex-direction: column;
     flex-grow: 8;
     
-    text-align: center;
+    text-align: center;	
     user-select: none;
 	
 	border: 1px solid #dfdfdf;

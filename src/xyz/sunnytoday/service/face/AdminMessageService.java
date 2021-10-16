@@ -55,7 +55,8 @@ public interface AdminMessageService {
 	 * 메세지 보내기
 	 * 
 	 * @param req - 요청정보객체
+	 * @return 
 	 */
-	public void getContent(HttpServletRequest req);
+	public Message getContent(HttpServletRequest req);
 
 }

@@ -131,7 +131,7 @@ public class AdminMessageServiceImpl implements AdminMessageService {
 	}
 	
 	@Override
-	public void getContent(HttpServletRequest req) {
+	public Message getContent(HttpServletRequest req) {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		Message message = new Message();
@@ -159,6 +159,8 @@ public class AdminMessageServiceImpl implements AdminMessageService {
 			}
 		}
 		JDBCTemplate.close(conn);
+		
+		return message;
 	}
 	
 }
