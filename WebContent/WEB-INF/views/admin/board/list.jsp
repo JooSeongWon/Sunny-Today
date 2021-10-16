@@ -6,7 +6,10 @@
 <div id="body" class="container">
 <script type="text/javascript">
 $(document).ready(function() {
+
+
 	
+	//
 	//게시판 검색버튼 동작
 	$("#btnSearch").click(function() {
 		
@@ -17,30 +20,7 @@ $(document).ready(function() {
 		$(location).attr("href", "/SunnyToday/admin/board/write");
 	});
 	
-	//체크된 게시판
-// 	$("#btnCheck").click(function() {
-// 		if ($("input:checkbox[id='checkAll']").prop("checked")){
-// 			$("input[type=checkbox]").prop("checked", true);			
-// 		} else {
-// 			$("input[type=checkbox]").prop("checked", false);			
-// 		}
-// 	});
-	
-	//선택 삭제
-// 	$(".btnCheck").click(function() {
-// 	});
-	
-// 	$("#check").click(function(){
-// 		if($("#check").is(":checked")){
-		
-// 		$('#Arthur').css("display", "inline"); 
-	
-// 		} else {
-		
-// 		$('#Arthur').css("visibility", "hidden"); 
-		
-// 	}
-// 	});
+
 	
 	//top 클릭 동작 <tb>한칸올리기
 	$("#top").click(function(){

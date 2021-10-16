@@ -1,6 +1,8 @@
 package xyz.sunnytoday.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,26 +24,17 @@ public class AdminPostViewController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
 		//전달파라미터 얻기 - post_no
-		Post postno = postService.getPostno(req);
-
-		//상세보기 결과 조회
-		Post viewPost = postService.view(postno);
+		Post post_no = postService.getPostno(req);
+		System.out.println("getPostno : " + post_no);
 		
-//		닉네임 전달
-		req.setAttribute("nick", postService.getNick(viewPost));
+		//상세보기 결과 조회
+		Post viewPost = postService.view(post_no);
+		System.out.println("viewPost : " + viewPost);
 
-//		조회결과 MODEL값 전달
 		req.setAttribute("viewPost", viewPost);
 	
-//		//첨부파일 정보 조회
-//		PostFile PostFile = postService.viewFile(viewPost);
-//		
-//		//첨부파일 정보 MODEL값 전달
-//		req.setAttribute("postFile", postFile);
-		
 		req.getRequestDispatcher("/WEB-INF/views/admin/post/view.jsp").forward(req, resp);		
 	}
-	
 }
+

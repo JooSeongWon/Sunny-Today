@@ -143,11 +143,12 @@ $(document).ready(function() {
 <c:forEach items="${allList }" var="item">
 <tr>
 	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td>
-	<td>${item.post.post_no } </td>
+	<td><a href="/SunnyToday/admin/post/view?=${item.post.post_no }">${item.post.post_no }</a></td>
 	<td>${item.board.title}</td>
 	<td>${item.post.title }</td>
 	<td>${item.member.nick }</td>
 	<td>${item.post.write_date }</td>
+
 	<td>	
 		<button type="button" class="btn btn-danger btn-sm btnDelete" data-postNo="${post.post_no}">삭제</button>
 	</td>

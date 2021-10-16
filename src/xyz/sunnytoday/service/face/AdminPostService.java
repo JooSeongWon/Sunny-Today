@@ -17,9 +17,7 @@ public interface AdminPostService {
 
 	public Post getPostno(HttpServletRequest req);
 	
-	public Post view(Post postno);
-	
-	public String getNick(Post viewPost);
+	public Post view(Post post_no);
 	
 	public void write(HttpServletRequest req);
 	

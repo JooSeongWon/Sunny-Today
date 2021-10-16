@@ -63,5 +63,6 @@ public interface AdminBoardService {
 	
 	public void deleteByAdBoard(Board board);
 	
-	public void updateByAdBoard(HttpServletRequest req);	
+	public void updateByAdBoard(HttpServletRequest req);
+
 }

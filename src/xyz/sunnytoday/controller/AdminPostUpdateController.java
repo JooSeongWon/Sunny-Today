@@ -22,28 +22,17 @@ public class AdminPostUpdateController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-	
 	//전달파라미터 얻기 - boardno
 	Post postno = postService.getPostno(req);
 
 	//상세보기 결과 조회
 	Post updatePost = postService.view(postno);
 	
-	//닉네임 전달
-//	req.setAttribute("nick", postService.getNick(updatePost));
-	
 	//조회결과 MODEL값 전달
 	req.setAttribute("updatePost", updatePost);
 
-//	//첨부파일 정보 조회
-//	PostFile PostFile = postService.viewFile(viewPost);
-//	
-//	//첨부파일 정보 MODEL값 전달
-//	req.setAttribute("postFile", postFile);
-
 	//VIEW 지정 및 응답 - forward
 	req.getRequestDispatcher("/WEB-INF/views/admin/post/update.jsp").forward(req, resp);		
-
 	}
 
 	@Override
@@ -51,6 +40,6 @@ public class AdminPostUpdateController extends HttpServlet {
 	
 //	postService.update(req);
 	
-	resp.sendRedirect("/post/list");
+		resp.sendRedirect("/SunnyToday/admin/post/list");
 	}
 }

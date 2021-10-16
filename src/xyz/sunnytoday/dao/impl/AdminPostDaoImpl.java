@@ -111,8 +111,9 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		
 		return count;	
 	}
+	
 	@Override
-	public Post selectPostByPostno(Connection conn, Post postno) {
+	public Post selectPostByPostno(Connection conn, Post post_no) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -123,16 +124,17 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		
 		//결과 저장할 Post객체
 		Post viewpost = null;
-		Board board = null;
+//		Board board = null;
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
 			
-			ps.setInt(1, postno.getPost_no()); //조회할 게시글 번호 적용
+			ps.setInt(1, post_no.getPost_no()); //조회할 게시글 번호 적용
 			
 			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
 			
 			//조회 결과 처리
 			while(rs.next()) {
+
 				viewpost = new Post(); //결과값 저장 객체
 				
 				//결과값 한 행 처리
@@ -156,68 +158,6 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		return viewpost;	
 	}	
 	
-	@Override
-	public String selectNickByid(Connection conn, Post viewPost) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;		
-		
-		//SQL 작성
-		String sql = "";
-		sql += "SELECT nick FROM member";
-		sql += " WHERE user_no = ?";
-		
-		//결과 저장할 String 변수
-		String nick = null;
-		
-		try {
-			ps = conn.prepareStatement(sql); //SQL수행 객체
-			ps.setInt(1, viewPost.getUser_no()); //조회할 no 적용
-			
-			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
-			
-			//조회 결과 처리
-			while(rs.next()) {
-				nick = rs.getString("nick");
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			//DB객체 닫기
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		
-		//최종 결과 반환
-		return nick;
-		
-	}
-
-
-	@Override
-	public int selectNextBoardno(Connection conn) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int insertFile(Connection conn, File postFile) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public File selectFile(Connection conn, File viewBoard) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int deleteFile(Connection conn, Post post) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 	@Override
 	public int insert(Connection conn, Post post) {
@@ -227,8 +167,8 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		
 		//다음 게시글 번호 조회 쿼리
 		String sql = "";
-		sql += "INSERT INTO POST(POST_NO, BTITLE, FTITLE, NICK, CONTENT)";
-		sql += " VALUES (?, ?, ?, ?, ?)";
+		sql += "INSERT INTO POST(POST_NO, TITLE, CONTENT)";
+		sql += " VALUES (?, ?, ? )";
 		
 //		sql += " VALUES (post_seq.nextval, ?, ?, ?, 0)";
 		
@@ -240,9 +180,8 @@ public class AdminPostDaoImpl implements AdminPostDao{
 			
 			ps.setInt(1, post.getPost_no());
 			ps.setString(2, post.getTitle());
-			ps.setString(3, post.getTitle());
 //			ps.setString(4, post.getNick());
-//			ps.setString(5, post.getContent());
+			ps.setString(3, post.getContent());
 			
 
 			res = ps.executeUpdate();
@@ -256,12 +195,6 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		return res;	
 	}
 
-
-	@Override
-	public int update(Connection conn, Post post) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	@Override
 	public int delete(Connection conn, Post post) {
 		

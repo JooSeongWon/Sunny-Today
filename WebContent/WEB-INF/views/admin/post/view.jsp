@@ -31,30 +31,32 @@
 
 
 <!-- <div style="background: #BDBDBD;"> -->
-
+${viewPost}
 <table id="tb"class="table table-bordered">
+<%-- <c:forEach items="${allList }" var="item"> --%>
 
 <tr>
 	<td class="col-xs-2" height="50px">게시물 제목</td>
-	<td>${title}제목</td>
+	<td>${viewPost.title }</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">게시글 작성자</td>
-	<td>닉네임</td>
+	<td>${viewPost.nick }</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">작성된 날짜</td>
-	<td>${write_date }</td>
+	<td>${viewPost.write_date }</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="260px">내용</td>
-	<td><textarea cols="90" rows="16" readonly></textarea>${content }</td>
+	<td><textarea cols="90" rows="16" readonly>${viewPost.content }</textarea></td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">업로드된 파일</td>
 	<td></td>
 </tr>	
 
+<%-- </c:forEach> --%>
 </table>
 
 

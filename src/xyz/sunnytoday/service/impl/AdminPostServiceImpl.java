@@ -3,6 +3,7 @@ package xyz.sunnytoday.service.impl;
 
 
 import java.sql.Connection;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.Paging;
 import xyz.sunnytoday.dao.face.AdminPostDao;
-import xyz.sunnytoday.dao.face.BoardDao;
 import xyz.sunnytoday.dao.impl.AdminPostDaoImpl;
-import xyz.sunnytoday.dao.impl.BoardDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.AdminPostService;
@@ -27,7 +26,8 @@ public class AdminPostServiceImpl implements AdminPostService {
 	@Override
 	public List<Map<String, Object>> getList(HttpServletRequest req, Paging paging) {
 		Connection conn = JDBCTemplate.getConnection();
-	    List<Map<String, Object>> allList = postDao.selectAll(conn, paging);
+	    
+		List<Map<String, Object>> allList = postDao.selectAll(conn, paging);
 		JDBCTemplate.close(conn);
 		return allList; 
 	}
@@ -57,42 +57,35 @@ public class AdminPostServiceImpl implements AdminPostService {
 
 	@Override
 	public Post getPostno(HttpServletRequest req) {
-		
+
 		//postno를 저장할 객체 생성
-		Post postno = new Post();
+		Post post_no = new Post();
 		
 		//postno 전달파라미터 검증 - null, ""
-		String param = req.getParameter("post_no");
-		if(param!=null && !"".equals(param)) {
-			
-			//postno 전달파라미터 추출
-			postno.setPost_no( Integer.parseInt(param) );
-		}
+		String parame = req.getParameter("post_no");
 		
+		if(parame!=null && !"".equals(parame)) {
+			post_no.setPost_no( Integer.parseInt(parame) );
+		} else {
+			System.out.println("[WARNING] post_no값이 null이거나 비어있습니다");
+		}
+//		System.out.println("getPostno:" + post_no);
 		//결과 객체 반환
-		return postno;
+		return post_no;
 	}
 
 	@Override
-	public Post view(Post postno) {
+	public Post view(Post post_no) {
 
 		Connection conn = JDBCTemplate.getConnection();
 
 		//게시글 조회
-		Post post = postDao.selectPostByPostno(conn, postno); 
+		Post post = postDao.selectPostByPostno(conn, post_no); 
 		JDBCTemplate.close(conn);
+		System.out.println("post:" + post);
+		
 		return post;
 	}
-	
-	@Override
-	public String getNick(Post viewPost) {
-		Connection conn = JDBCTemplate.getConnection();
-		
-		String getNick = postDao.selectNickByid(conn, viewPost);
-	
-		JDBCTemplate.close(conn);
-		return getNick;
-	}	
 	
 	@Override
 	public void deletePost(Post post) {
@@ -108,8 +101,21 @@ public class AdminPostServiceImpl implements AdminPostService {
 	
 	@Override
 	public void write(HttpServletRequest req) {
-		// insert[dao]에서 받은데이터 writeCtr로 보내기 -첨부파일
-	}
 
+		Post po = new Post();
+			
+		po.setPost_no(Integer.parseInt(req.getParameter("post_no")));
+		po.setTitle(req.getParameter("title"));
+		po.setContent(req.getParameter("content"));
+				
+		Connection conn = JDBCTemplate.getConnection();
+		if( postDao.insert(conn, po) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+
+	}
 
 }
