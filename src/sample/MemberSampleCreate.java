@@ -1,4 +1,4 @@
-﻿package sample;
+package sample;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.CipherUtil;
