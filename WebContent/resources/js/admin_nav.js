@@ -93,38 +93,38 @@ $(document).ready(function(){
 	
 	$('#member_list').click(function(){
 		console.log("member_list clicked");
-//		$(location).attr("href", "/admin/member/list");
-		sendRequest(
-			"GET"
-			, "/WEB-INF/views/admin/member/member_list.jsp"
-			, resonsefunc);
+		$(location).attr("href", "/admin/member/list");
+//		sendRequest(
+//			"GET"
+//			, "/admin/member/list"
+//			, resonsefunc);
 	})
 	
 	$('#member_question').click(function(){
 		console.log("member_list clicked");
-//		$(location).attr("href", "/admin/member/question");
-		sendRequest(
-			"GET"
-			, "/WEB-INF/views/admin/member/question.jsp"
-			, resonsefunc);
+		$(location).attr("href", "/admin/member/question");
+//		sendRequest(
+//			"GET"
+//			, "/admin/member/question"
+//			, resonsefunc);
 	})
 	
 	$('#member_report').click(function(){
 		console.log("member_list clicked");
-//		$(location).attr("href", "/admin/member/report");
-		sendRequest(
-			"GET"
-			, "/WEB-INF/views/admin/member/report_list.jsp"
-			, resonsefunc);
+		$(location).attr("href", "/admin/member/report");
+//		sendRequest(
+//			"GET"
+//			, "/admin/member/report"
+//			, resonsefunc);
 	})
 	
 	$('#purnish_list').click(function(){
 		console.log("member_list clicked");
-//		$(location).attr("href", "/admin/purnish/list");
-		sendRequest(
-			"GET"
-			, "/WEB-INF/views/admin/member/purnish_list.jsp"
-			, resonsefunc);
+		$(location).attr("href", "/admin/purnish/list");
+//		sendRequest(
+//			"GET"
+//			, "/admin/purnish/list"
+//			, resonsefunc);
 	})
 //	$('#conn_analysis').click(function(){
 //		console.log("conn_analysis clicked");
