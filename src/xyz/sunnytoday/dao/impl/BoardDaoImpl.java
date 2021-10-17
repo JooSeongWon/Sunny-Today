@@ -1210,7 +1210,7 @@ public class BoardDaoImpl implements BoardDao {
 		ResultSet rs = null;
 		
 		String sql = "";
-		sql += "SELECT comments_no, post_no, user_no, write_date, last_modify, content";
+		sql += "SELECT comments_no, post_no, user_no, write_date, last_modify, content, \"SHOW\"";
 		sql += "	FROM comments";
 		sql += "	WHERE post_no = ?";
 		sql += "	ORDER BY comments_no";
@@ -1239,6 +1239,7 @@ public class BoardDaoImpl implements BoardDao {
 				comments.setWrite_date( rs.getDate("write_date") );
 				comments.setLast_modify( rs.getDate("last_modify") );
 				comments.setContent( rs.getString("content") );
+				comments.setShow( rs.getString("show") );
 				
 				map.put("comments", comments);
 				map.put("member", selectNickByUserno(conn, comments));
@@ -1259,13 +1260,24 @@ public class BoardDaoImpl implements BoardDao {
 	}
 	
 	@Override
-	public int insertComment(Connection conn, Post post_no, String content, int userno) {
+	public int insertComment(Connection conn, Post post_no, String content, int userno, String onlyWriter) {
 
 		PreparedStatement ps = null;
 		
 		String sql = "";
-		sql += "INSERT INTO comments( comments_no, post_no, user_no, content )";
-		sql += " VALUES( comments_seq.nextval, ?, ?, ? )";
+		sql += "INSERT INTO comments( comments_no, post_no, user_no, content";
+		if( onlyWriter == null ) {
+			sql += ")";
+		} else {
+			sql += ", \"SHOW\") ";
+		}
+		sql += " VALUES( comments_seq.nextval, ?, ?, ?";
+		
+		if( onlyWriter == null ) {
+			sql += ")";
+		} else {
+			sql += ", ?) ";
+		}
 		
 		int res = 0;
 		
@@ -1275,6 +1287,9 @@ public class BoardDaoImpl implements BoardDao {
 			ps.setInt(1, post_no.getPost_no());
 			ps.setInt(2, userno);
 			ps.setString(3, content);
+			if( onlyWriter != null ) {
+				ps.setString(4, "Y");
+			} 
 			
 			res = ps.executeUpdate();
 			

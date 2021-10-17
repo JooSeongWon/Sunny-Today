@@ -217,14 +217,14 @@ td, th {
 #like {
 	border-radius: 28px;
 	font-size: var(--font-small);
-	background: var(--color-sky);
+	background-color: var(--color-sky);
 	padding: 10px 10px 10px 10px;
 }
 
 #disLike {
 	border-radius: 28px;
 	font-size: var(--font-small);
-	background: var(--color-gray);
+	background-color: var(--color-grey);
 	padding: 10px 10px 10px 10px;
 }
 
@@ -257,7 +257,7 @@ td, th {
     height: 40px;
 }
 
-#commentsContentinTable {
+.CCT {
 	width: 60%;
     text-align: left;
 }
@@ -281,6 +281,14 @@ td, th {
 #updateComments {
 	width: 90%;
 	height: 40px;
+}
+
+.fa-sun {
+	color: var(--color-orange);
+}
+
+#btnlist {
+	margin-left: 70%;
 }
 
 

@@ -33,6 +33,10 @@ public class BoardDetailController extends HttpServlet {
 		
 		List<Map<String, Object>> comments = boardService.selectCommentPost(post_no);
 		
+		for( Map<String, Object> e : comments ) {
+		System.out.println( e );
+	}	
+		
 		
 		req.setAttribute("detailBoard", detailBoard );
 		req.setAttribute( "nick", boardService.getNick(detailBoard) );

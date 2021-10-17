@@ -29,15 +29,16 @@ public class BoardCommentsInsertController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		Post post_no = boardService.getPostno(req);
-
 		int postno = post_no.getPost_no();
 		String content = boardService.getComments(req);
+		String onlyWriter = req.getParameter("onlyWriter");
 		
 		HttpSession session = req.getSession();
 		int userno = (int) session.getAttribute("userno");
 		
 		
-		int res = boardService.insertComment(post_no, content, userno);
+		int res = boardService.insertComment(post_no, content, userno, onlyWriter);
+		
 		
 		if(res>0) {
 			req.setAttribute("postno", postno);

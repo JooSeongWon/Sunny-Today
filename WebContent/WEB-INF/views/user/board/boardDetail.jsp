@@ -36,7 +36,7 @@
 <div class="detailarea">
 		<div id="detailTitle">${detailBoard.title }</div>
 		<hr>
-		<div>	
+		<div style="margin-bottom: 40px;">	
 		<span id="detailNick">작성자: ${nick }</span>
 		<span id="btnlist">	
 			<a href="/board/report?post_no=${detailBoard.post_no }">
@@ -54,8 +54,9 @@
 		</div>
 
 		<c:if test="${not empty detailFile }">
-		<div id="preview">
-			<img src="/upload/${detailFile.url }">
+		<div id="preview" style="text-align: center;">
+			<img style="resize: both;"
+				src="/upload/${detailFile.url }">
 		</div>
 		</c:if>
 		<div id="detailContent"> ${detailBoard.content } </div>
@@ -71,7 +72,7 @@
 		<form action="<%=request.getContextPath() %>/board/comments/insert" method="get">
 			<input type="hidden" name="postno" id="postno" value="${detailBoard.post_no }" />
 			<div id="onlyWrite	r">
-				<input type="checkbox" name="onlyWriter" id="onlyWriter"> 
+				<input type="checkbox" name="onlyWriter" id="onlyWriter" value="onlyWriter"> 
 				<label for="onlyWriter">작성자만 보기</label>	
 			</div>
 			<div style="margin: 5px 20px 30px 20px;">
@@ -90,26 +91,69 @@
 				<table style="width: 100%">
 			<c:forEach items="${comments }" var="comments">
 					<tr id="CommentsAdd">
-					<td id="commentsNickinTable">${comments.member }</td>
-					<td id="commentsContentinTable_${comments.comments.comments_no }">${comments.comments.content }</td>
-					<c:if test="${loginMember.userno eq comments.comments.user_no }">
 					
-					<td style="width:20%">
-					<form action="<%=request.getContextPath() %>/board/comments/update" method="get" style="display: inline;">
-					<button type="button" id="CommentsUpdateinTable">수정</button>
-					<input type="hidden" name="comments_no" id="updateComments_no" value="${comments.comments.comments_no }" />
-					<input type="hidden" name="newComments" />
-					</form>
-					<form action="<%=request.getContextPath() %>/board/comments/delete" method="get" style="display: inline;">
-					<button type="button" id="CommentsDeleteinTable">삭제</button>
-					<input type="hidden" name="comments_no" id="deleteComments_no" value="${comments.comments.comments_no }" />
-					</form>
-					</td>
+						<c:if test="${comments.comments.show eq 'Y' and detailBoard.user_no eq loginMember.userno}">
+							<td id="commentsNickinTable">
+							${comments.member }
+								<c:if test="${detailBoard.user_no eq comments.comments.user_no }">
+								<i class="fas fa-sun"></i>
+								</c:if>
+							</td>
+							
+							<td id="commentsContentinTable_${comments.comments.comments_no }" class="CCT">${comments.comments.content }</td>
+							
+								<c:if test="${loginMember.userno eq comments.comments.user_no }">								
+								<td style="width:20%">
+									<form action="<%=request.getContextPath() %>/board/comments/update" method="get" style="display: inline;">
+									<button type="button" id="CommentsUpdateinTable">수정</button>
+									<input type="hidden" name="comments_no" id="updateComments_no" value="${comments.comments.comments_no }" />
+									<input type="hidden" name="newComments" />
+									</form>
+									<form action="<%=request.getContextPath() %>/board/comments/delete" method="get" style="display: inline;">
+									<button type="button" id="CommentsDeleteinTable">삭제</button>
+									<input type="hidden" name="comments_no" id="deleteComments_no" value="${comments.comments.comments_no }" />
+									</form>
+								</td>
+								</c:if>
+								
+								<c:if test="${loginMember.userno ne comments.comments.user_no }">
+									<td id="CommentsReportinTable">신고</td>
+								</c:if>
+								
+						</c:if>
+						
+						<c:if test="${comments.comments.show eq 'Y' and detailBoard.user_no ne loginMember.userno}">
+							<td colspan="3" style="height: 40px;">작성자만 볼 수 있는 댓글입니다.</td>
+						</c:if>
+						
+						<c:if test="${comments.comments.show eq 'N' }">
+						<td id="commentsNickinTable">
+						${comments.member }
+							<c:if test="${detailBoard.user_no eq comments.comments.user_no }">
+							<i class="fas fa-sun"></i>
+							</c:if>
+						</td>
+						<td id="commentsContentinTable_${comments.comments.comments_no }" class="CCT">${comments.comments.content }</td>
+							<c:if test="${loginMember.userno eq comments.comments.user_no }">
+							<td style="width:20%">
+								<form action="<%=request.getContextPath() %>/board/comments/update" method="get" style="display: inline;">
+								<button type="button" id="CommentsUpdateinTable">수정</button>
+								<input type="hidden" name="comments_no" id="updateComments_no" value="${comments.comments.comments_no }" />
+								<input type="hidden" name="newComments" />
+								</form>
+								<form action="<%=request.getContextPath() %>/board/comments/delete" method="get" style="display: inline;">
+								<button type="button" id="CommentsDeleteinTable">삭제</button>
+								<input type="hidden" name="comments_no" id="deleteComments_no" value="${comments.comments.comments_no }" />
+								</form>
+							</td>
+							</c:if>
+							
+							<c:if test="${loginMember.userno ne comments.comments.user_no }">
+							<td id="CommentsReportinTable">신고</td>
+							</c:if>
 					
-					</c:if>
-					<c:if test="${loginMember.userno ne comments.comments.user_no }">
-					<td id="CommentsReportinTable">신고</td>
-					</c:if>
+						</c:if>
+						
 					</tr>		
 			</c:forEach>
 				</table>

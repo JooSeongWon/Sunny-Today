@@ -257,9 +257,10 @@ public interface BoardDao {
 	 * @param post_no - 댓글 추가할 post_no
 	 * @param comments - 댓글 내용
 	 * @param userno - 댓글 작성한 사람
+	 * @param onlyWriter 
 	 * @return
 	 */
-	public int insertComment(Connection conn, Post post_no, String content, int userno);
+	public int insertComment(Connection conn, Post post_no, String content, int userno, String onlyWriter);
 
 	public List<Map<String, Object>> selectDetail(Connection conn, Post param);
 

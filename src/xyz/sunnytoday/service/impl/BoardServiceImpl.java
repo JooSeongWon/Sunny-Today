@@ -713,9 +713,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int insertComment(Post post_no, String content, int userno) {
+	public int insertComment(Post post_no, String content, int userno, String onlyWriter) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = boardDao.insertComment(conn, post_no, content, userno );
+		int result = boardDao.insertComment(conn, post_no, content, userno, onlyWriter );
 		
 		if( result == 1 ) {
 			JDBCTemplate.commit(conn);

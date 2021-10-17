@@ -32,7 +32,6 @@ public interface BoardService {
 
 	/**
 	 * 게시판마다 다른 페이징 객체
-	 * @param req 
 	 * @param boardTitle
 	 * @return
 	 */
@@ -182,8 +181,9 @@ public interface BoardService {
 	 * @param post_no - 댓글 추가할 postno
 	 * @param comments - 댓글 내용
 	 * @param userno - 댓글 작성자
+	 * @param onlyWriter 
 	 */
-	public int insertComment(Post post_no, String content, int userno);
+	public int insertComment(Post post_no, String content, int userno, String onlyWriter);
 
 	/**
 	 * 보드의 세부정보를 요청

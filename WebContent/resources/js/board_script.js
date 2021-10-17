@@ -102,8 +102,6 @@ $(document).ready(function() {
 			var newComments = $('#commentsContentinTable_'+commentsNo).children().val();
 			$('input[name=newComments]').val(newComments);
 			
-			alert(newComments);
-			
 			$(this).parent().submit();
 		}
 	
