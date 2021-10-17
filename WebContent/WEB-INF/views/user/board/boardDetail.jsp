@@ -37,15 +37,17 @@
 		<div>	
 		<span id="detailNick">작성자: ${nick }</span>
 		<span id="btnlist">	
-			<a href="/board/report?postno=${detailBoard.post_no }">
+			<a href="/board/report?post_no=${detailBoard.post_no }">
 			<button id="btnReport">신고</button>
 			</a>
+			<c:if test="${loginMember.userno eq detailBoard.user_no }">
 			<a href="/board/update?postno=${detailBoard.post_no }">
 			<button id="btnUpdate">수정</button>
 			</a>
 			<a href="/board/delete?postno=${detailBoard.post_no }">
 			<button id="btnDelete">삭제</button>
 			</a>
+			</c:if>
 		</span>
 		</div>
 		
@@ -71,7 +73,7 @@
 				<label for="onlyWriter">작성자만 보기</label>	
 			</div>
 			<div>
-				<span>${loginNick }</span>
+				<span>${loginMember.nick }</span>
 				<input type="text" name="commentsContent" id="commentsContent" placeholder="댓글을 작성해보세요" />
 				<input type="button" id="btnCommentsInsert" value="댓글입력"/>
 			</div>
@@ -83,12 +85,21 @@
 		</c:if>
 		
 		<c:if test="${not empty comments }">
-			<c:forEach items="${comments }" var="comments">
 				<table>
-					<tr id="comments">
+			<c:forEach items="${comments }" var="comments">
+					<tr id="CommentsAdd">
+					<td>${comments.member }</td>
+					<td>${comments.comments.content }</td>
+					<c:if test="${loginMember.userno eq comments.comments.user_no }">
+					<td>수정</td>
+					<td>삭제</td>
+					</c:if>
+					<c:if test="${loginMember.userno ne comments.comments.user_no }">
+					<td>신고</td>
+					</c:if>
 					</tr>		
-				</table>
 			</c:forEach>
+				</table>
 		</c:if>
 		
 		

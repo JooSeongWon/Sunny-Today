@@ -151,6 +151,14 @@ public interface BoardDao {
 	 * @return String - 작성자 닉네임
 	 */
 	public String selectNickByUserno(Connection conn, Post detailBoard);
+	
+	/**
+	 * userno를 이용해 nick을 조회한다
+	 * 
+	 * @param detailBoard - 조회할 userno를 가진 객체
+	 * @return String - 작성자 닉네임
+	 */
+	public String selectNickByUserno(Connection conn, Comments comments);
 
 	/**
 	 * 첨부파일 조회
@@ -224,7 +232,7 @@ public interface BoardDao {
 	 * @param post_no
 	 * @return
 	 */
-	public List<Comments> selectCommentPost(Connection conn, Post post_no);
+	public List<Map<String, Object>> selectCommentPost(Connection conn, Post post_no);
 
 	/**
 	 * 댓글 추가
@@ -234,9 +242,10 @@ public interface BoardDao {
 	 * @param userno - 댓글 작성한 사람
 	 * @return
 	 */
-	public int insertComment(Connection conn, Post post_no, String comments, int userno);
+	public int insertComment(Connection conn, Post post_no, String content, int userno);
 
 	public List<Map<String, Object>> selectDetail(Connection conn, Post param);
+
 
 
 

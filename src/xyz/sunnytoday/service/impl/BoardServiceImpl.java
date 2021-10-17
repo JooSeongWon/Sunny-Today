@@ -23,7 +23,7 @@ import xyz.sunnytoday.dao.impl.BoardDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
-
+import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
 import xyz.sunnytoday.service.face.BoardService;
@@ -636,13 +636,33 @@ public class BoardServiceImpl implements BoardService {
 		
 		return nick;
 	}
+	
+	@Override
+	public Member loginMember(HttpServletRequest req) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		Member member = new Member();
+		
+		member.setUserno( (int)req.getSession().getAttribute("userno") );
+		member.setNick( (String)req.getSession().getAttribute("nick") );
+		JDBCTemplate.close(conn);
+		return member;
+	}
+	
+	@Override
+	public String commentsNick(List<Comments> comments) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		return null;
+	}
 		
 	
 	@Override
-	public List<Comments> selectCommentPost(Post post_no) {
+	public List<Map<String, Object>> selectCommentPost(Post post_no) {
 
 		Connection conn = JDBCTemplate.getConnection();
-		List<Comments> comments = boardDao.selectCommentPost(conn, post_no);
+		List<Map<String, Object>> comments = boardDao.selectCommentPost(conn, post_no);
 		
 		JDBCTemplate.close(conn);
 		
@@ -658,9 +678,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void insertComment(Post post_no, String comments, int userno) {
+	public int insertComment(Post post_no, String content, int userno) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = boardDao.insertComment(conn, post_no, comments, userno );
+		int result = boardDao.insertComment(conn, post_no, content, userno );
 		
 		if( result == 1 ) {
 			JDBCTemplate.commit(conn);
@@ -669,6 +689,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		JDBCTemplate.close(conn);
+		
+		return result;
 		
 	}
 

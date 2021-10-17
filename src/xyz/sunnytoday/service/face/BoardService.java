@@ -161,7 +161,7 @@ public interface BoardService {
 	 * @param post_no - 게시글 번호
 	 * @return List<Comments> - 댓글 리스트
 	 */
-	public List<Comments> selectCommentPost(Post post_no);
+	public List<Map<String, Object>> selectCommentPost(Post post_no);
 
 	/** 
 	 * 댓글 내용 가져오기
@@ -176,7 +176,7 @@ public interface BoardService {
 	 * @param comments - 댓글 내용
 	 * @param userno - 댓글 작성자
 	 */
-	public void insertComment(Post post_no, String comments, int userno);
+	public int insertComment(Post post_no, String content, int userno);
 
 	/**
 	 * 보드의 세부정보를 요청
@@ -184,6 +184,20 @@ public interface BoardService {
 	 * @return - 조회된 보드의 세부 정보 리스트
 	 */
 	public List<Map<String, Object>> boardDetail(Post param);
+
+	/**
+	 * 로그인 한 멤버 정보
+	 * @param req
+	 * @return
+	 */
+	public Member loginMember(HttpServletRequest req);
+
+	/**
+	 * 댓글 쓴 사람의 닉네임 가져오기
+	 * @param comments - userno이 들어있음
+	 * @return
+	 */
+	public String commentsNick(List<Comments> comments);
 
 
 

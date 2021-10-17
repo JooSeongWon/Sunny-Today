@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,12 +31,12 @@ public class BoardDetailController extends HttpServlet {
 		Post detailBoard = boardService.detail(post_no);		
 		File detailFile = boardService.detailFile(detailBoard);
 		
-		List<Comments> comments = boardService.selectCommentPost(post_no);
+		List<Map<String, Object>> comments = boardService.selectCommentPost(post_no);
 		
 		
 		req.setAttribute("detailBoard", detailBoard );
 		req.setAttribute( "nick", boardService.getNick(detailBoard) );
-		req.setAttribute( "loginNick", boardService.loginNick(req));
+		req.setAttribute( "loginMember", boardService.loginMember(req));
 		req.setAttribute("detailFile", detailFile);
 		req.setAttribute( "comments", comments);
 				

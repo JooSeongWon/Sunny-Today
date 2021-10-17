@@ -87,16 +87,27 @@ $(document).ready(function() {
 	//댓글 js -----------------------------------------------------------
 	$("#btnCommentsInsert").click(function() {
 		
-		//요청 URL
-		var url = "/board/comments/insert"
+		console.log($('#commentsContent').val())
+		console.log($('#postno').val())
 		
-		//요청 파라미터
-		var data = "&postno=" + $("#postno").val()
-			+ "&onlyWriter=" + $("#onlyWriter").val()
-			+ "&commentsContent=" + $("#commentsContent").val();
-		console.log("data", data)
-		
-		sendRequest("get", url, data, callback)
+		$.ajax({
+			url:"/board/comments/insert",
+			type:"post",
+			data:{
+				commentsContent: $('#commentsContent').val()
+				, postno: $('#postno').val()
+			},
+			dataType : 'json' ,
+				success:function( res ){
+					$("#CommentsAdd").html( res )
+					
+					$("#commentsContent").val("");
+				},
+				error: function() {
+				console.log("에러 발생");
+			}
+			
+		})
 		
 		return false;
 	});

@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.Member;
@@ -23,20 +26,46 @@ public class BoardCommentsInsertController extends HttpServlet {
 	BoardService boardService = new BoardServiceImpl();
 	
 	@Override
-		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-			Post post_no = boardService.getPostno(req);		
-			String comments = boardService.getComments(req);
-			
-			HttpSession session = req.getSession();
-			int userno = (int) session.getAttribute("userno");
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		Post post_no = boardService.getPostno(req);
+//		System.out.println("postno : " + post_no.getPost_no());
+//		String content = boardService.getComments(req);
+//
+//		HttpSession session = req.getSession();
+//		int userno = (int) session.getAttribute("userno");
+//
+//		
+//		boardService.insertComment(post_no, content, userno);
+//		
+//		//상태 업데이트
+//		List<Map<String, Object>> comments = boardService.selectCommentPost(post_no);
+//		
+//		Gson gson = new Gson();
+//		String rs = gson.toJson(comments);
+//			
+//		resp.getWriter().write(rs);
+	}
 	
-			
-			boardService.insertComment(post_no, comments, userno);
-			
-			
-			req.getRequestDispatcher("/WEB-INF/views/user/board/boardComments.jsp").forward(req, resp);
-		
-		}
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Post post_no = boardService.getPostno(req);
+		System.out.println("postno : " + post_no.getPost_no());
+		String content = boardService.getComments(req);
 
+		HttpSession session = req.getSession();
+		int userno = (int) session.getAttribute("userno");
+
+		
+		boardService.insertComment(post_no, content, userno);
+		
+		//상태 업데이트
+		List<Map<String, Object>> comments = boardService.selectCommentPost(post_no);
+		
+		Gson gson = new Gson();
+		String rs = gson.toJson(comments);
+			
+		resp.getWriter().write(rs);
+	}
+
+	
 }

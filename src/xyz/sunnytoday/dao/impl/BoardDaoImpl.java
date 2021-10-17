@@ -729,6 +729,43 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
+	public String selectNickByUserno(Connection conn, Comments comments) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;	
+		
+		String sql = "";
+		sql += "SELECT nick FROM member";
+		sql += " WHERE user_no = ?";
+		
+		//결과 저장할 String 변수
+		String usernick = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, comments.getUser_no()); //조회할 no 적용
+			
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			
+			//조회 결과 처리
+			while(rs.next()) {
+				usernick = rs.getString("nick");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//최종 결과 반환
+		return usernick;
+	}
+	
+	
+	@Override
 	public File selectFile(Connection conn, int fileno) {
 		
 		PreparedStatement ps = null;
@@ -1055,7 +1092,7 @@ public class BoardDaoImpl implements BoardDao {
 
 
 	@Override
-	public List<Comments> selectCommentPost(Connection conn, Post post_no) {
+	public List<Map<String, Object>> selectCommentPost(Connection conn, Post post_no) {
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -1064,8 +1101,11 @@ public class BoardDaoImpl implements BoardDao {
 		sql += "SELECT comments_no, post_no, user_no, write_date, last_modify, content";
 		sql += "	FROM comments";
 		sql += "	WHERE post_no = ?";
+		sql += "	ORDER BY comments_no";
 		
-		List<Comments> list = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+		List<Map<String, Object>> list = new ArrayList<>();
+
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -1076,7 +1116,10 @@ public class BoardDaoImpl implements BoardDao {
 			
 			while(rs.next()) {
 				
+				map = new HashMap<>();
+
 				Comments comments = new Comments();
+				Member member = new Member();
 				
 				comments.setComments_no( rs.getInt("comments_no") );
 				comments.setPost_no( rs.getInt("post_no") );
@@ -1085,7 +1128,10 @@ public class BoardDaoImpl implements BoardDao {
 				comments.setLast_modify( rs.getDate("last_modify") );
 				comments.setContent( rs.getString("content") );
 				
-				list.add(comments);
+				map.put("comments", comments);
+				map.put("member", selectNickByUserno(conn, comments));
+				
+				list.add(map);
 				
 			}
 			
@@ -1101,7 +1147,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 	
 	@Override
-	public int insertComment(Connection conn, Post post_no, String comments, int userno) {
+	public int insertComment(Connection conn, Post post_no, String content, int userno) {
 
 		PreparedStatement ps = null;
 		
@@ -1116,7 +1162,7 @@ public class BoardDaoImpl implements BoardDao {
 			
 			ps.setInt(1, post_no.getPost_no());
 			ps.setInt(2, userno);
-			ps.setString(3, comments);
+			ps.setString(3, content);
 			
 			res = ps.executeUpdate();
 			
