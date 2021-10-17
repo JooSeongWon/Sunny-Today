@@ -167,7 +167,6 @@ public class MemberServiceImpl implements MemberService {
             }
         } catch (Exception e) {
             System.out.println("[ERROR] 회원가입 ajax 요청처리 오류");
-            e.printStackTrace();
         }
 
         return new ResponseMessage(false, "알수없는 요청입니다.");
