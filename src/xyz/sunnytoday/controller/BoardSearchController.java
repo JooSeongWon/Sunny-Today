@@ -27,10 +27,14 @@ public class BoardSearchController extends HttpServlet {
 		
 		Paging paging = boardService.getPaging(req);
 		List<Map<String, Object>> searchList = boardService.getSearchList(req, paging);
+		boardService.setThumFile(searchList);
+		
+		for( Map<String, Object> e : searchList ) { System.out.println( e ); };
+		
 		
 		req.setAttribute("searchList", searchList);
 		req.setAttribute("paging", paging);
 		
-		
+		req.getRequestDispatcher("/WEB-INF/views/user/board/boardSearchList.jsp").forward(req, resp);
 	}
 }

@@ -64,7 +64,7 @@
 		<td colspan="6">공지글</td>
 	</tr>
 	
-<c:forEach items="${boardMainList }" var="boardMainList">
+<c:forEach items="${list }" var="boardMainList">
 <tr>
 	<td rowspan="2">
 	<c:choose>

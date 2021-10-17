@@ -85,50 +85,43 @@ $(document).ready(function() {
 	
 	
 	//댓글 js -----------------------------------------------------------
-	$("#btnCommentsInsert").click(function() {
+	$("#CommentsUpdateinTable").click(function(){
 		
-		console.log($('#commentsContent').val())
-		console.log($('#postno').val())
+		var text = $(this).text();		
 		
-		$.ajax({
-			url:"/board/comments/insert",
-			type:"post",
-			data:{
-				commentsContent: $('#commentsContent').val()
-				, postno: $('#postno').val()
-			},
-			dataType : 'json' ,
-				success:function( res ){
-					$("#CommentsAdd").html( res )
-					
-					$("#commentsContent").val("");
-				},
-				error: function() {
-				console.log("에러 발생");
-			}
+		if(text=='수정') {		
+		
+		var commentsNo = $(this).next().attr('value');
+		var comments = $('#commentsContentinTable_'+commentsNo).text();
+
+		$('#commentsContentinTable_'+commentsNo).html("<input type='text' id='updateComments' name='updateComments' value='"+comments+"'>");
+		$(this).text('완료');
+		$(this).parent().next().children('button').text('취소');
+		} else if(text=='완료') {
+			var commentsNo = $(this).next().attr('value');
+			var newComments = $('#commentsContentinTable_'+commentsNo).children().val();
+			$('input[name=newComments]').val(newComments);
 			
-		})
-		
-		return false;
+			alert(newComments);
+			
+			$(this).parent().submit();
+		}
+	
 	});
+	
+	$("#CommentsDeleteinTable").click(function(){
+		var text = $(this).text();
+		if(text=='삭제'){
+			var result = window.confirm("해당 댓글을 삭제하시겠습니까?");
+			if(result==true) {
+				$(this).parent().submit();
+			}
+		} else if(text=='취소') {
+			location.replace("/board/detail?postno=${detailBoard.post_no }");
+		}
+		
+	})
 	
 	
 	
 })
-
-function callback() {
-	if(httpRequest.readyState == 4) {
-		if(httpRequest.status == 200) {
-			console.log("정상적인 AJAX 요청/응답 성공")
-			
-			printData();
-		} else {
-			console.log("AJAX 요청/응답 실패")
-		}
-	}
-}
-
-function printData() {
-	console.log("printData() called")
-	comments.innerHTML = httpRequest.responseText
-}

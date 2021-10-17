@@ -111,6 +111,41 @@ public class BoardDaoImpl implements BoardDao {
 		
 		return count;
 	}
+	
+	@Override
+	public int selectCntTitle(Connection conn, int boardno) {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "";
+		sql += "SELECT count(*) FROM post";
+		sql += "	WHERE board_no = ?";
+		
+		//총 게시글 수
+		int count = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, boardno);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return count;
+		
+	}
 
 	@Override
 	public List<Map<String, Object>> selectAskingListAll(Board board, Connection conn, Paging paging) {
@@ -156,6 +191,7 @@ public class BoardDaoImpl implements BoardDao {
 				post.setContent( rs.getString("content") );
 				post.setHit( rs.getInt("hit") );
 				b.setTitle( rs.getString("btitle") );
+				b.setBoard_no( rs.getInt("board_no") );
 
 				map.put("post", post);
 				map.put("board", b);
@@ -221,6 +257,7 @@ public class BoardDaoImpl implements BoardDao {
 				post.setContent( rs.getString("content") );
 				post.setHit( rs.getInt("hit") );
 				b.setTitle( rs.getString("btitle") );
+				b.setBoard_no( rs.getInt("board_no") );
 
 				map.put("post", post);
 				map.put("board", b);
@@ -287,6 +324,7 @@ public class BoardDaoImpl implements BoardDao {
 				post.setContent( rs.getString("content") );
 				post.setHit( rs.getInt("hit") );
 				b.setTitle( rs.getString("btitle") );
+				b.setBoard_no( rs.getInt("board_no") );
 
 				map.put("post", post);
 				map.put("board", b);
@@ -351,6 +389,7 @@ public class BoardDaoImpl implements BoardDao {
 				post.setContent( rs.getString("content") );
 				post.setHit( rs.getInt("hit") );
 				b.setTitle( rs.getString("btitle") );
+				b.setBoard_no( rs.getInt("board_no") );
 
 				map.put("post", post);
 				map.put("board", b);
@@ -414,6 +453,7 @@ public class BoardDaoImpl implements BoardDao {
 				post.setContent( rs.getString("content") );
 				post.setHit( rs.getInt("hit") );
 				b.setTitle( rs.getString("btitle") );
+				b.setBoard_no( rs.getInt("board_no") );
 
 				map.put("post", post);
 				map.put("board", b);
@@ -1014,6 +1054,78 @@ public class BoardDaoImpl implements BoardDao {
 		return file;
 		
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectSearchMainList(Connection conn, Paging paging, String select, String keyword) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql ="";
+		sql += "SELECT * FROM (";
+		sql += " SELECT rownum rnum, POST.* FROM ( ";
+		sql += "        SELECT post_no, P.board_no, P.user_no, nick, write_date, last_modify, P.title ptitle, B.title btitle, content, hit";
+		sql += "        FROM post P, board B, Member M";
+		sql += "		WHERE P.board_no = B.board_no";
+		sql += "		AND p.user_no = M.user_no";
+		
+		if( "title".equals(select) ) {
+		sql += "		AND p.title LIKE ?";
+		} else if ( "content".equals(select) ) {
+		sql += "		AND content LIKE ?";
+		} else if ( "nick".equals(select) ) {
+		sql += "		AND nick LIKE ?";		
+		}
+		
+		sql += "        ORDER BY post_no DESC";
+		sql += "	   ) POST";
+		sql += "	) SERACHPOST";
+		sql += "	WHERE rnum BETWEEN ? AND ?";
+				
+		List<Map<String, Object>> list = new ArrayList<>();
+		Map<String, Object> map = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, "%" + keyword + "%");
+			ps.setInt(2, paging.getStartNo());
+			ps.setInt(3, paging.getEndNo());
+			
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				map = new HashMap<>();
+				
+				Post post = new Post();
+				Board b = new Board();
+				
+				post.setPost_no( rs.getInt("post_no") );
+				post.setBoard_no( rs.getInt("board_no") );
+				post.setUser_no( rs.getInt("user_no") );
+				post.setWrite_date( rs.getDate("write_date") );
+				post.setLast_modify( rs.getDate("last_modify") );
+				post.setTitle( rs.getString("ptitle") );
+				post.setContent( rs.getString("content") );
+				post.setHit( rs.getInt("hit") );
+				b.setTitle( rs.getString("btitle") );
+				
+				map.put("post", post);
+				map.put("board", b);
+				
+				map.put("nick", selectNickByUserno(conn, post) );
+				
+				list.add(map);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+				
+		return list;
+	}
 
 	@Override
 	public List<Map<String, Object>> selectSearchList(Connection conn, Paging paging, String boardTitle, String select, String keyword) {
@@ -1030,11 +1142,11 @@ public class BoardDaoImpl implements BoardDao {
 		sql += "		AND p.user_no = M.user_no";
 		sql += "		AND B.title = ?";
 		
-		if( "title".equals(boardTitle) ) {
+		if( "title".equals(select) ) {
 		sql += "		AND p.title LIKE ?";
-		} else if ( "content".equals(boardTitle) ) {
+		} else if ( "content".equals(select) ) {
 		sql += "		AND content LIKE ?";
-		} else if ( "nick".equals(boardTitle) ) {
+		} else if ( "nick".equals(select) ) {
 		sql += "		AND nick LIKE ?";		
 		}
 		
@@ -1213,4 +1325,102 @@ public class BoardDaoImpl implements BoardDao {
 		return list;
 	}
 
+	@Override
+	public int updateComments(Connection conn, int commentNo, String content, int userno) {
+		
+		String sql = "";
+		sql += "UPDATE comments";
+		sql += " SET content = ?";
+		sql += " WHERE comments_no = ?";
+		sql += " AND user_no = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null; 
+		
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, content);
+			ps.setInt(2, commentNo);
+			ps.setInt(3, userno);
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+		
+	}
+	
+	@Override
+	public int selectPostnoByCommentsNO(Connection conn, int commentNo) {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		
+		String sql = "";
+		sql += "SELECT post_no FROM comments";
+		sql += " WHERE comments_no = ?";
+
+		int postno = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, commentNo);
+			
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				postno = rs.getInt(1);
+			}
+			
+
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+				
+		return postno;
+	}
+	
+	@Override
+	public int deleteComments(Connection conn, int commentNo, int userno) {
+		
+		PreparedStatement ps = null; 
+
+		String sql = "";
+		sql += "DELETE comments";
+		sql += " WHERE comments_no = ?";
+		sql += " AND user_no = ?";
+		
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, commentNo);
+			ps.setInt(2, userno);
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
 }

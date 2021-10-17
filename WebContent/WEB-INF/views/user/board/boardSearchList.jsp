@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% 
-	List<Post> boardBuyList = (List) request.getAttribute("boardBuyList");
-%>
 
 <!doctype html>
 <html lang="ko">
@@ -28,13 +25,12 @@
 <c:import url="../layout/navbar.jsp"/>
 
 	<div class="How_was_your_day">
-		<h2>지름 게시판</h2>
-		무슨 설명을 써야할지 모르겠다
+		<h2>커뮤니티</h2>
+		당신의 오늘은 어떠셨나요 ?
 	</div>
 	<hr>
 	
 <div>
-
 <div class="menu-left">
 	<div><h2>카테고리</h2></div>
 	<div><a href="/board/main">전체 글</a></div>
@@ -45,9 +41,9 @@
 	<div><a href="/board/list/mine">내가 쓴 글</a></div>
 </div>
 
-
 <section class="main-board">
-<div id='full_article'>지름 게시판</div>
+<div id='full_article'>전체 글</div>
+
 
 <table>
 <thead>
@@ -67,32 +63,45 @@
 	<tr>
 		<td colspan="6">공지글</td>
 	</tr>
-<c:forEach items="${list }" var="boardBuyList">
+	
+<c:forEach items="${searchList }" var="searchList">
 <tr>
-	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
+	<td rowspan="2">
+	<c:choose>
+	<c:when test="${empty searchList.file }">
+	<img class="thumbnail" src="https://via.placeholder.com/40" alt="no picture">
+	</c:when>
+	<c:otherwise>
+	<img class="thumbnail" src="${pageContext.request.contextPath}/upload/${searchList.file.thumbnail_url}" alt="no picture">
+	</c:otherwise>
+	</c:choose>
+	</td>
 	<td id='title'>
-		<a href="/board/detail?postno=${boardBuyList.post.post_no }">
-		${boardBuyList.post.title }
+		<a href="/board/detail?postno=${searchList.post.post_no }">
+		${searchList.post.title }
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardBuyList.nick }
+		<i class="far fa-smile"></i>${searchList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>
 	</td>
 	<td rowspan="2">
-		${boardBuyList.post.write_date }
+		${searchList.post.write_date }
 	</td>
 	<td rowspan="2">추천수</td>
 </tr>
 <tr>
-	<td id='content'>${boardBuyList.post.content }</td>
+	<td id='content'>${searchList.post.content }</td>
 </tr>
 </c:forEach>
 </tbody>
+
 </table>
+
 </section>
+
 </div>
 
 <div class="btnWriteStart">
@@ -100,9 +109,9 @@
 </div>
 
 <div class="searchArea">
-<form action="/board/buy" method="get">
+<form action="/board/search" method="get">
 	<select name="select">
-			<option value="title" >제목</option>
+			<option value="title">제목</option>
 			<option value="content">본문</option>
 			<option value="nick">작성자</option>
 	</select>
@@ -113,8 +122,9 @@
 
 
 <div id='paging'>
-<c:import url="../layout/boardTitlePaging.jsp" />
+<c:import url="../layout/boardPaging.jsp" />
 </div>
+
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>
 </body>

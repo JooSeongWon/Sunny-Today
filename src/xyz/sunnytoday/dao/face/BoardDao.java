@@ -24,6 +24,13 @@ public interface BoardDao {
 	public int selectCntAll(Connection conn);
 	
 	/**
+	 * 게시판 마다 게시글 수 조회
+	 * @param conn
+	 * @param boardno 
+	 * @return
+	 */
+	public int selectCntTitle(Connection conn, int boardno);
+	/**
 	 * 게시판 글 전체 조회
 	 * @param conn - DB접속
 	 * @param paging - 페이징 정보 객체
@@ -221,6 +228,16 @@ public interface BoardDao {
 	 * @param paging
 	 * @param keyword - 검색 키워드
 	 * @param select - 검색하는 분류 (제목(title), 본문(content), 작성자(nick))
+	 * @return
+	 */
+	public List<Map<String, Object>> selectSearchMainList(Connection conn, Paging paging, String select, String keyword);
+
+	/**
+	 * 서치된 리스트 조회
+	 * @param conn
+	 * @param paging
+	 * @param keyword - 검색 키워드
+	 * @param select - 검색하는 분류 (제목(title), 본문(content), 작성자(nick))
 	 * @param boardTitle - 카테고리 분류
 	 * @return
 	 */
@@ -245,6 +262,37 @@ public interface BoardDao {
 	public int insertComment(Connection conn, Post post_no, String content, int userno);
 
 	public List<Map<String, Object>> selectDetail(Connection conn, Post param);
+
+	/**
+	 * 댓글 수정
+	 * @param conn
+	 * @param commentNo - 댓글 번호
+	 * @param content - 댓글 내용
+	 * @param userno 
+	 * @return
+	 */
+	public int updateComments(Connection conn, int commentNo, String content, int userno);
+
+	/**
+	 * 댓글번호로 포스트번호 찾기
+	 * @param connection
+	 * @param commentNo
+	 * @return
+	 */
+	public int selectPostnoByCommentsNO(Connection conn, int commentNo);
+
+	/**
+	 * 댓글 지우기
+	 * @param conn
+	 * @param commentNo
+	 * @param userno
+	 * @return
+	 */
+	public int deleteComments(Connection conn, int commentNo, int userno);
+
+
+
+
 
 
 

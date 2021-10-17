@@ -30,6 +30,13 @@ public interface BoardService {
 	 */
 	public Paging getPaging(HttpServletRequest req);
 
+	/**
+	 * 게시판마다 다른 페이징 객체
+	 * @param req 
+	 * @param boardTitle
+	 * @return
+	 */
+	public Paging getTitlePaging(HttpServletRequest req, String boardTitle);
 
 	/**
 	 * 질문 응답 목록 조회
@@ -198,6 +205,38 @@ public interface BoardService {
 	 * @return
 	 */
 	public String commentsNick(List<Comments> comments);
+
+	/**
+	 * 댓글 수정
+	 * @param commentNo - 댓글 번호
+	 * @param content - 댓글 내용
+	 * @param userno - 유저 no
+	 */
+	public int updateComments(int commentNo, String content, int userno);
+
+	/**
+	 * 댓글번호로 postno 찾기
+	 * @param commentNo
+	 * @return
+	 */
+	public int selectPostnoByCommentsNO(int commentNo);
+
+	/**
+	 * 댓글 지우기
+	 * @param commentNo - 댓글번호
+	 * @param userno
+	 * @return
+	 */
+	public int deleteComment(int commentNo, int userno);
+
+	/**
+	 * 맵에서 boardTitle 꺼내기
+	 * @param date
+	 * @param string
+	 * @return
+	 */
+	public String getValueFromMap(String date, String boardTitle);
+
 
 
 

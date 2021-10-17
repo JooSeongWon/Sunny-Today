@@ -1,3 +1,11 @@
+/* 페이징 */
+
+li {
+	display:inline;
+	margin: 10px;
+}
+
+
 /* 메인과 카테고리 리스트 */
 
 .menu-left {
@@ -218,9 +226,64 @@ td, th {
 	font-size: var(--font-small);
 	background: var(--color-gray);
 	padding: 10px 10px 10px 10px;
-	
+}
+
+#onlyWriter {
+	padding-left: 20px;
+}
+
+#commentsWriter {
+	margin-right: 50px;
+    margin-left: 20px;
+}
+
+#commentsContent {
+	width: 65%;
+    height: 40px;
+}
+
+#btnCommentsInsert {
+	margin-left: 30px;
+    height: 50px;
+    width: 81px;
+    background: var(--color-sky);
+    border: none;
+    border-radius: 14px;
+    color: var(--color-white);
+}
+
+#commentsNickinTable {
+	width: 20%;
+    height: 40px;
+}
+
+#commentsContentinTable {
+	width: 60%;
+    text-align: left;
+}
+
+#CommentsUpdateinTable {
+	width: 40%;
+    border: none;
+    background: var(--color-white);
+}
+
+#CommentsDeleteinTable {
+	width: 40%;
+    border: none;
+    background: var(--color-white);
+}
+
+#CommentsReportinTable {
+	width: 12%;
+}
+
+#updateComments {
+	width: 90%;
+	height: 40px;
 }
 
 
-
 }
+
+
