@@ -27,6 +27,11 @@ public class MessageServiceImpl implements MessageService {
 		Connection connection = JDBCTemplate.getConnection();
 		List<Message> list =  messageDao.selectAllToMe(connection, paging, userNo);
 		JDBCTemplate.close(connection);
+		
+		list.forEach(message -> {
+			message.setFromNick(memberService.getMemberByUserNoOrNull(message.getFromm()).getNick());
+		});
+		
 		return list;
 		
 	}

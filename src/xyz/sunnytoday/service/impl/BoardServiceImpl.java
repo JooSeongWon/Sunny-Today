@@ -23,7 +23,7 @@ import xyz.sunnytoday.dao.impl.BoardDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
-import xyz.sunnytoday.dto.Member;
+
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
 import xyz.sunnytoday.service.face.BoardService;
@@ -670,6 +670,17 @@ public class BoardServiceImpl implements BoardService {
 		
 		JDBCTemplate.close(conn);
 		
+	}
+
+	@Override
+	public List<Map<String, Object>> boardDetail(Post param) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		List<Map<String, Object>> list = boardDao.selectDetail(conn, param);
+		
+		JDBCTemplate.close(conn);
+		
+		return list;
 	}
 
 }

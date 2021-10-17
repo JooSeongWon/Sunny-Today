@@ -1,5 +1,15 @@
 package xyz.sunnytoday.service.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.TemporaryMemberRepository;
@@ -10,15 +20,6 @@ import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.ResponseMessage;
 import xyz.sunnytoday.service.face.MailService;
 import xyz.sunnytoday.service.face.MemberService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 @SuppressWarnings("RegExpDuplicateCharacterInClass")
 public class MemberServiceImpl implements MemberService {
@@ -107,7 +108,7 @@ public class MemberServiceImpl implements MemberService {
         session.setAttribute("userno", member.getUserno());
         session.setAttribute("nick", member.getNick());
         session.setAttribute("admin", member.getAdmin());
-
+        session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
 
         return new ResponseMessage(true, "로그인 성공");
     }
@@ -156,8 +157,7 @@ public class MemberServiceImpl implements MemberService {
 
                     //인증링크 발송
                     mailService.postJoinVerificationMail(secretKey, member.getEmail());
-                    //TEST!!!!!!!!!!!
-                    break;
+                    return new ResponseMessage(true, "인증메일 발송");
 
                 //소셜 회원가입
                 case "joinSocialMember":
@@ -166,10 +166,22 @@ public class MemberServiceImpl implements MemberService {
             }
         } catch (Exception e) {
             System.out.println("[ERROR] 회원가입 ajax 요청처리 오류");
-            e.printStackTrace();
         }
 
         return new ResponseMessage(false, "알수없는 요청입니다.");
+    }
+
+
+    @Override
+    public void join(Member member) throws SQLException {
+        if (!member.isSocialMember()) { //일반멤버 가입
+            try (Connection connection = JDBCTemplate.getConnection()) {
+                memberDao.insert(connection, member);
+            }
+            return;
+        }
+
+        //소셜가입
     }
 
     //입력 데이터를 멤버 객체에 넣기

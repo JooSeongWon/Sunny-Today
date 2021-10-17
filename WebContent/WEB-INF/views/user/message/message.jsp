@@ -12,7 +12,7 @@
   	if(${empty userno}) {
  		window.alert("로그인이 필요합니다!")
  		window.location.assign("<%= request.getContextPath() %>/")  
-  	};  	
+  	};
     $(document).ready(function() {
     	
     	//쪽지 쓰기 버튼 누르면 이동
@@ -89,13 +89,13 @@
 			<c:forEach items="${messageList }" var="message">
 			<tr>
 				<td><input type="checkbox" id="chk" /></td>				
-				<td>${message.rnum }</td>
+				<td>${paging.totalCount - (message.rnum - 1) }</td>
 				<td>
 					<a href="/message/view?message_no=${message.message_no }">
 					${message.title }
 					</a>
 				</td>
-				<td>${message.fromm }</td>
+				<td>${message.fromNick }</td>
 				<td>${message.post_date }</td>
 			</tr>
 			</c:forEach>

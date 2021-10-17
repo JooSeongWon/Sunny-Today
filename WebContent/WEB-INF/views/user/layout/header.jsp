@@ -15,7 +15,11 @@
                 <a href="<%=request.getContextPath() %>/join"> JOIN US</a>
             </c:if>
             <c:if test="${not empty sessionScope.userno}">
-                ${sessionScope.nick} 님, 안녕하세요! &nbsp;&nbsp;&nbsp;
+                <c:if test="${empty sessionScope.pictureThumbnail}"><i class="far fa-smile"></i></c:if>
+                <c:if test="${not empty sessionScope.pictureThumbnail}"><img class="avatar"
+                                                                             src="${pageContext.request.contextPath}/upload/${sessionScope.pictureThumbnail}"
+                                                                             alt="프로필 사진"></c:if>
+                &nbsp;&nbsp;${sessionScope.nick}님, 안녕하세요!
                 <a href="<%=request.getContextPath() %>/test/logout"> LogOut</a>
             </c:if>
         </div>

@@ -11,7 +11,7 @@ public abstract class TaskTimer implements Runnable {
     }
 
     @Override
-    public final void run() { 
+    public final void run() {
         if (++tick == interval) {
             tick = 0;
             this.start();
@@ -25,6 +25,11 @@ public abstract class TaskTimer implements Runnable {
         // 스케쥴러를 5분에 한번씩 실행할 것임으로 5분단위로 체크해야함
         interval = interval / 5;
         this.interval = interval <= 0 ? 1 : interval;
+    }
+
+    protected final void setNoFirstTimeStart() {
+        //메일인증 만료때문에 급하게 추가함 ㅠㅠ 생각을 몬했음
+        this.isFirst = false;
     }
 
     protected abstract void start();

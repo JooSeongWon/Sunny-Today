@@ -363,8 +363,11 @@ function join(data, loadingImg) {
 }
 
 function doNext() {
-    sections[currentSection++].classList.remove('active');
+    sections[currentSection].classList.remove('active');
+    sectionTitles[currentSection++].classList.remove('active');
     sections[currentSection].classList.add('active');
+    sectionTitles[currentSection].classList.add('active');
+    window.scrollTo(0, 0);
 }
 
 function askCancel() {

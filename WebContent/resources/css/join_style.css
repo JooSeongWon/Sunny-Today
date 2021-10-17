@@ -255,23 +255,6 @@ input {
     color: #fca8a8;
 }
 
-.resend {
-    margin: 40px 0;
-    height: 30px;
-    line-height: 30px;
-}
-
-.fa-question-circle {
-    color: var(--color-orange);
-}
-
-.resend__description {
-    font-size: var(--font-micro);
-    text-decoration: underline;
-    color: var(--color-join-grey);
-    margin-left: 12px;
-}
-
 @media screen and (max-width: 650px) {
     /* 공통 레이아웃 */
     #join {

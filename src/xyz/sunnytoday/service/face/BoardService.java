@@ -178,6 +178,13 @@ public interface BoardService {
 	 */
 	public void insertComment(Post post_no, String comments, int userno);
 
+	/**
+	 * 보드의 세부정보를 요청
+	 * @param param - 요청할 보드의 정보객체
+	 * @return - 조회된 보드의 세부 정보 리스트
+	 */
+	public List<Map<String, Object>> boardDetail(Post param);
+
 
 
 
