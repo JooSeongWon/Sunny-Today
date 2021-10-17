@@ -1130,4 +1130,41 @@ public class BoardDaoImpl implements BoardDao {
 		
 	}
 
+	@Override
+	public List<Map<String, Object>> selectDetail(Connection conn, Post param) {
+		System.out.println("selectBoardDetail called");
+		String sql = "";
+		sql += "SELECT m.id, p.title, p.post_no";
+		sql += " FROM member m, post p";
+		sql += " WHERE m.user_no = p.user_no";
+		sql += " AND p.post_no = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Map<String, Object>> list = new ArrayList<>();
+		Map<String,Object> map = null;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, param.getPost_no());
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				map = new HashMap<>();
+				Post post = new Post();
+				Member member = new Member();
+				post.setPost_no(rs.getInt("post_no"));
+				post.setTitle(rs.getString("title"));
+				member.setUserid(rs.getString("id"));
+				map.put("p", post);
+				map.put("m", member);
+				list.add(map);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		return list;
+	}
+
 }

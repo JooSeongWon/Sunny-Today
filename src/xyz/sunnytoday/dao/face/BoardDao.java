@@ -236,6 +236,8 @@ public interface BoardDao {
 	 */
 	public int insertComment(Connection conn, Post post_no, String comments, int userno);
 
+	public List<Map<String, Object>> selectDetail(Connection conn, Post param);
+
 
 
 
