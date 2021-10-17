@@ -1438,4 +1438,64 @@ public class BoardDaoImpl implements BoardDao {
 		return res;
 	}
 	
+	@Override
+	public int insertLikeDefault(Connection conn, int userno, int postno) {
+		
+		PreparedStatement ps = null;
+		
+		String sql = "";
+		sql += "INSERT INTO \"LIKE\"( post_no, user_no, score )";
+		sql += " VALUES( ?, ?, ? )";
+		
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, postno);
+			ps.setInt(2, userno);
+			ps.setInt(3, 0);
+			
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public int likeSum(Connection conn, int postno, int sum) {
+		
+		PreparedStatement ps = null;
+		
+		String sql = "";
+		sql += "UPDATE \"LIKE\"";
+		sql += " SET score = score";
+		if ( sum > 0 ) {
+			sql += " +1";
+		} else if ( sum < 0 ) {
+			sql += " -1";
+		}
+		sql += " WHERE post_no = ?";
+		
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체			
+			ps.setInt(1, postno); //조회할 게시글 번호 적용			
+			res = ps.executeUpdate(); //SQL 수행
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
 }

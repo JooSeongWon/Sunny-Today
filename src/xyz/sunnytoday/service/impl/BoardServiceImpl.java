@@ -23,6 +23,7 @@ import xyz.sunnytoday.dao.impl.BoardDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
+import xyz.sunnytoday.dto.Like;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
@@ -805,4 +806,47 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 		
 	}
+	
+	@Override
+	public void makeDefaultLike(HttpServletRequest req) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+
+		int userno = (int) req.getSession().getAttribute("userno");
+		int postno = Integer.parseInt( req.getParameter("postno") );
+
+		if( boardDao.insertLikeDefault(conn, userno, postno) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+	}
+	
+	
+	@Override
+	public int likeSum(HttpServletRequest req) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+
+		int like = 0;
+		int disLike = 0;
+		int res = 0;
+		int postno = Integer.parseInt( req.getParameter("postno") );
+	
+		
+		if( req.getParameter("like") != null ) {
+			like = Integer.parseInt( req.getParameter("like") );
+			res = boardDao.likeSum(conn, postno, like);
+		} else if ( req.getParameter("disLike") != null ) {
+			disLike = Integer.parseInt( req.getParameter("disLike") );
+			res = boardDao.likeSum(conn, postno, disLike);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return res;
+	}
+	
+	
 }

@@ -291,6 +291,24 @@ public interface BoardDao {
 	 */
 	public int deleteComments(Connection conn, int commentNo, int userno);
 
+	/**
+	 * 추천테이블에 기본값 입력
+	 * @param conn
+	 * @param userno - 추천한사람
+	 * @param postno - 추천받은 게시글
+	 * @return
+	 */
+	public int insertLikeDefault(Connection conn, int userno, int postno);
+
+	/**
+	 * 누른 값 반영하기
+	 * @param conn
+	 * @param userno - 추천한 사람
+	 * @param postno - 추천받은 게시글
+	 * @return
+	 */
+	public int likeSum(Connection conn, int userno, int postno);
+
 
 
 

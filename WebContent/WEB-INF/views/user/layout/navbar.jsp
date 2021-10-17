@@ -29,7 +29,7 @@
             <a href="<%= request.getContextPath() %>/message">
                 <li class="navbar__item">쪽지</li>
             </a>
-            <a href="#">
+            <a href="<%= request.getContextPath() %>/question/list">
                 <li class="navbar__item">문의</li>
             </a>
         </ul>

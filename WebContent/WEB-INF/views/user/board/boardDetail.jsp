@@ -62,8 +62,11 @@
 		<div id="detailContent"> ${detailBoard.content } </div>
 		
 		<div id="likeList">
-		<span id="like">추천</span>
-		<span id="disLike">반대</span>		
+		<form action="<%=request.getContextPath() %>/board/like" method="post">
+			<input type="hidden" name="postno" id="postno" value="${detailBoard.post_no }" />
+			<button name="like" value="1" id="like">추천</button>
+			<button name="disLike" value="-1" id="disLike">반대</button>
+		</form>	
 		</div>	
 
 		<button id="btnList">뒤로가기</button>

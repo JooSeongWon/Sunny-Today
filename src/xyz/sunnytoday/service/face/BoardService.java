@@ -237,6 +237,19 @@ public interface BoardService {
 	 */
 	public String getValueFromMap(String date, String boardTitle);
 
+	/**
+	 * 추천기능 구현 위한 sum함수 처리
+	 * @param req
+	 * @return 최종 합계
+	 */
+	public int likeSum(HttpServletRequest req);
+
+	/**
+	 * like 만들기
+	 * @param req
+	 */
+	public void makeDefaultLike(HttpServletRequest req);
+
 
 
 
