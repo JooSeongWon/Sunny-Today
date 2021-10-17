@@ -54,8 +54,9 @@
 	<table class="profile_table">
 		<tr class="profile_list">
 			<td colspan="3" class="profile_item">
-				<div class="profile-img">
-				<img src="" class="thumb">
+						<input type="file" id="fileupload" name="imageSelector" accept="image/jpeg, image/jpg, image/png" multiple  >
+				<div class="profile-img" id="profile-img">
+				<img src="/upload/${profile.url }" class="thumb">
 				</div>
 			</td>
 		</tr>
@@ -65,7 +66,6 @@
 					<label class="input-file-button" for="fileupload">
   									사진선택
 					</label>
-						<input type="file" id="fileupload" name="imageSelector" accept="image/jpeg, image/jpg, image/png" multiple  >
 					</div>
 			</td>
 		</tr>

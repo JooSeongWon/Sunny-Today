@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
@@ -26,23 +27,20 @@ public class MypageController extends HttpServlet {
 		//로그인 유저 세션의 유저넘버 얻기
 		Object param = req.getSession().getAttribute("userno");
 		int userno = (int) param;
-		
-		
-//		if( req.getSession().getAttribute("nick") == null
-//				|| !(boolean)req.getSession().getAttribute("nick") ) {
-//			
-//			resp.sendredirect("/");
-//			
-//			return;
-//		}
-//		
 	
 		//유저정보 전달
-//		req.setAttribute("member", member);
 		Member member = mypageService.selectMember(userno);
-	
+		
+		//유저 썸네일 전달
+		File profile = mypageService.selectProfile(member);
+		
+		//썸네일 전달
+		req.setAttribute("profile", profile);
+		
 		//유저정보 전달
 		req.setAttribute("member", member);
+		
+		System.out.println(profile);
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/mypage/mypage.jsp").forward(req, resp);
 	}
@@ -50,13 +48,6 @@ public class MypageController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("mypage [POST]");
-		
-		//로그인 유저 세션의 유저넘버 얻기
-		Object param = req.getSession().getAttribute("userno");
-		int userno = (int) param;
-		
-		//유저넘버로 유저정보 얻기 - member
-		Member loginmember = mypageService.selectMember(userno);
 		
 		//업데이트
 		mypageService.update(req);

@@ -52,6 +52,23 @@ public interface MypageDao {
 	public int update(Connection conn, Member member);
 	
 	/**
+	 * 비밀번호 확인을 위해 id로 회원조회
+	 * 
+	 * @param userId
+	 * @param conn 
+	 * @return
+	 */
+	public Member getsalt(String userId, Connection conn);
+	
+	/**
+	 * 파일의 다음 번호
+	 * 
+	 * @param conn
+	 * @return
+	 */
+	public int selectNextFile_no(Connection conn);
+
+	/**
 	 * 첨부파일 입력
 	 * 
 	 * @param conn - DB연결 객체
@@ -61,13 +78,22 @@ public interface MypageDao {
 	public int insertFile(Connection conn, File file);
 	
 	/**
-	 * 비밀번호 확인을 위해 id로 회원조회
+	 * 프로필 파일 입력
 	 * 
-	 * @param userId
-	 * @param conn 
+	 * @param conn - DB연결 객체
+	 * @param member - 첨부파일, 유저번호
+	 * @return 삽입결과
+	 */
+	public int insertPicture(Connection conn, Member member);
+	
+	/**
+	 * 유저번호로 프로필사진 찾기
+	 * 
+	 * @param conn - DB연결객체
+	 * @param member - 유저정보
 	 * @return
 	 */
-	public Member getsalt(String userId, Connection conn);
+	public File selectFile(Connection conn, Member member);
 	
 
 

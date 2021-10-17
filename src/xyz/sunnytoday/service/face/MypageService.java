@@ -2,6 +2,7 @@ package xyz.sunnytoday.service.face;
 
 import javax.servlet.http.HttpServletRequest;
 
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 
 public interface MypageService {
@@ -47,9 +48,15 @@ public interface MypageService {
 	 * 마이페이지 비밀번호 체크
 	 * 
 	 * @param req - 요청정보객체
-	 * @return
 	 */
 	public boolean checkPassword(HttpServletRequest req);
+	
+	/**
+	 * 유저 프로필 사진
+	 * 
+	 * @param userno - 유저정보
+	 */
+	public File selectProfile(Member member);
 
 	
 	
