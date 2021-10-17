@@ -46,7 +46,7 @@ public class MypagePasswordCheckController extends HttpServlet {
 		System.out.println("/password/check");
 		
 		int res = 0;
-
+		
 		if( req.getParameter("userid") != null && !"".equals(req.getParameter("userid") )) {
 			res = mypageService.checkPassword(req);
 		}
@@ -56,18 +56,7 @@ public class MypagePasswordCheckController extends HttpServlet {
 
 		// 전송이 되는 부분
 		resp.getWriter().write(rs);
-
 		
-//		if( user == true ) {
-//			HttpSession session = req.getSession();
-//			session.setAttribute("user", user );
-//			session.setMaxInactiveInterval(15 * 60);
-			
-//			resp.sendRedirect("/leaveid");
-//		} else {
-//			resp.sendRedirect("/mypage/password/check");
-//		}
-//		
         
 	}
 }

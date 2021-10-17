@@ -400,7 +400,6 @@ public class MypageDaoImpl implements MypageDao {
 	@Override
 	public int insertPw(int userno, Connection conn, String newpw) {
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 		
 		String sql = ""
 				+ "UPDATE MEMBER "
@@ -419,7 +418,220 @@ public class MypageDaoImpl implements MypageDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int admin(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE USER_REPORT WHERE ADMIN_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int ban(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE BAN"
+				+ " WHERE USER_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int comments(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE COMMENTS"
+				+ " WHERE USER_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int file(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE \"FILE\" WHERE"
+				+ " WHERE USER_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int messageFrom(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE MESSAGE"
+				+ " WHERE FROMM = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int messageTo(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE MESSAGE"
+				+ " WHERE too = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int post(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE POST"
+				+ " WHERE USER_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int privateQ(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE PRIVATE_QUESTION"
+				+ " WHERE USER_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int report(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE USER_REPORT"
+				+ " WHERE USER_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int schedule(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE SCHEDULE"
+				+ " WHERE USER_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}@Override
+	public int target(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE USER_REPORT"
+				+ " WHERE TARGET_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}
+	
+	
+	@Override
+	public int deleteMember(int userno,  Connection conn) {
+		PreparedStatement ps = null;
+		
+		String sql = ""
+				+ "DELETE MEMBER"
+				+ " WHERE USER_NO = ?";
+		
+		int result = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, userno );
+
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
 			JDBCTemplate.close(ps);
 		}
 		

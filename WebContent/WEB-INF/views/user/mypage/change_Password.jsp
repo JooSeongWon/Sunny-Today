@@ -28,7 +28,7 @@
 
 <div class="mypage">
 	<ul class="mypage_list">
-		<a href="<%=request.getContextPath() %>/mypage">
+		<a href="<%=request.getContextPath() %>/mypage/profile">
 			<li class="mypage_item" >프로필 수정</li>
 		</a>
 		<a href="<%=request.getContextPath() %>/mypage/password">

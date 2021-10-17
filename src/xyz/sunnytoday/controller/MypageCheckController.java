@@ -39,7 +39,7 @@ public class MypageCheckController extends HttpServlet {
 		//유저넘버로 유저정보 얻기 - member
 		Member member = mypageService.selectMember(userno);
 		
-		if(req.getParameter("nick") != null || "".equals("nick")) {
+		if(req.getParameter("nick") != null && !"".equals("nick")) {
 			//변경할 닉네임 얻기
 			String nick = req.getParameter("nick");
 			System.out.println(nick);
@@ -56,7 +56,7 @@ public class MypageCheckController extends HttpServlet {
 		
 		}
 		
-		if(req.getParameter("phone") != null || "".equals("phone")) {
+		if(req.getParameter("phone") != null && !"".equals("phone")) {
 			//변경할 상태 얻기
 			String phone = req.getParameter("phone");
 
@@ -73,7 +73,7 @@ public class MypageCheckController extends HttpServlet {
 			
 		}
 
-		if(req.getParameter("birth") != null || "".equals("birth")) {
+		if(req.getParameter("birth") != null && !"".equals("birth")) {
 			//변경할 상태 얻기
 			String birth = req.getParameter("birth");
 			

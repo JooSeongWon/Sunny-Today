@@ -112,7 +112,35 @@ public interface MypageDao {
 	 */
 	public int insertPw(int userno, Connection conn, String newpw);
 	
+	/**
+	 * 유저 삭제
+	 * 
+	 * @param userno - 유저번호
+	 * @return
+	 */
+	public int messageTo(int userno, Connection conn);
 
+	public int messageFrom(int userno, Connection conn);
+
+	public int ban(int userno, Connection conn);
+
+	public int comments(int userno, Connection conn);
+
+	public int file(int userno, Connection conn);
+
+	public int post(int userno, Connection conn);
+
+	public int privateQ(int userno, Connection conn);
+
+	public int schedule(int userno, Connection conn);
+
+	public int report(int userno, Connection conn);
+
+	public int target(int userno, Connection conn);
+
+	public int admin(int userno, Connection conn);
+	
+	public int deleteMember(int userno, Connection conn);
 	
 
 

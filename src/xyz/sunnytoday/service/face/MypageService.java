@@ -66,6 +66,13 @@ public interface MypageService {
 	 */
 	public int updatePw(HttpServletRequest req, int userno);
 	
+	/**
+	 * 회원 탈퇴
+	 * 
+	 * @param userno - 요청정보객체
+	 */
+	public void delMember(int userno);
+	
 
 	
 	

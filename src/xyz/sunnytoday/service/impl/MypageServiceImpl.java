@@ -284,7 +284,9 @@ public class MypageServiceImpl implements MypageService {
     		if(!CipherUtil.encodeSha256(userPw, member.getSalt()).equals(member.getUserpw())) {
     			res = 1;
     		} 
-    	}
+    	} else {
+			res = 2;
+		}
     	JDBCTemplate.close(conn);
     	
     	return res;
@@ -309,6 +311,74 @@ public class MypageServiceImpl implements MypageService {
     	
     	JDBCTemplate.close(conn);
     	return res;
+    }
+    
+    @Override
+    public void delMember(int userno) {
+    	Connection conn = JDBCTemplate.getConnection();
+    	
+    	if( mypageDao.messageTo(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.messageFrom(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.ban(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.comments(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.file(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.post(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.privateQ(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.schedule(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.report(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.target(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.admin(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.deleteMember(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	
+    	JDBCTemplate.close(conn);
     }
  
 }

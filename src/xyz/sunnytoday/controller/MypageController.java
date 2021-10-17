@@ -14,7 +14,7 @@ import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
 
 
-@WebServlet("/mypage")
+@WebServlet("/mypage/profile")
 public class MypageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -52,6 +52,6 @@ public class MypageController extends HttpServlet {
 		//업데이트
 		mypageService.update(req);
 		
-		resp.sendRedirect("/mypage");
+		resp.sendRedirect("/mypage/profile");
 	}
 }
