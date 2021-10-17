@@ -149,10 +149,6 @@
                 메일을 확인하고 링크를 클릭하여 가입을 마무리 하세요! <br><br>
                 <span>인증링크는 30분간 유효합니다.</span>
             </p>
-
-            <div class="resend"><i class="fas fa-question-circle"></i><a href="#" class="resend__description">혹시 메일주소를
-                잘못 입력하셨거나 메일을 받지 못하셨나요?</a></div>
-
         </div>
 
         <%--하단 버튼--%>

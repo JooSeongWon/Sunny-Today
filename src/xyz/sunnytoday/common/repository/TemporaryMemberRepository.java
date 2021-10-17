@@ -26,7 +26,7 @@ public class TemporaryMemberRepository {
         return emailSet.contains(email);
     }
 
-    public Member getMember(String secretCode) {
+    public Member getMemberOrNull(String secretCode) {
         String uuid = new String(Base64.getDecoder().decode(secretCode), StandardCharsets.UTF_8);
         if (!temporaryMembers.containsKey(uuid)) {
             return null; //이미 유효하지 않은 코드
@@ -43,15 +43,10 @@ public class TemporaryMemberRepository {
             return;
         }
 
-        System.out.println("우와우 30분걸리는 지우개 테스트!");
-        System.out.println("member = " + member);
-
         idSet.remove(member.getUserid());
         nickSet.remove(member.getNick());
         emailSet.remove(member.getEmail());
         temporaryMembers.remove(uuid);
-
-        System.out.println("temporaryMembers.containsKey(uuid) = " + temporaryMembers.containsKey(uuid));
     }
 
     synchronized public String addMember(Member member) throws IllegalArgumentException {
