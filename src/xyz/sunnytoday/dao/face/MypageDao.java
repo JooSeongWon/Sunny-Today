@@ -99,8 +99,20 @@ public interface MypageDao {
 	 * 
 	 * @param userno - 유저번호
 	 * @param conn - DB연결객체
+	 * @return
 	 */
 	public Member getsalt(int userno, Connection conn);
+	
+	/**
+	 * 유저 비밀번호 업데이트 하기
+	 * 
+	 * @param userno - 유저번호
+	 * @param conn - DB연결객체
+	 * @param newpw - 삽입할 비밀번호
+	 */
+	public int insertPw(int userno, Connection conn, String newpw);
+	
+
 	
 
 

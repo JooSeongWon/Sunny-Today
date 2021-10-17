@@ -396,4 +396,33 @@ public class MypageDaoImpl implements MypageDao {
 		
 		return profile;
 	}
+	
+	@Override
+	public int insertPw(int userno, Connection conn, String newpw) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+ "UPDATE MEMBER "
+				+ " SET password= ? "
+				+ " WHERE USER_NO = ? ";
+		
+		int result = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, newpw );
+			ps.setInt(2, userno );
+
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return result;
+	}
 }

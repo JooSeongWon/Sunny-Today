@@ -59,11 +59,13 @@ public interface MypageService {
 	public File selectProfile(Member member);
 	
 	/**
-	 * 비밀번호 생성 + 바꾸기
-	 * @param req - 비밀번호
-	 * @param userno -유저정보
+	 * 유저 비밀번호 업데이트
+	 * 
+	 * @param req - 요청정보객체
+	 * @param userno - 유저번호
 	 */
-	public void updatePw(HttpServletRequest req, int userno);
+	public int updatePw(HttpServletRequest req, int userno);
+	
 
 	
 	

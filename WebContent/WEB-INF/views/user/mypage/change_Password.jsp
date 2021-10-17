@@ -12,16 +12,9 @@
     
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/mypage_style.css" rel="stylesheet">
+    <script src="${jsPath}/mypage_script2.js"></script>
     
-    
-    <script type="text/javascript">
-    $(document).ready(function(){
-    	$("#btn").click(function(){
-    		$("form").submit();
-	    });
-	})
-    
-    </script>
+
     
 </head>
 <body>
@@ -48,29 +41,27 @@
 	
 	<div class="profile-container">
 	
-	<form action="/mypage/password" method="post" class="profile_form">
 	<table class="profile_table">
 		<tr class="profile_list">
 		<c:if test="${not empty member.password }">
 			<td class="profile_item" >비밀번호 등록</td>
-			<td class="profile_item" ><input type="password" class="profile-setting" name="newPassword"/></td>
+			<td class="profile_item" ><input type="password" class="profile-setting" name="newPassword" id="newPassword" placeholder="8~20자 이내"/></td>
 		</c:if>
 		</tr>
 		<tr class="profile_list">
 		<c:if test="${empty member.password }">
 			<td class="profile_item" >비밀번호</td>
-			<td class="profile_item" ><input type="password" class="profile-setting" name="password"/></td>
+			<td class="profile_item" ><input type="password" class="profile-setting" name="password" id="password" placeholder="8~20자 이내" /></td>
 		</c:if>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >비밀번호확인</td>
-			<td class="profile_item" ><input type="password" class="profile-setting" name="passwordcheck"/></td>
+			<td class="profile_item" ><input type="password" class="profile-setting" name="passwordcheck" id="passwordcheck"/></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" colspan="2" ><button type="button" class="buttonClass" id="btn">비밀번호변경</button></td>
 		</tr>
 	</table>
-	</form>
 	</div>
 </div>
 </div>

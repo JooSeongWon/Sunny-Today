@@ -46,7 +46,7 @@ public class PasswordCheckController extends HttpServlet {
 
 			resp.sendRedirect("/leaveid");
 		} else {
-			resp.sendRedirect("/mypage/password/check");
+			resp.sendRedirect("/mypage/password/checked");
 		}
 	}
 }
