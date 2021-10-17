@@ -13,7 +13,7 @@ import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
 
-@WebServlet("/password/check")
+@WebServlet("/mypage/password/checked")
 public class PasswordCheckController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

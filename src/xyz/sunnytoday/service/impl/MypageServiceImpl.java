@@ -302,8 +302,8 @@ public class MypageServiceImpl implements MypageService {
     	member = mypageDao.getsalt(userno, conn);
     	
     	if(req.getParameter("newPassword") != null && !"".equals(req.getParameter("newPassword"))) {
-    		if(req.getParameter("newPassword"))
-    		mypageDao.updatePassworad();
+//    		if(req.getParameter("newPassword") != req.getParameter("passwordcheck") )
+//    		mypageDao.updatePassworad();
     	} else 
     	
     	

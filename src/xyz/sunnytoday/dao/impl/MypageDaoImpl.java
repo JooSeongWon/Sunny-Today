@@ -304,7 +304,7 @@ public class MypageDaoImpl implements MypageDao {
 		try {
 			ps = conn.prepareStatement(sql); 
 			
-			ps.setString(1, userno ); 
+			ps.setInt(1, userno ); 
 			
 			rs = ps.executeQuery(); 
 			

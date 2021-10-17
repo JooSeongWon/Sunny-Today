@@ -45,14 +45,14 @@ public class MypagePasswordController extends HttpServlet {
 	  	
 	  	if(req.getParameter("password") != null && !"".contentEquals(req.getParameter("password"))) {
 	  		if(req.getParameter("password").equals(req.getParameter("passwordcheck"))) {
-	  			int res = mypageService.updatePw(req, userno);
+//	  			int res = mypageService.updatePw(req, userno);
 	  			
 				//json 형식으로 변환
 				Gson gson = new Gson();
-				String rs = gson.toJson(res);
+//				String rs = gson.toJson(res);
 			
 				// 전송이 되는 부분
-				resp.getWriter().write(rs);
+//				resp.getWriter().write(rs);
 				
 	  		} else {}
 	  	}
