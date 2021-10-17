@@ -132,21 +132,32 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 	    	
 		    <div id="weather">
 		    	
+				<%
+				
+					if(request.getAttribute("weather") == "맑음") {
+						out.print("맑음");
+					} else {
+						out.print("맑지 않음");
+					}
+				
+				
+				%>
+		    	
 		    </div>
 		    	
+		    	
 		    <div id="clothes">
+		    	
+		    	<img alt="썸네일" src="/upload/${thumbnail }">
 		    	
 		    </div>
 		    	
 	    	<div style="width: 100%; height: 50px;">
 	    	
-		    	날씨 / 옷
+		    	날씨 / 옷<br>
 		    	
-				강수 확률 ${temperature }%
+		    	일정 날씨 ${weather } / 강수 확률 ${rain }% / 온도 ${temperature }
 		    	
-		    	${weather }
-		    	${temperature }
-	    	
 	    	</div>
 	    
 	    </div>
@@ -158,7 +169,8 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 	<div id="side_rigth">
 	
 		<div class="top_rigth_box">
-
+			
+			<!-- 수정 및 삭제 버튼  -->
 			<table style="float: right;">
 				<tr>
 					<td>

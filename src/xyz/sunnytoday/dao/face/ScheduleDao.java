@@ -13,7 +13,7 @@ public interface ScheduleDao {
 	 * user_no로 schedule 리스트 검색
 	 * 
 	 * @param conn
-	 * @param schedule
+	 * @param schedule - user_no가 있는 schedule DTO
 	 * @return List<Schedule>
 	 */
 	public List<Schedule> selectScheduleList(Connection conn, Schedule schedule);
@@ -22,7 +22,7 @@ public interface ScheduleDao {
 	 * user_no, schedule_date로 schedule 검색
 	 * 
 	 * @param conn
-	 * @param schedule
+	 * @param schedule - user_no, schedule_date가 있는 schedule DTO
 	 * @return
 	 */
 	public Schedule selectSameSchedule(Connection conn, Schedule schedule);
@@ -36,18 +36,19 @@ public interface ScheduleDao {
 	public Schedule selectSchedule_no(Connection conn, Schedule schedule);
 	
 	/**
+	 * schedule을 DB에 insert
 	 * 
 	 * @param conn
-	 * @param schedule
+	 * @param schedule - 입력할 schedule DTO
 	 * @return
 	 */
 	public int insertSchedule(Connection conn, Schedule schedule);
 	
 	/**
-	 * 
+	 * material을 DB에 insert
 	 * 
 	 * @param conn
-	 * @param material
+	 * @param material - 입력할 material DTO
 	 * @return
 	 */
 	public int insertMaterial(Connection conn, Material material);
@@ -62,10 +63,10 @@ public interface ScheduleDao {
 	public Schedule selectSchedule(Connection conn, Schedule schedule);
 	
 	/**
-	 * 
+	 * friend를 DB에 insert
 	 * 
 	 * @param conn
-	 * @param resultFriend
+	 * @param friend - 입력할 friend DTO
 	 * @return
 	 */
 	public int insertFriend(Connection conn, Friend friend);
@@ -74,7 +75,7 @@ public interface ScheduleDao {
 	 * schedule_no와 일치하는 material 테이블 삭제
 	 * 
 	 * @param conn
-	 * @param schedule
+	 * @param schedule - 삭제할 schedule_no 정보가 있는 schedule DTO
 	 * @return
 	 */
 	public int deleteMaterial(Connection conn, Schedule schedule);
@@ -83,7 +84,7 @@ public interface ScheduleDao {
 	 * schedule_no와 일치하는 friend 테이블 삭제
 	 * 
 	 * @param conn
-	 * @param schedule
+	 * @param schedule - 삭제할 schedule_no 정보가 있는 schedule DTO
 	 * @return
 	 */
 	public int deleteFriend(Connection conn, Schedule schedule);
@@ -92,7 +93,7 @@ public interface ScheduleDao {
 	 * schedule_no와 일치하는 schedule 테이블 삭제
 	 * 
 	 * @param conn
-	 * @param schedule
+	 * @param schedule - 삭제할 schedule_no 정보가 있는 schedule DTO
 	 * @return
 	 */
 	public int deleteSchedule(Connection conn, Schedule schedule);
@@ -101,7 +102,7 @@ public interface ScheduleDao {
 	 * schedule_no와 일치하는 material 테이블 조회 List
 	 * 
 	 * @param conn
-	 * @param material
+	 * @param material - schedule_no 정보가 있는 material DTO
 	 * @return
 	 */
 	public List<Material> getMaterial(Connection conn, Material material);
@@ -110,7 +111,7 @@ public interface ScheduleDao {
 	 * schedule_no와 일치하는 friend 테이블 조회 List
 	 * 
 	 * @param conn
-	 * @param friend
+	 * @param friend - schedule_no 정보가 있는 friend DTO
 	 * @return
 	 */
 	public List<Friend> getFriend(Connection conn, Friend friend);
