@@ -270,27 +270,24 @@ public class MypageServiceImpl implements MypageService {
     }
     
     @Override
-    public boolean checkPassword(HttpServletRequest req) {
+    public int checkPassword(HttpServletRequest req) {
     	Connection conn = JDBCTemplate.getConnection();
     	
-    	boolean user = false;
+    	int res = 0;
     	
-    	String userId = req.getParameter("userId");
-    	String userPw = req.getParameter("userPw");
+    	String userId = req.getParameter("userid");
+    	String userPw = req.getParameter("userpw");
     	
-    	Member member = new Member();
-    	
-    	member = mypageDao.getsalt(userId, conn);
-    	
-    	if((!CipherUtil.encodeSha256(userPw, member.getSalt()).equals(member.getUserpw()))) {
-    		user = false;
-    	} else {
-    		user = true;
+    	if(userPw != null && !"".equals(userPw)){
+    		Member member = new Member();
+    		member = mypageDao.getsalt(userId, conn);
+    		if(!CipherUtil.encodeSha256(userPw, member.getSalt()).equals(member.getUserpw())) {
+    			res = 1;
+    		} 
     	}
-    	
     	JDBCTemplate.close(conn);
     	
-    	return user;
+    	return res;
     }
     
     

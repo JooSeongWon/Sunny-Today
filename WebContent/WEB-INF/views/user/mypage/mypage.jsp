@@ -43,7 +43,7 @@
 		<a href="<%=request.getContextPath() %>/mypage/password">
 			<li class="mypage_item" >비밀번호 변경</li>
 		</a>
-		<a href="<%=request.getContextPath() %>/mypage/leaveid">
+		<a href="<%=request.getContextPath() %>/mypage/password/check">
 			<li class="mypage_item" >회원탈퇴</li>
 		</a>
 	</ul>

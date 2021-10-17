@@ -34,14 +34,15 @@
 		<a href="<%=request.getContextPath() %>/mypage/password">
 			<li class="mypage_item" >비밀번호 변경</li>
 		</a>
-		<a href="<%=request.getContextPath() %>/mypage/leaveid">
+		<a href="<%=request.getContextPath() %>/mypage/password/check">
 			<li class="mypage_item" >회원탈퇴</li>
 		</a>
 	</ul>
 	
 	<div class="profile-container">
 	
-	<table class="profile_table">
+	<div class="profile_form" >
+	<table class="profile_table" style="margin-top: 80px">
 		<tr class="profile_list">
 		<c:if test="${not empty member.password }">
 			<td class="profile_item" >비밀번호 등록</td>
@@ -62,6 +63,7 @@
 			<td class="profile_item" colspan="2" ><button type="button" class="buttonClass" id="btn">비밀번호변경</button></td>
 		</tr>
 	</table>
+	</div>
 	</div>
 </div>
 </div>

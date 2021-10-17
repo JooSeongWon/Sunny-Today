@@ -35,6 +35,12 @@
 #content {
 	width: 98%;
 }
+
+textarea {
+	height: 157px;
+    width: 600px;
+    resize:none;
+}
 </style>
 </head>
 <body>
@@ -55,7 +61,7 @@
 	<form action="/leaveid" method="post" class="profile_form" enctype="multipart/form-data" >
 	<table class="profile_table">
 		<tr class="profile_list">
-			<td class="profile_item"><textarea readonly>이용약관</textarea></td>
+			<td class="profile_item"><textarea readonly id="read"></textarea></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" ><input type="checkbox" id="btn-check" class="buttonClass"/> 동의</td>

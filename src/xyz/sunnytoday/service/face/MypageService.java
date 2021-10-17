@@ -49,7 +49,7 @@ public interface MypageService {
 	 * 
 	 * @param req - 요청정보객체
 	 */
-	public boolean checkPassword(HttpServletRequest req);
+	public int checkPassword(HttpServletRequest req);
 	
 	/**
 	 * 유저 프로필 사진

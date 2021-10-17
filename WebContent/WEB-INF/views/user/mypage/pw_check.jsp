@@ -14,10 +14,37 @@
     <link href="${cssPath}/mypage2_style.css" rel="stylesheet">
     
     <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function() {
+    	
+    	//비밀번호 변경
     	$("#btn").click(function(){
-    		$("#check").submit();
-	    });
+    		
+    		$.ajax({
+    			url:"/mypage/password/check",
+    			type:"post",
+    			data:{
+    				userid : $("#userid").val() ,
+    				userpw : $("#userpw").val() 
+    			},
+    			dataType : 'json' 
+    			, success:function(data){
+    					console.log(data)
+    					if( data == 1 ){
+    						showModal("오늘도 맑음", "비밀번호가 일치하지 않습니다 :(") 
+    					} else {
+    						showModal("오늘도 맑음", "약관 페이지로 이동합니다" , function() {
+    							var url = "/leaveid"
+    							$(location).attr('href',url);
+							})
+    					}
+    				},
+    				error: function() {
+    				console.log("에러 발생");
+    			}
+    			
+    		})
+    	});
+
     });
     </script>
     
@@ -37,20 +64,20 @@
 	<div style="text-align: left;" ><h1>&nbsp;&nbsp;비밀번호 인증</h1></div>
 	<hr>
 	<div style="text-align: left;" ><span>&nbsp;&nbsp;비밀번호를 인증해주세요</span></div>
-	<form action="/mypage/password/check" method="post" id="check" class="profile_form">
+	<div class="profile_form">
 	<table class="profile_table">
 		<tr class="profile_list">
 			<td class="profile_item" >아이디</td>
-			<td class="profile_item" ><input type="text" name="userId" value="${member.userid }" disabled="disabled"></td>
+			<td class="profile_item" ><input type="text" name="userid" id="userid" value="${member.userid }" disabled="disabled"></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >비밀번호</td>
-			<td class="profile_item" ><input type="password" name="userPw" class="profile-setting" id="nick" name="nick" value="${loginmember.nick }"/></td>
+			<td class="profile_item" ><input type="password" name="userpw" id="userpw" class="profile-setting" /></td>
 		</tr>
 	</table>
 	<div><button id="btn" class="buttonClass">인증하기</button></div>
 	<div><input type="text" style="visibility: hidden;" ></div>
-	</form>
+	</div>
 	</div>
 </div>
 </div>

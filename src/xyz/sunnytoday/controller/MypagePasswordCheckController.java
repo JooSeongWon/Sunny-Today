@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
@@ -43,18 +45,29 @@ public class MypagePasswordCheckController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/password/check");
 		
-		boolean user = mypageService.checkPassword(req);
-		
-		if( user == true ) {
-			HttpSession session = req.getSession();
-			session.setAttribute("user", user );
-			session.setMaxInactiveInterval(15 * 60);
-			
-			resp.sendRedirect("/leaveid");
-		} else {
-			resp.sendRedirect("/mypage/password/check");
+		int res = 0;
+
+		if( req.getParameter("userid") != null && !"".equals(req.getParameter("userid") )) {
+			res = mypageService.checkPassword(req);
 		}
+		// json 형식으로 변환
+		Gson gson = new Gson();
+		String rs = gson.toJson(res);
+
+		// 전송이 되는 부분
+		resp.getWriter().write(rs);
+
 		
+//		if( user == true ) {
+//			HttpSession session = req.getSession();
+//			session.setAttribute("user", user );
+//			session.setMaxInactiveInterval(15 * 60);
+			
+//			resp.sendRedirect("/leaveid");
+//		} else {
+//			resp.sendRedirect("/mypage/password/check");
+//		}
+//		
         
 	}
 }

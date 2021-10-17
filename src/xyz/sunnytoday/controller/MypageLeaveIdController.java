@@ -17,7 +17,7 @@ public class MypageLeaveIdController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/mypage/leaveid [GET]");
 		
-
+		
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/mypage/leave_Id.jsp").forward(req, resp);
 	}
