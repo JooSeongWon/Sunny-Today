@@ -108,7 +108,7 @@ public class MemberServiceImpl implements MemberService {
         session.setAttribute("userno", member.getUserno());
         session.setAttribute("nick", member.getNick());
         session.setAttribute("admin", member.getAdmin());
-
+        session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
 
         return new ResponseMessage(true, "로그인 성공");
     }
@@ -157,8 +157,7 @@ public class MemberServiceImpl implements MemberService {
 
                     //인증링크 발송
                     mailService.postJoinVerificationMail(secretKey, member.getEmail());
-                    //TEST!!!!!!!!!!!
-                    break;
+                    return new ResponseMessage(true, "인증메일 발송");
 
                 //소셜 회원가입
                 case "joinSocialMember":
@@ -170,6 +169,19 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return new ResponseMessage(false, "알수없는 요청입니다.");
+    }
+
+
+    @Override
+    public void join(Member member) throws SQLException {
+        if (!member.isSocialMember()) { //일반멤버 가입
+            try (Connection connection = JDBCTemplate.getConnection()) {
+                memberDao.insert(connection, member);
+            }
+            return;
+        }
+
+        //소셜가입
     }
 
     //입력 데이터를 멤버 객체에 넣기

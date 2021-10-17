@@ -4,6 +4,7 @@ import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.ResponseMessage;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -41,4 +42,11 @@ public interface MemberService {
      * @return 결과 메세지
      */
     public ResponseMessage processUserRequest(Map<String, String[]> params);
+
+    /**
+     * 회원등록
+     * 이미 검증이 끝난 멤버를 DB에 등록한다.
+     * @param member 회원등록할 멤버 객체
+     */
+    public void join(Member member) throws SQLException;
 }

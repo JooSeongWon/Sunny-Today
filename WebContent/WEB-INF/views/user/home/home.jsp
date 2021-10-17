@@ -34,17 +34,21 @@
                 <p class="weather__date"><fmt:formatDate value="<%=new Date()%>" pattern="yy.MM.dd HH:mm"/></p>
                 <div class="weather-card">
                     <div class="weather-card__image">
+                        <%
+                            Calendar cal = Calendar.getInstance();
+                            String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >= 20 ? "moon" : "sun";
+                        %>
                         <c:choose>
                             <c:when test="${requestScope.sForecast[0].weather eq '맑음'}">
-                                <i class="fas fa-sun"></i>
+                                <i class="fas fa-<%=pm%>"></i>
                             </c:when>
                             <c:when test="${requestScope.sForecast[0].weather eq '구름많음'}">
                                 <c:choose>
                                     <c:when test="${requestScope.sForecast[0].chanceOfRain >= 40}">
-                                        <i class="fas fa-cloud-sun-rain"></i>
+                                        <i class="fas fa-cloud-<%=pm%>-rain"></i>
                                     </c:when>
                                     <c:otherwise>
-                                        <i class="fas fa-cloud-sun"></i>
+                                        <i class="fas fa-cloud-<%=pm%>"></i>
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>
@@ -331,7 +335,7 @@
             <div class="post__title">title<span>(50)</span></div>
             <div class="post__like-num">15</div>
         </div>
-    <%--test 더미--%>
+        <%--test 더미--%>
         <div class="post" data-board="5" data-post="10">
             <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
             <div class="post__title">title<span>(50)</span></div>

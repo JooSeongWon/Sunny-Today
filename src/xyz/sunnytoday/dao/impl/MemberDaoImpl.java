@@ -9,7 +9,10 @@ import java.sql.*;
 public class MemberDaoImpl implements MemberDao {
     @Override
     public Member selectByUserNoOrNull(Connection connection, int userNo) throws SQLException {
-        String sql = "select * from MEMBER where USER_NO = ?";
+        String sql = "select MEMBER.*, F.URL, F.THUMBNAIL_URL  from MEMBER" +
+                " left outer join \"FILE\" F on MEMBER.PICTURE_NO = F.FILE_NO" +
+                " where MEMBER.USER_NO = ?";
+
         ResultSet resultSet = null;
 
         Member member = null;
@@ -31,7 +34,9 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public Member selectByUserIdOrNull(Connection connection, String userId) throws SQLException {
-        String sql = "select * from MEMBER where ID = ?";
+        String sql = "select MEMBER.*, F.URL, F.THUMBNAIL_URL  from MEMBER" +
+                " left outer join \"FILE\" F on MEMBER.PICTURE_NO = F.FILE_NO" +
+                " where ID = ?";
         ResultSet resultSet = null;
 
         Member member = null;
@@ -106,6 +111,8 @@ public class MemberDaoImpl implements MemberDao {
         member.setPictureno(resultSet.getInt("picture_no"));
         member.setBirth_open(resultSet.getString("birth_open"));
         member.setPhone_open(resultSet.getString("phone_open"));
+        member.setPicture(resultSet.getString("url"));
+        member.setPictureThumbnail(resultSet.getString("thumbnail_url"));
 
         return member;
     }
