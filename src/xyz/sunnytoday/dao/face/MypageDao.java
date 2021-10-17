@@ -91,9 +91,16 @@ public interface MypageDao {
 	 * 
 	 * @param conn - DB연결객체
 	 * @param member - 유저정보
-	 * @return
 	 */
 	public File selectFile(Connection conn, Member member);
+	
+	/**
+	 * 유저번호로 솔트 얻기
+	 * 
+	 * @param userno - 유저번호
+	 * @param conn - DB연결객체
+	 */
+	public Member getsalt(int userno, Connection conn);
 	
 
 

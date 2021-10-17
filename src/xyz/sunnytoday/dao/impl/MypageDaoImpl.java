@@ -290,6 +290,43 @@ public class MypageDaoImpl implements MypageDao {
 	}
 	
 	@Override
+	public Member getsalt(int userno, Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+			+ "SELECT salt, password "
+			+ " FROM MEMBER"
+			+ " WHERE user_no = ?";
+		
+		Member member = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); 
+			
+			ps.setString(1, userno ); 
+			
+			rs = ps.executeQuery(); 
+			
+			//조회 결과 처리
+			while(rs.next()) {
+				member = new Member();
+				
+				member.setSalt(rs.getString("salt"));
+				member.setUserpw(rs.getString("password"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//최종 결과 반환
+		return member;
+	}
+	
+	@Override
 	public int selectNextFile_no(Connection conn) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
