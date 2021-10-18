@@ -371,7 +371,7 @@ if(n_m == 13) {
 	         
 			out.println("<div class= 'side_rigth_box'>");
 	          
-				out.println(underSchedule.get(i).getTitle());
+				out.println(underSchedule.get(i).getContent());
 	          
 			out.println("</div>");
           
