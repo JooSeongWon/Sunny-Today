@@ -21,6 +21,22 @@ public interface MemberService {
     Member getMemberByUserNoOrNull(int userNo);
 
     /**
+     * userId를 통해 회원을 조회합니다.
+     * 해당메서드는 패스워드와 salt를 반환하지 않습니다.
+     * @param userId 검색할 userId
+     * @return 찾은 회원 객체
+     */
+    Member getMemberByUserIdOrNull(String userId);
+
+    /**
+     * 닉네임을 통해 회원을 조회합니다.
+     * 해당메서드는 패스워드와 salt를 반환하지 않습니다.
+     * @param nick 검색할 nick
+     * @return 찾은 회원 객체
+     */
+    Member getMemberByNickOrNull(String nick);
+
+    /**
      * RSA 암호화된 요청 정보를 토대로 로그인을 시도하고 결과를 ResponseMessage 객체로 반환합니다.
      * @param request 로그인 요청정보
      * @return 결과 {result : boolean, msg : string}
@@ -34,14 +50,6 @@ public interface MemberService {
      * @return 결과 {result : boolean, msg : string} 미가입자는 msg = '미가입'
      */
     ResponseMessage loginSocial(HttpServletRequest request, int socialType);
-
-    /**
-     * userId를 통해 회원을 조회합니다.
-     * 해당메서드는 패스워드와 salt를 반환하지 않습니다.
-     * @param userId 검색할 userId
-     * @return 찾은 회원 객체
-     */
-    Member getMemberByUserIdOrNull(String userId);
 
 
     /**
@@ -57,4 +65,12 @@ public interface MemberService {
      * @param member 회원등록할 멤버 객체
      */
     void join(Member member) throws SQLException;
+
+
+    /**
+     * 아이디, 비밀번호 찾기
+     * @param request 받은요청
+     * @return 결과 메세지
+     */
+    ResponseMessage findAccountInfo(HttpServletRequest request);
 }

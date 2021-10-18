@@ -45,6 +45,38 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
+    public Member selectByNickOrNull(Connection connection, String nick) throws SQLException {
+        String sql = "NICK = ?";
+        return selectMemberByStringVal(connection, nick, sql);
+    }
+
+    @Override
+    public Member selectByEmailAndIdOrNull(Connection connection, String email, String userId) throws SQLException {
+        String sql = "select MEMBER.*, F.URL, F.THUMBNAIL_URL  from MEMBER" +
+                " left outer join \"FILE\" F on MEMBER.PICTURE_NO = F.FILE_NO" +
+                " where MEMBER.ID = ? and MEMBER.EMAIL = ?";
+
+        ResultSet resultSet = null;
+
+        Member member = null;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, userId);
+            preparedStatement.setString(2, email);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                member = buildMember(resultSet);
+            }
+
+        } finally {
+            JDBCTemplate.close(resultSet);
+        }
+
+        return member;
+    }
+
+    @Override
     public void insert(Connection connection, Member member) throws SQLException {
         String sql = "insert into MEMBER(user_no, phone, gender, birth, nick, email, salt, password, id)" +
                 " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -93,6 +125,21 @@ public class MemberDaoImpl implements MemberDao {
     public int selectCntUserEmail(Connection connection, String email) throws SQLException {
         String sql = "EMAIL = ?";
         return selectCntWhen(connection, sql, email);
+    }
+
+    @Override
+    public void updatePassword(Connection connection, Member member) throws SQLException {
+        String sql = "update MEMBER set SALT = ?, PASSWORD = ? where USER_NO = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, member.getSalt());
+            preparedStatement.setString(2, member.getUserpw());
+            preparedStatement.setInt(3, member.getUserno());
+
+            if(preparedStatement.executeUpdate() == 0){
+                throw new SQLException();
+            }
+        }
     }
 
     private int getNextMemberSeq(Connection connection) throws SQLException {
