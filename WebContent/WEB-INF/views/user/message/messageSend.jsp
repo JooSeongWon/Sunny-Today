@@ -154,7 +154,7 @@
 </div>
 
 <div id="paging">
-	<c:import url="/WEB-INF/views/user/layout/message_paging.jsp" />			
+	<c:import url="/WEB-INF/views/user/layout/messageSend_paging.jsp" />			
 </div>
 
 <%--footer--%>

@@ -244,9 +244,7 @@ public class MessageDaoImpl implements MessageDao {
 		ResultSet rs = null;
 		
 		//SQL 작성
-		String sql = "";
-		sql += "SELECT * FROM message";
-		sql += " WHERE message_no = ?";
+		String sql = "select MESSAGE.*, M.NICK FROM_NICK, M2.NICK TO_NICK from MESSAGE inner join MEMBER M on M.USER_NO = MESSAGE.FROMM inner join MEMBER M2 on M2.USER_NO = MESSAGE.TOO where MESSAGE_NO = ?";
 		
 		Message viewMessage = null;
 		
@@ -266,7 +264,9 @@ public class MessageDaoImpl implements MessageDao {
 				viewMessage.setTitle( rs.getString("title") );
 				viewMessage.setContent( rs.getString("content") );
 				viewMessage.setPost_date( rs.getDate("post_date") );
-				viewMessage.setRead( rs.getString("read") );
+				viewMessage.setRead( rs.getString("read") ); 
+				viewMessage.setFromNick(rs.getString("from_nick"));
+				viewMessage.setTooNick(rs.getString("to_nick"));
 			}
 			
 		} catch (Exception e) {

@@ -117,8 +117,8 @@ public class MessageServiceImpl implements MessageService {
 	public void postMessage(HttpServletRequest req) {
 		
 		Message message = new Message();
-		System.out.println("too : " + req.getParameter("too")); //넵
-		Member too = memberService.getMemberByUserIdOrNull(req.getParameter("too")); //큰일이네 닉으로 찾는게 없네요 하 흠 음 후우 그래서 소셜회원...왕따시키면 안 되겟죠...?아이디로 찾기 만들어주셨던 거 같아요 ㅠㅠ
+		System.out.println("too : " + req.getParameter("too"));
+		Member too = memberService.getMemberByNickOrNull(req.getParameter("too"));
 		if(too == null) {
 			System.out.println("[ERROR] 없는 회원입니다.");
 			

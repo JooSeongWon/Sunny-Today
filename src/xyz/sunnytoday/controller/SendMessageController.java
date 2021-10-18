@@ -39,7 +39,7 @@ public class SendMessageController extends HttpServlet {
 		req.setAttribute("sendMessageList", sendMessageList);
 		
 		//페이징 정보 MODEL값 전달
-		req.setAttribute("sendPaging", sendPaging); 
+		req.setAttribute("paging", sendPaging); 
 
     	req.getRequestDispatcher("/WEB-INF/views/user/message/messageSend.jsp").forward(req, resp);
 	}

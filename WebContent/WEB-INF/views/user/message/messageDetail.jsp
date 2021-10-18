@@ -11,9 +11,9 @@
     <script type="text/javascript">
     $(document).ready(function() {
     	
-    	//취소 버튼 누르면 뒤로가기
+    	//목록 버튼 누르면 뒤로가기
     	$("#btnList").click(function() {
-    		location.href = "/message";
+//     		location.href = "/message";
     	});
     	
     	$("#btnReply").click(function() {
@@ -139,7 +139,7 @@
 			<div><textarea name="content" id="content" readonly>${viewMessage.content }</textarea></div>				
 			<div id="btnBox">
 				<button id="btnReply">답장</button>
-				<button id="btnList">목록</button>
+				<button id="btnList" onclick="history.back()">목록</button>
 				<button id="btnDelete">삭제</button>
 			</div>				
 		</div>					
