@@ -51,7 +51,7 @@ public class QuestionDaoImpl implements QuestionDao {
 	}
 
 	@Override
-	public List<Question> selectListAll(Connection conn, Paging paging) {
+	public List<Map<String, Object>> selectListAll(Connection conn, Paging paging) {
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -66,7 +66,8 @@ public class QuestionDaoImpl implements QuestionDao {
 		sql += "	) questionlist";
 		sql += "	WHERE rnum BETWEEN ? AND ?";
 				
-		List<Question> list = new ArrayList<>();
+		List<Map<String, Object>> list = new ArrayList<>();
+		Map<String, Object> map = null;
 		
 		
 		try {
@@ -77,19 +78,24 @@ public class QuestionDaoImpl implements QuestionDao {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Question quetion = new Question();
+				map = new HashMap<>();
 				
-				quetion.setQuestion_no( rs.getInt("question_no") );
-				quetion.setUser_no( rs.getInt("user_no") );
-				quetion.setWrite_date( rs.getDate("write_date") );
-				quetion.setAnswer_date( rs.getDate("answer_date") );
-				quetion.setTitle( rs.getString("title") );
-				quetion.setContent( rs.getString("content") );
-				quetion.setAnswer( rs.getString("answer") );
-				quetion.setAdmin_no( rs.getInt("admin_no") );
-				quetion.setId( rs.getString("id") );
+				Question question = new Question();
 				
-				list.add(quetion);
+				question.setQuestion_no( rs.getInt("question_no") );
+				question.setUser_no( rs.getInt("user_no") );
+				question.setWrite_date( rs.getDate("write_date") );
+				question.setAnswer_date( rs.getDate("answer_date") );
+				question.setTitle( rs.getString("title") );
+				question.setContent( rs.getString("content") );
+				question.setAnswer( rs.getString("answer") );
+				question.setAdmin_no( rs.getInt("admin_no") );
+				question.setId( rs.getString("id") );
+				
+				map.put("question", question);
+				map.put("nick", selectNickByUserno(conn, question) );
+				
+				list.add(map);
 			}
 			
 		} catch (SQLException e) {
@@ -203,5 +209,142 @@ public class QuestionDaoImpl implements QuestionDao {
 		return res;
 	}
 	
+	@Override
+	public String selectNickByUserno(Connection conn, Question userno) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;	
+		
+		String sql = "";
+		sql += "SELECT nick FROM member";
+		sql += " WHERE user_no = ?";
+		
+		//결과 저장할 String 변수
+		String usernick = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); //SQL수행 객체
+			ps.setInt(1, userno.getUser_no()); //조회할 no 적용
+			
+			rs = ps.executeQuery(); //SQL 수행 및 결과집합 저장
+			
+			//조회 결과 처리
+			while(rs.next()) {
+				usernick = rs.getString("nick");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//DB객체 닫기
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		//최종 결과 반환
+		return usernick;
+	}
+	
+	@Override
+	public Question selectQuestionByquestionno(Connection conn, Question questionNo) {
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;		
+		
+		String sql = "";
+		sql += "SELECT * FROM private_question";
+		sql += " WHERE question_no = ?";
+		
+		Question questionDetail = null;
+		
+		try {
+			ps = conn.prepareStatement(sql); 			
+			ps.setInt(1, questionNo.getQuestion_no()); 			
+			rs = ps.executeQuery(); 
+			
+			while(rs.next()) {
+				
+				questionDetail = new Question();
+				
+				questionDetail.setQuestion_no( rs.getInt("question_no") );
+				questionDetail.setUser_no( rs.getInt("user_no") );
+				questionDetail.setWrite_date( rs.getDate("write_date") );
+				questionDetail.setAnswer_date( rs.getDate("answer_date") );
+				questionDetail.setTitle( rs.getString("title") );
+				questionDetail.setContent( rs.getString("content") );
+				questionDetail.setAnswer( rs.getString("answer") );
+				questionDetail.setAdmin_no( rs.getInt("admin_no") );
+				questionDetail.setId( rs.getString("id") );		
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return questionDetail;
+	}
+	
+	@Override
+	public int update(Connection conn, Question question) {
+		
+		String sql = "";
+		sql += "UPDATE private_question";
+		sql += " SET title = ?,";
+		sql += " 	content = ?";
+		sql += " WHERE question_no = ?";
+		
+		PreparedStatement ps = null; 
+		
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, question.getTitle());
+			ps.setString(2, question.getContent());
+			ps.setInt(3, question.getQuestion_no());
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
+	
+	@Override
+	public int deleteQuestionByQuestionno(Connection conn, Question questionNo) {
+
+		PreparedStatement ps = null; 
+
+		String sql = "";
+		sql += "DELETE private_question";
+		sql += " WHERE question_no = ?";
+		
+		int res = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, questionNo.getQuestion_no());
+
+			res = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+		
+	}
 	
 }

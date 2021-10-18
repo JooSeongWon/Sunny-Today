@@ -106,7 +106,7 @@ td, th {
 .btnWrite {
   border-radius: 28px;
   font-size: var(--font-small);
-  background: var(--color-sky);
+  background: var(--color-deep-blue);
   padding: 10px 20px 10px 20px;
 }
 
@@ -157,7 +157,7 @@ td, th {
     font-size: var(--font-micro);
     line-height: normal;
     vertical-align: middle;
-    background-color: var(--color-sky);
+    background-color: var(--color-deep-blue);
     cursor: pointer;
     border-radius: .50em;
 } 
@@ -217,7 +217,7 @@ td, th {
 #like {
 	border-radius: 28px;
 	font-size: var(--font-small);
-	background-color: var(--color-sky);
+	background-color: var(--color-deep-blue);
 	padding: 10px 10px 10px 10px;
 }
 
@@ -246,7 +246,7 @@ td, th {
 	margin-left: 30px;
     height: 50px;
     width: 81px;
-    background: var(--color-sky);
+    background: var(--color-deep-blue);
     border: none;
     border-radius: 14px;
     color: var(--color-white);

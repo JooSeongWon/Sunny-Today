@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.common.Paging;
+import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.Question;
 import xyz.sunnytoday.service.face.QuestionService;
 import xyz.sunnytoday.service.impl.QuestionServiceImpl;
@@ -26,8 +27,17 @@ public class QuestionListController extends HttpServlet {
 		System.out.println("/question/list [GET]");
 		
 		Paging paging = questionService.getPaging(req);
+		List<Map<String, Object>> list = questionService.getList(paging);
 		
-		List<Question> list = questionService.getList(paging);
+//		for( Map<String, Object> e : list ) {
+//		System.out.println( e );
+//	}	
+
+		req.setAttribute("paging", paging);
+		req.setAttribute("list", list);
+		if( req.getSession().getAttribute("userno") != null ) {
+			req.setAttribute( "loginMember", questionService.loginMember(req));
+		}
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/question/questionList.jsp").forward(req, resp);
 	}

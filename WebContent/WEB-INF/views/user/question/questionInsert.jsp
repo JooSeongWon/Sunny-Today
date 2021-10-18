@@ -13,7 +13,7 @@
     <title>오늘도 맑음 -문의 작성</title>
 
     <%--페이지별 css/ js--%>
-    <link href="${cssPath}/board.css" rel="stylesheet">
+    <link href="${cssPath}/question.css" rel="stylesheet">
     <script src="${jsPath}/question_script.js"></script>
 
 
@@ -24,32 +24,43 @@
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
-<div>
+<div id="questionDetailTitle">
 <hr>
-<h1>문의사항</h1>
+<h3>문의사항</h3>
 </div>
 
+<div id="questionDetailContent">
+<div id="questionDetailcolor">
 <form action="<%=request.getContextPath() %>/question/insert" method="post">
 	<div>
-		<table>
-		<tr>
-			<td>제목 <input type="text" name="title" placeholder="제목을 입력하세요"/></td>
+		<table id="questionInsertTable">
+		<tr class="questionInsertWidth">
+			<td>제목</td>
+			<td><input type="text" id="questionInsertText" name="title" placeholder="제목을 입력하세요"/></td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>작성자</td>
+			<td id="questionInsertNick">${loginMember.nick }</td>
+			<td></td>
 		</tr>
 		<tr>
-			<td>
-			<textarea name="content" placeholder="내용을 입력하세요"/></textarea>
+		<td></td>
+			<td colspan="2">
+			<textarea id="content" name="content" placeholder="내용을 입력하세요"/></textarea>
+			<div id="text_cnt">(0 / 150)</div>
 			</td>
 		</tr>
 		<tr>
-			<td><button id="btnWriteSubmit">문의접수</button></td>
-			<td><button id="btnWriteCancel">취소</button></td>
+			<td></td>
+			<td id="btnWriteSubmittd"><button id="btnWriteSubmit">문의접수</button></td>
+			<td id="btnWriteCanceltd"><button id="btnWriteCancel">취소</button></td>
 		</tr>
 		</table>
 	</div>
 </form>
+</div>
+</div>
 
 
 

@@ -7,7 +7,7 @@ $(document).ready(function() {
 		
 		//이미지만 처리할 수 있도록 적용
 		if( !files[0].type.includes("image") ) {
-			alert("이미지가 아닙니다")
+			showModal("오늘도 맑음", "이미지를 올려주세요 :)")
 			
 			e.target.value = null;
 						
@@ -45,27 +45,15 @@ $(document).ready(function() {
 	$("#btnWriteCancel").click(function() {
 		history.go(-1);
 	});
-	
-	
-	//게시글 상세보기 수정버튼 동작
-	$(".btnUpdate").click(function() {
-		console.log("click")
-		$(location).attr("href", "/board/update?postno=${detailBoard.post_no }");
-	});
-	
+
 	//게시글 상세보기 삭제버튼 동작
-	$(".btnDelete").click(function() {
-		$(location).attr("href", "/board/update?postno=${detailBoard.post_no }");
-	});
-	
-	//게시글 상세보기 뒤로가기버튼 동작
-	$("#btnList").click(function() {
-		history.go(-1);
-	});
-	
-	//게시글 수정버튼 동작
-	$("#btnUpdateOk").click(function() {
-		$("form").submit();
+	$("#btnDelete").click(function() {
+		showModal("오늘도 맑음", "정말로 삭제하시겠어요?", function(){
+			return ture;
+//			location.href="/question/delete?questionno="+ "questionno";
+		}, function(){
+			return false;
+		})
 	});
 	
 	//게시글 수정취소버튼 동작
@@ -73,5 +61,33 @@ $(document).ready(function() {
 		history.go(-1);
 	});
 	
+	$(".notMtcLogin").click(function(){
+		showModal("오늘도 맑음", "작성자 본인만 볼 수 있는 게시글입니다 :)")
+		
+		return false;
+	})
 	
+	$(".notLogin").click(function(){
+		console.log("clicked")
+		showModal("오늘도 맑음", "로그인 후 사용하실 수 있습니다 :)")
+		
+		return false;
+	})
+	
+	$("#notLoginbtnWrite").click(function(){
+		showModal("오늘도 맑음", "로그인 후 사용하실 수 있습니다 :)")
+		
+		return false;
+	})
+	
+	$('#content').on('keyup', function() {
+        $('#text_cnt').html("("+$(this).val().length+" / 150)");
+ 
+        if($(this).val().length > 150) {
+            $(this).val($(this).val().substring(0, 150));
+            $('#text_cnt').html("(150 / 150)");
+        }
+    });
+
+
 })

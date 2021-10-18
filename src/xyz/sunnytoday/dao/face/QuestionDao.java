@@ -16,7 +16,7 @@ public interface QuestionDao {
 	 * @param paging - 페이징 정보 객체
 	 * @return 게시판 전체를 List로 반환
 	 */
-	public List<Question> selectListAll(Connection conn, Paging paging);
+	public List<Map<String, Object>> selectListAll(Connection conn, Paging paging);
 
 	/**
 	 * 총 게시글 수 조회
@@ -48,6 +48,38 @@ public interface QuestionDao {
 	 * @return
 	 */
 	public int insert(Connection conn, Question question);
+
+	/**
+	 * userno으로 nick 찾기
+	 * @param connection
+	 * @param userno
+	 * @return
+	 */
+	public String selectNickByUserno(Connection conn, Question userno);
+
+	/**
+	 * questionNo으로 상세 문의 조회하기
+	 * @param conn
+	 * @param questionNo
+	 * @return
+	 */
+	public Question selectQuestionByquestionno(Connection conn, Question questionNo);
+
+	/**
+	 * 문의 글 수정
+	 * @param conn
+	 * @param question - 수정 된 정보 들어있는 객체
+	 * @return
+	 */
+	public int update(Connection conn, Question question);
+
+	/**
+	 * 문의 글 삭제
+	 * @param conn
+	 * @param questionNo
+	 * @return
+	 */
+	public int deleteQuestionByQuestionno(Connection conn, Question questionNo);
 
 
 

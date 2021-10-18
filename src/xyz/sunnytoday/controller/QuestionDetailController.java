@@ -8,33 +8,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import xyz.sunnytoday.dto.Question;
 import xyz.sunnytoday.service.face.QuestionService;
 import xyz.sunnytoday.service.impl.QuestionServiceImpl;
 
-@WebServlet("/question/insert")
-public class QuestionInsertController extends HttpServlet {
+
+@WebServlet("/question/detail")
+public class QuestionDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	QuestionService questionService = new QuestionServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("/question/insert [GET]");
+		System.out.println("/question/detail [GET]");
 		
-		if( req.getSession().getAttribute("userno") != null ) {
-			req.setAttribute( "loginMember", questionService.loginMember(req));
-		}
+		Question questionNo = questionService.getQuestionno(req);
+		Question questionDetail = questionService.detail(questionNo);
 		
-		req.getRequestDispatcher("/WEB-INF/views/user/question/questionInsert.jsp").forward(req, resp);
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("questionDetail : " + questionDetail);
 		
-		questionService.insert(req);
+		req.setAttribute("questionDetail", questionDetail);
+		req.setAttribute( "nick", questionService.getNick(questionDetail) );
 		
-		resp.sendRedirect("/question/list");
+		req.getRequestDispatcher("/WEB-INF/views/user/question/questionDetail.jsp").forward(req, resp);
+		
 	}
 	
 	
+
 }

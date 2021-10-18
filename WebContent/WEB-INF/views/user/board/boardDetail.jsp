@@ -152,7 +152,9 @@
 							</c:if>
 							
 							<c:if test="${loginMember.userno ne comments.comments.user_no }">
-							<td id="CommentsReportinTable">신고</td>
+							<td id="CommentsReportinTable">
+							<a href="/board/report?comments_no=${comments.comments.comments_no }">신고</a>
+							</td>
 							</c:if>
 					
 						</c:if>
