@@ -10,18 +10,36 @@ public class Report {
 	private Date report_date;
 	private String detail;
 	private String report_type;
-	private int comment_no;
+	private int comments_no;
 	private String execute_result;
 	private String memo;
+	private int post_no;
+	
 	
 	@Override
 	public String toString() {
 		return "Report [report_no=" + report_no + ", report_c_no=" + report_c_no + ", user_no=" + user_no
 				+ ", target_no=" + target_no + ", report_date=" + report_date + ", detail=" + detail + ", report_type="
-				+ report_type + ", comment_no=" + comment_no + ", execute_result=" + execute_result + ", memo=" + memo
-				+ "]";
+				+ report_type + ", comments_no=" + comments_no + ", execute_result=" + execute_result + ", memo=" + memo
+				+ ", post_no=" + post_no + "]";
 	}
 	
+	public int getComments_no() {
+		return comments_no;
+	}
+
+	public void setComments_no(int comments_no) {
+		this.comments_no = comments_no;
+	}
+
+	public int getPost_no() {
+		return post_no;
+	}
+
+	public void setPost_no(int post_no) {
+		this.post_no = post_no;
+	}
+
 	public int getReport_no() {
 		return report_no;
 	}
@@ -64,12 +82,7 @@ public class Report {
 	public void setReport_type(String string) {
 		this.report_type = string;
 	}
-	public int getComment_no() {
-		return comment_no;
-	}
-	public void setComment_no(int comment_no) {
-		this.comment_no = comment_no;
-	}
+	
 	public String getExecute_result() {
 		return execute_result;
 	}
