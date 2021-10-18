@@ -673,14 +673,29 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Map<String, Object>> boardDetail(Post param) {
+	public List<Map<String, Object>> boardDetail(Post param, Comments param2) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		List<Map<String, Object>> list = boardDao.selectDetail(conn, param);
+		List<Map<String, Object>> list = boardDao.selectDetail(conn, param, param2);
 		
 		JDBCTemplate.close(conn);
 		
 		return list;
+	}
+
+	@Override
+	public void insertReport(HttpServletRequest req) {
+		System.out.println("insertReportService called");
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int res = 0;
+		res = boardDao.insertReport(conn, req);
+		if(res == 0) {
+			JDBCTemplate.rollback(conn);
+		}else {
+			JDBCTemplate.commit(conn);
+		}
+		JDBCTemplate.close(conn);
 	}
 
 }

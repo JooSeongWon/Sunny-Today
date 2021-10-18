@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.Paging;
 import xyz.sunnytoday.dao.face.BoardDao;
@@ -1131,30 +1133,56 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectDetail(Connection conn, Post param) {
+	public List<Map<String, Object>> selectDetail(Connection conn, Post param, Comments param2) {
 		System.out.println("selectBoardDetail called");
 		String sql = "";
 		sql += "SELECT m.id, p.title, p.post_no";
+		
+		if(param2.getComments_no() != 0)
+			sql += ", c.comments_no";
+		
 		sql += " FROM member m, post p";
+		
+		if(param2.getComments_no() != 0)
+			sql += ", comments c";
+		
 		sql += " WHERE m.user_no = p.user_no";
-		sql += " AND p.post_no = ?";
+		
+		if(param2.getComments_no() != 0) {
+			sql += " AND p.post_no = c.post_no ";
+			sql += " AND c.comment_no = ?";
+		}else {
+			sql +=	"AND p.post_no = ?";
+		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String,Object> map = null;
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, param.getPost_no());
+			if(param2.getComments_no() != 0) {
+				ps.setInt(1, param2.getComments_no());
+			}else {
+				ps.setInt(1, param.getPost_no());
+			}
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				map = new HashMap<>();
 				Post post = new Post();
 				Member member = new Member();
+				Comments comments = new Comments();
+				
 				post.setPost_no(rs.getInt("post_no"));
 				post.setTitle(rs.getString("title"));
 				member.setUserid(rs.getString("id"));
+				comments.setComments_no(rs.getInt("comments_no"));
+				System.out.println("post : " +  post);
+				System.out.println("member" + member);
+				System.out.println("comments" + comments);
 				map.put("p", post);
 				map.put("m", member);
+				map.put("c", comments);
+				
 				list.add(map);
 			}
 		} catch (SQLException e) {
@@ -1165,6 +1193,57 @@ public class BoardDaoImpl implements BoardDao {
 			JDBCTemplate.close(ps);
 		}
 		return list;
+	}
+
+	@Override
+	public int insertReport(Connection conn, HttpServletRequest req) {
+		System.out.println("insertReportDao called");
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "";
+		sql += "INSERT INTO user_report (report_no, report_c_no, user_no,";
+		sql += " target_no, datail, report_type)";
+		if(req.getParameter("post_no") != null && !"".equals(req.getParameter("post_no"))){
+			sql +=	", post_no";
+		}else {
+			sql += ", comments_no";
+		}
+		sql += " VALUES (user_report_seq.nextval, ?, ?, ?, ?, ?, ? )";
+		int res = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			if(req.getParameter("report_reason") == "advertisement") {
+				ps.setInt(1, 5);
+			}else if(req.getParameter("report_reason") == "pornography") {
+				ps.setInt(1, 3);
+			}else if(req.getParameter("report_reason") == "defamation") {
+				ps.setInt(1, 2);
+			}else {
+				ps.setInt(1, 4);
+			}
+			ps.setInt(2, Integer.parseInt(req.getParameter("user_no")));
+			ps.setString(3, req.getParameter("report_detail"));
+			if(req.getParameter("report_type") == "post") {
+				ps.setString(4, "P");
+			}else {
+				ps.setString(4, "C");
+			}
+			if(req.getParameter("post_no") != null && !"".equals(req.getParameter("post_no"))){
+				ps.setInt(5, Integer.parseInt(req.getParameter("post_no")));				
+			}else {
+				ps.setInt(5, Integer.parseInt(req.getParameter("comments_no")));
+			}
+			res = ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
 	}
 
 }

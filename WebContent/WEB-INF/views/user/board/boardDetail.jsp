@@ -37,7 +37,7 @@
 		<div>	
 		<span id="detailNick">작성자: ${nick }</span>
 		<span id="btnlist">	
-			<a href="/board/report?postno=${detailBoard.post_no }">
+			<a href="<%=request.getContextPath() %>/board/report?postno=${detailBoard.post_no }">
 			<button id="btnReport">신고</button>
 			</a>
 			<a href="/board/update?postno=${detailBoard.post_no }">

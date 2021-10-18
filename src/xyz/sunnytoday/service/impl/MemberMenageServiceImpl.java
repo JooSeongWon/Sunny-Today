@@ -212,26 +212,6 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 
 	}
 
-	@Override
-	public void insertBan(HttpServletRequest req) {
-		System.out.println("insertBan called");
-		if(req.getParameter("Ban_type") != "non-subject" && req.getParameter("Ban_date") != "non") {
-			Connection conn =JDBCTemplate.getConnection();
-		
-			int res = 0;
-			res = reportDao.insertBan(conn, req);
-			if(res == 0) {
-				JDBCTemplate.rollback(conn);
-			}else {
-				JDBCTemplate.commit(conn);
-			}
-			JDBCTemplate.close(conn);
-		}else {
-			System.out.println("기간에 대한 요청정보가 없거나 제재대상이 없습니다.");
-			System.out.println("Ban_type : " + req.getParameter("Ban_type"));
-			System.out.println("Ban_date : " + req.getParameter("Ban_date"));
-		}
-	}
 
 	@Override
 	public void updateExecuteResult(HttpServletRequest req) {
@@ -290,5 +270,48 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 		JDBCTemplate.close(conn);
 		return mapList;
 	}
+	
+	@Override
+	public void insertBan(HttpServletRequest req) {
+		System.out.println("insertBan called");
+		if(req.getParameter("Ban_type") != "non-subject" && req.getParameter("Ban_date") != "non") {
+			Connection conn =JDBCTemplate.getConnection();
+		
+			int res = 0;
+			res = reportDao.insertBan(conn, req);
+			if(res == 0) {
+				JDBCTemplate.rollback(conn);
+			}else {
+				JDBCTemplate.commit(conn);
+			}
+			JDBCTemplate.close(conn);
+		}else {
+			System.out.println("기간에 대한 요청정보가 없거나 제재대상이 없습니다.");
+			System.out.println("Ban_type : " + req.getParameter("Ban_type"));
+			System.out.println("Ban_date : " + req.getParameter("Ban_date"));
+		}
+	}
+	
+	@Override
+	public void insertBan(Member member, HttpServletRequest req) {
+		if(req.getParameter("Ban_type") != "non-subject" && req.getParameter("Ban_date") != "non") {
+			Connection conn =JDBCTemplate.getConnection();
+		
+			int res = 0;
+			res = reportDao.insertBan(conn, req, member);
+			if(res == 0) {
+				JDBCTemplate.rollback(conn);
+			}else {
+				JDBCTemplate.commit(conn);
+			}
+			JDBCTemplate.close(conn);
+		}else {
+			System.out.println("기간에 대한 요청정보가 없거나 제재대상이 없습니다.");
+			System.out.println("Ban_type : " + req.getParameter("Ban_type"));
+			System.out.println("Ban_date : " + req.getParameter("Ban_date"));
+		}
+		
+	}
+	
 
 }
