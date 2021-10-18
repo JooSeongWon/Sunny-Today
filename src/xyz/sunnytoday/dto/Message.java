@@ -12,6 +12,7 @@ public class Message {
 	private String content;
 	private int rnum;
 	private String fromNick;
+	private String tooNick;
 	
 	@Override
 	public String toString() {
@@ -19,6 +20,12 @@ public class Message {
 				+ ", read=" + read + ", title=" + title + ", content=" + content + "]";
 	}
 	
+	public String getTooNick() {
+		return tooNick;
+	}
+	public void setTooNick(String tooNick) {
+		this.tooNick = tooNick;
+	}
 	public String getFromNick() {
 		return fromNick;
 	}

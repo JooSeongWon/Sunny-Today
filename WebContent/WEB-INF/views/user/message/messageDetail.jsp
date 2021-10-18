@@ -12,19 +12,21 @@
     $(document).ready(function() {
     	
     	//취소 버튼 누르면 뒤로가기
-    	$("#btnCancel").click(function() {
+    	$("#btnList").click(function() {
     		location.href = "/message";
     	});
     	
     	$("#btnReply").click(function() {
-    		location.href = "/message/send";
+    		location.href = "/message/write";
+    	});
+    	
+    	$("#btnDelete").click(function() {
+    		if( confirm("쪽지를 삭제하시겠습니까?") ) {
+    			$(location).attr("href", "/message/delete?message_no=${viewMessage.message_no }");
+    		}
     	});
     	
     });
-    
-    function goDelete() {
-		window.location.assign("<%= request.getContextPath() %>/message/delete")
-	}
     </script>
     
     <style type="text/css">
@@ -32,14 +34,12 @@
 		width: 530px;
 		height: 280px;
 		resize: none;
+		pointer-events: none;
+		margin-bottom: 20px;
 	}
-    #container {
-    	margin: auto;
+    #container {  
     	text-align: center;
-    }
-    .line {
-    	height: 10px;
-    	color: #eaeff8;
+    	
     }
     #square {
     	height: 500px;
@@ -47,20 +47,7 @@
     	position: relative;
     	margin: auto;
     	border-radius: 15px;
-    }
-    div#write-form {
-    	position: absolute;
-    	top: 50%;
-    	left: 50%;
-    	transform: translate(-50%, -50%);
-    }
-    #dtnSend {
-    	background-color: #7ba5c1;
-    	color: white;
-    }
-    #fromm-title {
-    	bolder: 1px;
-    	
+    	padding-top: 5px;
     }
     hr {
     	margin: 0 auto;
@@ -69,11 +56,53 @@
     	background-color: #d7eafa;
     	width: 80px;
     }
-    #btnBox {
-    	align-items: flex-end;
+    #fromm-title {
+    	margin-top: 20px;
+    	margin-bottom: 10px;
+    	margin-left: 40px;
+    	color: #333333;
     }
-	#content {
-		pointer-events: none;
+	table {
+		width: 525px;
+		text-align: left;
+		font-weight: 100;
+		text-align: left;
+	}
+	th, td {
+		cell-spacing: 10px;
+		font-weight: 100;
+	}
+	h2 {
+		margin: 0 auto;
+		color: #333333;
+	}
+	#write-form {
+		margin-top: 20px;
+	}
+
+	#btnList {
+		width: 50px;
+		height: 30px;
+		border-radius: 3px;
+		color: white;
+		background-color: #616161;
+		border: 1px solid #616161;
+	}
+	#btnReply {
+		width: 50px;
+		height: 30px;
+		border-radius: 3px;
+		color: white;
+		background-color: #7ba5c1;
+		border: 1px solid #7ba5c1;
+	}
+	#btnDelete {
+		width: 50px;
+		height: 30px;
+		border-radius: 3px;
+		color: white;	
+		background-color: #dbb2b2;
+		border: 1px solid #dbb2b2;
 	}
     </style>
     
@@ -95,25 +124,26 @@
 		<div id="write-form">
 			<table id="fromm-title">
 				<tr>
-					<td class="info">보낸 사람</td><td colspan="3">${viewMessage.fromm }</td>
-				</tr>		
-				<tr>
-					<td class="info">보낸 시간</td><td colspan="3">${viewMessage.post_date }</td>
+					<td class="info">보낸 사람 ㅣ</td><td width="430px;">${viewMessage.fromNick }</td>
 				</tr>
 				<tr>
-					<td class="info">제목</td><td colspan="3">${viewMessage.title }</td>
+					<td class="info">받는 사람 ㅣ</td><td>${viewMessage.tooNick }</td>
+				</tr>		
+				<tr>
+					<td class="info">보낸 시간 ㅣ</td><td>${viewMessage.post_date }</td>
+				</tr>
+				<tr>
+					<td class="info">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 목 ㅣ</td><td>${viewMessage.title }</td>
 				</tr>							
 			</table>		
-			<div><textarea name="content" id="content" readonly>${viewMessage.content }</textarea></div>					
-		</div>
-				
-		<div id="btnBox">
-			<button type="button" id="btnReply">답장</button>
-			<button type="button" id="btnCancel">목록</button>
-			<button onclick="goDelete()" type="submit" id="btnDelete">삭제</button>
-		</div>		
+			<div><textarea name="content" id="content" readonly>${viewMessage.content }</textarea></div>				
+			<div id="btnBox">
+				<button id="btnReply">답장</button>
+				<button id="btnList">목록</button>
+				<button id="btnDelete">삭제</button>
+			</div>				
+		</div>					
 	</div>
-
 </div>
 
 <br><br><br><br><br><br>
