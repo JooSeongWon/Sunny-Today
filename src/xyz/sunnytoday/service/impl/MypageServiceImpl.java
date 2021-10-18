@@ -337,11 +337,6 @@ public class MypageServiceImpl implements MypageService {
     	} else {
     		JDBCTemplate.rollback(conn);
     	}
-    	if( mypageDao.file(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
     	if( mypageDao.post(userno,conn) > 0) {
     		JDBCTemplate.commit(conn);
     	} else {

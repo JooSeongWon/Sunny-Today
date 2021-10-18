@@ -475,23 +475,6 @@ public class MypageDaoImpl implements MypageDao {
 		}
 		return result;
 	}@Override
-	public int file(int userno, Connection conn) {
-		PreparedStatement ps = null;
-		String sql = ""
-				+ "DELETE \"FILE\" WHERE"
-				+ " WHERE USER_NO = ?";
-		int result = 0;
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, userno );
-			result = ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(ps);
-		}
-		return result;
-	}@Override
 	public int messageFrom(int userno, Connection conn) {
 		PreparedStatement ps = null;
 		String sql = ""

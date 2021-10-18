@@ -126,8 +126,6 @@ public interface MypageDao {
 
 	public int comments(int userno, Connection conn);
 
-	public int file(int userno, Connection conn);
-
 	public int post(int userno, Connection conn);
 
 	public int privateQ(int userno, Connection conn);

@@ -36,8 +36,6 @@ public class MypageLeaveIdController extends HttpServlet {
 		Object param = req.getSession().getAttribute("userno");
 		int userno = (int) param;
 		
-		resp.sendRedirect("/main");
-		
 		mypageService.delMember(userno);
 		
 		//세션 객체
@@ -45,6 +43,9 @@ public class MypageLeaveIdController extends HttpServlet {
 		
 		//세션 정보(객체) 삭제
 		session.invalidate();
+
+		resp.sendRedirect("/main");
+		
 		
 	}
 }
