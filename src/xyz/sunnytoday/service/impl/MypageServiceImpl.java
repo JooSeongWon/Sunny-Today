@@ -292,6 +292,23 @@ public class MypageServiceImpl implements MypageService {
     	return res;
     }
     
+    @Override
+    public int createpw(HttpServletRequest req, int userno) {
+    	Connection conn = JDBCTemplate.getConnection();
+    	String userPw = req.getParameter("newPassword");
+    	String salt = CipherUtil.getSalt();
+    	String newpw = CipherUtil.encodeSha256(userPw,salt);
+    	
+    	int res = mypageDao.insertNewPw(userno, conn , newpw, salt);
+    	if( res > 0 ) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+			JDBCTemplate.rollback(conn);
+		}
+    	JDBCTemplate.close(conn);
+    	return res;
+    }
+    
     
     @Override
     public int updatePw(HttpServletRequest req, int userno) {

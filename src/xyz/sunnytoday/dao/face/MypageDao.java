@@ -104,6 +104,17 @@ public interface MypageDao {
 	public Member getsalt(int userno, Connection conn);
 	
 	/**
+	 * 소셜회원 비밀번호 업데이트하기
+	 * 
+	 * @param userno - 유저번호
+	 * @param conn - DB연결객체
+	 * @param newpw - 새로운 비밀번호
+	 * @param salt - 새 솔트
+	 * @return
+	 */
+	public int insertNewPw(int userno, Connection conn, String newpw, String salt);
+
+	/**
 	 * 유저 비밀번호 업데이트 하기
 	 * 
 	 * @param userno - 유저번호
@@ -139,6 +150,7 @@ public interface MypageDao {
 	public int admin(int userno, Connection conn);
 	
 	public int deleteMember(int userno, Connection conn);
+
 	
 
 
