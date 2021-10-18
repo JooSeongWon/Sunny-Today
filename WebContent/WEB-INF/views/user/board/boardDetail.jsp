@@ -39,7 +39,7 @@
 		<div style="margin-bottom: 40px;">	
 		<span id="detailNick">작성자: ${nick }</span>
 		<span id="btnlist">	
-			<a href="/board/report?post_no=${detailBoard.post_no }">
+			<a href="/board/report?postno=${detailBoard.post_no }">
 			<button id="btnReport">신고</button>
 			</a>
 			<c:if test="${loginMember.userno eq detailBoard.user_no }">
@@ -153,7 +153,11 @@
 							
 							<c:if test="${loginMember.userno ne comments.comments.user_no }">
 							<td id="CommentsReportinTable">
-							<a href="/board/report?comments_no=${comments.comments.comments_no }">신고</a>
+								<form action="<%=request.getContextPath() %>/board/report" method="get">
+								<input type="hidden" name="postno" id="postno" value="${detailBoard.post_no }" />
+								<input type="hidden" name="comments_no" value="${comments.comments.comments_no }" />
+								<button>신고</button>
+								</form>
 							</td>
 							</c:if>
 					

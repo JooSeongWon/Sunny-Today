@@ -89,5 +89,13 @@ $(document).ready(function() {
         }
     });
 
+	$('#updateContent').on('keyup', function() {
+        $('#updateText_cnt').html("("+$(this).val().length+" / 150)");
+
+        if($(this).val().length > 150) {
+            $(this).val($(this).val().substring(0, 150));
+            $('#updateText_cnt').html("(150 / 150)");
+        }
+    });
 
 })

@@ -291,7 +291,118 @@ td, th {
 	margin-left: 70%;
 }
 
-
+/* 신고 */
+.clearArea {
+	clear: both;
 }
+
+#reportTable {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+#reportTable tr td {
+	height: 30px;
+}
+
+#reportUserNick > td:nth-child(1) {
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px; 
+}
+
+#reportUserNick > td:nth-child(2) {
+	text-align: left;
+	padding-left: 10px; 
+}
+
+#reportTableWidth > td:nth-child(1) {
+	width: 50%;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px; 
+}
+
+#reportTableWidth > td:nth-child(2) {
+	text-align: left;
+	padding-left: 10px; 
+}
+
+#reportTableWidth > td:nth-child(1) {
+	width: 50%;	
+}
+
+.reportReason {
+	border: none;
+}
+
+#reportReasontr {
+	padding-bottom: 30px;
+    border-bottom: 2px solid var(--color-grey);
+}
+
+#detail {
+	width: 80%;
+	height: 200px;
+	resize: none;
+	border: 1px solid;
+	font-size: var(--font-micro);
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+.input-hint {
+	font-size: 12px;
+    color: var(--color-dark-grey);
+}
+
+#sendBtntd {
+	text-align: right;
+	padding-right: 10px;
+	border: none;
+}
+
+#cancelBtntd {
+	text-align: left;
+	padding-left: 10px;
+	border: none;
+}
+
+#sendBtn {
+	border: none;
+    background-color: var(--color-deep-blue);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}
+
+#cancelBtn {
+	border: none;
+    background-color: var(--color-grey);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}
+
+
+#reportReasonDetail {
+	padding: 30px 0px;
+}
+
+.selectReportReason td {
+	text-align: left;
+	padding-left: 20px;
+}
+
+
+
+
 
 

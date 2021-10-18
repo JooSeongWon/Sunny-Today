@@ -120,6 +120,59 @@ $(document).ready(function() {
 		
 	})
 	
+	//신고 js-------------------------------------
 	
+	$('#sendBtn').click(function(){
+		console.log("sendBtn clicked");
+		var detail = document.getElementById("detail").value;
+		
+		if( detail==="" ) {
+			showModal("오늘도 맑음", "상세 이유를 작성해주세요!")
+		} else {
+			$('#report').submit();
+		}
+	})
 	
+	$('#cancelBtn').click(function(){
+		console.log("cancelBtn");
+		history.go(-1);
+	})
+	
+	 $('#ad').on('click', function(){
+      if($(this).prop('checked')){
+         console.log("checked");
+         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
+
+//          $('#detail').val = "부적절한 홍보 댓글/게시글"
+      }
+   })
+   
+   $('#porn').on('click', function(){
+      if($(this).prop('checked')){
+         console.log("checked");
+         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
+//          $('#detail').val = "음란성 또는 청소년에게 부적합한 내용"
+      }
+   })
+   
+   $('#defam').on('click', function(){
+      if($(this).prop('checked')){
+         console.log("checked");
+         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
+//          $('#detail').val = "명예훼손/사생황 침해 및 저작권 침해"
+      }
+   })
+
+	$('#etc').on('click', function(){
+	      if($(this).prop('checked')){
+	         console.log("checked");
+	         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
+	//          $('#detail').val = "기타"
+	      }
+	   })
+
 })

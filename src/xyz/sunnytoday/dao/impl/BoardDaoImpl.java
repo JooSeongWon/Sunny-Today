@@ -1309,35 +1309,37 @@ public class BoardDaoImpl implements BoardDao {
 		System.out.println("selectBoardDetail called");
 		System.out.println("param : " + param.getPost_no());
 		System.out.println("param2 : " + param2.getComments_no());
-		String sql = "";
-		sql += "SELECT m.id, p.title, p.post_no, m.user_no";
 		
-		if(param2.getComments_no() != 0) {
+		String sql = "";
+		sql += "SELECT m.id, p.title, p.post_no, m.user_no, nick";
+		
+		if(param2.getComments_no() > 0) {
 			sql += " , c.comments_no";
 		}
 		sql += " FROM member m, post p";
 		
-		if(param2.getComments_no() != 0) {
+		if(param2.getComments_no() > 0) {
 			sql += " , comments c";
 		}
 		sql += " WHERE m.user_no = p.user_no";
 		
-		if(param2.getComments_no() != 0) {
+		if(param2.getComments_no() > 0) {
 			sql += " AND p.post_no = c.post_no ";
-			sql += " AND c.comment_no = ?";
-		}else {
-			sql +=	" AND p.post_no = ?";
+			sql += " AND comments_no = ?";
 		}
+		sql +=	" AND p.post_no = ?";
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String,Object> map = null;
+		
 		try {
 			ps = conn.prepareStatement(sql);
-			if(param2.getComments_no() != 0) {
+			if(param2.getComments_no() > 0) {
 				ps.setInt(1, param2.getComments_no());
-			}else {
+				ps.setInt(2, param.getPost_no());
+			} else {
 				ps.setInt(1, param.getPost_no());
 			}
 			
@@ -1352,8 +1354,9 @@ public class BoardDaoImpl implements BoardDao {
 				post.setTitle(rs.getString("title"));
 				member.setUserid(rs.getString("id"));
 				member.setUserno(rs.getInt("user_no"));
+				member.setNick( rs.getString("nick"));
 				
-				if(param2.getComments_no() != 0) {
+				if(param2.getComments_no() > 0) {
 					Comments comments = new Comments();
 					comments.setComments_no(rs.getInt("comments_no"));
 					map.put("c", comments);
@@ -1365,7 +1368,6 @@ public class BoardDaoImpl implements BoardDao {
 				list.add(map);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			JDBCTemplate.close(rs);
@@ -1533,17 +1535,23 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	public int insertReport(Connection conn, Report param) {
+		
 		PreparedStatement ps = null;
 		
 		String sql = "";
 		sql += "INSERT INTO user_report (report_no, report_c_no, user_no,";
 		sql += " target_no, detail, report_type";
-		if(param.getPost_no() != 0){
-			sql +=	" , post_no)";
-		}else {
-			sql += " , comments_no)";
+		if(param.getComments_no() > 0){
+			sql +=	" , comments_no, post_no)";
+		} else {
+			sql += " , post_no)";
 		}
-		sql += " VALUES (USER_REPORT_SEQ.nextval, ?, ?, ?, ?, ?, ? )";
+		sql += " VALUES (USER_REPORT_SEQ.nextval, ?, ?, ?, ?, ?";
+		if(param.getComments_no() > 0) {
+			sql += "	, ?, ? )";
+		} else {
+			sql += "	,? )";
+		}
 		
 		int res = 0;
 		
@@ -1555,16 +1563,17 @@ public class BoardDaoImpl implements BoardDao {
 			ps.setInt(3, param.getTarget_no());
 			ps.setString(4, param.getDetail());
 			ps.setString(5, param.getReport_type());
-			if(param.getPost_no() != 0){
-				ps.setInt(6, param.getPost_no());
-			}else {
+			
+			if(param.getPost_no() > 0){
 				ps.setInt(6, param.getComments_no());
+				ps.setInt(7, param.getPost_no());
+			}else {
+				ps.setInt(6, param.getPost_no());
 			}
 			
 			res = ps.executeUpdate();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			JDBCTemplate.close(ps);
