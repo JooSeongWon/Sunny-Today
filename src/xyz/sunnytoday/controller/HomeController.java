@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.Forecast;
+import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.Schedule;
 import xyz.sunnytoday.service.face.*;
@@ -139,8 +140,9 @@ public class HomeController extends HttpServlet {
         }
 
         //공지 & 이벤트
-        Map<Integer, List<Post>> notices = boardService.getNotices();
-        req.setAttribute("notices", notices);
+        Map<Integer, List<Post>> map = boardService.getNotices();
+        req.setAttribute("notices", map.get(Board.TYPE_NOTICE));
+        req.setAttribute("events", map.get(Board.TYPE_EVENT));
 
         req.getRequestDispatcher("/WEB-INF/views/user/home/home.jsp").forward(req, resp);
     }

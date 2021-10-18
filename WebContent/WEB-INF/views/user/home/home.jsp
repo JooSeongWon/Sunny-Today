@@ -401,7 +401,7 @@
         <h1 class="left__title">인기 게시글</h1>
 
         <c:forEach items="${requestScope.bestPosts}" var="post">
-            <a href="${pageContext.request.contextPath}/board/detail?postno=${post.post_no}" class="post" >
+            <a href="${pageContext.request.contextPath}/board/detail?postno=${post.post_no}" class="post">
                 <c:if test="${empty post.thumbNail}">
                     <img class="post__img" src="${requestScope.imgPath}/no-img.PNG" alt="사진 없음">
                 </c:if>
@@ -422,34 +422,48 @@
     <div class="right">
         <div class="notice">
             <h3 class="notice__title">공지사항</h3>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
+
+
+            <fmt:formatDate value="<%=new Date()%>" pattern="yyyyMMdd" var="now"/>
+            <c:forEach items="${requestScope.notices}" var="notice">
+                <fmt:formatDate value="${notice.write_date}" pattern="yyyyMMdd" var="noticeDate"/>
+                <a href="${pageContext.request.contextPath}/board/detail?postno=${notice.post_no}" class="notice-post">
+                    <c:if test="${now eq noticeDate}">
+                        <div class="new-icon">N</div>
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="HH:mm" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                    <c:if test="${now ne noticeDate}">
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="MM/dd" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                </a>
+            </c:forEach>
+
         </div>
         <div class="right__line"></div>
         <div class="notice event">
             <h3 class="notice__title">이벤트</h3>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post event">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post event">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
+
+            <c:forEach items="${requestScope.events}" var="notice">
+                <fmt:formatDate value="${notice.write_date}" pattern="yyyyMMdd" var="noticeDate"/>
+                <a href="${pageContext.request.contextPath}/board/detail?postno=${notice.post_no}" class="notice-post">
+                    <c:if test="${now eq noticeDate}">
+                        <div class="new-icon">N</div>
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="HH:mm" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                    <c:if test="${now ne noticeDate}">
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="MM/dd" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                </a>
+            </c:forEach>
+
         </div>
     </div>
 

@@ -1,9 +1,6 @@
 package xyz.sunnytoday.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1647,7 +1644,7 @@ public class BoardDaoImpl implements BoardDao {
                 post.setPost_no(resultSet.getInt("post_no"));
                 post.setBoard_no(resultSet.getInt("board_no"));
                 post.setTitle(resultSet.getString("title"));
-                post.setWrite_date(resultSet.getDate("write_date"));
+                post.setWrite_date(new Date(resultSet.getTimestamp("write_date").getTime()));
 
                 if (post.getBoard_no() == Board.TYPE_NOTICE) {
                     notices.add(post);
