@@ -65,7 +65,6 @@
                                 </c:choose>
                             </c:when>
                         </c:choose>
-                        <p class="region-description">수동으로 위치 재설정</p>
                     </div>
                     <p class="weather-card__detail">
                         <%-- span 태그들 기온/강수확률 --%>
@@ -174,10 +173,10 @@
                 int index = 0;
             %>
 
-            <c:forEach var="i" begin="0" end="${fn:length(requestScope.sForecast) - 1}">
+            <c:forEach var="i" begin="1" end="${fn:length(requestScope.sForecast)}">
                 <%index++;%>
                 <c:if test="${requestScope.sForecast[fn:length(requestScope.sForecast)  - i].baseDate eq requestScope.mForecast[0].baseDate}">
-                    <%shortEnd = sForecastSize - (index + 1);%>
+                    <%shortEnd = sForecastSize - (index + 2);%>
                 </c:if>
             </c:forEach>
 
@@ -213,6 +212,14 @@
                             schedule = scheduleStack.peek();
 
                             int scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                            while (Integer.parseInt(dateFormat.format(calendar.getTime())) > scheduleDate) {
+
+                                scheduleStack.pop();
+                                if (!scheduleStack.empty()) {
+                                    schedule = scheduleStack.peek();
+                                    scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                                } else break;
+                            }
                             if (Integer.parseInt(dateFormat.format(calendar.getTime())) == scheduleDate) {
                                 scheduleStack.pop();
                             } else {
@@ -308,6 +315,14 @@
                         schedule = scheduleStack.peek();
 
                         int scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                        while (Integer.parseInt(dateFormat.format(calendar.getTime())) > scheduleDate) {
+
+                            scheduleStack.pop();
+                            if (!scheduleStack.empty()) {
+                                schedule = scheduleStack.peek();
+                                scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                            } else break;
+                        }
                         if (Integer.parseInt(dateFormat.format(calendar.getTime())) == scheduleDate) {
                             scheduleStack.pop();
                         } else {
@@ -384,37 +399,25 @@
 <section id="best-posts">
     <div class="left">
         <h1 class="left__title">인기 게시글</h1>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <%--test 더미--%>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
+
+        <c:forEach items="${requestScope.bestPosts}" var="post">
+            <a href="${pageContext.request.contextPath}/board/detail?postno=${post.post_no}" class="post" >
+                <c:if test="${empty post.thumbNail}">
+                    <img class="post__img" src="${requestScope.imgPath}/no-img.PNG" alt="사진 없음">
+                </c:if>
+                <c:if test="${not empty post.thumbNail}">
+                    <img class="post__img" src="${pageContext.request.contextPath}/upload/${post.thumbNail}"
+                         alt="게시글 썸네일">
+                </c:if>
+                <div class="post__title">${post.title}
+                    <c:if test="${post.commentsNum ne 0}">
+                        <span>(${post.commentsNum})</span>
+                    </c:if>
+                </div>
+                <div class="post__like-num">${post.hit}</div>
+            </a>
+        </c:forEach>
+
     </div>
     <div class="right">
         <div class="notice">

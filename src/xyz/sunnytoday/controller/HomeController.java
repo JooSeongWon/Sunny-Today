@@ -2,15 +2,10 @@ package xyz.sunnytoday.controller;
 
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.Forecast;
+import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.Schedule;
-import xyz.sunnytoday.service.face.CostumeService;
-import xyz.sunnytoday.service.face.ForecastService;
-import xyz.sunnytoday.service.face.GeoLocationService;
-import xyz.sunnytoday.service.face.ScheduleService;
-import xyz.sunnytoday.service.impl.CostumeServiceImpl;
-import xyz.sunnytoday.service.impl.ForecastServiceImpl;
-import xyz.sunnytoday.service.impl.GeoLocationServiceImpl;
-import xyz.sunnytoday.service.impl.ScheduleServiceImpl;
+import xyz.sunnytoday.service.face.*;
+import xyz.sunnytoday.service.impl.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 @WebServlet(
@@ -34,6 +30,7 @@ public class HomeController extends HttpServlet {
 
     private final ScheduleService scheduleService = new ScheduleServiceImpl();
     private final CostumeService costumeService = new CostumeServiceImpl();
+    private final BoardService boardService = new BoardServiceImpl();
 
     private GeoLocationService geoLocationService;
     private ForecastService forecastService;
@@ -133,6 +130,17 @@ public class HomeController extends HttpServlet {
             }
         }
         req.setAttribute("scheduleStack", scheduleStack);
+
+
+        //베스트 게시글
+        List<Post> bestPosts = boardService.getBestPosts();
+        if(!bestPosts.isEmpty()){
+            req.setAttribute("bestPosts", bestPosts);
+        }
+
+        //공지 & 이벤트
+        Map<Integer, List<Post>> notices = boardService.getNotices();
+        req.setAttribute("notices", notices);
 
         req.getRequestDispatcher("/WEB-INF/views/user/home/home.jsp").forward(req, resp);
     }
