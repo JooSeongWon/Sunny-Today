@@ -23,7 +23,7 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public List<Message> getMessageList(Paging paging, int userNo) {
 		
-		//쪽지 목록 전체 조회 결과 처리
+		//받은 쪽지 목록 전체 조회 결과 처리
 		Connection connection = JDBCTemplate.getConnection();
 		List<Message> list =  messageDao.selectAllToMe(connection, paging, userNo);
 		JDBCTemplate.close(connection);
@@ -32,8 +32,22 @@ public class MessageServiceImpl implements MessageService {
 			message.setFromNick(memberService.getMemberByUserNoOrNull(message.getFromm()).getNick());
 		});
 		
-		return list;
+		return list;		
+	}
+	
+	@Override
+	public List<Message> getSendMessageList(Paging paging, int userNo) {
+
+		//보낸 쪽지 목록 전체 조회 결과 처리
+		Connection connection = JDBCTemplate.getConnection();
+		List<Message> slist =  messageDao.selectAllToOther(connection, paging, userNo);
+		JDBCTemplate.close(connection);
 		
+		slist.forEach(message -> {
+			message.setTooNick(memberService.getMemberByUserNoOrNull(message.getToo()).getNick());
+		});
+		
+		return slist;		
 	}
 	
 	@Override
@@ -58,6 +72,29 @@ public class MessageServiceImpl implements MessageService {
 		
 		return paging;
 	}
+	
+	@Override
+	public Paging getSendPaging(HttpServletRequest req) {
+		
+		//전달파라미터 curPage 파싱
+		String sparam = req.getParameter("curPage");
+		int scurPage = 1;
+		if(sparam != null && !"".equals(sparam)) {
+			scurPage = Integer.parseInt(sparam);
+		} else {
+			System.out.println("[WARNING] curPage값이 null이거나 비어있습니다. 1페이지 출력");
+		}
+		
+		//Message 테이블의 쪽지 개수를 조회
+		Connection connection = JDBCTemplate.getConnection();
+		int stotalCount = messageDao.selectCntAllToOther(connection, (Integer) req.getSession().getAttribute("userno"));
+		JDBCTemplate.close(connection);
+		
+		//Paging 객체 생성
+		Paging sendPaging = new Paging(stotalCount, scurPage);
+		
+		return sendPaging;
+	}
 
 	@Override
 	public Message getMessage_No(HttpServletRequest req) {
@@ -77,26 +114,13 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void deleteMessage(Message message) {
-		Connection conn = JDBCTemplate.getConnection();
-		
-		if( messageDao.delete(conn, message) > 0 ) {
-			JDBCTemplate.commit(conn);
-		} else {
-			JDBCTemplate.rollback(conn);
-		}
-		
-		JDBCTemplate.close(conn);
-	}
-
-	@Override
 	public void postMessage(HttpServletRequest req) {
 		
 		Message message = new Message();
-		System.out.println("too : " + req.getParameter("too"));
-		Member too = memberService.getMemberByUserIdOrNull(req.getParameter("too"));
+		System.out.println("too : " + req.getParameter("too")); //넵
+		Member too = memberService.getMemberByUserIdOrNull(req.getParameter("too")); //큰일이네 닉으로 찾는게 없네요 하 흠 음 후우 그래서 소셜회원...왕따시키면 안 되겟죠...?아이디로 찾기 만들어주셨던 거 같아요 ㅠㅠ
 		if(too == null) {
-			//없는 회원 처리 할 내용 여기에 넣으세ㅐ요 생각해보니까 from은 보낸사람 이잖아요 저거 jsp에서 이름 바꾸세요ㅕ
+			System.out.println("[ERROR] 없는 회원입니다.");
 			
 			return;
 		}
@@ -109,7 +133,7 @@ public class MessageServiceImpl implements MessageService {
 		Connection connection = JDBCTemplate.getConnection();
 		System.out.println(message);
 		messageDao.insert(connection, message);
-		
+		//받은편지함 컨트롤러 열어주세요
 		JDBCTemplate.close(connection);
 	}
 
@@ -125,11 +149,49 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public Object getFromm(Message viewMessage) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object getFromNick(Message viewMessage) {
+		
+		return messageDao.selectNickByUserno(JDBCTemplate.getConnection(), viewMessage);
+	}
+	
+	@Override
+	public void delete(Message message) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		if( messageDao.delete(conn, message) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}      
+		
+		JDBCTemplate.close(conn);
 	}
 
+	@Override
+	public int cntList(HttpServletRequest req) {
+		int totalCount = 0;
+		Connection conn = JDBCTemplate.getConnection();
+		totalCount = messageDao.searchCnt(conn);
+		JDBCTemplate.close(conn);
+		
+		return totalCount;
+	}
+
+	@Override
+	public void deleteMessage(Message message) {
+		System.out.println("deleteMessageService called");
+		Connection conn = JDBCTemplate.getConnection();
+		int res = 0;
+		res = messageDao.deleteMessage(conn, message);
+		
+		if(res != 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);		
+	}
 
 
 

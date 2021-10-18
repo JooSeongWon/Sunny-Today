@@ -11,74 +11,89 @@
     <script type="text/javascript">
     $(document).ready(function() {
     	
-    	//취소 버튼 누르면 뒤로가기
-    	$("#btnCancel").click(function() {
-    		location.href = "/message";
+    	//쪽지 쓰기 버튼 누르면 이동
+    	$("#btnSend").click(function() {
+    		$(location).attr("href", "/message/write");
     	});
     	
-        $('#content').on('keyup', function() {
-            $('#content_cnt').html($(this).val().length+" / 500자");
-     
-            if($(this).val().length > 500) {
-                $(this).val($(this).val().substring(0, 500));
-                $('#content_cnt').html("500 / 500자");
-            }
-        });
+    	$("#btnDelete").click(function() {
+    		if( confirm("쪽지를 삭제하시겠습니까?") ) {
+    			$("#messageList").submit();    			
+//     			$(location).attr("href", "/message/delete?no="+$(this).attr('value'));
+    		}
+    	});
+    	
+    	//체크 박스
+    	$('.check-all').click(function(){
+    		$('.check').prop('checked', this.checked);
+    	})		
     });
     </script>
     
     <style type="text/css">
-    #msgTitle {
-    	width: 450px;
-    	height: 30px;
-    	margin: 10px;
+    table {
+    	margin: 10px auto;
+    	width: 80%;
+		border-collapse: collapse;
+		font-weight: lighter;
+		color: #333333;
     }
-	#content {
-		width: 450px;
-		height: 280px;
-		resize: none;
+    td, th {
+		border-top: 1px solid var(--color-grey);
+		border-bottom: 1px solid var(--color-grey);
+		text-align: center;
 	}
-    #square {
-    	width: 550px;
-    	height: 500px;
-    	position: relative;
-    	margin: auto;
-    	border-radius: 15px;
-    }
-    #container {
-    	margin: auto;
-    	text-align: center;
-    }
-    .line {
-    	height: 10px;
-    	color: #eaeff8;
-    }
-    div#write-form {
-    	position: absolute;
-    	top: 50%;
-    	left: 50%;
-    	transform: translate(-50%, -50%);
-    }
-    div#content_cnt {
-    	margin: 3px;
-    	padding: 5px;
-    }
-    #dtnSend {
-    	background-color: #7ba5c1;
-    	color: white;
-    }
-    hr {
-    	margin: 0 auto;
-    	padding: 0;
-    	border: 0px;
-    	background-color: #d7eafa;
-    	width: 80px;
+	td {
+		font-weight: 100;	
+	}
+	th {
+		background-color: #e2e2e2;
+	}
+	#btnBox {
+		text-align: right;
+		margin: 10px auto;
+		padding: 10px 153px 10px 20px;
+	}
+	select {
+		margin-right: 154px;
+		margin-top: 10px;
+	}
+	#paging {
+		text-align: center;
+	}
+	#btnDelete {
+		width: 90px;
+		height: 30px;
+		border-radius: 3px;
+		color: white;
+		background-color: #616161;
+		border: 1px solid #616161;
+	}
+	#btnSend {
+		width: 90px;
+		height: 30px;
+		border-radius: 3px;
+		color: white;
+		background-color: #7ba5c1;
+		border: 1px solid #7ba5c1;
+	}
+	hr {
+     	border: 0px;
+     	background-color: #d7eafa;
+     	width: 80px; 
     }
     h2 {
-    	margin: 0 auto;
-    }
+		margin: 0 auto;
+		text-align: center;
+		color: #333333;
+	}
+	select {
+		width: 100px;
+		height: 30px;
+		float: right;
+	}
     </style>
-    
+
 </head>
 <body>
 <%--header--%>
@@ -86,38 +101,64 @@
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
-<div id="container">
-<form id="message-send" action="<%=request.getContextPath() %>/message/send" method="post">
+<%-- 받은 쪽지함 --%>
+<div id="message">
 
-<br>
-<hr size="5" noshade>
-<h2>쪽지 쓰기</h2><br>
-
-	<div id="square" style="background-color: #eaeff8;">
-		<div id="write-form">
-		
-			<div id="fromm">받는 사람&nbsp;&nbsp;|&nbsp;&nbsp;<input type="text" name="too" placeholder="받는 사람" required /></div>
-					
-			<div><input type="text" id="msgTitle" name="msgTitle" placeholder="제목" required/></div>
-			
-			<div><textarea name="content" id="content" placeholder="내용" required></textarea></div>
-			
-			<div id="content_cnt" style="float: right;">0 / 500자</div>	
+	<form action="<%=request.getContextPath() %>/messagesend" method="post" id="message">
+		<div>
+			<br>
+			<select onchange="if(this.value === '받은 쪽지함') location.href='<%=request.getContextPath() %>/message'; else location.href = '<%=request.getContextPath() %>/messagesend'">
+				<option>받은 쪽지함</option>
+				<option selected>보낸 쪽지함</option>
+			</select>	
+		</div>		
 				
-		</div>
-		
-		<div id="btnBox">
-			<button type="submit" id="btnSend">보내기</button>
-			<button type="button" id="btnCancel">취소</button>
-		</div>
-	</div>
+		<br>
+		<hr size="5" noshade>
+		<h2>보낸 쪽지함</h2>
+		<br>
+	</form>
 	
-</form>
+	<form action="<%=request.getContextPath() %>/message/delete" method="post" id="messageList">
+		<table>
+			<thead>
+				<tr>
+					<th><input type="checkbox" name="check-all" class="check-all" /></th>
+					<th>번호</th>
+					<th>제목</th>
+					<th>받는 사람</th>
+					<th>날짜</th>
+				</tr>
+			</thead>
+		
+			<% int i =0; %>
+			<c:forEach items="${sendMessageList }" var="message">
+			<tr>
+				<td><input type="checkbox" name="delno<%= i%>" value="${message.message_no }" class="check"/></td>				
+				<td><%=i+1 %></td>
+				<td>
+					<a href="<%=request.getContextPath() %>/message/view?message_no=${message.message_no }">
+					${message.title }
+					</a>
+				</td>
+				<td>${message.tooNick }</td>
+				<td>${message.post_date }</td>
+			</tr>
+			<% i++; %>
+			</c:forEach>
+		</table>
+	</form>	
+		<div id="btnBox">
+		<button type="button" id="btnDelete">삭제</button>&nbsp;&nbsp;<button type="button" id="btnSend">쪽지 쓰기</button>
+		</div>
 </div>
 
-<br><br><br><br><br><br>
+<div id="paging">
+	<c:import url="/WEB-INF/views/user/layout/message_paging.jsp" />			
+</div>
 
 <%--footer--%>
+
 <c:import url="../layout/footer.jsp"/>
 </body>
 </html>

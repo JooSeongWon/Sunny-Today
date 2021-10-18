@@ -29,20 +29,21 @@ public class AdminPostListController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		//요청파라미터를 전달하여 Paging객체 생성하기
+		
 		Paging paging = postService.getPaging(req);		
-		List<Map<String, Object>> allList = postService.getList(req, paging);
+		List<Map<String, Object>> list = postService.searchPost(req, paging);
 		
-		System.out.println(allList);
-		
-		
-//		allList.forEach(System.out::println);
-
 		req.setAttribute("paging", paging);
-		req.setAttribute("allList", allList);
+		req.setAttribute("list", list);
 		
+		System.out.println("list:" + list);
+
 		req.getRequestDispatcher("/WEB-INF/views/admin/post/list.jsp").forward(req, resp);
 	}
-	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("/admin/post/list [POST]");
+		
+	}	
 }
 

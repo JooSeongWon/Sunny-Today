@@ -8,8 +8,8 @@
 $(document).ready(function() {
 	
 	//검색버튼 동작
-	$("#btnSearch").click(function() {
-		
+	$("#searchBtn").click(function(){
+		$("#search").submit()
 	});
 	
 	//게시물 추가버튼 동작
@@ -44,7 +44,7 @@ $(document).ready(function() {
  text-align: right;
 }
 
-#btnSearch {
+#searchBtn {
         width:150px;
         margin:auto;
         display:block;
@@ -62,42 +62,46 @@ $(document).ready(function() {
 
 <!-- <div style="background: #BDBDBD;"> -->
 <table id="searchTb" class="table table-bordered">
-
+<form action="<%=request.getContextPath() %>/admin/post/list" id="search" method="get" class="form-group">
 <tr>
 	<td class="col-xs-3">게시판별</td>
 		<td>
-			<select id="search" name="search">
-    			<option value="category_name" selected="selected">게시판별</option>
+			<select id="category" name="select">
+    			<option value="daily_clothes" >일상룩</option>
+    			<option value="buying" >지름 게시판</option>
+    			<option value="sharingInfo" >정보공유</option>
+    			<option value="qna" >질문 응답</option>
 			</select>
 		</td>
 </tr>
-<tr>
-	<td class="col-xs-3">등록일</td>
-		<td>
-			<input type="date" height="10"> ~
-      		<input type="date">
-      		<button>오늘</button>
-      		<button>어제</button>
-      		<button>일주일</button>
-      		<button>한달</button>
+<!-- <tr> -->
+<!-- 	<td class="col-xs-3">등록일</td> -->
+<!-- 		<td> -->
+<!-- 			<input type="date" name="write_date"> ~ -->
+<!--       		<input type="date"> -->
+<!--       		<button>오늘</button> -->
+<!--       		<button>어제</button> -->
+<!--       		<button>일주일</button> -->
+<!--       		<button>한달</button>	 -->
       		
-		</td>
+<!-- 		</td> -->
 
-</td>
-</tr>
+<!-- </td> -->
+<!-- </tr> -->
 
 <tr>
 	<td class="col-xs-3">키워드검색</td>
 		<td>
-			<select id="search" name="search">
-    			<option value="category_name" selected="selected">키워드</option>
+			<select id="keword" name="keword">
+    			<option value="title" >제목</option>
+    			<option value="nick" >닉네임</option>
 			</select>
-			<input type="text">
+			<input type="text" name="search">
 		</td>
 </tr>
-
 </table>
-<button type="button" id="btnSearch" class="btn btn-default">검색하기</button>
+</form>
+<button type="button" id="searchBtn" class="btn btn-default">검색하기</button>
 <br>
 
 
@@ -113,37 +117,17 @@ $(document).ready(function() {
 	<th>No.</th>
 	<th>카테고리</th>
 	<th>제목</th>
-	<th>작성자</th>
+	<th>닉네임</th>
 	<th>작성일</th>
 	<th>삭제</th>
 </tr>
 
-<%-- ${postList}  --%>
-<%-- ${postList[0].post} --%>
-<%-- ${postList[1].post} --%>
-
-<%-- ${postList } --%>
-<%-- ${ postList[0].board.title} --%>
-<%-- ${postList}  --%>
-<%-- ${posrList[0].post.write_date } --%>
-
-<%-- ${allList.post_no } --%>
-<%-- ${allList[0]} --%>
-<%-- ${allList[0].post_no} --%>
-<%-- ${allList[1].post_no} --%>
-<%-- ${allList[1].post.post_no} --%>
-<%-- ${post } --%>
-<%-- ${board } --%>
-<%-- ${allList[0].title } --%>
-
-<%-- ${allList.post.title } --%>
-
-<%-- ${allList } --%>
-<form action="Admin/post/list" method="post">
-<c:forEach items="${allList }" var="item">
+<form action="Admin/post/view" method="get">
+<c:forEach items="${list }" var="item">
+<input type="hidden" name="postno" id="postno" value="${item.post.post_no }" />
 <tr>
 	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td>
-	<td><a href="/SunnyToday/admin/post/view?=${item.post.post_no }">${item.post.post_no }</a></td>
+	<td><a href="/SunnyToday/admin/post/view?post_no=${item.post.post_no }">${item.post.post_no }</a></td>
 	<td>${item.board.title}</td>
 	<td>${item.post.title }</td>
 	<td>${item.member.nick }</td>

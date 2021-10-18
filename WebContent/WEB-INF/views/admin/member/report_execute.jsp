@@ -120,7 +120,7 @@ $(document).ready(function(){
 </table>
 
 <input type="hidden" name="report_no" value="${map.rp.report_no }"/>
-<input type="hidden" name="user_no" value="${map.m.userno }">
+<input type="hidden" name="user_no" value="${map.ur.target_no }">
 <input type="hidden" name="report_type" value="${map.rp.report_type }">
 <input type="hidden" name="reason" value="${map.rpc.title }">
 

@@ -23,7 +23,7 @@
         <p class="complete__description">
             모든 가입 절차가 마무리 되었습니다! <br>
             이제 오늘도 맑음의 모든 서비스를 이용하실 수 있습니다. <br><br>
-            <a href="${pageContext.request.contextPath}/">메인으로 이동하기</a>
+            <a href="${pageContext.request.contextPath}/login">로그인 하러 가기!</a>
         </p>
     </div>
 </section>

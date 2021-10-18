@@ -20,7 +20,7 @@
                                                                              src="${pageContext.request.contextPath}/upload/${sessionScope.pictureThumbnail}"
                                                                              alt="프로필 사진"></c:if>
                 &nbsp;&nbsp;${sessionScope.nick}님, 안녕하세요!
-                <a href="<%=request.getContextPath() %>/test/logout"> LogOut</a>
+                <a href="<%=request.getContextPath() %>/logout"> LogOut</a>
             </c:if>
         </div>
         <h1 class="header__title">오늘도 맑음 <i class="fas fa-sun"></i></h1>

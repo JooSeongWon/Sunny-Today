@@ -74,15 +74,6 @@ public interface MemberMenageService {
 	 */
 	public void deleteQuestion(Question param);
 	
-//	/**
-//	 * 신고된 회원의 리스트를 요청
-//	 * @param param - 검색 정보를 담고 있는 member dto 객체
-//	 * @param paging - 페이징 정보 객체
-//	 * @return - 조회된 신고자 리스트
-//	 */
-//	public List<Map<String, Object>> getReportList(Member param, Paging paging);
-
-
 	/**
 	 * 선택된 신고글을 모두 삭제
 	 * @param param - 삭제할 문의글의 번호를 담은 DTO 객체
@@ -104,12 +95,6 @@ public interface MemberMenageService {
 	 * @return - 조회된 신고자 리스트
 	 */
 	public List<Map<String, Object>> getReportList(Member param1, Report param2, Paging paging);
-
-	/**
-	 * 신고 접수 / 관리자가 지정한 회원을 제재목록에 추가
-	 * @param req - 제재 일 수 및 제대 대상
-	 */
-	public void insertBan(HttpServletRequest req);
 
 	/**
 	 * 신고결과를 테이블에 저장
@@ -146,6 +131,13 @@ public interface MemberMenageService {
 	 * @return - 조회된 리스트 반환
 	 */
 	public List<Map<String, Object>> getPurnishDatailList(HttpServletRequest req);
+
+	/**
+	 * 제재목록에 추가 
+	 * @param member - 제재할 회원
+	 * @param ban - 제재 정보
+	 */
+	public void insertBan(Member member, Ban ban);
 
 	
 
