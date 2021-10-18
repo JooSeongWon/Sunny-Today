@@ -239,7 +239,46 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		
 		return res;
 	}
+	@Override
+	public int insertBan(Connection conn, HttpServletRequest req, Member member) {
+		System.out.println("insertBan called");
+		String sql = "";
+		sql += "INSERT INTO ban (ban_no, user_no, ban_type, expiry_date, reason)";
+		sql += " VALUES (ban_seq.nextval, ?, ?, sysdate + ?, ?)";
+		int res = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, member.getUserno());
+			if(req.getParameter("Ban_type") == "login") {
+				ps.setString(2, "L");
+			}else {
+				ps.setString(2, "W");
+			}
+			
+			if(req.getParameter("Ban_date") == "1week") {
+				ps.setInt(3, 7);
+			}else if(req.getParameter("Ban_date") == "1month") {
+				ps.setInt(3, 30);
+			}else if(req.getParameter("Ban_date") == "3month") {
+				ps.setInt(3, 90);
+			}else if(req.getParameter("Ban_date") == "1year") {
+				ps.setInt(3, 365);
+			}else{
+				ps.setInt(3, 9999);	
+			}
+			ps.setString(4, req.getParameter("reason"));
+			res = ps.executeUpdate();
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return res;
+	}
 	@Override
 	public int updateResult(Connection conn, HttpServletRequest req) {
 		System.out.println("updateResult called");

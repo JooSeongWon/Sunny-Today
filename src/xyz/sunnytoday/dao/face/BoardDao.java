@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import xyz.sunnytoday.common.Paging;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
@@ -236,7 +238,16 @@ public interface BoardDao {
 	 */
 	public int insertComment(Connection conn, Post post_no, String comments, int userno);
 
-	public List<Map<String, Object>> selectDetail(Connection conn, Post param);
+	/**
+	 * 신고에 나타날 게시글의 상세 정보
+	 * @param conn - DB연결객체
+	 * @param param - post객체
+	 * @param param2 - comments객체
+	 * @return - 조회된 상세정보 리스트 반환
+	 */
+	public List<Map<String, Object>> selectDetail(Connection conn, Post param, Comments param2);
+
+	public int insertReport(Connection conn, HttpServletRequest req);
 
 
 

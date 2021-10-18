@@ -180,10 +180,13 @@ public interface BoardService {
 
 	/**
 	 * 보드의 세부정보를 요청
-	 * @param param - 요청할 보드의 정보객체
+	 * @param param - 요청할 보드의 정보객체 post
+	 * @param param2 - 요청할 보드의 정보객체 comments
 	 * @return - 조회된 보드의 세부 정보 리스트
 	 */
-	public List<Map<String, Object>> boardDetail(Post param);
+	public List<Map<String, Object>> boardDetail(Post param, Comments param2);
+
+	public void insertReport(HttpServletRequest req);
 
 
 
