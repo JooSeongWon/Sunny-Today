@@ -1,0 +1,163 @@
+body {
+	background: black;
+}
+h1, div {
+	color: white;
+}
+
+.mypage-container{
+	display: flex;
+  	justify-content: center;
+ 	align-items: center;
+ 	min-height: 50vh;
+}
+
+.mypage {
+	display : flex;
+	flex-direction: row;
+	
+	justify-content: space-around;
+	user-select: none;
+	flex-basis: 60%;
+}
+
+.mypage_list {
+    display: flex;
+    
+    flex-direction: column;
+    flex-grow: 2;
+    
+    text-align: left;
+    user-select: none;
+    height: 800px;
+}
+
+.mypage_item {
+	padding: 20px;
+	user-select: none;
+}
+
+.profile-container {
+    display: flex;
+    
+    flex-direction: column;
+    flex-grow: 8;
+    
+    text-align: center;	
+    user-select: none;
+	
+}
+
+.profile_form {
+	display: flex;
+
+	flex-direction: column;
+	flex-grow: 1;
+
+	margin-left: auto; 
+	margin-right: auto;
+	margin-top: 50px;
+	
+}
+
+.profile__table {
+	display: flex;
+
+	flex-direction: column;
+	flex-grow: 1;
+	
+}
+
+/* .profile_list {
+	
+	flex-direction: row;
+	justify-content: center;
+	flex-grow: 1;
+} */
+
+.profile_item {
+	
+	user-select: none;
+	
+	padding: 10px;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* 스위치 */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--color-grey);
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content:"";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transision:.4s;
+	transition:.4s;
+}
+
+input:checked + .slider {
+	background-color: var(--color-dark-sky);
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px var(--color-dark-sky);
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+
+.buttonClass {
+	box-shadow:inset 0px 39px 0px -24px #e67a73;
+	background-color:#e4685d;
+	border-radius:4px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:6px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #b23e35;
+}
+
+.buttonClass:hover {
+  background-color:#ff8080;
+}
+
+
