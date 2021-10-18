@@ -23,7 +23,7 @@
     <div class="login-form">
         <div class="login__title">
             <h1>회원 로그인</h1>
-            <a class="join-btn" href="#">회원가입</a>
+            <a class="join-btn" href="${pageContext.request.contextPath}/join">회원가입</a>
         </div>
         <div class="line"></div>
         <div class="data">
@@ -35,7 +35,6 @@
             <input id="input-pw" class="data__input" name="userId" type="password" maxlength="20" placeholder="비밀번호" tabindex="1">
         </div>
         <div class="etc">
-            <label class="label-keep"><input type="checkbox" class="input-keep" name="willKeep" value="Y">로그인 유지</label>
             <div class="find">
                 <div class="find__id">아이디 찾기</div>
                 &nbsp;&nbsp;|&nbsp;&nbsp;

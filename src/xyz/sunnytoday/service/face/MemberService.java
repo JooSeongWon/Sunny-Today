@@ -21,11 +21,19 @@ public interface MemberService {
     Member getMemberByUserNoOrNull(int userNo);
 
     /**
-     * RSA 암호화된 요청 정보를 토대로 로그인을 시도하고 결과를 Map 객체로 반환합니다.
+     * RSA 암호화된 요청 정보를 토대로 로그인을 시도하고 결과를 ResponseMessage 객체로 반환합니다.
      * @param request 로그인 요청정보
      * @return 결과 {result : boolean, msg : string}
      */
     ResponseMessage login(HttpServletRequest request);
+
+
+    /**
+     * 로그인 api 콜백을 토대로 로그인을 시도하고 결과를 ResponseMessage 객체로 반환합니다.
+     * @param request 로그인 요청정보
+     * @return 결과 {result : boolean, msg : string} 미가입자는 msg = '미가입'
+     */
+    ResponseMessage loginSocial(HttpServletRequest request, int socialType);
 
     /**
      * userId를 통해 회원을 조회합니다.
@@ -41,12 +49,12 @@ public interface MemberService {
      * @param params 요청 파라미터맵
      * @return 결과 메세지
      */
-    public ResponseMessage processUserRequest(Map<String, String[]> params);
+    ResponseMessage processUserRequest(Map<String, String[]> params, HttpServletRequest request);
 
     /**
      * 회원등록
      * 이미 검증이 끝난 멤버를 DB에 등록한다.
      * @param member 회원등록할 멤버 객체
      */
-    public void join(Member member) throws SQLException;
+    void join(Member member) throws SQLException;
 }

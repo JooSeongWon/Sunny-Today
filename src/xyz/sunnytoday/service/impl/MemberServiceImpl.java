@@ -20,6 +20,7 @@ import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.ResponseMessage;
 import xyz.sunnytoday.service.face.MailService;
 import xyz.sunnytoday.service.face.MemberService;
+import xyz.sunnytoday.service.face.SocialLoginService;
 
 @SuppressWarnings("RegExpDuplicateCharacterInClass")
 public class MemberServiceImpl implements MemberService {
@@ -28,6 +29,7 @@ public class MemberServiceImpl implements MemberService {
     public static final int INPUT_DATA_TYPE_NICK = 4;
 
     private final MailService mailService = new MailServiceImpl();
+    private final SocialLoginService socialLoginService = new SocialLoginServiceImpl();
     private final MemberDao memberDao = new MemberDaoImpl();
     private final TemporaryMemberRepository tempMemberRepo = AppConfig.getTemporaryMemberRepo();
 
@@ -75,6 +77,21 @@ public class MemberServiceImpl implements MemberService {
             return new ResponseMessage(false, "서버에서 데이터를 읽지 못했습니다 브라우저를 재시작 해보세요.");
         }
 
+        //소셜로그인
+        if (decryptParams.get("type")[0].equals("social")) {
+            try {
+                if (decryptParams.get("provider")[0].equals("naver")) {
+                    return new ResponseMessage(true, socialLoginService.createNaverLoginUrl(request));
+                } else { //구글..
+                    return new ResponseMessage(true, socialLoginService.createGoogleLoginUrl(request));
+                }
+            } catch (Exception e) {
+                System.out.println("[ERROR] MemberServiceImpl - 소셜로그인 요청 파싱도중 문제가 발생했습니다.");
+                return new ResponseMessage(false, "서버 문제로 소셜로그인과 연결하지 못했습니다.");
+            }
+        }
+
+
         //아이디 패스워드
         String userId = decryptParams.get("userId")[0];
         String userPw = decryptParams.get("userPw")[0];
@@ -109,15 +126,19 @@ public class MemberServiceImpl implements MemberService {
         session.setAttribute("nick", member.getNick());
         session.setAttribute("admin", member.getAdmin());
         session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
+        session.setAttribute("hasPassword", true);
 
         return new ResponseMessage(true, "로그인 성공");
     }
 
     //요청처리
     @Override
-    public ResponseMessage processUserRequest(Map<String, String[]> params) {
+    public ResponseMessage processUserRequest(Map<String, String[]> params, HttpServletRequest request) {
         //요청 확인
         try {
+            Member member;
+            String validStr;
+
             switch (params.get("reqType")[0]) {
 
                 //중복확인
@@ -126,11 +147,11 @@ public class MemberServiceImpl implements MemberService {
 
                 //일반 회원가입
                 case "joinOriginMember":
-                    final Member member = new Member();
+                    member = new Member();
                     setMember(member, params, false);
 
                     //유효성 체크
-                    String validStr = checkValidData(member);
+                    validStr = checkValidData(member);
                     if (!(validStr == null)) {
                         return new ResponseMessage(false, validStr);
                     }
@@ -161,8 +182,48 @@ public class MemberServiceImpl implements MemberService {
 
                 //소셜 회원가입
                 case "joinSocialMember":
-                    break;
+                    HttpSession session = request.getSession();
+                    if (session.getAttribute("socialEmail") == null) return new ResponseMessage(false, "잘못된 접근입니다.");
 
+                    member = new Member();
+                    setMember(member, params, true);
+                    member.setEmail(session.getAttribute("socialEmail").toString());
+                    member.setUserid("S-");
+
+                    //유효성 체크
+                    validStr = checkValidData(member);
+                    if (!(validStr == null)) {
+                        return new ResponseMessage(false, validStr);
+                    }
+
+                    //최종 중복확인
+                    responseMessage = checkDuplicate(INPUT_DATA_TYPE_NICK, member.getNick());
+                    if (!responseMessage.getResult()) {
+                        return responseMessage;
+                    }
+
+                    //즉시 가입처리
+                    try (Connection connection = JDBCTemplate.getConnection()) {
+                        memberDao.insert(connection, member);
+                    }
+
+                    //가입성공
+                    final Object keyPair = session.getAttribute("rsaKeyPair");
+                    final Object publicKey = session.getAttribute("publicKey");
+
+                    session.invalidate();
+                    session = request.getSession();
+
+                    //로그인성공
+                    session.setAttribute("rsaKeyPair", keyPair);
+                    session.setAttribute("publicKey", publicKey);
+                    session.setAttribute("userno", member.getUserno());
+                    session.setAttribute("nick", member.getNick());
+                    session.setAttribute("admin", member.getAdmin());
+                    session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
+                    session.setAttribute("hasPassword", member.getUserpw() != null);
+
+                    return new ResponseMessage(true, "가입 및 로그인 성공");
             }
         } catch (Exception e) {
             System.out.println("[ERROR] 회원가입 ajax 요청처리 오류");
@@ -174,14 +235,44 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(Member member) throws SQLException {
-        if (!member.isSocialMember()) { //일반멤버 가입
-            try (Connection connection = JDBCTemplate.getConnection()) {
-                memberDao.insert(connection, member);
-            }
-            return;
+        //인증완료 일반멤버 가입
+        try (Connection connection = JDBCTemplate.getConnection()) {
+            memberDao.insert(connection, member);
+        }
+    }
+
+
+    @Override
+    public ResponseMessage loginSocial(HttpServletRequest request, int socialType) {
+        String email = socialLoginService.getEmailOrNull(request, socialType);
+
+        if (email == null) return new ResponseMessage(false, "소셜로그인 오류");
+
+        Member member;
+
+        try (Connection connection = JDBCTemplate.getConnection()) {
+            member = memberDao.selectByEmailOrNull(connection, email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ResponseMessage(false, "소셜회원 오류");
         }
 
-        //소셜가입
+        //미가입자
+        if (member == null) {
+            request.setAttribute("social", socialType);
+            request.getSession().setAttribute("socialEmail", email);
+            return new ResponseMessage(false, "미가입");
+        }
+
+        //로그인성공
+        HttpSession session = request.getSession();
+        session.setAttribute("userno", member.getUserno());
+        session.setAttribute("nick", member.getNick());
+        session.setAttribute("admin", member.getAdmin());
+        session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
+        session.setAttribute("hasPassword", member.getUserpw() != null);
+
+        return new ResponseMessage(true, "로그인 성공");
     }
 
     //입력 데이터를 멤버 객체에 넣기

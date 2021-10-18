@@ -28,6 +28,15 @@ public interface MemberDao {
     Member selectByUserIdOrNull(Connection connection, String userId) throws SQLException;
 
     /**
+     * email로 회원을 조회하고 Member Dto 객체를 만듭니다.
+     * @param connection jdbc connection 객체
+     * @param email 조회할 email
+     * @return 찾은 Member Dto
+     * @throws SQLException 트랜잭션 단위 처리시 select 도 같은 connection 으로 처리하기 위해 sqlException 을 떨굽니다.
+     */
+    Member selectByEmailOrNull(Connection connection, String email) throws SQLException;
+
+    /**
      * member dto의 필드값을 이용해 새로운 member를 db에 등록합니다.
      * @param connection jdbc connection 객체
      * @param member insert할 dto 객체, userNo, phone, gender, birth, nick, email, salt, userId, userPw 값을 요구합니다.

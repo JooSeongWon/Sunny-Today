@@ -29,6 +29,6 @@ public class JoinController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         final PrintWriter writer = resp.getWriter();
-        writer.write(new Gson().toJson(memberService.processUserRequest(CipherUtil.getDecryptParams(req))));
+        writer.write(new Gson().toJson(memberService.processUserRequest(CipherUtil.getDecryptParams(req), req)));
     }
 }

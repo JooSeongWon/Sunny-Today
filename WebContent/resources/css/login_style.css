@@ -72,14 +72,8 @@ input {
 }
 .etc {
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    justify-content: flex-end;
 
-}
-
-.label-keep {
-    cursor: pointer;
-    user-select: none;
 }
 
 .find {
