@@ -26,9 +26,9 @@ public class TemporaryMemberRepository {
         return emailSet.contains(email);
     }
 
-    public Member getMember(String secretCode) {
+    public Member getMemberOrNull(String secretCode) {
         String uuid = new String(Base64.getDecoder().decode(secretCode), StandardCharsets.UTF_8);
-        if(!temporaryMembers.containsKey(uuid)) {
+        if (!temporaryMembers.containsKey(uuid)) {
             return null; //이미 유효하지 않은 코드
         }
         return temporaryMembers.get(uuid);
@@ -73,7 +73,7 @@ public class TemporaryMemberRepository {
         emailSet.add(member.getEmail());
 
         //30~35분후 제거
-        AppConfig.addTask(new CustomTaskTimer(35, () -> AppConfig.getTemporaryMemberRepo().deleteMember(secretCode)));
+        AppConfig.addTask(new CustomTaskTimer(35, () -> AppConfig.getTemporaryMemberRepo().deleteMember(secretCode), false));
 
         return secretCode;
     }

@@ -18,12 +18,30 @@ public class Member {
     private int pictureno;
     private String phone_open;
     private String birth_open;
+    private String picture;
+    private String pictureThumbnail;
 
     @Override
     public String toString() {
         return "Member [userno=" + userno + ", userid=" + userid + ", userpw=" + userpw + ", salt=" + salt + ", create_date="
                 + create_date + ", email=" + email + ", nick=" + nick + ", birth=" + birth
                 + ", gender=" + gender + ", phone=" + phone + ", admin=" + admin + ", pictureno=" + pictureno + "]";
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getPictureThumbnail() {
+        return pictureThumbnail;
+    }
+
+    public void setPictureThumbnail(String pictureThumbnail) {
+        this.pictureThumbnail = pictureThumbnail;
     }
 
     public int getUserno() {
@@ -139,7 +157,7 @@ public class Member {
     }
 
     public boolean isSocialMember() {
-        return userid.startsWith("N-") || userid.startsWith("G-");
+        return userid.startsWith("S-");
     }
 
 }

@@ -47,8 +47,8 @@ $(document).ready(function() {
 	});
 	
 	//게시글 상세보기 신고버튼 동작
-	$(".btnReportCancel").click(function() {
-		
+	$('#btnReport').click(function() {
+//		location.href="board/report";
 	});
 	
 	//게시글 상세보기 수정버튼 동작

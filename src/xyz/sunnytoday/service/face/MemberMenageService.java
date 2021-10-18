@@ -147,6 +147,8 @@ public interface MemberMenageService {
 	 */
 	public List<Map<String, Object>> getPurnishDatailList(HttpServletRequest req);
 
+	public void insertBan(Member member, HttpServletRequest req);
+
 	
 
 }

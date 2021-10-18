@@ -8,9 +8,9 @@ import xyz.sunnytoday.common.Paging;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
-import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
+import xyz.sunnytoday.dto.Report;
 
 public interface BoardDao {
 
@@ -235,6 +235,23 @@ public interface BoardDao {
 	 * @return
 	 */
 	public int insertComment(Connection conn, Post post_no, String comments, int userno);
+
+	/**
+	 * 신고에 나타날 게시글의 상세 정보
+	 * @param conn - DB연결객체
+	 * @param param - post객체
+	 * @param param2 - comments객체
+	 * @return - 조회된 상세정보 리스트 반환
+	 */
+	public List<Map<String, Object>> selectDetail(Connection conn, Post param, Comments param2);
+
+	/**
+	 * DB 신고 테이블에 해당 게시글 / 댓글을 추가
+	 * @param conn - DB연결객체
+	 * @param report - 신고할 정보를 담은 dto객체
+	 * @return - 처리 성공 여부 반환
+	 */
+	public int insertReport(Connection conn, Report param);
 
 
 

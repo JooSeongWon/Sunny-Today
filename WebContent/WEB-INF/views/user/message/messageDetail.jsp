@@ -63,7 +63,7 @@
     	
     }
     hr {
-    	margin: o;
+    	margin: 0 auto;
     	padding: 0;
     	border: 0px;
     	background-color: #d7eafa;
@@ -85,8 +85,6 @@
 <c:import url="../layout/navbar.jsp"/>
 
 <div id="container">
-
-
 
 <br><br><br><br>
 

@@ -1,4 +1,4 @@
-package sample;
+package xyz.sunnytoday.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/test/logout")
-public class LogoutTestController extends HttpServlet {
+@WebServlet("/logout")
+public class LogoutController extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
