@@ -15,7 +15,7 @@
 }
 .main-board {
 	display: inline-block;
-	width:68%;
+/* 	width:68%; */
 }
 #sendBtn {
 	background: #4FF;
@@ -30,18 +30,16 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	$('sendBtn').click(function(){
+	$('#sendBtn').click(function(){
 		console.log("sendBtn clicked");
-		$('form').submit();
+		$('#report').submit();
 	})
 	
-	$('cancelBtn').click(function(){
+	$('#cancelBtn').click(function(){
 		console.log("cancelBtn");
 		history.go(-1);
 	})
-	$('#').is(":checked"){
-		
-	}
+	
 });
 </script>
 </head>
@@ -66,24 +64,23 @@ $(document).ready(function(){
 	<div><a href="/board/list/share">정보공유</a></div>
 	<div><a href="/board/list/asking">질문 응답</a></div>
 	<div><a href="/board/list/mine">내가 쓴 글</a></div>
+	<!-- 어째서인지 모르지만 br을 남발해야 카테고리가 올라가더라고여 아니면 푸터 바로 위에 가서.... -->
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	
 </div>
 
-<c:forEach items="${list }" var="map">
-${map.p.title }
-</c:forEach>
 <section class="main-board">
 <c:forEach items="${list }" var="map">
 
-<form action="/board/report" method="post">
+<form action="/board/report" id="report" method="post">
 
 <h5>신고하기</h5>
 <h3>제목: ${map.p.title }</h3>
 <h3>작성자: ${map.m.userid }</h3>
 
 <h5>신고 대상 선택</h5>
-<input type="radio" name="report_type" id="post" value="post" checked="checked"> <label for="post">게시물</label>
-<input type="radio" name="report_type" id="comments" value="comments"> <label for="comment">댓글</label>
+<input type="radio" name="report_type" id="post" value="post_type" checked="checked"> <label for="post">게시물</label>
+<input type="radio" name="report_type" id="comments" value="comments_type"> <label for="comment">댓글</label>
 
 <h5>사유선택</h5>
 <input type="radio" name="report_reason" value="advertisement" id="ad"> <label for="ad"> 부적절한 홍보 댓글/게시글</label><br>
@@ -98,11 +95,11 @@ ${map.p.title }
 <button type="button" id="sendBtn">전송</button>
 <button type="button" id="cancelBtn">취소</button>
 <br><br>
-<input type="hidden" name="comment_no" value="${map.c.comments_no }">
 
-<input type="hidden" name="post_no" value="${map.p.post_no }">
-<input type="hidden" name="user_no" value="${userno }"/>
-<input type="hidden" name="target_no" value="${map.m.userid }">
+<input type="hidden" name="comments_no" value="${map.c.comments_no}">
+<input type="hidden" name="post_no" value="${map.p.post_no}">
+<input type="hidden" name="user_no" value="${userno}"/>
+<input type="hidden" name="target_no" value="${map.m.userno}">
 
 
 </form>

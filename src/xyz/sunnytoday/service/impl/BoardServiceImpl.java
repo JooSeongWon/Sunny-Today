@@ -23,9 +23,9 @@ import xyz.sunnytoday.dao.impl.BoardDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
-
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
+import xyz.sunnytoday.dto.Report;
 import xyz.sunnytoday.service.face.BoardService;
 
 public class BoardServiceImpl implements BoardService {
@@ -684,12 +684,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void insertReport(HttpServletRequest req) {
+	public void insertReport(Report param) {
 		System.out.println("insertReportService called");
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int res = 0;
-		res = boardDao.insertReport(conn, req);
+		res = boardDao.insertReport(conn, param);
 		if(res == 0) {
 			JDBCTemplate.rollback(conn);
 		}else {

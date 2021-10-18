@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.Post;
+import xyz.sunnytoday.dto.Report;
 import xyz.sunnytoday.service.face.BoardService;
 import xyz.sunnytoday.service.impl.BoardServiceImpl;
 
@@ -48,7 +49,36 @@ public class BoardReportController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/board/report [POST]");
-		boardService.insertReport(req);
+		req.setCharacterEncoding("UTF-8");
+		Report param = new Report();
+		
+		//신고 사유
+		if(req.getParameter("report_reason") == "advertisement") {
+			param.setReport_c_no(1);
+		}else if(req.getParameter("report_reason") == "pornography") {
+			param.setReport_c_no(2);
+		}else if(req.getParameter("report_reason") == "defamation") {
+			param.setReport_c_no(3);
+		}else {
+			param.setReport_c_no(4);
+		}
+		param.setUser_no(Integer.parseInt(req.getParameter("user_no")));
+		param.setTarget_no(Integer.parseInt(req.getParameter("target_no")));
+		param.setDetail(req.getParameter("report_detail"));
+		
+		if(req.getParameter("post_no") != null && !"".equals(req.getParameter("post_no"))) {
+			param.setPost_no(Integer.parseInt(req.getParameter("post_no")));
+		}else {
+			param.setComments_no(Integer.parseInt(req.getParameter("comments_no")));
+		}
+		if(req.getParameter("report_type") == "post_type") {
+			param.setReport_type("P");
+		}else {
+			param.setReport_type("C");
+		}
+		System.out.println("param : " + param);
+		boardService.insertReport(param);
+		
 		resp.sendRedirect("/board/main");
 	}
 }
