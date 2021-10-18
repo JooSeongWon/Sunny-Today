@@ -33,8 +33,8 @@ public class MessageViewController extends HttpServlet {
 		req.setAttribute("viewMessage", viewMessage);
 		
 		//보낸 사람 전달
-		req.setAttribute("fromm", messageService.getFromm(viewMessage));
-		
+		req.setAttribute("fromNick", messageService.getFromNick(viewMessage));
+				
 		req.getRequestDispatcher("/WEB-INF/views/user/message/messageDetail.jsp").forward(req, resp);
 	}
 	

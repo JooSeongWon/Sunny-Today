@@ -157,7 +157,7 @@ public class Member {
     }
 
     public boolean isSocialMember() {
-        return userid.startsWith("N-") || userid.startsWith("G-");
+        return userid.startsWith("S-");
     }
 
 }

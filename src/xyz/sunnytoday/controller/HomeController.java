@@ -1,6 +1,7 @@
 package xyz.sunnytoday.controller;
 
 import xyz.sunnytoday.common.config.AppConfig;
+import xyz.sunnytoday.common.repository.Forecast;
 import xyz.sunnytoday.service.face.ForecastService;
 import xyz.sunnytoday.service.face.GeoLocationService;
 import xyz.sunnytoday.service.impl.ForecastServiceImpl;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(
         urlPatterns = "/main",
@@ -87,8 +89,14 @@ public class HomeController extends HttpServlet {
         req.setAttribute("r1", cityR1);
         req.setAttribute("r2", cityR2);
         req.setAttribute("sForecast", forecastService.getShortTermForecast(cityR1 + cityR2));
-        req.setAttribute("mForecast", forecastService.getMediumTermForecast(cityR1 + cityR2));
 
+        final List<Forecast> mediumTermForecast = forecastService.getMediumTermForecast(cityR1 + cityR2);
+        if (mediumTermForecast == null) {
+            super.doGet(req, resp);
+            return;
+        }
+
+        req.setAttribute("mForecast", mediumTermForecast);
         req.getRequestDispatcher("/WEB-INF/views/user/home/home.jsp").forward(req, resp);
     }
 }

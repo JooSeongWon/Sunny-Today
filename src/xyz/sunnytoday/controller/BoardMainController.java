@@ -33,7 +33,7 @@ public class BoardMainController extends HttpServlet {
 
 		boardService.setThumFile(list);
 		
-		req.setAttribute("boardMainList", list);
+		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
 		
 //		for( Map<String, Object> e : list ) {

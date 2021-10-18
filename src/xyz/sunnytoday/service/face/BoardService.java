@@ -6,11 +6,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.common.Paging;
-import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
+import xyz.sunnytoday.dto.Report;
 
 public interface BoardService {
 
@@ -30,6 +30,12 @@ public interface BoardService {
 	 */
 	public Paging getPaging(HttpServletRequest req);
 
+	/**
+	 * 게시판마다 다른 페이징 객체
+	 * @param boardTitle
+	 * @return
+	 */
+	public Paging getTitlePaging(HttpServletRequest req, String boardTitle);
 
 	/**
 	 * 질문 응답 목록 조회
@@ -161,7 +167,7 @@ public interface BoardService {
 	 * @param post_no - 게시글 번호
 	 * @return List<Comments> - 댓글 리스트
 	 */
-	public List<Comments> selectCommentPost(Post post_no);
+	public List<Map<String, Object>> selectCommentPost(Post post_no);
 
 	/** 
 	 * 댓글 내용 가져오기
@@ -175,15 +181,82 @@ public interface BoardService {
 	 * @param post_no - 댓글 추가할 postno
 	 * @param comments - 댓글 내용
 	 * @param userno - 댓글 작성자
+	 * @param onlyWriter 
 	 */
-	public void insertComment(Post post_no, String comments, int userno);
+	public int insertComment(Post post_no, String content, int userno, String onlyWriter);
 
 	/**
 	 * 보드의 세부정보를 요청
-	 * @param param - 요청할 보드의 정보객체
+	 * @param param - 요청할 보드의 정보객체 post
+	 * @param param2 - 요청할 보드의 정보객체 comments
 	 * @return - 조회된 보드의 세부 정보 리스트
 	 */
-	public List<Map<String, Object>> boardDetail(Post param);
+	public List<Map<String, Object>> boardDetail(Post param, Comments param2);
+
+	/**
+	 * 신고테이블에 해당 신고글 등록
+	 * @param param - report dto 객체 
+	 */
+	public void insertReport(Report param);
+
+	/**
+	 * 로그인 한 멤버 정보
+	 * @param req
+	 * @return
+	 */
+	public Member loginMember(HttpServletRequest req);
+
+	/**
+	 * 댓글 쓴 사람의 닉네임 가져오기
+	 * @param comments - userno이 들어있음
+	 * @return
+	 */
+	public String commentsNick(List<Comments> comments);
+
+	/**
+	 * 댓글 수정
+	 * @param commentNo - 댓글 번호
+	 * @param content - 댓글 내용
+	 * @param userno - 유저 no
+	 */
+	public int updateComments(int commentNo, String content, int userno);
+
+	/**
+	 * 댓글번호로 postno 찾기
+	 * @param commentNo
+	 * @return
+	 */
+	public int selectPostnoByCommentsNO(int commentNo);
+
+	/**
+	 * 댓글 지우기
+	 * @param commentNo - 댓글번호
+	 * @param userno
+	 * @return
+	 */
+	public int deleteComment(int commentNo, int userno);
+
+	/**
+	 * 맵에서 boardTitle 꺼내기
+	 * @param date
+	 * @param string
+	 * @return
+	 */
+	public String getValueFromMap(String date, String boardTitle);
+
+	/**
+	 * 추천기능 구현 위한 sum함수 처리
+	 * @param req
+	 * @return 최종 합계
+	 */
+	public int likeSum(HttpServletRequest req);
+
+	/**
+	 * like 만들기
+	 * @param req
+	 */
+	public void makeDefaultLike(HttpServletRequest req);
+
 
 
 

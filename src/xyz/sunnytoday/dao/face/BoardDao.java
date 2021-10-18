@@ -8,9 +8,9 @@ import xyz.sunnytoday.common.Paging;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
-import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
+import xyz.sunnytoday.dto.Report;
 
 public interface BoardDao {
 
@@ -23,6 +23,13 @@ public interface BoardDao {
 	 */
 	public int selectCntAll(Connection conn);
 	
+	/**
+	 * 게시판 마다 게시글 수 조회
+	 * @param conn
+	 * @param boardno 
+	 * @return
+	 */
+	public int selectCntTitle(Connection conn, int boardno);
 	/**
 	 * 게시판 글 전체 조회
 	 * @param conn - DB접속
@@ -151,6 +158,14 @@ public interface BoardDao {
 	 * @return String - 작성자 닉네임
 	 */
 	public String selectNickByUserno(Connection conn, Post detailBoard);
+	
+	/**
+	 * userno를 이용해 nick을 조회한다
+	 * 
+	 * @param detailBoard - 조회할 userno를 가진 객체
+	 * @return String - 작성자 닉네임
+	 */
+	public String selectNickByUserno(Connection conn, Comments comments);
 
 	/**
 	 * 첨부파일 조회
@@ -213,6 +228,16 @@ public interface BoardDao {
 	 * @param paging
 	 * @param keyword - 검색 키워드
 	 * @param select - 검색하는 분류 (제목(title), 본문(content), 작성자(nick))
+	 * @return
+	 */
+	public List<Map<String, Object>> selectSearchMainList(Connection conn, Paging paging, String select, String keyword);
+
+	/**
+	 * 서치된 리스트 조회
+	 * @param conn
+	 * @param paging
+	 * @param keyword - 검색 키워드
+	 * @param select - 검색하는 분류 (제목(title), 본문(content), 작성자(nick))
 	 * @param boardTitle - 카테고리 분류
 	 * @return
 	 */
@@ -224,7 +249,7 @@ public interface BoardDao {
 	 * @param post_no
 	 * @return
 	 */
-	public List<Comments> selectCommentPost(Connection conn, Post post_no);
+	public List<Map<String, Object>> selectCommentPost(Connection conn, Post post_no);
 
 	/**
 	 * 댓글 추가
@@ -232,11 +257,77 @@ public interface BoardDao {
 	 * @param post_no - 댓글 추가할 post_no
 	 * @param comments - 댓글 내용
 	 * @param userno - 댓글 작성한 사람
+	 * @param onlyWriter 
 	 * @return
 	 */
-	public int insertComment(Connection conn, Post post_no, String comments, int userno);
+	public int insertComment(Connection conn, Post post_no, String content, int userno, String onlyWriter);
 
-	public List<Map<String, Object>> selectDetail(Connection conn, Post param);
+	/**
+	 * 신고에 나타날 게시글의 상세 정보
+	 * @param conn - DB연결객체
+	 * @param param - post객체
+	 * @param param2 - comments객체
+	 * @return - 조회된 상세정보 리스트 반환
+	 */
+	public List<Map<String, Object>> selectDetail(Connection conn, Post param, Comments param2);
+
+	/**
+	 * DB 신고 테이블에 해당 게시글 / 댓글을 추가
+	 * @param conn - DB연결객체
+	 * @param report - 신고할 정보를 담은 dto객체
+	 * @return - 처리 성공 여부 반환
+	 */
+	public int insertReport(Connection conn, Report param);
+
+	/**
+	 * 댓글 수정
+	 * @param conn
+	 * @param commentNo - 댓글 번호
+	 * @param content - 댓글 내용
+	 * @param userno 
+	 * @return
+	 */
+	public int updateComments(Connection conn, int commentNo, String content, int userno);
+
+	/**
+	 * 댓글번호로 포스트번호 찾기
+	 * @param connection
+	 * @param commentNo
+	 * @return
+	 */
+	public int selectPostnoByCommentsNO(Connection conn, int commentNo);
+
+	/**
+	 * 댓글 지우기
+	 * @param conn
+	 * @param commentNo
+	 * @param userno
+	 * @return
+	 */
+	public int deleteComments(Connection conn, int commentNo, int userno);
+
+	/**
+	 * 추천테이블에 기본값 입력
+	 * @param conn
+	 * @param userno - 추천한사람
+	 * @param postno - 추천받은 게시글
+	 * @return
+	 */
+	public int insertLikeDefault(Connection conn, int userno, int postno);
+
+	/**
+	 * 누른 값 반영하기
+	 * @param conn
+	 * @param userno - 추천한 사람
+	 * @param postno - 추천받은 게시글
+	 * @return
+	 */
+	public int likeSum(Connection conn, int userno, int postno);
+
+
+
+
+
 
 
 

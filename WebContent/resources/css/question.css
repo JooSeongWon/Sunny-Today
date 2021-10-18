@@ -1,0 +1,295 @@
+/* 페이징 */
+
+li {
+	display:inline;
+	margin: 10px;
+}
+
+#paging {
+	text-align: center;
+}
+
+/* 리스트 */
+.questionPageInfo {
+	margin: 20px;
+}
+
+#questionTable {
+	width: 60%;
+	margin: 0 auto;
+	border-collapse: collapse;
+	margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+.division th {
+	border-top: 2px solid var(--color-grey);
+	border-bottom: 2px solid var(--color-grey);
+	text-align: center;
+	height: 40px;
+}
+
+.questionListContent td {
+	border-top: 2px solid var(--color-grey);
+	border-bottom: 2px solid var(--color-grey);
+	text-align: center;
+	height: 40px;
+}
+
+.questionWrite {
+	text-align: right;
+	height: 60px;
+}
+
+.division > th:nth-child(1) {
+	width: 5%;
+}
+
+.division > th:nth-child(2) {
+	width: 40%;
+}
+
+.division > th:nth-child(3) {
+	width: 30%;
+}
+
+.division > th:nth-child(4) {
+	width: 10%;
+}
+
+.division > th:nth-child(5) {
+	width: 15%;
+}
+
+
+#prcsn {
+	background-color: var(--color-grey);
+    color: var(--color-white);
+    border-radius: 9px;
+    border: none;
+    width: 60%;
+    height: 70%;
+    font-size: var(--font-micro);
+    font-weight: bold;
+}
+
+#prcsnCmplt {
+	background-color: var(--color-sky);
+    color: var(--color-white);
+    border-radius: 9px;
+    border: none;
+    width: 60%;
+    height: 70%;
+    font-size: var(--font-micro);
+    font-weight: bold;
+}
+
+.btnWrite {
+	background-color: var(--color-sky);
+    color: var(--color-white);
+    border-radius: 9px;
+    border: none;
+    width: 100px;
+    height: 60%;
+    font-size: var(--font-micro);
+    font-weight: bold;
+}
+
+/* 문의상세보기 */
+#questionDetailTitle {
+	text-align: center;
+    width: 6%;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+#questionDetailTitle hr {
+	border: 1px solid var(--color-sky);
+}
+
+#questionDetailTitle h3 {
+	margin-top: 10px;
+}
+
+#questionDetailContent {
+	width: 75%;
+	margin: 0 auto;
+	padding: 20px;
+    background-color: var(--color-pastel-sky);
+    margin-bottom: 120px;
+    margin-top: 50px;
+}
+
+#questionDetailcolor {
+	padding-bottom: 20px;
+    padding-top: 20px;
+    background-color: var(--color-fog-sky);
+
+}
+
+#questionDetailTable {
+	width: 80%;
+	margin: 35px auto;
+	border-collapse: collapse;
+}
+
+.questionDetailWidth > td:nth-child(1) {
+	width: 20%;
+	height: 40px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.questionDetailWidth > td:nth-child(2) {
+	width: 66%;
+	font-weight: bold;
+}
+
+.questionDetailWidth > td:nth-child(3) {
+	width: 7%;
+	text-align: center;
+}
+
+.questionDetailWidth > td:nth-child(4) {
+	width: 7%;
+	text-align: center;
+}
+
+.questionText {
+	padding: 50px 70px;
+	text-align: center;
+}
+
+#questionContentText {
+	text-align: left;
+}
+
+#questionNick > td:nth-child(1) {
+	text-align: center;	
+	height: 40px;
+	font-weight: 500;
+}
+
+#questionNick > td:nth-child(2) {
+	height: 40px;
+	font-weight: 500;
+}
+
+#questionBack td {
+	height: 100px;
+    text-align: center;
+}
+
+#backList {
+	background-color: var(--color-deep-blue);
+    color: var(--color-white);
+    border-radius: 9px;
+    border: none;
+    width: 100px;
+    height: 35%;
+    font-size: var(--font-micro);
+    font-weight: bold;
+}
+
+#questionAnswer {
+	height: 90px;
+	text-align: center;
+	border-top: 2px solid var(--color-dark-grey);
+    font-size: var(--font-small);
+    font-size: 1.17em;
+    font-weight: bold;
+	
+}
+
+#btnUpdate,#btnDelete {
+	border: none;
+    background-color: var(--color-deep-blue);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 90%;
+    padding: 6px;
+}
+
+/* 문의글쓰기 */
+
+#questionInsertTable {
+	width: 80%;
+	margin: 35px auto;
+	border-collapse: collapse;
+}
+
+#questionInsertTable tr {
+	text-align: center;	
+}
+
+.questionInsertWidth {
+	width: 80%;
+}
+.questionInsertWidth > td:nth-child(1) {
+	width: 10%;
+}
+
+.questionInsertWidth > td:nth-child(2) {
+	width: 40%;
+}
+
+.questionInsertWidth > td:nth-child(3) {
+	width: 50%;
+}
+
+#questionInsertText {
+	width:90%;
+	height: 40px;
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+#questionInsertNick {
+	text-align: left;
+	height: 40px;
+	padding-left: 15px;
+}
+
+#text_cnt {
+	text-align: right;
+	font-size: var(--font-micro);
+}
+
+#content {
+	width: 95%;
+    height: 150px;
+	resize: none;
+	font-size: var(--font-micro);
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+#btnWriteSubmittd {
+	text-align: right;
+	padding-right: 10px;
+}
+
+#btnWriteCanceltd {
+	text-align: left;
+	padding-left: 10px;
+}
+
+#btnWriteSubmit {
+	border: none;
+    background-color: var(--color-deep-blue);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}
+
+#btnWriteCancel {
+	border: none;
+    background-color: var(--color-grey);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}

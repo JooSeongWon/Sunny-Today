@@ -31,8 +31,20 @@ public class BoardListBuyController extends HttpServlet {
 		
 		List<Map<String, Object>> list = boardService.getBuyList(req, paging);
 		
-		req.setAttribute("boardBuyList", list);
+		String date = list.get(0).get("board").toString();
+		String boardTitle = boardService.getValueFromMap(date,"title");
+
+//		
+//		for( Map<String, Object> e : list ) {
+//			System.out.println( e );
+//		}
+
+//		System.out.println("boardno : " + boardno);
+		paging = boardService.getTitlePaging(req, boardTitle);	
 		
+		
+		req.setAttribute("list", list);
+		req.setAttribute("boardTitle", boardTitle);
 		req.setAttribute("paging", paging);
 
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardBuy.jsp").forward(req, resp);

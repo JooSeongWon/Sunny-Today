@@ -1,3 +1,4 @@
+<%@ page import="xyz.sunnytoday.service.impl.SocialLoginServiceImpl" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!doctype html>
@@ -10,6 +11,20 @@
     <%--join css--%>
     <link rel="stylesheet" href="${requestScope.cssPath}/join_style.css">
     <%--join js--%>
+    <script>
+        <%
+        pageContext.setAttribute("NAVER", SocialLoginServiceImpl.TYPE_NAVER);
+        pageContext.setAttribute("GOOGLE", SocialLoginServiceImpl.TYPE_GOOGLE);
+        %>
+        <c:if test="${empty requestScope.social}">
+        const userType = 'normal';
+        </c:if>
+
+        <c:if test="${not empty requestScope.social}">
+        alert('오늘도 맑음 소셜 회원이 아닙니다. 간단한 소셜계정 회원가입 후 이용해주세요.');
+        const userType = 'social';
+        </c:if>
+    </script>
     <script src="${requestScope.jsPath}/jsencrypt.min.js" defer></script>
     <script src="${requestScope.jsPath}/join_script.js" defer></script>
 </head>
@@ -25,8 +40,10 @@
             <h1 class="title__check active">약관동의</h1>
             <h1 class="title__arrow"><i class="fas fa-chevron-right"></i></h1>
             <h1 class="title__input">정보입력</h1>
-            <h1 class="title__arrow"><i class="fas fa-chevron-right"></i></h1>
-            <h1 class="title__certification">메일인증</h1>
+            <h1 class="title__arrow" <c:if test="${not empty requestScope.social}"> style="opacity: 0;"</c:if>><i
+                    class="fas fa-chevron-right"></i></h1>
+            <h1 class="title__certification" <c:if test="${not empty requestScope.social}"> style="opacity: 0;"</c:if>>
+                메일인증</h1>
         </div>
         <div class="line"></div>
 
@@ -42,7 +59,8 @@
                     adipisicing elit. A, animi architecto aspernatur autem culpa delectus eaque eos, est facere libero
                     maxime minus quae reiciendis repellat repudiandae rerum sunt tenetur vel. Lorem ipsum dolor sit
                     amet, consectetur adipisicing elit. Adipisci aliquam dicta et eum id, ipsum libero magni natus nulla
-                    provident quibusdam repellendus sed tenetur, totam ut. Illum provident quia sapiente!</p></div>
+                    provident quibusdam repellendus sed tenetur, totam ut. Illum provident quia sapiente!
+                </p></div>
             </div>
             <div class="check">
                 <div class="check__header">
@@ -53,7 +71,8 @@
                     adipisicing elit. A, animi architecto aspernatur autem culpa delectus eaque eos, est facere libero
                     maxime minus quae reiciendis repellat repudiandae rerum sunt tenetur vel. Lorem ipsum dolor sit
                     amet, consectetur adipisicing elit. Adipisci aliquam dicta et eum id, ipsum libero magni natus nulla
-                    provident quibusdam repellendus sed tenetur, totam ut. Illum provident quia sapiente!</p></div>
+                    provident quibusdam repellendus sed tenetur, totam ut. Illum provident quia sapiente!
+                </p></div>
             </div>
             <div class="check">
                 <div class="check__header">
@@ -64,7 +83,8 @@
                     adipisicing elit. A, animi architecto aspernatur autem culpa delectus eaque eos, est facere libero
                     maxime minus quae reiciendis repellat repudiandae rerum sunt tenetur vel. Lorem ipsum dolor sit
                     amet, consectetur adipisicing elit. Adipisci aliquam dicta et eum id, ipsum libero magni natus nulla
-                    provident quibusdam repellendus sed tenetur, totam ut. Illum provident quia sapiente!</p></div>
+                    provident quibusdam repellendus sed tenetur, totam ut. Illum provident quia sapiente!
+                </p></div>
             </div>
             <div class="line last"></div>
             <div class="check__header">
@@ -77,33 +97,33 @@
         <%-- 정보입력 --%>
         <div class="content">
             <%-- 일반 가입유저만 입력 --%>
-            <div class="origin">
-                <label class="input">
-                    <div class="input__title">아이디</div>
-                    <input type="text" class="input__box" placeholder="4자 ~ 20자 사이의 영소문자, 숫자" tabindex="1"
-                           maxlength="20">
-                    <div class="input__notice">&nbsp;</div>
-                </label>
-                <label class="input">
-                    <div class="input__title">비밀번호</div>
-                    <input type="password" class="input__box" placeholder="8자 ~ 20자 사이의 영(대/소)문자 / 숫자 / 특수문자"
-                           tabindex="1" maxlength="20">
-                    <div class="input__notice">&nbsp;</div>
-                </label>
-                <label class="input">
-                    <div class="input__title">비밀번호 확인</div>
-                    <input type="password" class="input__box" placeholder="비밀번호를 한번 더 입력해 주세요." tabindex="1"
-                           maxlength="20">
-                    <div class="input__notice">&nbsp;</div>
-                </label>
-                <label class="input">
-                    <div class="input__title">이메일 주소</div>
-                    <input type="text" class="input__box" placeholder="이메일 인증이 필요하니 유효한 주소를 입력해주세요." tabindex="1"
-                           maxlength="100">
-                    <div class="input__notice">&nbsp;</div>
-                </label>
-                <div class="line"></div>
-            </div>
+            <div class="origin" <c:if test="${not empty requestScope.social}">style="display: none"</c:if>>
+                    <label class="input">
+                        <div class="input__title">아이디</div>
+                        <input type="text" class="input__box" placeholder="4자 ~ 20자 사이의 영소문자, 숫자" tabindex="1"
+                               maxlength="20">
+                        <div class="input__notice">&nbsp;</div>
+                    </label>
+                    <label class="input">
+                        <div class="input__title">비밀번호</div>
+                        <input type="password" class="input__box" placeholder="8자 ~ 20자 사이의 영(대/소)문자 / 숫자 / 특수문자"
+                               tabindex="1" maxlength="20">
+                        <div class="input__notice">&nbsp;</div>
+                    </label>
+                    <label class="input">
+                        <div class="input__title">비밀번호 확인</div>
+                        <input type="password" class="input__box" placeholder="비밀번호를 한번 더 입력해 주세요." tabindex="1"
+                               maxlength="20">
+                        <div class="input__notice">&nbsp;</div>
+                    </label>
+                    <label class="input">
+                        <div class="input__title">이메일 주소</div>
+                        <input type="text" class="input__box" placeholder="이메일 인증이 필요하니 유효한 주소를 입력해주세요." tabindex="1"
+                               maxlength="100">
+                        <div class="input__notice">&nbsp;</div>
+                    </label>
+                    <div class="line"></div>
+                </div>
             <div class="normal">
                 <label class="input">
                     <div class="input__title">닉네임</div>

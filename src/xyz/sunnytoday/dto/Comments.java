@@ -10,11 +10,12 @@ public class Comments {
 	private Date write_date;
 	private Date last_modify;
 	private String content;
-	
+	private String show;
 	@Override
 	public String toString() {
 		return "Comments [comments_no=" + comments_no + ", post_no=" + post_no + ", user_no=" + user_no
-				+ ", write_date=" + write_date + ", last_modify=" + last_modify + ", content=" + content + "]";
+				+ ", write_date=" + write_date + ", last_modify=" + last_modify + ", content=" + content + ", show="
+				+ show + "]";
 	}
 	public int getComments_no() {
 		return comments_no;
@@ -28,14 +29,12 @@ public class Comments {
 	public void setPost_no(int post_no) {
 		this.post_no = post_no;
 	}
-
 	public int getUser_no() {
 		return user_no;
 	}
 	public void setUser_no(int user_no) {
 		this.user_no = user_no;
 	}
-
 	public Date getWrite_date() {
 		return write_date;
 	}
@@ -54,4 +53,14 @@ public class Comments {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String getShow() {
+		return show;
+	}
+	public void setShow(String show) {
+		this.show = show;
+	}
+	
+	
+	
+	
 }

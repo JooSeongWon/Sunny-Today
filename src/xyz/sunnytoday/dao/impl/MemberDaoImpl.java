@@ -34,15 +34,35 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public Member selectByUserIdOrNull(Connection connection, String userId) throws SQLException {
+        String sql = "ID = ?";
+        return selectMemberByStringVal(connection, userId, sql);
+    }
+
+    @Override
+    public Member selectByEmailOrNull(Connection connection, String email) throws SQLException {
+        String sql = "EMAIL = ?";
+        return selectMemberByStringVal(connection, email, sql);
+    }
+
+    @Override
+    public Member selectByNickOrNull(Connection connection, String nick) throws SQLException {
+        String sql = "NICK = ?";
+        return selectMemberByStringVal(connection, nick, sql);
+    }
+
+    @Override
+    public Member selectByEmailAndIdOrNull(Connection connection, String email, String userId) throws SQLException {
         String sql = "select MEMBER.*, F.URL, F.THUMBNAIL_URL  from MEMBER" +
                 " left outer join \"FILE\" F on MEMBER.PICTURE_NO = F.FILE_NO" +
-                " where ID = ?";
+                " where MEMBER.ID = ? and MEMBER.EMAIL = ?";
+
         ResultSet resultSet = null;
 
         Member member = null;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, userId);
+            preparedStatement.setString(2, email);
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -59,17 +79,29 @@ public class MemberDaoImpl implements MemberDao {
     @Override
     public void insert(Connection connection, Member member) throws SQLException {
         String sql = "insert into MEMBER(user_no, phone, gender, birth, nick, email, salt, password, id)" +
-                " values (MEMBER_SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
+                " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, member.getPhone());
-            preparedStatement.setString(2, member.getGender());
-            preparedStatement.setDate(3, new Date(member.getBirth().getTime()));
-            preparedStatement.setString(4, member.getNick());
-            preparedStatement.setString(5, member.getEmail());
-            preparedStatement.setString(6, member.getSalt());
-            preparedStatement.setString(7, member.getUserpw());
-            preparedStatement.setString(8, member.getUserid());
+
+            int seq = getNextMemberSeq(connection);
+            if (seq == 0) {
+                System.out.println("[ERROR] 멤버시퀀스를 생성하지 못했습니다.");
+                throw new SQLException();
+            }
+
+            preparedStatement.setInt(1, seq);
+            preparedStatement.setString(2, member.getPhone());
+            preparedStatement.setString(3, member.getGender());
+            preparedStatement.setDate(4, new Date(member.getBirth().getTime()));
+            preparedStatement.setString(5, member.getNick());
+            preparedStatement.setString(6, member.getEmail());
+            preparedStatement.setString(7, member.getSalt());
+            preparedStatement.setString(8, member.getUserpw());
+            if (member.isSocialMember()) {
+                preparedStatement.setString(9, member.getUserid() + seq);
+            } else {
+                preparedStatement.setString(9, member.getUserid());
+            }
 
             if (preparedStatement.executeUpdate() == 0) {
                 throw new SQLException();
@@ -93,6 +125,37 @@ public class MemberDaoImpl implements MemberDao {
     public int selectCntUserEmail(Connection connection, String email) throws SQLException {
         String sql = "EMAIL = ?";
         return selectCntWhen(connection, sql, email);
+    }
+
+    @Override
+    public void updatePassword(Connection connection, Member member) throws SQLException {
+        String sql = "update MEMBER set SALT = ?, PASSWORD = ? where USER_NO = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, member.getSalt());
+            preparedStatement.setString(2, member.getUserpw());
+            preparedStatement.setInt(3, member.getUserno());
+
+            if(preparedStatement.executeUpdate() == 0){
+                throw new SQLException();
+            }
+        }
+    }
+
+    private int getNextMemberSeq(Connection connection) throws SQLException {
+        String sql = "select MEMBER_SEQ.nextval seq from DUAL";
+
+        int seq = 0;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                seq = resultSet.getInt("seq");
+            }
+
+        }
+        return seq;
     }
 
     private Member buildMember(ResultSet resultSet) throws SQLException {
@@ -133,5 +196,28 @@ public class MemberDaoImpl implements MemberDao {
         }
 
         return 0;
+    }
+
+    private Member selectMemberByStringVal(Connection connection, String data, String whereContext) throws SQLException {
+        String sql = "select MEMBER.*, F.URL, F.THUMBNAIL_URL  from MEMBER" +
+                " left outer join \"FILE\" F on MEMBER.PICTURE_NO = F.FILE_NO where " + whereContext;
+
+        ResultSet resultSet = null;
+
+        Member member = null;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, data);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                member = buildMember(resultSet);
+            }
+
+        } finally {
+            JDBCTemplate.close(resultSet);
+        }
+
+        return member;
     }
 }

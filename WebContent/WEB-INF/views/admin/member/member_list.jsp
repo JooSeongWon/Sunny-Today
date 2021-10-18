@@ -23,6 +23,9 @@ $(document).ready(function(){
 	$('.check-all').click(function(){
 		$('.ab').prop('checked', this.checked);
 	})
+	$('#purnishBtn').click(function(){
+		$('#purnish').submit();
+	})
 });
 </script>
 
@@ -44,13 +47,31 @@ $(document).ready(function(){
 	<button class="btn btn-default" id="searchBtn" type="button">검색</button>
 	
 </div>
-<div class="text-right">
-		<button class="btn btn-default" id="purnishBtn" type="button">회원 제재</button>
-</div>
 
 </form>
 
 <form action="<%=request.getContextPath()%>/admin/member/list" method="post" id="purnish">
+<div class="text-right">
+	제재 형태
+	<select name="Ban_type">
+			<option value="non-subject">제재 대상 아님</option>
+			<option value="login">로그인</option>
+			<option value="write_post">게시물 작성</option>
+		</select>
+		
+	제재 기간
+	<select name="Ban_date">
+			<option value="non">없음</option>
+			<option value="1week">1주일</option>
+			<option value="1month">1개월</option>
+			<option value="3month">3개월</option>
+			<option value="1year">1년</option>
+			<option value="permanent">영구 정지</option>
+	</select>
+	
+		<button class="btn btn-default" id="purnishBtn" type="button">회원 제재</button>
+</div>
+
 <table class="table" id="member_table">
 <thead>
 <tr>
@@ -66,12 +87,11 @@ $(document).ready(function(){
 <% int i =0; %>
 <c:forEach items="${list }" var="member">
 <tr>
-	<td><input type="checkbox" name="cb<%=i %>" class="ab"></td>
+	<td><input type="checkbox" name="cb<%=i %>" value="${member.userno }" class="ab"></td>
 	<td>${member.userno }</td>
 	<td><a href="<%=request.getContextPath() %>/admin/member/view?userno=${member.userno }">${member.userid }</a></td>
 	<td>${member.nick }</td>
 	<td>${member.email }</td>
-<%-- 	<td>${member.visitor }</td> --%>
 	<td>${member.create_date }</td>
 </tr>
 <% i++; %>
@@ -82,6 +102,6 @@ $(document).ready(function(){
 
 <c:import url="/WEB-INF/views/admin/layout/member_paging.jsp"/>
 </div>
-<%-- <c:import url="/WEB-INF/views/layout/footer.jsp"/> --%>
+
 </body>
 </html>
