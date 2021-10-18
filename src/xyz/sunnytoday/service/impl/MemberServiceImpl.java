@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -299,21 +300,23 @@ public class MemberServiceImpl implements MemberService {
         final Map<String, String[]> decryptParams = CipherUtil.getDecryptParams(request);
 
         //아이디 찾기
-        if(decryptParams == null) return new ResponseMessage(false, "요청이 없습니다.");
+        if (decryptParams == null) return new ResponseMessage(false, "요청이 없습니다.");
 
-        if(decryptParams.get("type")[0].equals("id")) {
+        if (decryptParams.get("type")[0].equals("id")) {
             String email = decryptParams.get("email")[0];
-            if(!isValidEmail(email)) {
+            if (!isValidEmail(email)) {
                 return new ResponseMessage(false, "이메일 형식이 바르지 않습니다.");
             }
 
             // 아이디 메일전송 로직
-            try(Connection connection = JDBCTemplate.getConnection()) {
+            try (Connection connection = JDBCTemplate.getConnection()) {
                 Member member = memberDao.selectByEmailOrNull(connection, email);
-                if(member == null) return new ResponseMessage(false, "가입이력이 없습니다.");
+                if (member == null) return new ResponseMessage(false, "가입이력이 없습니다.");
 
+                String userId = member.isSocialMember() ? "소셜 회원입니다 소셜로그인을 해주세요!" : member.getUserid();
+                mailService.postFindUserIdResult(userId, member.getEmail());
 
-
+                return new ResponseMessage(true, "메일 발송완료");
             } catch (Exception e) {
                 return new ResponseMessage(false, "서버문제로 처리에 실패했습니다.");
             }
@@ -322,18 +325,25 @@ public class MemberServiceImpl implements MemberService {
         } else if (decryptParams.get("type")[0].equals("pw")) {
             String email = decryptParams.get("email")[0];
             String userId = decryptParams.get("userId")[0];
-            if(!isValidEmail(email)) {
+            if (!isValidEmail(email)) {
                 return new ResponseMessage(false, "이메일 형식이 바르지 않습니다.");
             }
-            if(!isValidId(userId)) {
+            if (!isValidId(userId)) {
                 return new ResponseMessage(false, "아이디 형식이 바르지 않습니다.");
             }
-            
-            //임시 비밀번호 설정 및 전송 로직
-            try(Connection connection = JDBCTemplate.getConnection()) {
-                Member member = memberDao.selectByEmailAndIdOrNull(connection, email, userId);
-                if(member == null) return new ResponseMessage(false, "가입이력이 없습니다.");
 
+            //임시 비밀번호 설정 및 전송 로직
+            try (Connection connection = JDBCTemplate.getConnection()) {
+                Member member = memberDao.selectByEmailAndIdOrNull(connection, email, userId);
+                if (member == null) return new ResponseMessage(false, "가입이력이 없습니다.");
+
+                String tempPassword = UUID.randomUUID().toString().substring(0, 8);
+                member.setSalt(CipherUtil.getSalt());
+                member.setUserpw(CipherUtil.encodeSha256(tempPassword, member.getSalt()));
+                memberDao.updatePassword(connection, member);
+
+                mailService.postFindUserPwResult(tempPassword, member.getEmail());
+                return new ResponseMessage(true, "메일 발송완료");
 
             } catch (Exception e) {
                 return new ResponseMessage(false, "서버문제로 처리에 실패했습니다.");

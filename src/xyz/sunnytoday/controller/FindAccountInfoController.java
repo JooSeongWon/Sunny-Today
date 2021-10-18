@@ -1,5 +1,6 @@
 package xyz.sunnytoday.controller;
 
+import com.google.gson.Gson;
 import xyz.sunnytoday.service.face.MemberService;
 import xyz.sunnytoday.service.impl.MemberServiceImpl;
 
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/find")
 public class FindAccountInfoController extends HttpServlet {
@@ -23,6 +25,10 @@ public class FindAccountInfoController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        final PrintWriter writer = resp.getWriter();
+        writer.write(new Gson().toJson(memberService.findAccountInfo(req)));
     }
 }

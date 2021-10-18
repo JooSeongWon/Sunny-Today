@@ -10,8 +10,8 @@ const userId = document.querySelector('.userid');
 const TYPE_ID = 0;
 const TYPE_PW = 1;
 
-btnPw.addEventListener('click',() => request(TYPE_PW));
-btnId.addEventListener('click',() => request(TYPE_ID));
+if(btnId === null) btnPw.addEventListener('click',() => request(TYPE_PW));
+if(btnPw === null) btnId.addEventListener('click',() => request(TYPE_ID));
 
 
 function request(type) {
