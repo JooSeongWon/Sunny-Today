@@ -6,11 +6,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.common.Paging;
-import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
-import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
+import xyz.sunnytoday.dto.Report;
 
 public interface BoardService {
 
@@ -177,6 +176,20 @@ public interface BoardService {
 	 * @param userno - 댓글 작성자
 	 */
 	public void insertComment(Post post_no, String comments, int userno);
+
+	/**
+	 * 보드의 세부정보를 요청
+	 * @param param - 요청할 보드의 정보객체 post
+	 * @param param2 - 요청할 보드의 정보객체 comments
+	 * @return - 조회된 보드의 세부 정보 리스트
+	 */
+	public List<Map<String, Object>> boardDetail(Post param, Comments param2);
+
+	/**
+	 * 신고테이블에 해당 신고글 등록
+	 * @param param - report dto 객체 
+	 */
+	public void insertReport(Report param);
 
 
 

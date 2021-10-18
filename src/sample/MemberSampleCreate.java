@@ -27,9 +27,9 @@ public class MemberSampleCreate extends HttpServlet {
 
 
 
-            String userId = ""; //사용하실 유저아이디 4~20글자 사이
-            String userPw = ""; //사용하실 비밀번호 8~20글자 사이
-            String nick = ""; //사용하실 닉네임 중복불가!
+            String userId = "koko4916"; //사용하실 유저아이디 4~20글자 사이
+            String userPw = "asdf1234"; //사용하실 비밀번호 8~20글자 사이
+            String nick = "son"; //사용하실 닉네임 중복불가!
 
 
 
@@ -43,7 +43,7 @@ public class MemberSampleCreate extends HttpServlet {
             member.setUserpw(CipherUtil.encodeSha256(userPw, member.getSalt()));
             member.setNick(nick);
             member.setEmail(UUID.randomUUID().toString().substring(8) + "@" + UUID.randomUUID().toString().substring(4));
-            member.setPhone("00000000000");
+            member.setPhone("01075277225");
             member.setBirth(new Date());
             member.setGender("A");
 

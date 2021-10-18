@@ -59,3 +59,31 @@ const enterLogin = e => {
 
 originBtn.addEventListener('keydown', enterLogin)
 userPw.addEventListener('keydown', enterLogin);
+
+
+//소셜 로그인
+const naverBtn = document.querySelector('#buttons__naver');
+const googleBtn = document.querySelector('#buttons__google');
+
+naverBtn.addEventListener('click', () => socialLogin('naver'));
+googleBtn.addEventListener('click', () => socialLogin('google'));
+
+function socialLogin(provider) {
+    $.ajax({
+        type: 'POST',
+        url: contextPath + 'login',
+        data: encodeAllData({type: 'social', provider: provider}),
+        dataType: 'json',
+        success: socialLoginCallBack,
+        error: errorCallBack
+    });
+}
+
+function socialLoginCallBack(data) {
+    if (!data.result) {
+        showModal('로그인 실패', data.msg);
+        return;
+    }
+    //소셜 로그인 페이지로 리다이렉트
+    location.href = data.msg;
+}

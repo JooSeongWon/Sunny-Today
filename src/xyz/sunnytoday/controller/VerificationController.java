@@ -1,6 +1,7 @@
 package xyz.sunnytoday.controller;
 
-import xyz.sunnytoday.common.config.AppConfig;
+import xyz.sunnytoday.service.face.VerificationService;
+import xyz.sunnytoday.service.impl.VerificationServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +12,21 @@ import java.io.IOException;
 
 @WebServlet("/verification")
 public class VerificationController extends HttpServlet {
+
+    VerificationService verificationService = new VerificationServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("req.getParameter(\"join\") = " + req.getParameter("join"));
-        System.out.println("AppConfig.getTemporaryMemberRepo().getMember(req.getParameter(\"join\")) = " + AppConfig.getTemporaryMemberRepo().getMember(req.getParameter("join")));
-
-        resp.sendRedirect(req.getContextPath());
+        //회원가입 인증
+        if (req.getParameter("join") != null) {
+            if (verificationService.verifyEmailForMemberJoin(req)) {//가입성공
+                req.getRequestDispatcher("/WEB-INF/views/user/member/join-complete.jsp").forward(req, resp);
+                return;
+            }
+        }
+        
+        //인증실패
+        req.getRequestDispatcher("/WEB-INF/views/user/verification/fail.jsp").forward(req, resp);
     }
 }
