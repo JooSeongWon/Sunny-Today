@@ -22,13 +22,13 @@ public class CostumeDaoImpl implements CostumeDao {
 		
 		String sql = "";
 		
-		sql += "SELECT costume_no, min_temperatures, max_temperatures, type, gender, file_no";
+		sql += "SELECT costume_no, min_temperatures, max_temperatures, type, gender, file_no, TITLE";
 		sql += " FROM costume";
 		sql += " WHERE min_temperatures <= ? and max_temperatures >= ?";
 		
 		//결과 저장할 List
 		List<Costume> costumeList = new ArrayList<>();
-		
+
 		try {
 			ps = conn.prepareStatement(sql); //SQL수행 객체
 			ps.setInt(1, temperatures);
@@ -47,6 +47,7 @@ public class CostumeDaoImpl implements CostumeDao {
 				c.setType( rs.getString("type") );
 				c.setGender( rs.getString("gender") );
 				c.setFile_no( rs.getInt("file_no") );
+				c.setTitle(rs.getString("title"));
 				
 				//리스트에 결과값 저장
 				costumeList.add(c);

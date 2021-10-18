@@ -316,11 +316,19 @@
 
 .card__body {
     height: 180px;
+    padding: 16px;
+    color: #7a7a7a;
+    font-size: var(--font-small);
+    text-align: center;
 }
 
 .card__forecast {
     font-size: var(--font-micro);
     color: var(--color-light-grey);
+}
+
+.fa-eye {
+    color: var(--color-green);
 }
 
 /* best posts */

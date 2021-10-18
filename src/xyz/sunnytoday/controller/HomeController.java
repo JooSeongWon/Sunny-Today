@@ -2,10 +2,15 @@ package xyz.sunnytoday.controller;
 
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.Forecast;
+import xyz.sunnytoday.dto.Schedule;
+import xyz.sunnytoday.service.face.CostumeService;
 import xyz.sunnytoday.service.face.ForecastService;
 import xyz.sunnytoday.service.face.GeoLocationService;
+import xyz.sunnytoday.service.face.ScheduleService;
+import xyz.sunnytoday.service.impl.CostumeServiceImpl;
 import xyz.sunnytoday.service.impl.ForecastServiceImpl;
 import xyz.sunnytoday.service.impl.GeoLocationServiceImpl;
+import xyz.sunnytoday.service.impl.ScheduleServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,7 +20,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 
 @WebServlet(
         urlPatterns = "/main",
@@ -23,8 +32,12 @@ import java.util.List;
 )
 public class HomeController extends HttpServlet {
 
+    private final ScheduleService scheduleService = new ScheduleServiceImpl();
+    private final CostumeService costumeService = new CostumeServiceImpl();
+
     private GeoLocationService geoLocationService;
     private ForecastService forecastService;
+
 
     /*
      * AppConfig class의 lifecycle을 Servlet lifecycle과 맞춘다.
@@ -95,8 +108,32 @@ public class HomeController extends HttpServlet {
             super.doGet(req, resp);
             return;
         }
-
         req.setAttribute("mForecast", mediumTermForecast);
+
+        //스케쥴
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        int today = Integer.parseInt(simpleDateFormat.format(new Date()));
+        int lastDay = Integer.parseInt(mediumTermForecast.get(mediumTermForecast.size() - 1).getBaseDate());
+        Stack<Schedule> scheduleStack = new Stack<>();
+
+
+        if (req.getSession().getAttribute("userno") != null) {
+            for (int i = lastDay; i > today; i--) {
+                Schedule temp = new Schedule();
+                try {
+                    temp.setSchedule_date(simpleDateFormat.parse(Integer.toString(i)));
+                    temp.setUser_no((Integer) req.getSession().getAttribute("userno"));
+                } catch (ParseException e) {
+                    System.out.println("[ERROR]치명적! 발생해서는 안되는 날짜 파싱에러 - 홈 컨트롤러");
+                }
+                final Schedule schedule = scheduleService.selectSameSchedule(temp);
+                if (schedule.getTitle() != null) {
+                    scheduleStack.push(schedule);
+                }
+            }
+        }
+        req.setAttribute("scheduleStack", scheduleStack);
+
         req.getRequestDispatcher("/WEB-INF/views/user/home/home.jsp").forward(req, resp);
     }
 }

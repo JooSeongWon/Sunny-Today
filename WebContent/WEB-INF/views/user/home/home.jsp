@@ -3,6 +3,8 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="xyz.sunnytoday.common.repository.Forecast" %>
+<%@ page import="java.util.Stack" %>
+<%@ page import="xyz.sunnytoday.dto.Schedule" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -183,6 +185,8 @@
             <%
                 pageContext.setAttribute("shortEnd", shortEnd);
 
+                Stack<Schedule> scheduleStack = (Stack<Schedule>) request.getAttribute("scheduleStack");
+
                 //중기예보 사용 포맷
                 SimpleDateFormat monthFormat = new SimpleDateFormat("MMM");
                 SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
@@ -203,6 +207,18 @@
                         } else {
                             addClass = "";
                         }
+
+                        Schedule schedule = null;
+                        if (!scheduleStack.empty()) {
+                            schedule = scheduleStack.peek();
+
+                            int scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                            if (Integer.parseInt(dateFormat.format(calendar.getTime())) == scheduleDate) {
+                                scheduleStack.pop();
+                            } else {
+                                schedule = null;
+                            }
+                        }
                     %>
                     <div class="schedule-card">
                         <div class="card__wrap">
@@ -213,9 +229,21 @@
                                 <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
                                 </div>
                                 <div class="card__holiday-title"></div>
-                                <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                                <div class="card__modify">
+                                    <%if (schedule != null) {%>
+                                    <a href="${pageContext.request.contextPath}/schedule/view?date=<%=schedule.getSchedule_date()%>"><i
+                                            class="fas fa-eye"></i></a>
+                                    <%} else {%>
+                                    <a href="${pageContext.request.contextPath}/schedule/write"><i
+                                            class="fas fa-pencil-alt"></i></a>
+                                    <%}%>
+                                </div>
                             </div>
-                            <div class="card__body"></div>
+                            <div class="card__body">
+                                <%if (schedule != null) {%>
+                                <%=schedule.getTitle()%>
+                                <%}%>
+                            </div>
                             <div class="card__bottom">
                                 <c:choose>
                                     <c:when test="${requestScope.sForecast[i].weather eq '맑음'}">
@@ -274,6 +302,20 @@
                     } else {
                         addClass = "";
                     }
+
+                    Schedule schedule = null;
+                    if (!scheduleStack.empty()) {
+                        schedule = scheduleStack.peek();
+
+                        int scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                        if (Integer.parseInt(dateFormat.format(calendar.getTime())) == scheduleDate) {
+                            scheduleStack.pop();
+                        } else {
+                            schedule = null;
+                        }
+                    }
+
+
                 %>
                 <div class="schedule-card">
                     <div class="card__wrap">
@@ -283,9 +325,21 @@
                             <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
                             </div>
                             <div class="card__holiday-title"></div>
-                            <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                            <div class="card__modify">
+                                <%if (schedule != null) {%>
+                                <a href="${pageContext.request.contextPath}/schedule/view?date=<%=schedule.getSchedule_date()%>"><i
+                                        class="fas fa-eye"></i></a>
+                                <%} else {%>
+                                <a href="${pageContext.request.contextPath}/schedule/write"><i
+                                        class="fas fa-pencil-alt"></i></a>
+                                <%}%>
+                            </div>
                         </div>
-                        <div class="card__body"></div>
+                        <div class="card__body">
+                            <%if (schedule != null) {%>
+                            <%=schedule.getTitle()%>
+                            <%}%>
+                        </div>
                         <div class="card__bottom">
                             <c:choose>
                                 <c:when test="${requestScope.mForecast[i].weather eq '맑음'}">
