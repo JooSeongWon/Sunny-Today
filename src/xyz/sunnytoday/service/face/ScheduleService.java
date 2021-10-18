@@ -19,7 +19,7 @@ public interface ScheduleService {
 	public Schedule setSchedule(HttpServletRequest req);
 	
 	/**
-	 * 유저 ID에 맞는 일정 리스트 가져오기
+	 * 유저 user_no에 맞는 일정 리스트 가져오기
 	 * 
 	 * @param schedule
 	 * @return List<Schedule>

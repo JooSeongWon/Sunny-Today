@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -125,17 +126,23 @@ public class ScheduleViewController extends HttpServlet {
 					
 				}
 			}
-			
+						
 			Random random = new Random();
 			
 			//랜덤으로 fileList Thumbnail_url을 보내기 위한 설정
 			int ranInt = random.nextInt(fileList.size());
 			
-			System.out.println(forecast.get(listNum).getWeather());
+			LocalDate todaysDate = LocalDate.now();
+			
+			System.out.println(todaysDate);
+			System.out.println(schedule.getSchedule_date());
+			
+			schedule.getSchedule_date();
 			
 			req.setAttribute("schedule", schedule);
 			req.setAttribute("material", material);
 			req.setAttribute("friend", friend);
+			
 			req.setAttribute("weather", forecast.get(listNum).getWeather());
 			req.setAttribute("rain", forecast.get(listNum).getChanceOfRain());
 			req.setAttribute("temperature", forecast.get(listNum).getTemperature());

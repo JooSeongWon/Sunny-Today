@@ -3,10 +3,17 @@
 <%@ page import="xyz.sunnytoday.dto.Material"%>
 <%@ page import="xyz.sunnytoday.dto.Friend"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Calendar" %>
+
 <% 
 
 List<Material> materialList = (List) request.getAttribute("material"); 
-List<Friend> friendList = (List) request.getAttribute("friend"); 
+List<Friend> friendList = (List) request.getAttribute("friend");
+
+int rain = (Integer) request.getAttribute("rain");
+
+Calendar cal = Calendar.getInstance();
+String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >= 20 ? "moon" : "sun";
 
 %>
 <!doctype html>
@@ -131,13 +138,17 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 	    <div id="schedule_weather">
 	    	
 		    <div id="weather">
-		    	
+		    
 				<%
 				
-					if(request.getAttribute("weather") == "맑음") {
-						out.print("맑음");
+					if(request.getAttribute("weather").equals("맑음")) {
+						out.print("<i style='font-size: 95px;' class='fas fa-" + pm + "'></i>");
+					} else if(request.getAttribute("weather").equals("구름많음")) {
+						if(rain >= 40) {
+							out.print("<i style='font-size: 95px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+						}
 					} else {
-						out.print("맑지 않음");
+						out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
 					}
 				
 				
@@ -154,15 +165,13 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 		    	
 	    	<div style="width: 100%; height: 50px;">
 	    	
-		    	날씨 / 옷<br>
-		    	
 		    	일정 날씨 ${weather } / 강수 확률 ${rain }% / 온도 ${temperature }
 		    	
 	    	</div>
 	    
 	    </div>
 	    
-	   		<button type="button" id="goList" class="btn" onclick="location.href='<%=request.getContextPath() %>/schedule'">목록으로</button>
+	   	<button type="button" id="goList" class="btn" onclick="location.href='<%=request.getContextPath() %>/schedule'">목록으로</button>
 	   		
 	</div>
 	
@@ -191,7 +200,7 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 			
 		</div>
 		
-	    	<p style="font-weight: bold;">함께하는 친구</p>
+	    <p style="font-weight: bold;">함께하는 친구</p>
 	    	
 	    <div class="side_rigth_box">
 	    
@@ -208,7 +217,7 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 	    
 	    </div>
 	    
-	    	<p style="font-weight: bold;">준비물</p>
+	    <p style="font-weight: bold;">준비물</p>
 	    	
 	    <div class="side_rigth_box">
 	    
@@ -225,12 +234,12 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 			%>
 		</div>
 		
-			<div id="schedule_memo">
+		<div id="schedule_memo">
 			
 				${schedule.memo }
 				
-			</div>
-		
+		</div>
+			
 	</div>
 
 </div>
