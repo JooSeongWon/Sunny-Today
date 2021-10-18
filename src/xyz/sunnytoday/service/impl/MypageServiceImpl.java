@@ -24,6 +24,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.CipherUtil;
+import xyz.sunnytoday.common.util.ThumbnailMaker;
 import xyz.sunnytoday.dao.face.MypageDao;
 import xyz.sunnytoday.dao.impl.MypageDaoImpl;
 import xyz.sunnytoday.dto.File;
@@ -37,7 +38,7 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public Member selectMember(int userno) {
     	Connection conn = JDBCTemplate.getConnection();
-    	
+    	    	
     	//userno로 맴버 추출
     	Member member = mypageDao.selectMemberByUserno(conn, userno);
     	
@@ -100,9 +101,11 @@ public class MypageServiceImpl implements MypageService {
     	
     	//유저 정보 DTO 객체
     	Member member = null;
-    	
     	//사진파일 정보 DTO 객체
     	File file = null;
+    	
+		//DB연결 객체
+		Connection conn = JDBCTemplate.getConnection();
     	
 		//파일업로드 형태의 데이터가 맞는지 검사
 		boolean isMultipart = false;
@@ -110,7 +113,6 @@ public class MypageServiceImpl implements MypageService {
 		
 		if( !isMultipart ) {
 			System.out.println("[ERROR] multipart/form-data 형식이 아님");
-			
 			return; //write() 메소드 중단
 		}
 		
@@ -123,16 +125,13 @@ public class MypageServiceImpl implements MypageService {
 		factory.setSizeThreshold(1 * 1024 * 1024); //1MB
 
 		//임시 저장소 설정
-//		File repository = new File(req.getServletContext().getRealPath("tmp"));
-//		repository.mkdir(); //임시 저장소 폴더 생성
-//		factory.setRepository(repository); //임시 저장소 폴더 지정
-		
-		
+		java.io.File repository = new java.io.File(req.getServletContext().getRealPath("tmp"));
+		repository.mkdir(); //임시 저장소 폴더 생성
+		factory.setRepository(repository); //임시 저장소 폴더 지정
 		
 		
 		//파일업로드 객체 생성
 		ServletFileUpload upload = new ServletFileUpload(factory);
-
 		//업로드 용량 제한
 		upload.setFileSizeMax(10 * 1024 * 1024); //10MB
 		
@@ -149,8 +148,6 @@ public class MypageServiceImpl implements MypageService {
 
 		while( iter.hasNext() ) { //모든 요청 정보 처리
 			FileItem item = iter.next();
-
-			
 			
 			//--- 1) 빈 파일에 대한 처리 ---
 			if( item.getSize() <= 0 ) {
@@ -163,7 +160,6 @@ public class MypageServiceImpl implements MypageService {
 				String key = item.getFieldName();
 				//값 추출하기
 				String value = null;
-				
 				try {
 					value = item.getString("UTF-8");
 				} catch (UnsupportedEncodingException e1) {
@@ -198,18 +194,20 @@ public class MypageServiceImpl implements MypageService {
 			String uid = uuid.toString().split("-")[0]; //8자리 uuid
 			
 			//로컬 저장소의 업로드 폴더
-//			File upFolder = new File(req.getServletContext().getRealPath("upload"));
-//			upFolder.mkdir(); //폴더 생성
-//			
-//			//업로드 파일 객체
-//			String origin = item.getName(); //원본파일명
-//			String stored = origin + "_" + uid; //원본파일명_uid
-//			File up = new File(upFolder, stored);
-//			
+			java.io.File upFolder = new java.io.File(req.getServletContext().getRealPath("upload"));
+			upFolder.mkdir(); //폴더 생성
 			
+			//업로드 파일 객체
+			String origin = item.getName(); //원본파일명
+			int dotIndex = origin.lastIndexOf(".");
+			String extention = origin.substring(dotIndex);
+			String stored = origin.substring(0, dotIndex) + "_" + uid + extention; //원본파일명_uid
+			java.io.File up = new java.io.File(upFolder, stored);
 			
+			String thumbnail = null;
 			try {
-//				item.write(up); //실제 업로드(임시파일을 최종결과파일로 생성함)
+				item.write(up); //실제 업로드(임시파일을 최종결과파일로 생성함)
+				thumbnail = ThumbnailMaker.makeThumbnail(stored, req.getServletContext().getRealPath("upload"), 40, 40); 
 				item.delete(); //임시파일을 삭제
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -217,15 +215,14 @@ public class MypageServiceImpl implements MypageService {
 			
 			//업로드된 파일의 정보 저장
 			file = new File();
-//			file.setOrigin_name(origin);
-			file.setUrl(req.getServletContext().getRealPath("upload"));
-//			file.setThumbnail_url(req.getServletContext().getRealPath("upload")+stored);
+			file.setOrigin_name(origin);
+			file.setUrl(stored);
+			file.setThumbnail_url(thumbnail);
 			
 		} //if( !item.isFormField() ) end
 	} //while( iter.hasNext() ) end
 
-		//DB연결 객체
-		Connection conn = JDBCTemplate.getConnection();
+		int file_no = mypageDao.selectNextFile_no(conn);
 		
 		//유저 정보가 있을 경우
 		if(member != null) {
@@ -247,8 +244,10 @@ public class MypageServiceImpl implements MypageService {
 		if(file != null) {
 			
 			file.setUser_no(member.getUserno()); //유저 번호 입력 (FK)
+			file.setFile_no(file_no);
+			member.setPictureno(file_no);
 			
-//			if( mypageDao.insertFile(conn, file) > 0 ) {
+			if( mypageDao.insertFile(conn, file) > 0 && mypageDao.insertPicture(conn, member) > 0 ) {
 				JDBCTemplate.commit(conn);
 			} else {
 				JDBCTemplate.rollback(conn);
@@ -256,32 +255,125 @@ public class MypageServiceImpl implements MypageService {
 		}
 		
 		
-//		JDBCTemplate.close(conn);
-//    }
+		JDBCTemplate.close(conn);
+    }
     
     @Override
-    public boolean checkPassword(HttpServletRequest req) {
+    public File selectProfile(Member member) {
     	Connection conn = JDBCTemplate.getConnection();
     	
-    	boolean user = false;
+    	File profile = mypageDao.selectFile(conn, member);
     	
-    	String userId = req.getParameter("userId");
-    	String userPw = req.getParameter("userPw");
+		JDBCTemplate.close(conn);
     	
-    	Member member = new Member();
+    	return profile;
+    }
+    
+    @Override
+    public int checkPassword(HttpServletRequest req) {
+    	Connection conn = JDBCTemplate.getConnection();
     	
-    	member = mypageDao.getsalt(userId, conn);
+    	int res = 0;
     	
-    	if((!CipherUtil.encodeSha256(userPw, member.getSalt()).equals(member.getUserpw()))) {
-    		user = false;
+    	String userId = req.getParameter("userid");
+    	String userPw = req.getParameter("userpw");
+    	
+    	if(userPw != null && !"".equals(userPw)){
+    		Member member = new Member();
+    		member = mypageDao.getsalt(userId, conn);
+    		if(!CipherUtil.encodeSha256(userPw, member.getSalt()).equals(member.getUserpw())) {
+    			res = 1;
+    		} 
     	} else {
-    		user = true;
+			res = 2;
+		}
+    	JDBCTemplate.close(conn);
+    	
+    	return res;
+    }
+    
+    
+    @Override
+    public int updatePw(HttpServletRequest req, int userno) {
+    	Connection conn = JDBCTemplate.getConnection();
+    	String userPw = req.getParameter("password");
+    	Member member = new Member();
+    	member = mypageDao.getsalt(userno, conn);
+    	String newpw = CipherUtil.encodeSha256(userPw, member.getSalt());
+    	
+    	int res = mypageDao.insertPw(userno, conn , newpw);
+    	
+    	if( res > 0 ) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+			JDBCTemplate.rollback(conn);
+		}
+    	
+    	JDBCTemplate.close(conn);
+    	return res;
+    }
+    
+    @Override
+    public void delMember(int userno) {
+    	Connection conn = JDBCTemplate.getConnection();
+    	
+    	if( mypageDao.messageTo(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.messageFrom(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.ban(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.comments(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.post(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.privateQ(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.schedule(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.report(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.target(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.admin(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
+    	}
+    	if( mypageDao.deleteMember(userno,conn) > 0) {
+    		JDBCTemplate.commit(conn);
+    	} else {
+    		JDBCTemplate.rollback(conn);
     	}
     	
     	JDBCTemplate.close(conn);
-    	
-    	return user;
     }
-    
  
 }

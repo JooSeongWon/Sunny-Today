@@ -15,12 +15,12 @@ $(document).ready(function() {
 	});
 
 	$("#btnUpdate").click(function() {
-		$(location).attr("href", "/admin/message/update?no=${message.message_e_no }");
+		$(location).attr("href", "<%=request.getContextPath() %>/admin/message/update?no=${message.message_e_no }");
 	});
 	
 	$("#btnDelete").click(function() {
 		if( confirm("쪽지를 삭제하시겠습니까?") ) {
-			$(location).attr("href", "/admin/message/delete?no=${message.message_e_no }");
+			$(location).attr("href", "<%=request.getContextPath() %>/admin/message/delete?no=${message.message_e_no }");
 		}
 	});
 	

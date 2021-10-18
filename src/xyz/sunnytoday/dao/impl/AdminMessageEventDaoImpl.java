@@ -459,5 +459,42 @@ public class AdminMessageEventDaoImpl implements AdminMessageEventDao {
 	      
 	      return elist;
 	}
+	@Override
+	public int delMessage(int event, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE MESSAGE_EVENT"
+				+ " WHERE EVENT_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, event );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}
+	@Override
+	public int delEvent(int event, Connection conn) {
+		PreparedStatement ps = null;
+		String sql = ""
+				+ "DELETE EVENT"
+				+ " WHERE EVENT_NO = ?";
+		int result = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, event );
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(ps);
+		}
+		return result;
+	}
+
 	
 }

@@ -101,4 +101,7 @@ public interface AdminMessageEventService {
 	 */
 	public void titleWrite(HttpServletRequest req);
 
+
+	public void deleEvent(HttpServletRequest req);
+
 }

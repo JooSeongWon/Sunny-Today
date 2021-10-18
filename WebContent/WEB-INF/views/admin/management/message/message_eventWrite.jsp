@@ -56,7 +56,7 @@ $(document).ready(function() {
 <div class="col-md-11">
 
 
-<form action="/admin/message/event/write" method="post">
+<form action="<%=request.getContextPath() %>/admin/message/event/write" method="post">
 <table class="table table-bordered">
 <tr>
 <td class="active">분류명</td>

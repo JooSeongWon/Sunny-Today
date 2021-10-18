@@ -12,7 +12,9 @@
     
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/mypage_style.css" rel="stylesheet">
-    <script src="${jsPath}/mypage_script.js"></script>
+    <script src="${jsPath}/mypage_script2.js"></script>
+    
+
     
 </head>
 <body>
@@ -26,56 +28,42 @@
 
 <div class="mypage">
 	<ul class="mypage_list">
-		<a href="<%=request.getContextPath() %>/mypage">
+		<a href="<%=request.getContextPath() %>/mypage/profile">
 			<li class="mypage_item" >프로필 수정</li>
-		</a>
-		<a href="<%=request.getContextPath() %>/mypage/taste">
-			<li class="mypage_item" >추가정보수정</li>
 		</a>
 		<a href="<%=request.getContextPath() %>/mypage/password">
 			<li class="mypage_item" >비밀번호 변경</li>
 		</a>
-		<a href="<%=request.getContextPath() %>/mypage/leaveid">
+		<a href="<%=request.getContextPath() %>/mypage/password/check">
 			<li class="mypage_item" >회원탈퇴</li>
 		</a>
 	</ul>
 	
 	<div class="profile-container">
 	
-	<form action="/mypage" method="post" class="profile_form">
-	<table class="profile_table">
+	<div class="profile_form" >
+	<table class="profile_table" style="margin-top: 80px">
 		<tr class="profile_list">
-			<td colspan="2" class="profile_item">
-				<div class="profile-img">프로필사진</div>
-			</td>
+		<c:if test="${not empty member.password }">
+			<td class="profile_item" >비밀번호 등록</td>
+			<td class="profile_item" ><input type="password" class="profile-setting" name="newPassword" id="newPassword" placeholder="8~20자 이내"/></td>
+		</c:if>
 		</tr>
 		<tr class="profile_list">
-			<td class="profile_item" >닉네임</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="nick"/></td>
-			<td class="profile_item" ><input type="button" id="btn-check" value="중복검사"/></td>
+		<c:if test="${empty member.password }">
+			<td class="profile_item" >비밀번호</td>
+			<td class="profile_item" ><input type="password" class="profile-setting" name="password" id="password" placeholder="8~20자 이내" /></td>
+		</c:if>
 		</tr>
 		<tr class="profile_list">
-			<td class="profile_item" >전화번호</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="phone"/></td>
-			<td class="profile_item" >
-			<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-phone"/>
-				<span class="slider round"></span>
-			</label>
-			</td>
+			<td class="profile_item" >비밀번호확인</td>
+			<td class="profile_item" ><input type="password" class="profile-setting" name="passwordcheck" id="passwordcheck"/></td>
 		</tr>
 		<tr class="profile_list">
-			<td class="profile_item" >생년월일</td>
-			<td class="profile_item" ><input type="text" class="profile-setting" name="birth"/></td>
-			<td class="profile_item" >
-				<label class="switch">
-				<input type="checkbox" class="btn-toggle" id="btn-private-birth"/>
-				<span class="slider round"></span>
-			</label>
-			</td>
+			<td class="profile_item" colspan="2" ><button type="button" class="buttonClass" id="btn">비밀번호변경</button></td>
 		</tr>
 	</table>
-	</form>
+	</div>
 	</div>
 </div>
 </div>

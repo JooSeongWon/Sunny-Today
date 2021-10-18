@@ -12,9 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebFilter(urlPatterns = {"/message/*", "/logout", "/messagesend", "/mypage/*" , "/schedule/*"})
-public class NoLoginFilter implements Filter {
+@WebFilter(urlPatterns = {"/admin/*"} ) 
+public class NoAdminFilter implements Filter {
 
 	    @Override
 	    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -22,7 +21,7 @@ public class NoLoginFilter implements Filter {
 	        filterChain.doFilter(servletRequest, servletResponse);
 	    }
 
-	    //로그인 안된 상태 체크
+	    //로그인 안된 상태 체크 + 권한체크
 	    public boolean isLoggedIn(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	        if (req.getSession().getAttribute("userno") == null) {
 	            resp.setContentType("text/html; charset=utf-8");
@@ -35,6 +34,18 @@ public class NoLoginFilter implements Filter {
 	            writer.println("</script>");
 	            return true;
 	        }
+
+	        if( "N".equals(req.getSession().getAttribute("admin") ) ){
+	            resp.setContentType("text/html; charset=utf-8");
+
+	            PrintWriter writer = resp.getWriter();
+	            writer.println("<script>");
+	            writer.println("alert('잘못된 접근입니다')");
+	            writer.print("location.href =\"");
+	            writer.println(req.getContextPath() + "/\";");
+	            writer.println("</script>");
+	            return true;
+    		}
 	        return false;
 	    }
 
