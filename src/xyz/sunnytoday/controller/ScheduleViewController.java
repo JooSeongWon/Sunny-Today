@@ -135,9 +135,6 @@ public class ScheduleViewController extends HttpServlet {
 			//조회한 일정 날짜가 오늘 이전이라면 날씨와 스타일을 조회할 수 없도록 설정
 			LocalDate todaysDate = LocalDate.now();
 			
-			System.out.println(todaysDate);
-			System.out.println(schedule.getSchedule_date());
-			
 			LocalDate localDate = new java.sql.Date(schedule.getSchedule_date().getTime()).toLocalDate();
 			
 			req.setAttribute("schedule", schedule);
