@@ -6,18 +6,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-// 	var target = document.getElementById("authority");
-//     var select = target.options[target.selectedIndex].value);     // 옵션 text 값
-    
-//     if(select == all ){
-//     	alert(this.value);
-//     } else if (select == member){
-//     	M
-//     } else(select == admin) {
-//     	A
-//     }
-    
-	
 	//확인버튼 동작
 	$("#btnOk").click(function() {
 		

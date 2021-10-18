@@ -31,17 +31,17 @@
 
 
 <!-- <div style="background: #BDBDBD;"> -->
-${viewPost}
+<%-- ${viewPost[0].title} --%>
 <table id="tb"class="table table-bordered">
-<%-- <c:forEach items="${allList }" var="item"> --%>
-
+<form action="<%=request.getContextPath() %>/admin/post/view" method="get">
+<input type="hidden" name="postno" id="postno" value="${viewPost.post_no }" />
 <tr>
 	<td class="col-xs-2" height="50px">게시물 제목</td>
 	<td>${viewPost.title }</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">게시글 작성자</td>
-	<td>${viewPost.nick }</td>
+	<td>${nick }</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">작성된 날짜</td>
@@ -59,10 +59,9 @@ ${viewPost}
 <%-- </c:forEach> --%>
 </table>
 
-
 <%-- <button type="button" id="update" class="btn btn-info btn-sm btnUpdate" data-boardNo="${board.board_no}">수정</button> --%>
 <button type="button" id="delete" class="btn btn-danger btn-sm btnCancel" data-boardNo="${board.board_no}">삭제</button>
-
+</form>
 
 
 

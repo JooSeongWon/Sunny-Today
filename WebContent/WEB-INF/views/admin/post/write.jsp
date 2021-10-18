@@ -58,9 +58,11 @@ $(document).ready(function() {
 <tr>
 	<td class="col-xs-2" height="50px">카테고리</td>
 	<td>
-		<select id="categoty" name="btitle">
-			<option value="" selected="selected">자유게시판</option>
-			<option value="" selected="selected">A카테고리</option>
+		<select id="category" name="select">
+    		<option value="daily_clothes" >일상룩</option>
+    		<option value="buying" >지름 게시판</option>
+    		<option value="sharingInfo" >정보공유</option>
+    		<option value="qna" >질문 응답</option>
 		</select>
 	</td>
 </tr>
@@ -75,7 +77,7 @@ $(document).ready(function() {
 </form>
 <tr>
 	<td class="col-xs-2" height="50px">파일 첨부</td>
-	<td><input type="file" name="file" /></td>
+	<td><input type="file" name="file" id="upload"/></td>
 </tr>	
 
 </table>

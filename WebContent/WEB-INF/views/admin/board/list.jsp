@@ -101,14 +101,14 @@ $(document).ready(function() {
 
 <div style="background: #BDBDBD;">
 
-<h2>게시판 검색</h2>
+<!-- <h2>게시판 검색</h2> -->
 
-<select id="search" name="search">
-    <option value="category_name" selected="selected">카테고리명</option>
-</select>
-<input type="text">
-<button type="button" id="btnSearch" class="btn btn-default">검색</button>
-<br>
+<!-- <select id="search" name="search"> -->
+<!--     <option value="category_name" selected="selected">카테고리명</option> -->
+<!-- </select> -->
+<!-- <input type="text"> -->
+<!-- <button type="button" id="btnSearch" class="btn btn-default">검색</button> -->
+<!-- <br> -->
 
 </div>
 <h3>총 게시판 수 :<c:out value="${boardCount}" /></h3>
