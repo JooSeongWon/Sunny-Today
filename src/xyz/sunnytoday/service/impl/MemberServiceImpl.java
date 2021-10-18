@@ -22,7 +22,7 @@ import xyz.sunnytoday.service.face.MailService;
 import xyz.sunnytoday.service.face.MemberService;
 import xyz.sunnytoday.service.face.SocialLoginService;
 
-@SuppressWarnings("RegExpDuplicateCharacterInClass")
+@SuppressWarnings({"RegExpDuplicateCharacterInClass", "BooleanMethodIsAlwaysInverted"})
 public class MemberServiceImpl implements MemberService {
     public static final int INPUT_DATA_TYPE_ID = 0;
     public static final int INPUT_DATA_TYPE_EMAIL = 3;
@@ -55,6 +55,24 @@ public class MemberServiceImpl implements MemberService {
         Member member = null;
         try (Connection connection = JDBCTemplate.getConnection()) {
             member = memberDao.selectByUserIdOrNull(connection, userId);
+
+            //보안 목적 패스워드와 salt는 service에서만 사용하며 controller로 전달하지 않는다.
+            member.setUserpw(null);
+            member.setSalt(null);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return member;
+    }
+
+
+    @Override
+    public Member getMemberByNickOrNull(String nick) {
+        Member member = null;
+        try (Connection connection = JDBCTemplate.getConnection()) {
+            member = memberDao.selectByNickOrNull(connection, nick);
 
             //보안 목적 패스워드와 salt는 service에서만 사용하며 controller로 전달하지 않는다.
             member.setUserpw(null);
@@ -275,6 +293,56 @@ public class MemberServiceImpl implements MemberService {
         return new ResponseMessage(true, "로그인 성공");
     }
 
+    @Override
+    public ResponseMessage findAccountInfo(HttpServletRequest request) {
+        //파라미터 복호화
+        final Map<String, String[]> decryptParams = CipherUtil.getDecryptParams(request);
+
+        //아이디 찾기
+        if(decryptParams == null) return new ResponseMessage(false, "요청이 없습니다.");
+
+        if(decryptParams.get("type")[0].equals("id")) {
+            String email = decryptParams.get("email")[0];
+            if(!isValidEmail(email)) {
+                return new ResponseMessage(false, "이메일 형식이 바르지 않습니다.");
+            }
+
+            // 아이디 메일전송 로직
+            try(Connection connection = JDBCTemplate.getConnection()) {
+                Member member = memberDao.selectByEmailOrNull(connection, email);
+                if(member == null) return new ResponseMessage(false, "가입이력이 없습니다.");
+
+
+
+            } catch (Exception e) {
+                return new ResponseMessage(false, "서버문제로 처리에 실패했습니다.");
+            }
+
+            //비밀번호 찾기
+        } else if (decryptParams.get("type")[0].equals("pw")) {
+            String email = decryptParams.get("email")[0];
+            String userId = decryptParams.get("userId")[0];
+            if(!isValidEmail(email)) {
+                return new ResponseMessage(false, "이메일 형식이 바르지 않습니다.");
+            }
+            if(!isValidId(userId)) {
+                return new ResponseMessage(false, "아이디 형식이 바르지 않습니다.");
+            }
+            
+            //임시 비밀번호 설정 및 전송 로직
+            try(Connection connection = JDBCTemplate.getConnection()) {
+                Member member = memberDao.selectByEmailAndIdOrNull(connection, email, userId);
+                if(member == null) return new ResponseMessage(false, "가입이력이 없습니다.");
+
+
+            } catch (Exception e) {
+                return new ResponseMessage(false, "서버문제로 처리에 실패했습니다.");
+            }
+        }
+
+        return new ResponseMessage(false, "요청을 처리할 수 없습니다.");
+    }
+
     //입력 데이터를 멤버 객체에 넣기
     private void setMember(Member member, Map<String, String[]> params, boolean isSocial) throws ParseException {
         if (!isSocial) {
@@ -348,6 +416,12 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return null;
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[0-9a-zA-Z]([-_]?[0-9a-zA-Z])*@[0-9a-z]([-_.]?[0-9a-z])*\\.[a-z]{2,3}$";
+
+        return Pattern.matches(emailRegex, email);
     }
 
     private boolean isValidId(String userId) {

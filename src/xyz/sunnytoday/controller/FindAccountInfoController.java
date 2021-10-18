@@ -1,5 +1,8 @@
 package xyz.sunnytoday.controller;
 
+import xyz.sunnytoday.service.face.MemberService;
+import xyz.sunnytoday.service.impl.MemberServiceImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +12,9 @@ import java.io.IOException;
 
 @WebServlet("/find")
 public class FindAccountInfoController extends HttpServlet {
+
+    private final MemberService memberService = new MemberServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("find", req.getParameter("target").equals("password") ? "pw" : "id");

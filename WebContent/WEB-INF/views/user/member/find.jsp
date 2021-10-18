@@ -18,14 +18,14 @@
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
-<section class="find active">
+<section id="find" class="find active">
     <c:if test="${requestScope.find eq 'id'}">
         <div class="find__wrap">
             <i class="fas fa-search"></i>
             <h1>아이디 찾기</h1>
             <h3>가입하실때 인증하신 이메일 주소를 입력해주세요.</h3>
             <div class="wrap"><input type="email" class="email input" placeholder="여기에 입력하세요"></div>
-            <div class="button">아이디 찾기</div>
+            <div class="button-id">아이디 찾기</div>
         </div>
     </c:if>
     <c:if test="${requestScope.find eq 'pw'}">
@@ -36,13 +36,13 @@
             <div class="wrap"><input type="text" class="userid input" placeholder="여기에 입력하세요"></div>
             <h3>이메일 주소를 입력해주세요.</h3>
             <div class="wrap"><input type="email" class="email input" placeholder="여기에 입력하세요"></div>
-            <div class="button">비밀번호 찾기</div>
+            <div class="button-pw">비밀번호 찾기</div>
         </div>
     </c:if>
 </section>
 
 
-<section class="find">
+<section class="find complete">
         <div class="find__wrap">
             <i class="fas fa-paper-plane"></i>
             <h1>발송완료!</h1>
