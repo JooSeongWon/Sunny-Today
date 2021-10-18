@@ -21,7 +21,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		List<Board> boardList = boardDao.selectAll(conn);
-		//Board 테이블의 총 게시글 수를 조회한다
 		
 		JDBCTemplate.close(conn);
 		return boardList;
@@ -32,7 +31,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public List<Board> getList(Paging paging) {
 		Connection conn = JDBCTemplate.getConnection();
 
-		//게시글 전체 조회 결과 처리 - 페이징 추가
 		List<Board> getList = boardDao.selectAll(conn, paging);
 		
 		JDBCTemplate.close(conn);
@@ -54,10 +52,8 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			System.out.println("[WARNING] curPage값이 null이거나 비어있습니다");
 		}
 		
-		//Board 테이블의 총 게시글 수를 조회한다
 		int totalCount = boardDao.selectCntAll(conn);
 		
-		//Paging객체 생성
 		Paging paging = new Paging(totalCount, curPage);
 		
 		JDBCTemplate.close(conn);
@@ -85,20 +81,29 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	}
 	
+
+	@Override
+	public int getCntTitle(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int postCntTitle = boardDao.selectCntTitle(conn);
+		JDBCTemplate.close(conn);
+
+		return postCntTitle;
+	}
+
+	
 	@Override
 	public Board getBoardno(HttpServletRequest req) {
-		//boardno를 저장할 객체 생성
+		
 		Board boardno = new Board();
 		
-		//boardno 전달파라미터 검증 - null, ""
 		String param = req.getParameter("board_no");
 		if(param!=null && !"".equals(param)) {
 			
-			//boardno 전달파라미터 추출
 			boardno.setBoard_no( Integer.parseInt(param) );
 		}
 		
-		//결과 객체 반환
 		return boardno;
 	}
 	
@@ -131,7 +136,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		bor.setWrite_grant(req.getParameter("write_grant"));
 //		bor.setIndex(Integer.parseInt(req.getParameter("index")));
 		
-		System.out.println(bor);
+//		System.out.println(bor);
 		
 		Connection conn = JDBCTemplate.getConnection();
 		if( boardDao.insert(conn, bor) > 0 ) {
@@ -164,10 +169,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		Board board = null;
 		
 		board = new Board();	
-		//지금 보시면 req는 가져오는데 여기서 파라미터 넘어온거 꺼내서 보드에 안넣어주고 계세요파라미터넘어온거꺼내는방법
-		//을모르겠네여..
-		
-		//예를들어 input태그 name이 title인 데이터를 가져와볼게요
 		
 		board.setComments_grant(req.getParameter("comments_grant"));
 		board.setLike(req.getParameter("like"));

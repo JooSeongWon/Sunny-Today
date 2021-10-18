@@ -87,7 +87,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 				schedule.setR2(array[1]);
 				
 			} else {
-				schedule.setR2("");
+				schedule.setR2(null);
 			}
 			
 		}

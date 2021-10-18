@@ -1,8 +1,5 @@
 'use strict'
 
-/* 가입 유저 타입 */
-let userType = 'normal';
-
 /* 현재 섹션 */
 const SECTION_TERMS = 0;
 const SECTION_INPUT_DATA = 1;
@@ -158,10 +155,13 @@ function checkData(inputBoxNum) {
             } else {
                 setNotice(true, inputBoxNum, '유효한 비밀번호 입니다.');
             }
-            break;
-
+            if (inputBoxes[INPUT_PW_CK].value.length === 0) {
+                break;
+            }
+            inputBoxNum++;
+        //일부로 떨굼, 비밀번호 확인후 비밀번호 체크 다시한번 확인!
         case INPUT_PW_CK:
-            if (inputBoxes[INPUT_PW].value !== val) {
+            if (inputBoxes[INPUT_PW].value !== inputBoxes[INPUT_PW_CK].value) {
                 setNotice(false, inputBoxNum, '비밀번호가 일치하지 않습니다.');
             } else {
                 setNotice(true, inputBoxNum, '비밀번호가 일치합니다.');
@@ -242,14 +242,17 @@ function checkInput() {
         let isEmpty = false;
 
         //빈칸 체크
-        for (let inputBox of inputBoxes) {
-            if (isEmpty) {
-                break;
+        if (userType === 'normal') {
+            for (let inputBox of inputBoxes) {
+                if (isEmpty) {
+                    break;
+                }
+                if (inputBox.value.length === 0) {
+                    isEmpty = true;
+                }
             }
-            if (inputBox.value.length === 0) {
-                isEmpty = true;
-            }
-        }
+        } else if (inputBoxes[INPUT_NICK].value.length === 0) isEmpty = true;
+
         for (let inputBox of tellInputBoxes) {
             if (isEmpty) {
                 break;
@@ -355,7 +358,14 @@ function join(data, loadingImg) {
     document.querySelector('.button').appendChild(nextBtn);
 
     if (data.result) {
-        doNext();
+        if (userType === 'normal') {
+            doNext();
+            return;
+        }
+        //소셜가입 성공 처리
+        showModal('가입성공!', '모든 서비스 이용이 가능합니다.', () => {
+            location.href = contextPath;
+        });
         return;
     }
 

@@ -100,13 +100,18 @@ public class ForecastRepository {
         List<ForecastWeather> forecastWeathers = this.mediumTermWeathers.get(region.getForecastCode());
         List<ForecastTemperature> forecastTemperatures = this.mediumTermTemperatures.get(region.getTemperatureCode());
 
-        for (int i = 0; i < forecastWeathers.size(); i++) {
-            for (int j = i; j < forecastTemperatures.size(); j++) {
-                if (forecastWeathers.get(i).getBaseDate().equals(forecastTemperatures.get(j).getBaseDate())) {
-                    Forecast forecast = new Forecast(forecastWeathers.get(i), forecastTemperatures.get(j));
-                    list.add(forecast);
+        try {
+            for (int i = 0; i < forecastWeathers.size(); i++) {
+                for (int j = i; j < forecastTemperatures.size(); j++) {
+                    if (forecastWeathers.get(i).getBaseDate().equals(forecastTemperatures.get(j).getBaseDate())) {
+                        Forecast forecast = new Forecast(forecastWeathers.get(i), forecastTemperatures.get(j));
+                        list.add(forecast);
+                    }
                 }
             }
+        }catch (NullPointerException e) {
+            System.out.println("[WARNING] 아직 중기예보 업데이트가 실시되지 않았습니다.");
+            return null;
         }
 
         return list;

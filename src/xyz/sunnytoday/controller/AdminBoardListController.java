@@ -29,7 +29,6 @@ public class AdminBoardListController extends HttpServlet {
 
 		Paging paging = boardService.getPaging(req);
 		
-		//게시글 전체 조회
 //		List<Board> boardList = boardService.getList();
 		
 		List<Board> boardList = boardService.getList(paging);
@@ -38,16 +37,17 @@ public class AdminBoardListController extends HttpServlet {
 		
 		int titleCount = boardService.getTitleCount(req);
 		
-		//조회결과 MODEL값 전달
+		int postCntTitle = boardService.getTitleCount(req);
+		
 		req.setAttribute("boardList", boardList);
 		
-		//페이징 정보 MODEL값 전달
 		req.setAttribute("paging", paging);
 		
-		//총게시판 수 MODEL값 전달
 		req.setAttribute("boardCount", boardCount);
 
 		req.setAttribute("titleCount", titleCount);
+		
+		req.setAttribute("postCntTitle", postCntTitle);
 		
 		req.getRequestDispatcher("/WEB-INF/views/admin/board/list.jsp")
 		.forward(req, resp);

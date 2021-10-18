@@ -1,6 +1,5 @@
 package xyz.sunnytoday.service.face;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ public interface ScheduleService {
 	public Schedule setSchedule(HttpServletRequest req);
 	
 	/**
-	 * 유저 ID에 맞는 일정 리스트 가져오기
+	 * 유저 user_no에 맞는 일정 리스트 가져오기
 	 * 
 	 * @param schedule
 	 * @return List<Schedule>
@@ -68,17 +67,18 @@ public interface ScheduleService {
 	public void insertSchedule(Schedule schedule);
 	
 	/**
+	 * 입력한 준비물을 DB에 insert
 	 * 
-	 * 
-	 * @param material
+	 * @param req
+	 * @param material - 입력한 material DTO
 	 */
 	public void insertMaterial(HttpServletRequest req, Material material);
 	
 	/**
-	 * 
+	 * 입력한 친구를 DB에 insert
 	 * 
 	 * @param req
-	 * @param friend
+	 * @param friend - 입력한 friend DTO
 	 */
 	public void insertFriend(HttpServletRequest req, Friend friend);
 	

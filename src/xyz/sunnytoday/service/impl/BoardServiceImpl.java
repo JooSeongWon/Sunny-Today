@@ -23,10 +23,12 @@ import xyz.sunnytoday.dao.impl.BoardDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
-import xyz.sunnytoday.dto.Like;
+
 import xyz.sunnytoday.dto.Member;
+
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
+import xyz.sunnytoday.dto.Report;
 import xyz.sunnytoday.service.face.BoardService;
 
 public class BoardServiceImpl implements BoardService {
@@ -731,10 +733,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<Map<String, Object>> boardDetail(Post param) {
+	public List<Map<String, Object>> boardDetail(Post param, Comments param2) {
 		Connection conn = JDBCTemplate.getConnection();
 		
-		List<Map<String, Object>> list = boardDao.selectDetail(conn, param);
+		List<Map<String, Object>> list = boardDao.selectDetail(conn, param, param2);
 		
 		JDBCTemplate.close(conn);
 		
@@ -848,5 +850,21 @@ public class BoardServiceImpl implements BoardService {
 		return res;
 	}
 	
-	
+
+	@Override
+	public void insertReport(Report param) {
+		System.out.println("insertReportService called");
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int res = 0;
+		res = boardDao.insertReport(conn, param);
+		if(res == 0) {
+			JDBCTemplate.rollback(conn);
+		}else {
+			JDBCTemplate.commit(conn);
+		}
+		JDBCTemplate.close(conn);
+	}
+
+
 }

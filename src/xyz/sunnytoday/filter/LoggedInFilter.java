@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebFilter(urlPatterns = {"/login", "/join"})
+@WebFilter(urlPatterns = {"/login/*", "/join", "/find"})
 public class LoggedInFilter implements Filter {
 
     @Override

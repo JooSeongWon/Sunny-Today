@@ -23,23 +23,25 @@
     <div class="login-form">
         <div class="login__title">
             <h1>회원 로그인</h1>
-            <a class="join-btn" href="#">회원가입</a>
+            <a class="join-btn" href="${pageContext.request.contextPath}/join">회원가입</a>
         </div>
         <div class="line"></div>
         <div class="data">
             <label for="input-id"><i class="fas fa-user-tag"></i></label>
-            <input id="input-id" class="data__input" name="userId" type="text" maxlength="20" placeholder="아이디" tabindex="1">
+            <input id="input-id" class="data__input" name="userId" type="text" maxlength="20" placeholder="아이디"
+                   tabindex="1">
         </div>
         <div class="data">
             <label for="input-pw"><i class="fas fa-user-lock"></i></label>
-            <input id="input-pw" class="data__input" name="userId" type="password" maxlength="20" placeholder="비밀번호" tabindex="1">
+            <input id="input-pw" class="data__input" name="userId" type="password" maxlength="20" placeholder="비밀번호"
+                   tabindex="1">
         </div>
         <div class="etc">
-            <label class="label-keep"><input type="checkbox" class="input-keep" name="willKeep" value="Y">로그인 유지</label>
             <div class="find">
-                <div class="find__id">아이디 찾기</div>
+                <div class="find__id"><a href="${pageContext.request.contextPath}/find?target=id">아이디 찾기</a></div>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
-                <div class="find__pw">비밀번호 찾기</div>
+                <div class="find__pw"><a href="${pageContext.request.contextPath}/find?target=password">비밀번호 찾기</a>
+                </div>
             </div>
         </div>
 

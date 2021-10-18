@@ -210,7 +210,32 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		
 		return titleCount;	
 	}
-
+	
+	public int selectCntTitle(Connection conn) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = ""
+				+ "SELECT count(*) FROM board"
+				+ " WHERE title = ? ";
+				
+		int Count = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return Count;
+	}
 	@Override
 	public Board selectBoardByBoardno(Connection conn, Board board_no) {
 		PreparedStatement ps = null;

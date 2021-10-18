@@ -1,4 +1,4 @@
-package xyz.sunnytoday.controller;
+	package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 
@@ -29,10 +29,8 @@ public class AdminPostWriteController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-//		작성글 삽입
 		postService.write(req);
 		
-		//목록으로 리다이렉션
 		resp.sendRedirect("/SunnyToday/admin/post/list");
 		
 	}
