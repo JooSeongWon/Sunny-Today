@@ -87,7 +87,7 @@ $(document).ready(function(){
 <% int i =0; %>
 <c:forEach items="${list }" var="member">
 <tr>
-	<td><input type="checkbox" name="cb<%=i %>" class="ab"></td>
+	<td><input type="checkbox" name="cb<%=i %>" value="${member.userno }" class="ab"></td>
 	<td>${member.userno }</td>
 	<td><a href="<%=request.getContextPath() %>/admin/member/view?userno=${member.userno }">${member.userid }</a></td>
 	<td>${member.nick }</td>

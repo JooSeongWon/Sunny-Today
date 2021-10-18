@@ -1,6 +1,7 @@
 package xyz.sunnytoday.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.ReportHandlingDao;
+import xyz.sunnytoday.dto.Ban;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Post;
@@ -31,7 +33,8 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		String sql ="";
 		sql += "SELECT * FROM (";
 		sql +=	" SELECT rownum rnum, R.* FROM(";
-		sql +=		" SELECT ur.report_no, rc.title, m.id, ur.report_date, ur.report_type, m.user_no, ur.execute_result";
+		sql +=		" SELECT ur.report_no, rc.title, m.id, ur.report_date, ur.report_type, ";
+		sql +=		" m.user_no, ur.execute_result, ur.target_no";
 		sql +=		" FROM user_report ur, member m, report_category rc";
 		sql +=		" WHERE m.user_no = ur.user_no and ur.report_c_no = rc.report_c_no";
 		
@@ -78,6 +81,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 				report.setReport_no(rs.getInt("report_no"));
 				report.setReport_date(rs.getDate("report_date"));
 				report.setReport_type(rs.getString("report_type"));
+				report.setTarget_no(rs.getInt("target_no"));
 				report.setExecute_result(rs.getString("execute_result"));
 				
 				report_c.setTitle(rs.getString("title"));
@@ -126,18 +130,27 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		String sql ="";
 		sql += "SELECT * FROM (";
 		sql +=	" SELECT rownum rnum, R.* FROM(";
-		sql +=		" SELECT ur.report_no, rc.title, m.id, m.user_no, ur.report_type,";
-		sql +=		"ur.report_date, ur.detail, ur.memo, ur.execute_result";
-		if(param.getReport_type() != null && !"".equals(param.getReport_type())) {
-			if(param.getReport_type() == "C") {
-				sql +=  	" , cm.content, cm.comment_no ";
-			}else if(param.getReport_type() == "P"){
-				sql +=		", p.post_no, p.content";
-			}
+		sql +=		" SELECT ur.report_no, rc.title, m.id, ur.target_no, m.user_no, ur.report_type,";
+		sql +=		" ur.report_date, ur.detail, ur.memo, ur.execute_result, p.post_no";
+
+		if(param.getReport_type() == "C") {
+			sql +=  	" , cm.content, cm.comments_no ";
+		}else {
+			sql +=		" , p.content";
 		}
-		sql +=		" FROM user_report ur, member m, report_category rc, comments cm, post p";
-		sql +=		" WHERE m.user_no = ur.user_no and ur.report_c_no = rc.report_c_no";
-		sql +=		" and ur.comment_no = cm.comment_no";
+	
+		sql +=		" FROM user_report ur, member m, report_category rc, post p";
+		
+		if(param.getReport_type() == "C") {
+			sql += 		" , comments cm";
+		}
+		
+		sql +=		" WHERE m.user_no = ur.target_no and ur.report_c_no = rc.report_c_no";
+		
+		if(param.getReport_type() == "C") {
+			sql +=		" cm.user_no = m.user_no";
+		}
+		
 		sql +=		" and p.post_no = ur.post_no";	
 		sql +=		" and ur.report_no = ?";
 		sql +=		" ORDER BY report_no DESC";
@@ -165,6 +178,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 				report.setMemo(rs.getString("memo"));
 				report.setReport_type(rs.getString("report_type"));
 				report.setExecute_result(rs.getString("execute_result"));
+				report.setTarget_no(rs.getInt("target_no"));
 				
 				report_c.setTitle(rs.getString("title"));
 				
@@ -175,11 +189,12 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 					comments.setComments_no(rs.getInt("comments_no"));
 					map.put("cm", comments);
 					
-				}else if(param.getReport_type() == "P") {
-					post.setPost_no(rs.getInt("post_no"));
+				}else {
 					post.setContent(rs.getString("content"));
-					map.put("p", post);	
 				}
+				
+				post.setPost_no(rs.getInt("post_no"));
+				map.put("p", post);	
 				
 				map.put("rp", report);
 				map.put("rpc", report_c);
@@ -200,47 +215,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 	}
 
 	@Override
-	public int insertBan(Connection conn, HttpServletRequest req) {
-		System.out.println("insertBan called");
-		String sql = "";
-		sql += "INSERT INTO ban (ban_no, user_no, ban_type, expiry_date, reason)";
-		sql += " VALUES (ban_seq.nextval, ?, ?, sysdate + ?, ?)";
-		int res = 0;
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, Integer.parseInt(req.getParameter("user_no")));
-			if(req.getParameter("Ban_type") == "login") {
-				ps.setString(2, "L");
-			}else {
-				ps.setString(2, "W");
-			}
-			
-			if(req.getParameter("Ban_date") == "1week") {
-				ps.setInt(3, 7);
-			}else if(req.getParameter("Ban_date") == "1month") {
-				ps.setInt(3, 30);
-			}else if(req.getParameter("Ban_date") == "3month") {
-				ps.setInt(3, 90);
-			}else if(req.getParameter("Ban_date") == "1year") {
-				ps.setInt(3, 365);
-			}else{
-				ps.setInt(3, 9999);	
-			}
-			ps.setString(4, req.getParameter("reason"));
-			res = ps.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		
-		return res;
-	}
-	@Override
-	public int insertBan(Connection conn, HttpServletRequest req, Member member) {
+	public int insertBan(Connection conn, Ban ban, Member member) {
 		System.out.println("insertBan called");
 		String sql = "";
 		sql += "INSERT INTO ban (ban_no, user_no, ban_type, expiry_date, reason)";
@@ -249,24 +224,10 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, member.getUserno());
-			if(req.getParameter("Ban_type") == "login") {
-				ps.setString(2, "L");
-			}else {
-				ps.setString(2, "W");
-			}
+			ps.setString(2, ban.getBan_type());
 			
-			if(req.getParameter("Ban_date") == "1week") {
-				ps.setInt(3, 7);
-			}else if(req.getParameter("Ban_date") == "1month") {
-				ps.setInt(3, 30);
-			}else if(req.getParameter("Ban_date") == "3month") {
-				ps.setInt(3, 90);
-			}else if(req.getParameter("Ban_date") == "1year") {
-				ps.setInt(3, 365);
-			}else{
-				ps.setInt(3, 9999);	
-			}
-			ps.setString(4, req.getParameter("reason"));
+			ps.setDate(3, (Date) ban.getExpiry_date());
+			ps.setString(4, "관리자 직접 제재");
 			res = ps.executeUpdate();
 
 		} catch (SQLException e) {
