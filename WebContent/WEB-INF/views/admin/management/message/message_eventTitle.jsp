@@ -8,12 +8,23 @@ $(document).ready(function() {
 	
 	//작성버튼 동작
 	$("#btnWrite").click(function() {
-		$("form").submit();
+		$("#titleEvent").submit();
 	});
 	
 	//취소버튼 동작
 	$("#btnCancel").click(function() {
-		history.go(-1);
+		$(location).attr('href', '<%=request.getContextPath() %>/admin/message/event')
+	});
+
+	//삭제 버튼 동작
+	$("#btnDel").click(function() {
+		var E = $("#event").val();
+		if( E == null ){
+			alert("삭제할 이벤트를 선택해주세요")
+			return
+		} else {
+			$("#delEvent").submit();
+		}
 	});
 	
 });
@@ -30,7 +41,7 @@ $(document).ready(function() {
 <div class="col-md-11">
 
 
-<form action="/admin/message/event/title" method="post">
+<form action="<%=request.getContextPath() %>/admin/message/event/title" id="titleEvent" method="post">
 <table class="table table-bordered">
 <tr>
 <td class="active">분류명</td>
@@ -39,9 +50,26 @@ $(document).ready(function() {
 </table>
 </form>
 
+<form action="<%=request.getContextPath() %>/admin/message/event/view" id="delEvent" method="post">
+<table class="table table-bordered">
+<tr>
+<td class="active">분류명</td>
+<td colspan="2">
+<select name="event" class="form-control" id="event" >
+	<option value="" disabled selected hidden>기본값입니다.</option>
+<c:forEach items="${event }" var="e">
+    <option value="${e.event_no }">${e.name }</option>
+</c:forEach>
+</select>
+</td>
+</tr>
+</table>
+</form>
+
 <div class="text-center">	
 	<button type="button" id="btnWrite" class="btn btn-info">등록</button>
-	<button type="button" id="btnCancel" class="btn btn-danger">취소</button>
+	<button type="button" id="btnDel" class="btn btn-danger">삭제</button>
+	<button type="button" id="btnCancel" class="btn btn-default">취소</button>
 </div>
 
 </div>

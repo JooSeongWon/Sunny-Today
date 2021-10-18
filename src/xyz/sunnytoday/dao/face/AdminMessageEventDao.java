@@ -114,5 +114,9 @@ public interface AdminMessageEventDao {
 
 	public List<MessageEvent> selectByMessageNo(int parseInt, Connection conn);
 
+	public int delEvent(int event, Connection conn);
+
+	public int delMessage(int event, Connection conn);
+
 
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
@@ -34,6 +35,12 @@ public class MypagePasswordCheckController extends HttpServlet {
 		
 		//유저넘버로 유저정보 얻기 - member
 		Member member = mypageService.selectMember(userno);
+		
+		//유저 썸네일 전달
+		File profile = mypageService.selectProfile(member);
+		
+		//썸네일 전달
+		req.setAttribute("profile", profile);
 	
 		//유저정보 전달
 		req.setAttribute("member", member);

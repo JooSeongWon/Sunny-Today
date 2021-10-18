@@ -218,6 +218,26 @@ public class AdminMessageEventServiceImpl implements AdminMessageEventService {
 		JDBCTemplate.close(conn);
 		return elist;
 	}
+	
+	@Override
+	public void deleEvent(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+		String param = req.getParameter("event");
+		int event = Integer.parseInt(param);
+		
+		
+		if( messageDao.delMessage(event, conn) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		if( messageDao.delEvent(event, conn) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+	}
 }
 
 		

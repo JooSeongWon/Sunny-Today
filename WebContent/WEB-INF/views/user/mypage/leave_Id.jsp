@@ -59,7 +59,7 @@ textarea {
 	<div style="text-align: left;" ><h1>&nbsp;&nbsp;회원탈퇴</h1></div>
 	<hr>
 	<div style="text-align: left;" ><span>&nbsp;&nbsp;약관동의</span></div>
-	<form action="/leaveid" method="post" class="profile_form"  enctype="multipart/form-data" >
+	<form action="<%=request.getContextPath() %>/leaveid" method="post" class="profile_form"  enctype="multipart/form-data" >
 	<table class="profile_table">
 		<tr class="profile_list">
 			<td class="profile_item"><textarea readonly id="read"> 제 1 장 총칙
@@ -75,7 +75,7 @@ textarea {
 ④해지 : 회사 또는 회원에 의한 이용계약의 종료</textarea></td>
 		</tr>
 		<tr class="profile_list">
-			<td class="profile_item" ><input type="checkbox" id="btn-check" class="buttonClass"/> 동의</td>
+			<td class="profile_item" ><input type="checkbox" id="btn-check" class="buttonClass"/> 약관사항 확인 및 동의합니다.</td>
 		</tr>
 	</table>
 		<div><button type="button" id="btnsubmit" class="buttonClass">탈퇴하기</button></div>

@@ -44,8 +44,6 @@ public class MypageLeaveIdController extends HttpServlet {
 		//세션 정보(객체) 삭제
 		session.invalidate();
 
-		resp.sendRedirect("/main");
-		
-		
+		resp.sendRedirect("/remove");
 	}
 }

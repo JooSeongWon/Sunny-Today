@@ -33,6 +33,17 @@
 	<div class="profile_form">
 	<table class="profile_table">
 		<tr class="profile_list">
+			<td colspan="2" class="profile_item">
+						<input type="file" id="fileupload" name="imageSelector" accept="image/jpeg, image/jpg, image/png" multiple  >
+				<div class="profile-img" id="profile-img">
+				<img src="/upload/${profile.url }" class="thumb">
+				</div>
+			</td>
+		</tr>
+		<tr class="profile_list" >
+			<td class="profile_item" colspan="2" >${member.nick } 님</td>
+		</tr>
+		<tr class="profile_list">
 			<td class="profile_item" >아이디</td>
 			<td class="profile_item" ><input type="text" name="userid" id="userid" value="${member.userid }" disabled="disabled"></td>
 		</tr>

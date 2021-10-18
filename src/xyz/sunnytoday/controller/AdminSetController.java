@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.AdminMemberService;
+import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.AdminMemberServiceImpl;
+import xyz.sunnytoday.service.impl.MypageServiceImpl;
 import xyz.sunnytoday.util.Paging;
 
 @WebServlet("/admin/set")
@@ -27,10 +29,15 @@ public class AdminSetController extends HttpServlet {
 		//요청파라미터를 전달하여 Paging객체 생성하기
 		Paging paging = memberService.getPaging(req);
 		
+		//로그인 유저 세션의 유저넘버 얻기
+		Object param = req.getSession().getAttribute("admin");
+		String Admin = (String) param;
+		
 		//아이디 조회
 		List<Member> list = memberService.getlist(req, paging);
 		
 		
+		req.setAttribute("Admin", Admin);
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
 		req.getRequestDispatcher("/WEB-INF/views/admin/management/admin_set.jsp").forward(req, resp);

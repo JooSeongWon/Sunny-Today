@@ -37,5 +37,8 @@ public class AdminMessageEventViewController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/admin/message/event/view [POST]");
 		
+		messageService.deleEvent(req);
+		
+		resp.sendRedirect("/admin/message/event/title");
 	}
 }

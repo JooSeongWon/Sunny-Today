@@ -50,7 +50,7 @@
 	
 	<div class="profile-container">
 
-	<form action="/mypage/profile" method="post" class="profile_form" enctype="multipart/form-data" >
+	<form action="<%=request.getContextPath() %>/mypage/profile" method="post" class="profile_form" enctype="multipart/form-data" >
 	<table class="profile_table">
 		<tr class="profile_list">
 			<td colspan="3" class="profile_item">
