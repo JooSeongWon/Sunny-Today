@@ -71,9 +71,9 @@ $(document).ready(function(){
 	<th>정지기간</th>
 </tr>
 </thead>
+<% int i =0; %>
 <c:forEach items="${list }" var="map">
 <tbody>
-<% int i =0; %>
 
 <tr style="font-size:0.75em">
 	<td><input type="checkbox" name="cb<%=i %>" value="${map.b.ban_no }" class="ab"></td>

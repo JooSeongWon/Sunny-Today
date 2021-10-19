@@ -129,26 +129,6 @@ public interface MypageDao {
 	 * @param userno - 유저번호
 	 * @return
 	 */
-	public int messageTo(int userno, Connection conn);
-
-	public int messageFrom(int userno, Connection conn);
-
-	public int ban(int userno, Connection conn);
-
-	public int comments(int userno, Connection conn);
-
-	public int post(int userno, Connection conn);
-
-	public int privateQ(int userno, Connection conn);
-
-	public int schedule(int userno, Connection conn);
-
-	public int report(int userno, Connection conn);
-
-	public int target(int userno, Connection conn);
-
-	public int admin(int userno, Connection conn);
-	
 	public int deleteMember(int userno, Connection conn);
 
 	

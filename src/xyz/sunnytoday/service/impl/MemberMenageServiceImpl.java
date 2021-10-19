@@ -80,17 +80,13 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 	}
 
 	@Override
-	public List<Question> getQuestionList(Member param, Paging paging) {
+	public List<Map<String, Object>> getQuestionList(Member param, Paging paging) {
 		System.out.println("getQuestionList");
 		Connection conn = JDBCTemplate.getConnection();
-		List<Question> list = null;
-		if(param.getUserid() != null && !"".equals(param.getUserid())) {
-			list = questionDao.searchUserId(param, paging, conn);
-		}else if(param.getNick() != null && !"".equals(param.getNick())) {
-			list = questionDao.searchUserNick(param, paging, conn);
-		}else {
-			list = questionDao.getQuestionList(conn, paging);
-		}
+		List<Map<String, Object>> list = null;
+		
+		list = questionDao.searchQuestion(param, paging, conn);
+		
 		
 		JDBCTemplate.close(conn);
 		return list;
@@ -102,6 +98,7 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 	
 		if(req.getParameter("question_no") != null && !"".equals(req.getParameter("question_no"))) {
 			param.setQuestion_no(Integer.parseInt(req.getParameter("question_no")));
+			param.setAdmin_no(Integer.parseInt(req.getParameter("admin_no")));
 			Connection conn = JDBCTemplate.getConnection();
 			param = questionDao.getQuestionDatil(conn, param);
 			
@@ -273,11 +270,11 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 	
 	
 	@Override
-	public void insertBan(Member member, Ban ban) {
+	public void insertBan(Member member, Ban ban, int date) {
 		Connection conn =JDBCTemplate.getConnection();
 		
 		int res = 0;
-		res = reportDao.insertBan(conn, ban, member);
+		res = reportDao.insertBan(conn, ban, member, date);
 		if(res == 0) {
 			JDBCTemplate.rollback(conn);
 		}else {

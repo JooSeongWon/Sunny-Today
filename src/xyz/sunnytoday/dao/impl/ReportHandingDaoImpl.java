@@ -215,7 +215,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 	}
 
 	@Override
-	public int insertBan(Connection conn, Ban ban, Member member) {
+	public int insertBan(Connection conn, Ban ban, Member member, int date) {
 		System.out.println("insertBan called");
 		String sql = "";
 		sql += "INSERT INTO ban (ban_no, user_no, ban_type, expiry_date, reason)";
@@ -225,8 +225,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, member.getUserno());
 			ps.setString(2, ban.getBan_type());
-			
-			ps.setDate(3, (Date) ban.getExpiry_date());
+			ps.setInt(3, date);
 			ps.setString(4, "관리자 직접 제재");
 			res = ps.executeUpdate();
 

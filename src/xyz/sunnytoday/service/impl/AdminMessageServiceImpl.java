@@ -201,11 +201,11 @@ public class AdminMessageServiceImpl implements AdminMessageService {
 
 			for (int i = 0; i < userno.length; i++) {
 				System.out.println(userno[i]);
-//				if (messageDao.send(conn, message, userno[i], to) > 0) {
-//					JDBCTemplate.commit(conn);
-//				} else {
-//					JDBCTemplate.rollback(conn);
-//				}
+				if (messageDao.send(conn, message, userno[i], to) > 0) {
+					JDBCTemplate.commit(conn);
+				} else {
+					JDBCTemplate.rollback(conn);
+				}
 			}
 		}
 		JDBCTemplate.close(conn);

@@ -127,15 +127,15 @@
 </div>
 
 <div class="searchArea">
-    <form action="/board/daily" method="get">
-        <select name="select">
-            <option value="title">제목</option>
-            <option value="content">본문</option>
-            <option value="nick">작성자</option>
-        </select>
-        <input type="text" name="keyword" placeholder="검색어 입력"/>
-        <button class="search">검색</button>
-    </form>
+<form action="/board/search" method="get">
+	<select name="select">
+			<option value="title" >제목</option>
+			<option value="content">본문</option>
+			<option value="nick">작성자</option>
+	</select>
+	<input type="text" name="keyword" placeholder="검색어 입력" />
+	<button class="search">검색</button>
+</form>
 </div>
 
 

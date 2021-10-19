@@ -32,9 +32,9 @@ public class BoardListDailyController extends HttpServlet {
 		
 		List<Map<String, Object>> list = boardService.getDailyList(req, paging);
 		
-		String date = list.get(0).get("board").toString();
-		String boardTitle = boardService.getValueFromMap(date,"title");
-
+//		String date = list.get(0).get("board").toString();
+//		String boardTitle = boardService.getValueFromMap(date,"title");
+		
 		boardService.setThumFile(list);
 		
 //		
@@ -43,11 +43,12 @@ public class BoardListDailyController extends HttpServlet {
 //		}
 
 //		System.out.println("boardno : " + boardno);
-		paging = boardService.getTitlePaging(req, boardTitle);	
+		paging = boardService.getTitlePaging(req, "daily");	
 		
+//		System.out.println(boardTitle);
 		
 		req.setAttribute("list", list);
-		req.setAttribute("boardTitle", boardTitle);
+		req.setAttribute("boardTitle", "daily");
 		req.setAttribute("paging", paging);
 		req.setAttribute("notice", boardService.getNotices().get(Board.TYPE_NOTICE));
 		

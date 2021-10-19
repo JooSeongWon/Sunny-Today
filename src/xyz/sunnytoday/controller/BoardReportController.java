@@ -38,6 +38,7 @@ public class BoardReportController extends HttpServlet {
 		if(req.getParameter("comments_no") != null && !"".equals(req.getParameter("comments_no"))) {
 			param2.setComments_no(Integer.parseInt(req.getParameter("comments_no")));
 //			System.out.println("comments_no : " + param2.getComments_no());
+
 		}
 		
 		list = boardService.boardDetail(param1, param2);

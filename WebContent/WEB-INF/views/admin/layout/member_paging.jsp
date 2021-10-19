@@ -4,7 +4,6 @@
 
 <div class="text-center">
 	<ul class="pagination pagination-sm">
-		
 		<%-- 첫페이지로 이동 --%>
 		<c:if test="${paging.curPage ne 1 }">
 			<li><a href="<%=request.getContextPath() %>/admin/member/list">&larr;처음</a></li>

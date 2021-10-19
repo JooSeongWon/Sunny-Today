@@ -129,6 +129,7 @@ src="/resources/js/admin_nav.js"></script>
 			<li id="total_post_menage">게시물 통합 관리</li>
 <!-- 			<li id="total_comments_menage">댓글 통합 관리</li> -->
 			<li id="board_statisics">공지/이벤트 등록</li>
+
 		</ul>
 	</td>
 </tr>
