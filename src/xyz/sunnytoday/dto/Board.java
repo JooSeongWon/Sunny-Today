@@ -1,7 +1,10 @@
 package xyz.sunnytoday.dto;
 
 public class Board {
-	
+
+	public static final int TYPE_NOTICE = 0;
+	public static final int TYPE_EVENT = 1;
+
 	private int board_no;
 	private int index;
 	private String title;

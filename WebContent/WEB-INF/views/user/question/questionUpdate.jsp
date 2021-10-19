@@ -24,33 +24,43 @@
 <%--navbar--%>
 <c:import url="../layout/navbar.jsp"/>
 
-<div>
+<div id="questionDetailTitle">
 <hr>
-<h1>문의수정</h1>
+<h3>문의사항</h3>
 </div>
 
+<div id="questionDetailContent">
+<div id="questionDetailcolor">
 <form action="<%=request.getContextPath() %>/question/update" method="post">
 	<input type="hidden" name="questionno" value="${param.questionno }" />
-<div>
-	<table>
-	<tr>
-		<td>제목 <input type="text" name="title" value="${questionUpdate.title }"/></td>
-	</tr>
-	<tr>
-		<td>${nick }</td>
-	</tr>
-	<tr>
-		<td>
-		<textarea name="content"/>${questionUpdate.content }</textarea>
-		</td>
-	</tr>
-	<tr>
-		<td><button type="button" id="btnUpdateOk">수정</button></td>
-		<td><button type="button" id="btnUpdateCancel">취소</button></td>
-	</tr>
-	</table>
-</div>
+	<div>
+		<table id="questionUpdateTable">
+		<tr class="questionUpdateWidth">
+			<td>제목</td>
+			<td><input type="text" id="questionUpdateText" name="title" value="${questionUpdate.title }"/></td>
+		</tr>
+		<tr>
+			<td>작성자</td>
+			<td id="questionUpdateNick">${nick }</td>
+			<td></td>
+		</tr>
+		<tr>
+		<td></td>
+			<td colspan="2">
+			<textarea id="updateContent" name="updateContent"/>${questionUpdate.content }</textarea>
+			<div id="updateText_cnt">(0 / 150)</div>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td id="btnUpdateOktd"><button id="btnUpdateOk">문의접수</button></td>
+			<td id="btnUpdateCanceltd"><button id="btnUpdateCancel">취소</button></td>
+		</tr>
+		</table>
+	</div>
 </form>
+</div>
+</div>
 
 
 <c:import url="../layout/footer.jsp"/>

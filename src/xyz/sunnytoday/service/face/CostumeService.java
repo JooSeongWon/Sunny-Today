@@ -22,6 +22,9 @@ public interface CostumeService {
 	 * @return - File - 조회된 File
 	 */
 	public File selectCostume_File(int file_no);
-	
-	
+
+	/**
+	 * @return index 0 상의 index 1 하의
+	 */
+	Costume[] getRand(int temperature, String gender);
 }

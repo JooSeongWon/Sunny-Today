@@ -8,13 +8,38 @@ public class Costume {
 	private String type;
 	private String gender;
 	private int file_no;
-	
+	private String title;
+	private String thumbNail;
+
 	@Override
 	public String toString() {
-		return "Costume [costume_no=" + costume_no + ", min_temperatures=" + min_temperatures + ", max_temperatures="
-				+ max_temperatures + ", type=" + type + ", gender=" + gender + ", file_no=" + file_no + "]";
+		return "Costume{" +
+				"costume_no=" + costume_no +
+				", min_temperatures=" + min_temperatures +
+				", max_temperatures=" + max_temperatures +
+				", type='" + type + '\'' +
+				", gender='" + gender + '\'' +
+				", file_no=" + file_no +
+				", title='" + title + '\'' +
+				'}';
 	}
-	
+
+	public String getThumbNail() {
+		return thumbNail;
+	}
+
+	public void setThumbNail(String thumbNail) {
+		this.thumbNail = thumbNail;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public int getCostume_no() {
 		return costume_no;
 	}

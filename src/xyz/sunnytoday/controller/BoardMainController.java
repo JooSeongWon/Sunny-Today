@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xyz.sunnytoday.common.Paging;
+import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.service.face.BoardService;
@@ -30,7 +31,7 @@ public class BoardMainController extends HttpServlet {
 		
 		Paging paging = boardService.getPaging(req);
 		List<Map<String, Object>> list = boardService.getList(paging);
-
+		
 		boardService.setThumFile(list);
 		
 		req.setAttribute("list", list);

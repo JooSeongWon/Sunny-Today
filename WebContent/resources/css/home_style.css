@@ -30,12 +30,6 @@
     margin-top: 30px;
 }
 
-.region-description {
-    color: var(--color-orange);
-    font-size: var(--font-micro);
-    display: none;
-}
-
 
 /* weather-card */
 
@@ -74,10 +68,6 @@
 .weather__main .weather-card__image i:hover {
     transform: scale(1.1);
     color: var(--color-orange);
-}
-
-.weather__main .weather-card__image i:hover + .region-description {
-    display: block;
 }
 
 
@@ -186,26 +176,34 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    text-align: center;
+    line-height: 30px;
 }
 
-.gender__male,
-.gender__female {
-    border: none;
+.gender__female,
+.gender__male{
     border-radius: var(--size-border-radius);
     color: white;
     font-size: var(--font-micro);
     width: 30px;
     height: 30px;
-    cursor: pointer;
 }
 
 .gender__male {
     background-color: deepskyblue;
-    margin-right: 30px;
 }
 
 .gender__female {
     background-color: hotpink;
+}
+
+.gender__all {
+    border-radius: var(--size-border-radius);
+    color: white;
+    font-size: var(--font-micro);
+    width: 50px;
+    height: 30px;
+    background-color: #77ff85;
 }
 
 .costume__refresh {
@@ -316,11 +314,19 @@
 
 .card__body {
     height: 180px;
+    padding: 16px;
+    color: #7a7a7a;
+    font-size: var(--font-small);
+    text-align: center;
 }
 
 .card__forecast {
     font-size: var(--font-micro);
     color: var(--color-light-grey);
+}
+
+.fa-eye {
+    color: var(--color-green);
 }
 
 /* best posts */
@@ -364,6 +370,8 @@
 .post__img {
     border: 1px solid var(--color-white);
     border-radius: 4px;
+    width: 40px;
+    height: 40px;
 }
 
 .post__title {

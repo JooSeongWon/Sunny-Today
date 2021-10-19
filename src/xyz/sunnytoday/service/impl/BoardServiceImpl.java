@@ -866,5 +866,21 @@ public class BoardServiceImpl implements BoardService {
 		JDBCTemplate.close(conn);
 	}
 
+	@Override
+	public List<Post> getBestPosts(){
+		Connection connection = JDBCTemplate.getConnection();
+		List<Post> list = boardDao.selectBestPosts(connection);
+		JDBCTemplate.close(connection);
+		return list;
+	}
+
+	@Override
+	public Map<Integer, List<Post>> getNotices() {
+		Connection connection = JDBCTemplate.getConnection();
+		Map<Integer, List<Post>> map = boardDao.selectNotices(connection);
+		JDBCTemplate.close(connection);
+		return map;
+	}
+
 
 }
