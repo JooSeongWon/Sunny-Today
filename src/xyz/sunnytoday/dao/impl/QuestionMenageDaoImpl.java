@@ -157,13 +157,14 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 	public int setUpdateAnswer(Connection conn, Question param) {
 		System.out.println("setUpdateAnswer called");
 		String sql = "";
-		sql += "UPDATE private_question set answer= ?, answer_date=sysdate";
+		sql += "UPDATE private_question set answer= ?, answer_date=sysdate, admin_no = ?";
 		sql += " WHERE question_no = ?";
 		int res = 0;
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, param.getAnswer());
 			ps.setInt(2, param.getQuestion_no());
+			ps.setInt(3, param.getAdmin_no());
 			res = ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -69,7 +69,7 @@ $(document).ready(function(){
 <tbody>
 
 <tr>
-	<td><input type="checkbox" name="ch<%=i %>" class="ab" value="${question.question_no }"></td>
+	<td><input type="checkbox" name="ch<%=i %>" class="ab" value="${map.q.question_no }"></td>
 	<td>${map.q.question_no }</td>
 	<c:choose>
 		<c:when test="${map.p.answer eq '' or map.p.answer eq null }">
@@ -79,7 +79,7 @@ $(document).ready(function(){
 			<td>[처리 완료]</td>
 		</c:when>
 	</c:choose>
-	<td><a href="<%=request.getContextPath() %>/admin/answer/view?question_no=${question.question_no }">${question.title }</a></td>
+	<td><a href="<%=request.getContextPath() %>/admin/answer/view?question_no=${map.q.question_no }&admin_no=${userno }">${map.q.title }</a></td>
 	<td>${map.m.id }</td>
 	<td>${map.p.write_date }</td>
 </tr>

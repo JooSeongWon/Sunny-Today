@@ -98,6 +98,7 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 	
 		if(req.getParameter("question_no") != null && !"".equals(req.getParameter("question_no"))) {
 			param.setQuestion_no(Integer.parseInt(req.getParameter("question_no")));
+			param.setAdmin_no(Integer.parseInt(req.getParameter("admin_no")));
 			Connection conn = JDBCTemplate.getConnection();
 			param = questionDao.getQuestionDatil(conn, param);
 			

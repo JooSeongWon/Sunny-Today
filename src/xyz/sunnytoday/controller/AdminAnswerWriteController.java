@@ -25,6 +25,7 @@ public class AdminAnswerWriteController extends HttpServlet {
 		System.out.println("/admin/answer/write [GET]");
 		System.out.println(req.getParameter("question_no"));
 		Question param = new Question();
+		param.setAdmin_no(Integer.parseInt(req.getParameter("admin_no")));
 		param = memberService.getQuestionDetail(req, param);
 		req.setAttribute("question", param);
 		req.getRequestDispatcher("/WEB-INF/views/admin/member/question_answer_write.jsp").forward(req, resp);
@@ -35,8 +36,11 @@ public class AdminAnswerWriteController extends HttpServlet {
 		System.out.println("/admin/answer/write [POST]");
 		req.setCharacterEncoding("UTF-8");
 		Question param = new Question();
+		
 		param.setAnswer(req.getParameter("answer"));
 		param.setQuestion_no(Integer.parseInt(req.getParameter("question_no")));
+		param.setAdmin_no(Integer.parseInt(req.getParameter("Admin_no")));
+		
 		if(param.getAnswer() != null && !"".equals(param.getAnswer())) {
 			memberService.updateAnswer(param);
 			resp.sendRedirect("/admin/member/question");
