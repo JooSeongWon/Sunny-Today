@@ -29,15 +29,15 @@ public class BoardReportController extends HttpServlet {
 		Post param1 = new Post();
 		Comments param2 = new Comments();
 			
-		if(req.getParameter("postno") != null && !"".equals(req.getParameter("postno"))) {
-			param1.setPost_no(Integer.parseInt(req.getParameter("postno")));
+		if(req.getParameter("post_no") != null && !"".equals(req.getParameter("post_no"))) {
+			param1.setPost_no(Integer.parseInt(req.getParameter("post_no")));
 			System.out.println("param : " + param1.getPost_no());
 			
 		}else {
 			param2.setComments_no(Integer.parseInt(req.getParameter("comments_no")));
-			System.out.println("param : " + param2.getComments_no());
-			
+			System.out.println("param : " + param2.getComments_no());	
 		}
+		
 		list = boardService.boardDetail(param1, param2);
 
 			

@@ -50,6 +50,7 @@ public class AdminMemberListController extends HttpServlet {
 		list = memberService.getUserList(param, paging);			
 		
 		//모델값 + 페이징 정보 전달
+		req.setAttribute("search", search);
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
 		req.getRequestDispatcher("/WEB-INF/views/admin/member/member_list.jsp").forward(req, resp);

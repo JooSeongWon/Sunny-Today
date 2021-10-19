@@ -1324,7 +1324,7 @@ public class BoardDaoImpl implements BoardDao {
 		
 		if(param2.getComments_no() != 0) {
 			sql += " AND p.post_no = c.post_no ";
-			sql += " AND c.comment_no = ?";
+			sql += " AND c.comments_no = ?";
 		}else {
 			sql +=	" AND p.post_no = ?";
 		}

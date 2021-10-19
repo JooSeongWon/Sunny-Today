@@ -39,7 +39,39 @@ $(document).ready(function(){
 		console.log("cancelBtn");
 		history.go(-1);
 	})
+	$('#ad').on('click', function(){
+		if($(this).prop('checked')){
+			console.log("checked");
+			document.getElementById("detail").value='부적절한 홍보 댓글/게시글';
+
+// 			$('#detail').val = "부적절한 홍보 댓글/게시글"
+		}
+	})
 	
+	$('#porn').on('click', function(){
+		if($(this).prop('checked')){
+			console.log("checked");
+			document.getElementById("detail").value='음란성 또는 청소년에게 부적합한 내용';
+// 			$('#detail').val = "음란성 또는 청소년에게 부적합한 내용"
+		}
+	})
+	
+	$('#defam').on('click', function(){
+		if($(this).prop('checked')){
+			console.log("checked");
+			document.getElementById("detail").value='명예훼손/사생황 침해 및 저작권 침해';
+// 			$('#detail').val = "명예훼손/사생황 침해 및 저작권 침해"
+		}
+	})
+	
+	$('#etc').on('click', function(){
+		if($(this).prop('checked')){
+			console.log("checked");
+			document.getElementById("detail").value='';
+			document.getElementById("detail").focus();
+// 			$('#detail').val = "명예훼손/사생황 침해 및 저작권 침해"
+		}
+	})
 });
 </script>
 </head>
@@ -83,13 +115,17 @@ $(document).ready(function(){
 <input type="radio" name="report_type" id="comments" value="comments_type"> <label for="comment">댓글</label>
 
 <h5>사유선택</h5>
-<input type="radio" name="report_reason" value="advertisement" id="ad"> <label for="ad"> 부적절한 홍보 댓글/게시글</label><br>
-<input type="radio" name="report_reason" value="pornography" id="porn"> <label for="porn"> 음란성 또는 청소년에게 부적합한 내용</label><br>
-<input type="radio" name="report_reason" value="defamation" id="defam"> <label for="defam"> 명예훼손/사생황 침 해 및 저작권 침해</label> <br>
-<input type="radio" name="report_reason" value="etc" id="etc"> <label for="etc"> 기타</label><br><br>
+<input type="radio" name="report_reason" value="advertisement" id="ad"> 
+<label for="ad"> 부적절한 홍보 댓글/게시글</label><br>
+<input type="radio" name="report_reason" value="pornography" id="porn"> 
+<label for="porn"> 음란성 또는 청소년에게 부적합한 내용</label><br>
+<input type="radio" name="report_reason" value="defamation" id="defam"> 
+<label for="defam"> 명예훼손/사생황 침해 및 저작권 침해</label> <br>
+<input type="radio" name="report_reason" value="etc" id="etc"> 
+<label for="etc"> 기타</label><br><br>
 
 <h5>세부 사항 작성</h5>
-<textarea name="report_detail" placeholder="세부 사항을 적어주세요"></textarea>
+<textarea name="report_detail" id="detail" placeholder="세부 사항을 적어주세요"></textarea>
 
 <br>
 <button type="button" id="sendBtn">전송</button>
