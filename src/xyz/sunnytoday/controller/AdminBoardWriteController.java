@@ -29,6 +29,6 @@ public class AdminBoardWriteController extends HttpServlet {
 
 		boardService.write(req);
 		
-		resp.sendRedirect("/SunnyToday/admin/board/list");
+		resp.sendRedirect("/admin/board/list");
 	}
 }

@@ -18,7 +18,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.common.util.Paging;
 import xyz.sunnytoday.common.util.ThumbnailMaker;
+import xyz.sunnytoday.dao.face.AdminBoardDao;
 import xyz.sunnytoday.dao.face.AdminPostDao;
+import xyz.sunnytoday.dao.impl.AdminBoardDaoImpl;
 import xyz.sunnytoday.dao.impl.AdminPostDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.File;
@@ -29,7 +31,8 @@ import xyz.sunnytoday.service.face.AdminPostService;
 public class AdminPostServiceImpl implements AdminPostService {
 
 	private AdminPostDao postDao = new AdminPostDaoImpl();
-
+	private AdminBoardDao boardDao = new AdminBoardDaoImpl();
+	
 	@Override
 	public List<Map<String, Object>> getList(HttpServletRequest req, Paging paging) {
 		Connection conn = JDBCTemplate.getConnection();
@@ -208,8 +211,9 @@ public class AdminPostServiceImpl implements AdminPostService {
 					post.setContent(value);
 				} else if ("select".equals(key)) {
 					// select로 넘어온 title(value)을 boardno으로 바꿔야함
-					int post_no = postDao.changeBoardno(conn, value);
-					post.setPost_no(post_no);
+//					int post_no = postDao.changeBoardno(conn, value);
+					int board_no = boardDao.changeBoardno(conn, value);
+					post.setBoard_no(board_no);
 				}
 
 			} // if( item.isFormField() ) end
@@ -360,4 +364,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 		return list;
 	}
 
+	
+	
+	
 }

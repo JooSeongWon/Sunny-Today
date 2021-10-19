@@ -30,7 +30,7 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		ResultSet rs = null;
 		String sql = "";
 		sql += " select ROWNUM, post_list.*";
-		sql += " from (select POST_NO, p.TITLE ptitle, b.TITLE btitle, WRITE_DATE, M.USER_NO, CONTENT, NICK";
+		sql += " from (select POST_NO, P.board_no, P.user_no puser_no, p.TITLE ptitle, b.TITLE btitle, WRITE_DATE, M.USER_NO muser_no, CONTENT, NICK, last_modify, hit";
 		sql += "       from POST p";
 		sql += "                inner join BOARD B";
 		sql += "                           on p.BOARD_NO = B.BOARD_NO";
@@ -57,13 +57,17 @@ public class AdminPostDaoImpl implements AdminPostDao{
 				Board b = new Board();
 				Member member = new Member();
 				post.setPost_no( rs.getInt("post_no"));
+				post.setBoard_no(rs.getInt("board_no"));
+				post.setUser_no(rs.getInt("puser_no"));
 				post.setTitle(rs.getString("ptitle"));
 				b.setTitle(rs.getString("btitle"));
 				post.setWrite_date(rs.getDate("write_date"));
-				post.setUser_no(rs.getInt("user_no"));
-				member.setUserno(post.getUser_no());
+				member.setUserno(rs.getInt("muser_no"));
+//				member.setUserno(post.getUser_no());
 				post.setContent(rs.getString("content"));
 				member.setNick(rs.getString("nick"));
+				post.setHit(rs.getInt("hit"));
+				post.setLast_modify(rs.getDate("last_modify"));
 //				
 //				//리스트에 결과값 저장
 				map.put("post",post);
@@ -179,38 +183,38 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		return nextFile_no;
 	}
 	
-	@Override
-	public int changeBoardno(Connection conn, String value) {
-		
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		String sql = "";
-		sql += "SELECT board_no FROM board";
-		sql += "	WHERE title = ?";
-		
-		//결과 저장 변수
-		int board_no = 0;
-		
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, value);
-			
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				board_no = rs.getInt(1);
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		
-		return board_no;
-	}
+//	@Override
+//	public int changeBoardno(Connection conn, String value) {
+//		
+//		PreparedStatement ps = null;
+//		ResultSet rs = null;
+//		
+//		String sql = "";
+//		sql += "SELECT board_no FROM board";
+//		sql += "	WHERE title = ?";
+//		
+//		//결과 저장 변수
+//		int board_no = 0;
+//		
+//		try {
+//			ps = conn.prepareStatement(sql);
+//			ps.setString(1, value);
+//			
+//			rs = ps.executeQuery();
+//			
+//			while(rs.next()) {
+//				board_no = rs.getInt(1);
+//			}
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			JDBCTemplate.close(rs);
+//			JDBCTemplate.close(ps);
+//		}
+//		
+//		return board_no;
+//	}
 	
 	@Override
 	public int insert(Connection conn, Post post) {
@@ -304,8 +308,6 @@ public class AdminPostDaoImpl implements AdminPostDao{
 		
 		return res;
 	}
-
-
 
 	@Override
 	public Post selectPostByPostno(Connection conn, Post post_no) {
@@ -465,18 +467,17 @@ public class AdminPostDaoImpl implements AdminPostDao{
 	
 	@Override
 	public int delete(Connection conn, Post post) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		String sql = "";
 		sql += "DELETE post";
 		sql += " WHERE post_no = ?";
 		
-		//DB 객체
-		PreparedStatement ps = null; 
 		
 		int res = -1;
 		
 		try {
-			//DB작업
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, post.getPost_no());
 
@@ -486,6 +487,7 @@ public class AdminPostDaoImpl implements AdminPostDao{
 			e.printStackTrace();
 			
 		} finally {
+			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
 		

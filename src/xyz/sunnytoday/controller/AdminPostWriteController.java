@@ -31,7 +31,7 @@ public class AdminPostWriteController extends HttpServlet {
 		
 		postService.write(req);
 		
-		resp.sendRedirect("/SunnyToday/admin/post/list");
+		resp.sendRedirect("/admin/post/list");
 		
 	}
 	
