@@ -45,12 +45,19 @@ public class MypagePasswordController extends HttpServlet {
 		// 로그인 유저 세션의 유저넘버 얻기
 		Object param = req.getSession().getAttribute("userno");
 		int userno = (int) param;
-
+		
+		//비밀번호 패턴
 		String pwRegex = "^(?=.*[a-zA-Z0-9$`~!@$!%*#^?&])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&]).{8,20}$";
 
 		int res = 0;
+		
+		//비밀번호 확인값이 있을경
 		if (req.getParameter("passwordcheck") != null && Pattern.matches(pwRegex, req.getParameter("passwordcheck"))) {
+			
+			//등록 비밀번호가 있을 경우
 			if (req.getParameter("newPassword") != null && !"".equals(req.getParameter("newPassword"))) {
+				
+				//등록비밀번호와 비밀번호 확인값이 일치 할 경우
 				if (req.getParameter("newPassword").equals(req.getParameter("passwordcheck"))) {
 					res = mypageService.createpw(req, userno);
 
@@ -73,8 +80,11 @@ public class MypagePasswordController extends HttpServlet {
 
 				}
 			}
-
+			
+			//비밀번호입력이 있을 경우
 			if (req.getParameter("password") != null && !"".contentEquals(req.getParameter("password"))) {
+				
+				//비밀번호 확인과 입력이 일치 할 경우
 				if (req.getParameter("password").equals(req.getParameter("passwordcheck"))) {
 					res = mypageService.updatePw(req, userno);
 

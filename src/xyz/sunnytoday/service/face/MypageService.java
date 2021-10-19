@@ -54,7 +54,7 @@ public interface MypageService {
 	/**
 	 * 유저 프로필 사진
 	 * 
-	 * @param userno - 유저정보
+	 * @param member - 유저정보
 	 */
 	public File selectProfile(Member member);
 	
