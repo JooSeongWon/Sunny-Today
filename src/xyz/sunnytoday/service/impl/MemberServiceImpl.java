@@ -225,6 +225,7 @@ public class MemberServiceImpl implements MemberService {
                     //즉시 가입처리
                     try (Connection connection = JDBCTemplate.getConnection()) {
                         memberDao.insert(connection, member);
+                        member = memberDao.selectByEmailOrNull(connection, member.getEmail());
                     }
 
                     //가입성공

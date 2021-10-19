@@ -138,7 +138,7 @@
 			</table>		
 			<div><textarea name="content" id="content" readonly>${viewMessage.content }</textarea></div>				
 			<div id="btnBox">
-				<button id="btnReply">답장</button>
+				<c:if test="${sessionScope.nick ne viewMessage.fromNick}"><button id="btnReply">답장</button></c:if>
 				<button id="btnList" onclick="history.back()">목록</button>
 				<button id="btnDelete">삭제</button>
 			</div>				

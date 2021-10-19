@@ -57,29 +57,35 @@
 		<th>썸네일</th>
 		<th>제목/본문</th>
 		<th>작성자</th>
-		<th>게시글평점</th>
 		<th>날짜</th>
-		<th>추천수</th>
+		<th>조회수</th>
 	</tr>
 </thead>
 <tbody>
-	<tr>
-		<td colspan="6">공지글</td>
-	</tr>
-	<tr>
-		<td colspan="6">공지글</td>
-	</tr>
+<tr>
+	<td colspan="6" style="background-color: #fdfdb9"><a
+			href="/board/detail?postno=${requestScope.notice[0].post_no}">[공지] ${requestScope.notice[0].title}</a>
+	</td>
+</tr>
+<tr>
+	<td colspan="6" style="background-color: #fdfdb9"><a
+			href="/board/detail?postno=${requestScope.notice[1].post_no}">[공지] ${requestScope.notice[1].title}</a>
+	</td>
+</tr>
 <c:forEach items="${list }" var="boardBuyList">
 <tr>
 	<td rowspan="2">
-	<c:choose>
-	<c:when test="${empty boardBuyList.file }">
-	<img class="thumbnail" src="https://via.placeholder.com/40" alt="no picture">
-	</c:when>
-	<c:otherwise>
-	<img class="thumbnail" src="${pageContext.request.contextPath}/upload/${boardBuyList.file.thumbnail_url}" alt="no picture">
-	</c:otherwise>
-	</c:choose>
+		<c:choose>
+			<c:when test="${empty boardMainList.file }">
+				<img class="thumbnail" src="${pageContext.request.contextPath}/resources/img/no-img.PNG"
+					 alt="no picture">
+			</c:when>
+			<c:otherwise>
+				<img class="thumbnail"
+					 src="${pageContext.request.contextPath}/upload/${boardMainList.file.thumbnail_url}"
+					 alt="picture">
+			</c:otherwise>
+		</c:choose>
 	</td>
 	<td id='title'>
 		<a href="/board/detail?postno=${boardBuyList.post.post_no }">
@@ -97,12 +103,9 @@
 		${boardBuyList.nick }
 	</td>
 	<td rowspan="2">
-		<div id='circle-grade'>평점</div>
-	</td>
-	<td rowspan="2">
 		${boardBuyList.post.write_date }
 	</td>
-	<td rowspan="2">추천수</td>
+	<td rowspan="2">${boardBuyList.post.hit}</td>
 </tr>
 <tr>
 	<td id='content'>

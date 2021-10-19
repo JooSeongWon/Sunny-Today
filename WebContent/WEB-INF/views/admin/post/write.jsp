@@ -90,10 +90,8 @@ $(document).ready(function() {
 	<td class="col-xs-2" height="50px">카테고리</td>
 	<td>
 		<select id="category" name="select">
-    		<option value="daily_clothes" >일상룩</option>
-    		<option value="buying" >지름 게시판</option>
-    		<option value="sharingInfo" >정보공유</option>
-    		<option value="qna" >질문 응답</option>
+    		<option value="daily_clothes" >공지</option>
+    		<option value="buying" >이벤트</option>
 		</select>
 	</td>
 </tr>

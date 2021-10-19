@@ -29,8 +29,6 @@ public class BoardSearchController extends HttpServlet {
 		List<Map<String, Object>> searchList = boardService.getSearchList(req, paging);
 		boardService.setThumFile(searchList);
 		
-		for( Map<String, Object> e : searchList ) { System.out.println( e ); };
-		
 		
 		req.setAttribute("searchList", searchList);
 		req.setAttribute("paging", paging);

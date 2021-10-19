@@ -54,7 +54,7 @@ public class MypagePasswordCheckController extends HttpServlet {
 		
 		int res = 0;
 		
-		if( req.getParameter("userid") != null && !"".equals(req.getParameter("userid") )) {
+		if( req.getParameter("userpw") != null && !"".equals(req.getParameter("userpw") )) {
 			res = mypageService.checkPassword(req);
 		}
 		// json 형식으로 변환

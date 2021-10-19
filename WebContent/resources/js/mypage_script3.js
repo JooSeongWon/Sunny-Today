@@ -15,7 +15,7 @@ $(document).ready(function() {
     					console.log(data)
     					if( data == 1 ){
     						showModal("오늘도 맑음", "비밀번호가 일치하지 않습니다 :(") 
-    					} else if ( data == 2 ) {
+    					} else if ( data == 0 ) {
     						showModal("오늘도 맑음", "비밀번호를 입력해주세요 :(") 
 						} else {
     						showModal("오늘도 맑음", "약관 페이지로 이동합니다" , function() {

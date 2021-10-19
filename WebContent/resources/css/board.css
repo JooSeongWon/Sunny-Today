@@ -1,6 +1,6 @@
 /* 페이징 */
 
-li {
+li:not(.navbar__item) {
 	display:inline;
 	margin: 10px;
 }
@@ -49,6 +49,15 @@ td, th {
 
 #title {
 	border-bottom: none;
+	font-size: var(--font-small);
+	text-decoration: underline;
+}
+
+#content {
+	font-size: var(--font-micro);
+	color: var(--color-grey);
+	font-weight: var(--weight-semi-bold);
+	padding: 5px;
 }
 
 #content {
@@ -57,15 +66,8 @@ td, th {
 
 .thumbnail {
 	text-align: center;
-}
-
-#circle-grade {
-	text-align: center;
-	line-height: 300%;
-	width: 50%;
-	margin: 0 auto;
-	border-radius: 50%;
-	background-color: var(--color-sky);
+	width: 40px;
+	height: 40px;
 }
 
 .division > th:nth-child(1) {

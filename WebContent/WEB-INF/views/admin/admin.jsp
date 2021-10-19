@@ -25,10 +25,14 @@ $(document).ready(function() {
 			dataType : 'json' 
 			, success:function(data){
 					console.log(data)
-					if( data == 1 ){
+					if( data == 0 ){
 						alert("비밀번호가 일치하지 않습니다 :(") 
-					} else if ( data == 2 ) {
+					} else if ( data == 1 ) {
 						alert("비밀번호를 입력해주세요 :(") 
+					} else if( data == 2 ){
+						alert("비밀번호를 등록해주세요 :( !!" )
+							var url = "/mypage/password"
+							$(location).attr('href',url);
 					} else {
 						alert("관리자페이지로 이동합니다" )
 							var url = "/admin/set"

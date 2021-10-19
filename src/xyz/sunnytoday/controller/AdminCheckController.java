@@ -44,10 +44,24 @@ public class AdminCheckController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/mypage/admin/check [post]");
 		
-		int res = 0;
+		//로그인 유저 세션의 유저넘버 얻기
+		Object param = req.getSession().getAttribute("userno");
+		int userno = (int) param;
 		
-		if( req.getParameter("userid") != null && !"".equals(req.getParameter("userid") )) {
-			res = mypageService.checkPassword(req);
+		//유저넘버로 유저정보 얻기 - member
+		Member member = mypageService.selectMember(userno);
+		
+		//입력한 비밀번호가 없을 경우
+		int res = 1;
+		
+		//해당유저의 비밀번호가 있을 경우
+		if( member.getUserpw() != null && !"".equals(member.getUserpw())) {
+			// 입력한 비밀번호가 있을 경우
+			if (req.getParameter("userpw") != null && !"".equals(req.getParameter("userpw"))) {
+				res = mypageService.checkPassword(req);
+			} 
+		} else { //해당유저의 비밀번호가 없을 경우
+			res = 2;
 		}
 		// json 형식으로 변환
 		Gson gson = new Gson();

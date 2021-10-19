@@ -95,7 +95,7 @@
 			<c:forEach items="${comments }" var="comments">
 					<tr id="CommentsAdd">
 					
-						<c:if test="${comments.comments.show eq 'Y' and detailBoard.user_no eq loginMember.userno}">
+						<c:if test="${comments.comments.show eq 'Y' and ((detailBoard.user_no eq loginMember.userno)or(comments.comments.user_no eq loginMember.userno))}">
 							<td id="commentsNickinTable">
 							${comments.member }
 								<c:if test="${detailBoard.user_no eq comments.comments.user_no }">
@@ -103,7 +103,7 @@
 								</c:if>
 							</td>
 							
-							<td id="commentsContentinTable_${comments.comments.comments_no }" class="CCT">${comments.comments.content }</td>
+							<td id="commentsContentinTable_${comments.comments.comments_no }" class="CCT"><i class="fas fa-lock" style="color: #949435"></i>${comments.comments.content }</td>
 							
 								<c:if test="${loginMember.userno eq comments.comments.user_no }">								
 								<td style="width:20%">
@@ -125,7 +125,7 @@
 								
 						</c:if>
 						
-						<c:if test="${comments.comments.show eq 'Y' and detailBoard.user_no ne loginMember.userno}">
+						<c:if test="${comments.comments.show eq 'Y' and  ((detailBoard.user_no ne loginMember.userno)and(comments.comments.user_no ne loginMember.userno))}">
 							<td colspan="3" style="height: 40px;">작성자만 볼 수 있는 댓글입니다.</td>
 						</c:if>
 						

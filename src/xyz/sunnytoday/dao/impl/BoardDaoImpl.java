@@ -87,7 +87,7 @@ public class BoardDaoImpl implements BoardDao {
         ResultSet rs = null;
 
         String sql = "";
-        sql += "SELECT count(*) FROM post";
+        sql += "SELECT count(*) FROM post where BOARD_NO != 0";
 
         //총 게시글 수
         int count = 0;
@@ -856,7 +856,7 @@ public class BoardDaoImpl implements BoardDao {
         sql += "	WHERE post_no = ?";
         sql += "	ORDER BY file_no";
 
-        int fileno = 0;
+        int fileno = -1;
 
         try {
             ps = conn.prepareStatement(sql);
@@ -946,7 +946,7 @@ public class BoardDaoImpl implements BoardDao {
         PreparedStatement ps = null;
 
         String sql = "";
-        sql += "DELETE file";
+        sql += "DELETE \"FILE\"";
         sql += " WHERE file_no = ?";
 
         int res = -1;
@@ -976,7 +976,7 @@ public class BoardDaoImpl implements BoardDao {
 
 
         String sql = "";
-        sql += "SELECT file_no FROM post_file";
+        sql += "SELECT post_no, file_no FROM post_file";
         sql += " WHERE post_no = ?";
 
         PostFile postFile = null;
@@ -1558,7 +1558,7 @@ public class BoardDaoImpl implements BoardDao {
             ps.setString(4, param.getDetail());
             ps.setString(5, param.getReport_type());
 
-            if (param.getPost_no() > 0) {
+            if (param.getComments_no() > 0) {
                 ps.setInt(6, param.getComments_no());
                 ps.setInt(7, param.getPost_no());
             } else {
@@ -1581,7 +1581,7 @@ public class BoardDaoImpl implements BoardDao {
     public List<Post> selectBestPosts(Connection connection) {
         String sql = "select best_post.*, comments_num.comments_cnt, posts_file.THUMBNAIL_URL " +
                 "from (select b.* " +
-                "      from (select ROWNUM rnum, POST_NO, TITLE, HIT from (select * from POST order by hit desc) p) b " +
+                "      from (select ROWNUM rnum, POST_NO, TITLE, HIT from (select * from POST where BOARD_NO != 0 and BOARD_NO != 1 order by hit desc) p) b " +
                 "      where rnum < 7 " +
                 "      order by rnum) best_post " +
                 "         left outer join " +

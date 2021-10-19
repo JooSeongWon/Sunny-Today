@@ -1,6 +1,6 @@
 /* 페이징 */
 
-li {
+li:not(.navbar__item) {
 	display:inline;
 	margin: 10px;
 }

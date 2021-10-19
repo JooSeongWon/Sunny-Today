@@ -40,7 +40,7 @@
 		<a href="<%=request.getContextPath() %>/mypage/profile">
 			<li class="mypage_item" >프로필 수정</li>
 		</a>
-		<a href="<%=request.getContextPath() %>/mypage/password">
+		<a href="<%=request.getContextPath() %>/mypage/password/check/change">
 			<li class="mypage_item" >비밀번호 변경</li>
 		</a>
 		<a href="<%=request.getContextPath() %>/mypage/password/check">

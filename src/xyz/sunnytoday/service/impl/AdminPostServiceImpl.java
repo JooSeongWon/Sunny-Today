@@ -306,55 +306,18 @@ public class AdminPostServiceImpl implements AdminPostService {
 //		System.out.println("search : " + search); // 검색
 //		System.out.println("keword : " + keword); // 범위
 
-		if (select != null && select.equals("daily_clothes") && keword != null && keword.equals("title")) {
+		if (keword != null && keword.equals("title")) {
 			if (search != null && !"".equals(search)) {
 				list = postDao.searchTitle(conn, search, paging	);
 			} else {
 				list = postDao.selectAll(conn, paging);
 			}
-		} else if (select != null && select.equals("buying") && keword != null && keword.equals("title")) {
-			if (search != null && !"".equals(search)) {
-				list = postDao.searchTitle(conn, search, paging);
-			} else {
-				list = postDao.selectAll(conn, paging);
-			}
-		} else if (select != null && select.equals("sharingInfo") && keword != null && keword.equals("title")) {
-			if (search != null && !"".equals(search)) {
-				list = postDao.searchTitle(conn, search, paging);
-			} else {
-				list = postDao.selectAll(conn, paging);
-			}
-		} else if (select != null && select.equals("qna") && keword != null && keword.equals("title")) {
-			if (search != null && !"".equals(search)) {
-				list = postDao.searchTitle(conn, search, paging);
-			} else {
-				list = postDao.selectAll(conn, paging);
-			}
-		} else if (select != null && select.equals("daily_clothes") && keword != null && keword.equals("nick")) {
+		} else if (keword != null && keword.equals("nick")) {
 			if (search != null && !"".equals(search)) {
 				list = postDao.searchNick(conn, search, paging);
 			} else {
 				list = postDao.selectAll(conn, paging);
 			}
-		} else if (select != null && select.equals("buying") && keword != null && keword.equals("nick")) {
-			if (search != null && !"".equals(search)) {
-				list = postDao.searchNick(conn, search, paging);
-			} else {
-				list = postDao.selectAll(conn, paging);
-			}
-		} else if (select != null && select.equals("sharingInfo") && keword != null && keword.equals("nick")) {
-			if (search != null && !"".equals(search)) {
-				list = postDao.searchNick(conn, search, paging);
-			} else {
-				list = postDao.selectAll(conn, paging);
-			}
-		} else if (select != null && select.equals("qna") && keword != null && keword.equals("nick")) {
-			if (search != null && !"".equals(search)) {
-				list = postDao.searchNick(conn, search, paging);
-			} else {
-				list = postDao.selectAll(conn, paging);
-			}
-			
 		} else {
 			list = postDao.selectAll(conn, paging);
 
