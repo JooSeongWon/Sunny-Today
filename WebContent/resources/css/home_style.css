@@ -197,7 +197,7 @@
     background-color: hotpink;
 }
 
-.gender__All {
+.gender__all {
     border-radius: var(--size-border-radius);
     color: white;
     font-size: var(--font-micro);

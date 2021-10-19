@@ -1,5 +1,6 @@
 package xyz.sunnytoday.controller;
 
+import com.google.gson.Gson;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.Forecast;
 import xyz.sunnytoday.dto.Board;
@@ -17,12 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 @WebServlet(
         urlPatterns = "/main",
@@ -152,5 +151,32 @@ public class HomeController extends HttpServlet {
         req.setAttribute("costumes", costumes);
 
         req.getRequestDispatcher("/WEB-INF/views/user/home/home.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        //요청확인
+        if (!"refresh".equals(req.getParameter("req"))) {
+            super.doPost(req, resp);
+            return;
+        }
+
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        final PrintWriter writer = resp.getWriter();
+        Map<String, String> responseData = new HashMap<>();
+
+        //의상
+        final String gender = req.getSession().getAttribute("gender") == null ? "A" : req.getSession().getAttribute("gender").toString();
+        final Costume[] costumes = costumeService.getRand(Integer.parseInt(req.getParameter("temp")), gender);
+
+        responseData.put("topTitle", costumes[0].getTitle());
+        responseData.put("topThumbNail", costumes[0].getThumbNail());
+        responseData.put("pantsTitle", costumes[1].getTitle());
+        responseData.put("pantsThumbNail", costumes[1].getThumbNail());
+
+        writer.write(new Gson().toJson(responseData));
     }
 }

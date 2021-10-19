@@ -143,12 +143,12 @@
 
             <div class="costume__clothes">
                 <div class="clothes">
-                    <img class="clothes__image"
+                    <img class="clothes__image cloth-top"
                          src="${pageContext.request.contextPath}/upload/${requestScope.costumes[0].thumbNail}" alt="상의">
                     <div class="clothes__description">${requestScope.costumes[0].title}</div>
                 </div>
                 <div class="clothes">
-                    <img class="clothes__image"
+                    <img class="clothes__image cloth-pants"
                          src="${pageContext.request.contextPath}/upload/${requestScope.costumes[1].thumbNail}" alt="하의">
                     <div class="clothes__description">${requestScope.costumes[1].title}</div>
                 </div>
@@ -156,10 +156,10 @@
 
             <div class="costume__gender">
                 <c:if test="${empty sessionScope.gender}">
-                    <div class="gender__All">공용</div>
+                    <div class="gender__all">공용</div>
                 </c:if>
                 <c:if test="${sessionScope.gender eq 'A'}">
-                    <div class="gender__All">공용</div>
+                    <div class="gender__all">공용</div>
                 </c:if>
                 <c:if test="${sessionScope.gender eq 'M'}">
                     <div class="gender__male">남</div>
