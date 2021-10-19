@@ -143,18 +143,31 @@
 
             <div class="costume__clothes">
                 <div class="clothes">
-                    <img class="clothes__image" src="http://via.placeholder.com/100x100" alt="상의">
-                    <div class="clothes__description">반팔 티셔츠</div>
+                    <img class="clothes__image"
+                         src="${pageContext.request.contextPath}/upload/${requestScope.costumes[0].thumbNail}" alt="상의">
+                    <div class="clothes__description">${requestScope.costumes[0].title}</div>
                 </div>
                 <div class="clothes">
-                    <img class="clothes__image" src="http://via.placeholder.com/100x100" alt="하의">
-                    <div class="clothes__description">청 바지</div>
+                    <img class="clothes__image"
+                         src="${pageContext.request.contextPath}/upload/${requestScope.costumes[1].thumbNail}" alt="하의">
+                    <div class="clothes__description">${requestScope.costumes[1].title}</div>
                 </div>
             </div>
 
             <div class="costume__gender">
-                <button class="gender__male">남</button>
-                <button class="gender__female">여</button>
+                <c:if test="${empty sessionScope.gender}">
+                    <div class="gender__All">공용</div>
+                </c:if>
+                <c:if test="${sessionScope.gender eq 'A'}">
+                    <div class="gender__All">공용</div>
+                </c:if>
+                <c:if test="${sessionScope.gender eq 'M'}">
+                    <div class="gender__male">남</div>
+                </c:if>
+                <c:if test="${sessionScope.gender eq 'F'}">
+                    <div class="gender__female">여</div>
+                </c:if>
+
             </div>
             <div class="costume__refresh"><i class="fas fa-sync"></i></div>
         </div>

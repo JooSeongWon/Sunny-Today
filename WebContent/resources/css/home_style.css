@@ -176,26 +176,34 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    text-align: center;
+    line-height: 30px;
 }
 
-.gender__male,
-.gender__female {
-    border: none;
+.gender__female,
+.gender__male{
     border-radius: var(--size-border-radius);
     color: white;
     font-size: var(--font-micro);
     width: 30px;
     height: 30px;
-    cursor: pointer;
 }
 
 .gender__male {
     background-color: deepskyblue;
-    margin-right: 30px;
 }
 
 .gender__female {
     background-color: hotpink;
+}
+
+.gender__All {
+    border-radius: var(--size-border-radius);
+    color: white;
+    font-size: var(--font-micro);
+    width: 50px;
+    height: 30px;
+    background-color: #77ff85;
 }
 
 .costume__refresh {

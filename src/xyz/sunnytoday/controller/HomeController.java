@@ -3,6 +3,7 @@ package xyz.sunnytoday.controller;
 import xyz.sunnytoday.common.config.AppConfig;
 import xyz.sunnytoday.common.repository.Forecast;
 import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.dto.Costume;
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.Schedule;
 import xyz.sunnytoday.service.face.*;
@@ -99,7 +100,8 @@ public class HomeController extends HttpServlet {
 
         req.setAttribute("r1", cityR1);
         req.setAttribute("r2", cityR2);
-        req.setAttribute("sForecast", forecastService.getShortTermForecast(cityR1 + cityR2));
+        final List<Forecast> shortTermForecast = forecastService.getShortTermForecast(cityR1 + cityR2);
+        req.setAttribute("sForecast", shortTermForecast);
 
         final List<Forecast> mediumTermForecast = forecastService.getMediumTermForecast(cityR1 + cityR2);
         if (mediumTermForecast == null) {
@@ -135,7 +137,7 @@ public class HomeController extends HttpServlet {
 
         //베스트 게시글
         List<Post> bestPosts = boardService.getBestPosts();
-        if(!bestPosts.isEmpty()){
+        if (!bestPosts.isEmpty()) {
             req.setAttribute("bestPosts", bestPosts);
         }
 
@@ -143,6 +145,11 @@ public class HomeController extends HttpServlet {
         Map<Integer, List<Post>> map = boardService.getNotices();
         req.setAttribute("notices", map.get(Board.TYPE_NOTICE));
         req.setAttribute("events", map.get(Board.TYPE_EVENT));
+
+        //의상 추천
+        final String gender = req.getSession().getAttribute("gender") == null ? "A" : req.getSession().getAttribute("gender").toString();
+        final Costume[] costumes = costumeService.getRand(shortTermForecast.get(0).getTemperature(), gender);
+        req.setAttribute("costumes", costumes);
 
         req.getRequestDispatcher("/WEB-INF/views/user/home/home.jsp").forward(req, resp);
     }

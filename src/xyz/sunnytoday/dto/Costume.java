@@ -9,6 +9,7 @@ public class Costume {
 	private String gender;
 	private int file_no;
 	private String title;
+	private String thumbNail;
 
 	@Override
 	public String toString() {
@@ -21,6 +22,14 @@ public class Costume {
 				", file_no=" + file_no +
 				", title='" + title + '\'' +
 				'}';
+	}
+
+	public String getThumbNail() {
+		return thumbNail;
+	}
+
+	public void setThumbNail(String thumbNail) {
+		this.thumbNail = thumbNail;
 	}
 
 	public String getTitle() {

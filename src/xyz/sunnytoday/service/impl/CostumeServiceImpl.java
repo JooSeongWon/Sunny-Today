@@ -44,5 +44,37 @@ public class CostumeServiceImpl implements CostumeService {
 		return result;
 		
 	}
+
+	@Override
+	public Costume[] getRand(int temperature, String gender) {
+		Costume[] result = new Costume[2];
+
+		try (Connection conn = JDBCTemplate.getConnection()) {
+			List<Costume> costumesTop = costumeDao.selectCostumesIf(conn, temperature, "T", gender);
+			List<Costume> costumesPants = costumeDao.selectCostumesIf(conn, temperature, "P", gender);
+
+			Costume costume = new Costume();
+			if(costumesTop.isEmpty()) {
+				costume.setTitle("의상 없음");
+				costume.setThumbNail("no-img.PNG");
+				result[0] = costume;
+			} else {
+				result[0] = costumesTop.get((int) (Math.random() * costumesTop.size()));
+			}
+
+			if(costumesPants.isEmpty()) {
+				costume.setTitle("의상 없음");
+				costume.setThumbNail("no-img.PNG");
+				result[1] = costume;
+			} else {
+				result[1] = costumesPants.get((int) (Math.random() * costumesPants.size()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 	
 }
