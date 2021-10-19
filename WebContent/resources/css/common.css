@@ -114,6 +114,13 @@ header {
     line-height: 30px;
 }
 
+.enter__admin {
+    margin-right: 15px;
+    border: 1px dashed red;
+    background: none;
+    color: var(--color-red);
+}
+
 .header__title {
     color: var(--color-sky);
     font-weight: var(--weight-regular);
