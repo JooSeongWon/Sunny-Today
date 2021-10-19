@@ -52,7 +52,7 @@ public interface MemberMenageService {
 	 * @param paging - 페이징 객체
 	 * @return - 조회된 문의 리스트 반환
 	 */
-	public List<Question> getQuestionList(Member param, Paging paging);
+	public List<Map<String, Object>> getQuestionList(Member param, Paging paging);
 
 	/**
 	 * 문의의 세부 사항을 요청
@@ -136,8 +136,9 @@ public interface MemberMenageService {
 	 * 제재목록에 추가 
 	 * @param member - 제재할 회원
 	 * @param ban - 제재 정보
+	 * @param date - 제재 일수
 	 */
-	public void insertBan(Member member, Ban ban);
+	public void insertBan(Member member, Ban ban, int date);
 
 	
 

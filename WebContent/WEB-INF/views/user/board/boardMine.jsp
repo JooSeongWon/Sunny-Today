@@ -124,7 +124,7 @@
 </div>
 
 <div class="searchArea">
-<form action="/board/buy" method="get">
+<form action="/board/search" method="get">
 	<select name="select">
 			<option value="title" >제목</option>
 			<option value="content">본문</option>

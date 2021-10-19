@@ -88,44 +88,42 @@ $(document).ready(function(){
 		} 
 	})
 	
-	// 페이지 이동 -> AJAX로 하면 자연스러울거 같네요
-	//-> 첫페이지를 헤더로 잡고 div하나 만들어서 적용해야 하겠네요
+	$('#admin_setting').click(function(){
+		console.log("admin_setting clicked");
+		$(location).attr("href", "/admin/set");
+	})
+	
+	$('#message_evnet').click(function(){
+		console.log("message_evnet clicked");
+		$(location).attr("href", "/admin/message/event")
+	})
+	
+	$('#message_send').click(function(){
+		console.log("message_send clicked");
+		$(location).attr("href", "/admin/message/send")
+	})
 	
 	$('#member_list').click(function(){
 		console.log("member_list clicked");
 		$(location).attr("href", "/admin/member/list");
-//		sendRequest(
-//			"GET"
-//			, "/admin/member/list"
-//			, resonsefunc);
 	})
 	
 	$('#member_question').click(function(){
-		console.log("member_list clicked");
+		console.log("member_question clicked");
 		$(location).attr("href", "/admin/member/question");
-//		sendRequest(
-//			"GET"
-//			, "/admin/member/question"
-//			, resonsefunc);
+
 	})
 	
 	$('#member_report').click(function(){
-		console.log("member_list clicked");
+		console.log("member_report clicked");
 		$(location).attr("href", "/admin/member/report");
-//		sendRequest(
-//			"GET"
-//			, "/admin/member/report"
-//			, resonsefunc);
 	})
 	
 	$('#purnish_list').click(function(){
-		console.log("member_list clicked");
+		console.log("purnish_list clicked");
 		$(location).attr("href", "/admin/purnish/list");
-//		sendRequest(
-//			"GET"
-//			, "/admin/purnish/list"
-//			, resonsefunc);
 	})
+	
 //	$('#conn_analysis').click(function(){
 //		console.log("conn_analysis clicked");
 //		$(location).attr("href", "/admin/conn/analysis");		
@@ -136,13 +134,24 @@ $(document).ready(function(){
 //	})
 //	
 	$('#board_menage').click(function(){
+		console.log("board_menage clicked");
 		$(location).attr("href", "/admin/board/list");
 	})
 	
 	$('#total_board_setting').click(function(){
-//		$(location).attr("href", "admin");
+		console.log("total_board_setting clicked");
+		$(location).attr("href", "/admin/board/update");
 	})
 	
+	$('#total_post_menage').click(function(){
+		console.log("total_post_menage clicked");
+		$(location).attr("href", "/admin/post/list")
+	})
+	
+	$('#board_statisics').click(function(){
+		console.log("board_statisics clicked");
+		$(location).attr("href", "/admin/post/write")
+	})	
 });
 
 function resonsefunc(){

@@ -54,9 +54,9 @@ src="/resources/js/admin_nav.js"></script>
 
 <table class="table">
 <tr>
-	<th style="font-size:2.0em"><i class="fas fa-sun" style="color:red;"></i>오늘도 맑음</th>
+	<th style="font-size:2.0em"><i class="fas fa-sun" style="color:red;"></i><a href="<%=request.getContextPath() %>/admin/set" style="color:white;">오늘도 맑음</a></th>
 </tr>
-<!-- 경로는 잘 지정해서 보내주세요 -->
+
 <tr>
 	<td style="font-size:1.5em" id="admin_set">
 	<i class="far fa-caret-square-down" id="admin_set_icon1"></i>
@@ -68,8 +68,8 @@ src="/resources/js/admin_nav.js"></script>
 	<td style="font-size:1em">
 		<ul style="list-style: none;">
 			<li id="admin_setting">관리자설정</li>
-			<li id="message_enroll">자동발송 메세지 설정</li>
-			<li id="message_enroll">메세지발송</li>
+			<li id="message_event">메세지 이벤트 등록</li>
+			<li id="message_send">메세지발송</li>
 		</ul>
 	</td>
 </tr>
@@ -92,7 +92,7 @@ src="/resources/js/admin_nav.js"></script>
 	</td>
 </tr>
 
-
+<!-- 
 <tr>
 	<td style="font-size:1.5em" id="markting">
 	<i class="far fa-caret-square-down" id="markting_icon1"></i>
@@ -108,7 +108,7 @@ src="/resources/js/admin_nav.js"></script>
 		</ul>
 	</td>
 </tr>
-
+ -->
 <tr>
 	<td style="font-size:1.5em" id="post">
 	<i class="far fa-caret-square-down" id="post_icon1"></i>
@@ -122,7 +122,7 @@ src="/resources/js/admin_nav.js"></script>
 			<li id="board_menage">게시판 관리</li>
 			<li id="total_board_setting">게시판 전체 설정</li>
 			<li id="total_post_menage">게시물 통합 관리</li>
-			<li id="total_comments_menage">댓글 통합 관리</li>
+<!-- 			<li id="total_comments_menage">댓글 통합 관리</li> -->
 			<li id="board_statisics">게시판 통합 관리</li>
 		</ul>
 	</td>

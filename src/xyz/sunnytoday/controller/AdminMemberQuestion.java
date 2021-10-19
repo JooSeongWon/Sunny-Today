@@ -2,6 +2,7 @@ package xyz.sunnytoday.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +30,7 @@ public class AdminMemberQuestion extends HttpServlet {
 		String option = req.getParameter("select_option");
 		String search = req.getParameter("search");
 		String location = "question";
-		List<Question> list = null;
+		List<Map<String, Object>> list = null;
 		Paging paging = null;
 		if(search != null) {
 			if("userid".equals(option)) {
@@ -53,6 +54,14 @@ public class AdminMemberQuestion extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String chNum = null; // 받아올 파라미터의 이름 설정
 		int count = 0;
+		String location = "question";
+		Member param = new Member();
+		int cntRow = memberService.cntList(req, param, location);
+		System.out.println("cntRow : " + cntRow);
+		
+		if(cntRow > 10) {
+			cntRow = 10;
+		}
 		//선택한 항목의 갯 수 확인
 		for(int i=0; i < 10; i++) {
 			chNum = "ch" + i; // 파라미터의 뒷번호를 for문으로 자동 생성
@@ -79,12 +88,12 @@ public class AdminMemberQuestion extends HttpServlet {
 			}
 			
 			cnt = 0;
-			Question param = new Question();
+			Question question = new Question();
 			
 			for(int i=0; i < question_no.length; i++) {
-				param.setQuestion_no(question_no[i]);
+				question.setQuestion_no(question_no[i]);
 			}
-			memberService.deleteQuestion(param);
+			memberService.deleteQuestion(question);
 			
 		}
 		

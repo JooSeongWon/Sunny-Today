@@ -26,26 +26,36 @@ public class MemberMenageDaoImpl implements MemberMenageDao{
 	public int searchCnt(Connection conn, Member param, String location) {
 		System.out.println("searchCnt called");
 		System.out.println("loction : " + location );
+		System.out.println(param.getUserid() != null || param.getNick() !=null);
 		String sql = "";
 		sql += "SELECT count(*) ";
 		if(location == "member") { 
 			sql += " FROM member m";
+			if(param.getUserid() != null || param.getNick() !=null) {
+				sql += " WHERE";
+			}
 			
 		}else if(location == "question") {
-			sql += " FROM private_question pq, member m";
-			sql += " WHERE pq.user_no = m.user_no";
+			sql += " FROM private_question pq";
+			if(param.getUserid() != null || param.getNick() !=null) {
+				sql += ", member m";
+				sql += " WHERE pq.user_no = m.user_no AND";
+			}
 			
 		}else if(location == "purnish") {
-			sql += " FROM ban b, member m";
-			sql += " WHERE b.user_no = m.user_no";
-			
+			sql += " FROM ban b";
+			if(param.getUserid() != null || param.getNick() != null) {	
+				sql += ", member m";
+				sql += " WHERE b.user_no = m.user_no AND";
+			}
 		}
 		
 		if(param.getNick() != null && !"".equals(param.getNick())) {
-			sql += " WHERE m.nick LIKE ?";
+			sql += " m.nick LIKE ?";
 		}else if(param.getUserid() != null && !"".equals(param.getUserid())) {
-			sql += " WHERE m.id LIKE ?";
+			sql += " m.id LIKE ?";
 		}
+		
 		int res = 0;
 		
 		try {

@@ -2,63 +2,31 @@ package xyz.sunnytoday.dao.face;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Question;
 import xyz.sunnytoday.util.Paging;
 
 public interface QuestionMenageDao {
-	
-	/**
-	 * id로 검색된 총 페이지 수 조회
-	 * @param conn - DB 연결 객체
-	 * @param param - member dto 객체
-	 * @return - id로 검색된 총 페이지 수 반환
-	 */
-	public int selectIdCntAll(Connection conn, Member param);
 
 	/**
-	 * nick로 검색된 총 페이지 수 조회
-	 * @param conn - DB 연결 객체
-	 * @param param - member dto 객체
-	 * @return - id로 검색된 총 페이지 수 반환
+	 * 모든 질문 / 검색된 질문의 총 행의 수 조회
+	 * @param conn - DB연결 객체
+	 * @param param - 검색조건
+	 * @return - 조회된 총원 수 반환
 	 */
-	public int selectNickCntAll(Connection conn, Member param);
+	public int selectCnt(Connection conn, Member param);
 	
 	/**
-	 * question의 모든 데이터(행)의 수를 조회
-	 * @param conn - DB 연결객체
-	 * @return - 조회된 총 페이지의 수
-	 */
-	public int selectCntAll(Connection conn);
-
-	/**
-	 * id로 검색된 문의 리스트 조회
+	 * 모든 리스트 / 검색된 문의 리스트 조회
 	 * @param param - Member DTO 객체
 	 * @param paging - 페이징 객체
 	 * @param conn - DB 연결 객체
 	 * @return - 조회된 문의 리스트 반환
 	 */
-	public List<Question> searchUserId(Member param, Paging paging, Connection conn);
+	public List<Map<String, Object>> searchQuestion(Member param, Paging paging, Connection conn);
 
-	/**
-	 * nick으로 검색된 문의 리스트 조회
-	 * @param param - Member DTO 객체
-	 * @param paging - 페이징 객체
-	 * @param conn - DB 연결 객체
-	 * @return - 조회된 문의 리스트 반환 	
-	 */
-	public List<Question> searchUserNick(Member param, Paging paging, Connection conn);
-
-	/**
-	 * 모든 문의 리스트 조회
-	 * @param param - Member DTO 객체
-	 * @param paging - 페이징 객체
-	 * @param conn - DB 연결 객체
-	 * @return - 조회된 문의 리스트 반환 	
-	 */
-	public List<Question> getQuestionList(Connection conn, Paging paging);
-	
 	/**
 	 * 조회된 문의 사항의 세부 정보를 조회
 	 * @param conn - DB 연결 객체
@@ -82,5 +50,6 @@ public interface QuestionMenageDao {
 	 * @return - 삭제 성공 여부를 반환
 	 */
 	public int deleteQuestion(Connection conn, Question param);
+
 
 }

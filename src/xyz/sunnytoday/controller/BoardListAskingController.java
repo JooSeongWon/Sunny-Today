@@ -27,8 +27,8 @@ public class BoardListAskingController extends HttpServlet {
 		
 		List<Map<String, Object>> list = boardService.getAskingList(req, paging);
 		
-		String date = list.get(0).get("board").toString();
-		String boardTitle = boardService.getValueFromMap(date,"title");
+//		String date = list.get(0).get("board").toString();
+//		String boardTitle = boardService.getValueFromMap(date,"title");
 
 		boardService.setThumFile(list);
 //		
@@ -37,11 +37,13 @@ public class BoardListAskingController extends HttpServlet {
 //		}
 
 //		System.out.println("boardno : " + boardno);
-		paging = boardService.getTitlePaging(req, boardTitle);	
+		paging = boardService.getTitlePaging(req, "asking");	
 		
+		
+//		System.out.println(boardTitle);
 		
 		req.setAttribute("list", list);
-		req.setAttribute("boardTitle", boardTitle);
+		req.setAttribute("boardTitle", "asking");
 		req.setAttribute("paging", paging);
 
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardAsking.jsp").forward(req, resp);

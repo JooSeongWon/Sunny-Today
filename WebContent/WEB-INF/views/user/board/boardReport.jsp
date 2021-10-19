@@ -8,14 +8,14 @@
 <!doctype html>
 <html lang="ko">
 <head>
-    <%--head meta data--%>
-    <c:import url="../layout/head_meta.jsp"/>
-    <%--page title--%>
-    <title>오늘도 맑음 -전체 카테고리</title>
+<%--head meta data--%>
+<c:import url="../layout/head_meta.jsp"/>
+<%--page title--%>
+<title>오늘도 맑음 -전체 카테고리</title>
 
-    <%--페이지별 css/ js--%>
-    <link href="${cssPath}/board.css" rel="stylesheet">
-    <script src="${jsPath}/board_script.js"></script>
+<%--페이지별 css/ js--%>
+<link href="${cssPath}/board.css" rel="stylesheet">
+<script src="${jsPath}/board_script.js"></script>
 
 </head>
 <body>

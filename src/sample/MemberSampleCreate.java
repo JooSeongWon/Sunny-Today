@@ -27,9 +27,9 @@ public class MemberSampleCreate extends HttpServlet {
 
 
 
-            String userId = "koko4916"; //사용하실 유저아이디 4~20글자 사이
-            String userPw = "asdf1234"; //사용하실 비밀번호 8~20글자 사이
-            String nick = "son"; //사용하실 닉네임 중복불가!
+            String userId = "lklk4916"; //사용하실 유저아이디 4~20글자 사이
+            String userPw = "1q2w3e4r"; //사용하실 비밀번호 8~20글자 사이
+            String nick = "admin"; //사용하실 닉네임 중복불가!
 
 
 
@@ -46,7 +46,7 @@ public class MemberSampleCreate extends HttpServlet {
             member.setPhone("01075277225");
             member.setBirth(new Date());
             member.setGender("A");
-
+            member.setAdmin("T");
             memberDao.insert(connection, member);
         } catch (Exception e) {
             e.printStackTrace();

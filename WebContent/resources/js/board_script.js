@@ -70,6 +70,8 @@ $(document).ready(function() {
 	//게시글 상세보기 뒤로가기버튼 동작
 	$("#btnList").click(function() {
 		history.go(-1);
+		//뒤로가기는 댓글입력하거나 수정하면 새로고침되서 안먹힐 때가 있어요
+		//$(location).attr("href", /board/list); 같은 구문으로 대체해주세요
 	});
 	
 	//게시글 수정버튼 동작
