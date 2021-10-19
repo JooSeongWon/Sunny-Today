@@ -20,8 +20,8 @@ import xyz.sunnytoday.service.impl.MypageServiceImpl;
 /**
  * Servlet implementation class MypagePasswordCheckController
  */
-@WebServlet("/mypage/password/check")
-public class MypagePasswordCheckController extends HttpServlet {
+@WebServlet("/mypage/password/check/change")
+public class MypagePasswordCheckController2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private MypageService mypageService = new MypageServiceImpl();
@@ -36,6 +36,7 @@ public class MypagePasswordCheckController extends HttpServlet {
 		//유저넘버로 유저정보 얻기 - member
 		Member member = mypageService.selectMember(userno);
 		
+		if(member.getSalt()!=null) {
 		//유저 썸네일 전달
 		File profile = mypageService.selectProfile(member);
 		
@@ -45,7 +46,10 @@ public class MypagePasswordCheckController extends HttpServlet {
 		//유저정보 전달
 		req.setAttribute("member", member);
 		
-		req.getRequestDispatcher("/WEB-INF/views/user/mypage/pw_check.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/views/user/mypage/change_Password2.jsp").forward(req, resp);
+		} else {
+			resp.sendRedirect("/mypage/password");
+		}
 	}
 	
 	@Override

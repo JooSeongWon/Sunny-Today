@@ -282,7 +282,7 @@ public class MypageServiceImpl implements MypageService {
     		Member member = new Member();
     		member = mypageDao.getsalt(userId, conn);
     		if(!CipherUtil.encodeSha256(userPw, member.getSalt()).equals(member.getUserpw())) {
-    			res = 0 ;
+    			res = 1 ;
     		} else {
     			res = 3;
     		} 

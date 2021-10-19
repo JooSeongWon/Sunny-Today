@@ -49,9 +49,10 @@ public class MypagePasswordController extends HttpServlet {
 		//비밀번호 패턴
 		String pwRegex = "^(?=.*[a-zA-Z0-9$`~!@$!%*#^?&])(?!.*[^a-zA-Z0-9$`~!@$!%*#^?&]).{8,20}$";
 
+		
 		int res = 0;
 		
-		//비밀번호 확인값이 있을경
+		//비밀번호 확인값이 있을경우
 		if (req.getParameter("passwordcheck") != null && Pattern.matches(pwRegex, req.getParameter("passwordcheck"))) {
 			
 			//등록 비밀번호가 있을 경우
@@ -69,6 +70,7 @@ public class MypagePasswordController extends HttpServlet {
 					resp.getWriter().write(rs);
 
 				} else {
+					
 					res = 2;
 
 					// json 형식으로 변환
@@ -79,33 +81,31 @@ public class MypagePasswordController extends HttpServlet {
 					resp.getWriter().write(rs);
 
 				}
-			}
-			
-			//비밀번호입력이 있을 경우
-			if (req.getParameter("password") != null && !"".contentEquals(req.getParameter("password"))) {
+				//비밀번호입력이 있을 경우
+			}	else if (req.getParameter("password") != null && !"".contentEquals(req.getParameter("password"))) {
 				
-				//비밀번호 확인과 입력이 일치 할 경우
-				if (req.getParameter("password").equals(req.getParameter("passwordcheck"))) {
-					res = mypageService.updatePw(req, userno);
+					// 비밀번호 확인과 입력이 일치 할 경우
+					if ((req.getParameter("password")).contentEquals(req.getParameter("passwordcheck"))) {
+						res = mypageService.updatePw(req, userno);
 
-					// json 형식으로 변환
-					Gson gson = new Gson();
-					String rs = gson.toJson(res);
+						// json 형식으로 변환
+						Gson gson = new Gson();
+						String rs = gson.toJson(res);
 
-					// 전송이 되는 부분
-					resp.getWriter().write(rs);
+						// 전송이 되는 부분
+						resp.getWriter().write(rs);
 
-				} else {
-					res = 2;
+					} else {
+						res = 2;
 
-					// json 형식으로 변환
-					Gson gson = new Gson();
-					String rs = gson.toJson(res);
+						// json 형식으로 변환
+						Gson gson = new Gson();
+						String rs = gson.toJson(res);
 
-					// 전송이 되는 부분
-					resp.getWriter().write(rs);
+						// 전송이 되는 부분
+						resp.getWriter().write(rs);
 
-				}
+					}
 			}
 
 		}
