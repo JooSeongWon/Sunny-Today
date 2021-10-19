@@ -83,16 +83,16 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 		})
 	})
 	
+	var count = <%=friendList.size() %>;
+	
 	$(document).ready (function() {
-			
-		var count = <%=friendList.size() %>;
 			
 		$('.btnAdd').click (function() {
 				
 			if(count < 6) {
 				$('.addInput').append (
 					'<p class="addP"><button type="button" class="btnRemove">-</button> \
-					<input type="text" name="friend" target="target" size="7px" maxlength="5" placeholder="친구" required="required" /><br></p>'
+					<input type="text" name="friend" target="target" size="7px" maxlength="6" placeholder="친구" required="required" /><br></p>'
 				); //input 추가
 				
 				$('input[target]').keydown(function() {
@@ -120,15 +120,30 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 	})
 	
 	$(document).ready (function() {
+		
+			$('.btnRemove').off('click').on('click', function() {
+				
+											// 여기서 this는 '.btnRemove'
+				$(this).parent().remove();	// <p> 삭제
+				$(this).next().remove();	// <input> 삭제
+				$(this).next().remove();	// <br>
+				$(this).remove();			// 버튼삭제
+					
+				count--;
+			})
 			
-		var count2 = <%=materialList.size() %>;
+	})
+	
+	var count2 = <%=materialList.size() %>;
+	
+	$(document).ready (function() {
 			
 		$('.btnAdd2').click (function() {
 				
 			if(count2 < 6) {
 				$('.addInput2').append (
 					'<p class="addP"><button type="button" class="btnRemove2">-</button> \
-					<input type="text" name="material" target="target" size="7px" maxlength="5" placeholder="준비물" required="required" /><br><p>'
+					<input type="text" name="material" target="target" size="7px" maxlength="6" placeholder="준비물" required="required" /><br><p>'
 				); //input 추가
 				
 				$('input[target]').keydown(function() {
@@ -144,6 +159,21 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 			
 			$('.btnRemove2').off('click').on('click', function() {
 				
+				// 여기서 this는 '.btnRemove'
+				$(this).parent().remove();	// <p> 삭제
+				$(this).next().remove();	// <input> 삭제
+				$(this).next().remove();	// <br>
+				$(this).remove();			// 버튼삭제
+
+				count2--;
+			})
+		})
+	})
+	
+	$(document).ready (function() {
+		
+			$('.btnRemove2').off('click').on('click', function() {
+				
 											// 여기서 this는 '.btnRemove'
 				$(this).parent().remove();	// <p> 삭제
 				$(this).next().remove();	// <input> 삭제
@@ -152,8 +182,10 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 					
 				count2--;
 			})
-		})
+			
 	})
+	
+	
 	
     </script>
     
@@ -283,7 +315,7 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 	    	<p><button type="button" class="btnAdd2">+</button> 준비물</p>
 		
 		</div>
-	
+		
 	    <div class="side_rigth_box">
 	    	
 			<div class="addInput2">
@@ -293,8 +325,8 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 			for(int i=0; i<materialList.size(); i++) {
 				String material_name = materialList.get(i).getName();
 				
-				out.print("<p class='addP'><button type='button' class='btnRemove2'>-</button>&nbsp;"
-						+ "<input type='text' name='material' target='target' size='7px' maxlength='6' placeholder='친구' value='" 
+				out.print("<p class='addP'><button type='button' class='btnRemove2'>-</button> "
+						+ "<input type='text' name='material' target='target' size='7px' maxlength='6' placeholder='준비물' value='" 
 						+  material_name
 						+"' required='required' /><br></p>");
 				
@@ -321,7 +353,7 @@ List<Friend> friendList = (List) request.getAttribute("friend");
 			for(int i=0; i<friendList.size(); i++) {
 				String friend_name = friendList.get(i).getName();
 				
-				out.print("<p class='addP'><button type='button' class='btnRemove'>-</button>&nbsp;" 
+				out.print("<p class='addP'><button type='button' class='btnRemove'>-</button> " 
 						+ "<input type='text' name='friend' target='target' size='7px' maxlength='6' placeholder='친구' value='" 
 						+  friend_name
 						+"' required='required' /><br></p>");

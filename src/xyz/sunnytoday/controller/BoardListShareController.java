@@ -31,6 +31,8 @@ public class BoardListShareController extends HttpServlet {
 		String date = list.get(0).get("board").toString();
 		String boardTitle = boardService.getValueFromMap(date,"title");
 
+		boardService.setThumFile(list);
+		
 //		
 //		for( Map<String, Object> e : list ) {
 //			System.out.println( e );
