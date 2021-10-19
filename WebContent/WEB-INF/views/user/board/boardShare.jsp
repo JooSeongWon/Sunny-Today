@@ -68,7 +68,16 @@
 	</tr>
 <c:forEach items="${list }" var="boardShareList">
 <tr>
-	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
+	<td rowspan="2">
+	<c:choose>
+	<c:when test="${empty boardMainList.file }">
+	<img class="thumbnail" src="https://via.placeholder.com/40" alt="no picture">
+	</c:when>
+	<c:otherwise>
+	<img class="thumbnail" src="${pageContext.request.contextPath}/upload/${boardShareList.file.thumbnail_url}" alt="no picture">
+	</c:otherwise>
+	</c:choose>
+	</td>
 	<td id='title'>
 		<a href="/board/detail?postno=${boardShareList.post.post_no }">
 		<c:choose>

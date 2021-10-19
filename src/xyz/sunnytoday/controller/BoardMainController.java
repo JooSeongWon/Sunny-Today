@@ -37,9 +37,9 @@ public class BoardMainController extends HttpServlet {
 		req.setAttribute("list", list);
 		req.setAttribute("paging", paging);
 		
-//		for( Map<String, Object> e : list ) {
-//			System.out.println( e );
-//		}		
+		for( Map<String, Object> e : list ) {
+			System.out.println( e );
+		}		
 //		System.out.println("mainThumFile : " + mainThumFile );
 
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardMain.jsp").forward(req, resp);

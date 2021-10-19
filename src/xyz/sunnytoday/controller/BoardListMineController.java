@@ -29,6 +29,8 @@ public class BoardListMineController extends HttpServlet {
 		
 		List<Map<String, Object>> list = boardService.getMineList(req, paging);
 		
+		boardService.setThumFile(list);
+		
 		req.setAttribute("list", list);
 		req.setAttribute("boardTitle", "mine");
 		req.setAttribute("paging", paging);

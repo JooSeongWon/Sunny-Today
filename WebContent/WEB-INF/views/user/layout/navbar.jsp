@@ -23,7 +23,7 @@
             <a href="<%= request.getContextPath() %>/board/main">
                 <li class="navbar__item">커뮤니티</li>
             </a>
-            <a href="#">
+            <a href="<%= request.getContextPath() %>/mypage/profile">
                 <li class="navbar__item">마이페이지</li>
             </a>
             <a href="<%= request.getContextPath() %>/message">

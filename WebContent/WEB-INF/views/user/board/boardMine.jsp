@@ -68,7 +68,16 @@
 	</tr>
 <c:forEach items="${list }" var="boardMineList">
 <tr>
-	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
+	<td rowspan="2">
+	<c:choose>
+	<c:when test="${empty boardMineList.file }">
+	<img class="thumbnail" src="https://via.placeholder.com/40" alt="no picture">
+	</c:when>
+	<c:otherwise>
+	<img class="thumbnail" src="${pageContext.request.contextPath}/upload/${boardMineList.file.thumbnail_url}" alt="no picture">
+	</c:otherwise>
+	</c:choose>
+	</td>
 	<td id='title'>
 		<a href="/board/detail?postno=${boardMineList.post.post_no }">
 		<c:choose>
@@ -109,6 +118,24 @@
 </table>
 </section>
 </div>
+
+<div class="btnWriteStart">
+<button class="btnWrite">글쓰기</button>
+</div>
+
+<div class="searchArea">
+<form action="/board/buy" method="get">
+	<select name="select">
+			<option value="title" >제목</option>
+			<option value="content">본문</option>
+			<option value="nick">작성자</option>
+	</select>
+	<input type="text" name="keyword" placeholder="검색어 입력" />
+	<button class="search">검색</button>
+</form>
+</div>
+
+
 <div id='paging'>
 <c:import url="../layout/boardTitlePaging.jsp" />
 </div>

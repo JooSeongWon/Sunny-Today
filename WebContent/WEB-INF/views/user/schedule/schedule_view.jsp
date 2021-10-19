@@ -220,6 +220,23 @@ String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >
 			
 		</div>
 		
+	    <p style="font-weight: bold;">준비물</p>
+	    	
+	    <div class="side_rigth_box">
+	    
+			<%
+			
+			for(int i=0; i<materialList.size(); i++) {
+				String material_name = materialList.get(i).getName();
+				
+				out.print("<p class='addP'><i class='fas fa-check-circle' style='color: var(--color-dark-grey);'></i>&nbsp" + material_name + "</p>");
+				
+			}
+			
+			%>
+	    
+	    </div>
+	    
 	    <p style="font-weight: bold;">함께하는 친구</p>
 	    	
 	    <div class="side_rigth_box">
@@ -235,22 +252,6 @@ String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >
 			
 			%>
 	    
-	    </div>
-	    
-	    <p style="font-weight: bold;">준비물</p>
-	    	
-	    <div class="side_rigth_box">
-	    
-			<%
-			
-			for(int i=0; i<materialList.size(); i++) {
-				String material_name = materialList.get(i).getName();
-				
-				out.print("<p class='addP'><i class='fas fa-check-circle' style='color: var(--color-dark-grey);'></i>&nbsp" + material_name + "</p>");
-				
-			}
-			
-			%>
 		</div>
 		
 		<div id="schedule_memo">
