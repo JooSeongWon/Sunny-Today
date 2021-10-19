@@ -16,6 +16,7 @@
 
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/board.css" rel="stylesheet">
+    <link href="${cssPath}/paging_style.css" rel="stylesheet"> 
     <script src="${jsPath}/board_script.js"></script>
 
 </head>
@@ -90,7 +91,7 @@
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardMainList.nick }
+		${boardMainList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>

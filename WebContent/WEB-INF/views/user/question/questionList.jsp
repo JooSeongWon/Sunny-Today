@@ -16,6 +16,7 @@
 
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/question.css" rel="stylesheet">
+    <link href="${cssPath}/paging_style.css" rel="stylesheet"> 
     <script src="${jsPath}/question_script.js"></script>
 
 </head>
