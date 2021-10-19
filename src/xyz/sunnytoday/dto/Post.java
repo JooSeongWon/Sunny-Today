@@ -12,12 +12,32 @@ public class Post {
 	private String title;
 	private String content;
 	private int hit;
+	private int commentsNum;
+	private String thumbNail;
+
 	@Override
 	public String toString() {
 		return "Post [post_no=" + post_no + ", board_no=" + board_no + ", user_no=" + user_no + ", write_date="
 				+ write_date + ", last_modify=" + last_modify + ", title=" + title + ", content=" + content + ", hit="
 				+ hit + "]";
 	}
+
+	public String getThumbNail() {
+		return thumbNail;
+	}
+
+	public void setThumbNail(String thumbNail) {
+		this.thumbNail = thumbNail;
+	}
+
+	public int getCommentsNum() {
+		return commentsNum;
+	}
+
+	public void setCommentsNum(int commentsNum) {
+		this.commentsNum = commentsNum;
+	}
+
 	public int getPost_no() {
 		return post_no;
 	}

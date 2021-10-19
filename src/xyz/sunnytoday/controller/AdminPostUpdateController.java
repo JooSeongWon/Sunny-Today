@@ -23,10 +23,10 @@ public class AdminPostUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	Post postno = postService.getPostno(req);
-
-//	Post updatePost = postService.view(postno);
+	Post updatePost = postService.view(postno);
 	
-//	req.setAttribute("updatePost", updatePost);
+	req.setAttribute("updatePost", updatePost);
+	req.setAttribute("nick", postService.getNick(updatePost));
 
 	req.getRequestDispatcher("/WEB-INF/views/admin/post/update.jsp").forward(req, resp);		
 	}
@@ -36,6 +36,6 @@ public class AdminPostUpdateController extends HttpServlet {
 	
 //	postService.update(req);
 	
-		resp.sendRedirect("/SunnyToday/admin/post/list");
+		resp.sendRedirect("/admin/post/list");
 	}
 }

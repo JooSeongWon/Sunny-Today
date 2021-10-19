@@ -146,6 +146,7 @@ public class MemberServiceImpl implements MemberService {
         session.setAttribute("admin", member.getAdmin());
         session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
         session.setAttribute("hasPassword", true);
+        session.setAttribute("gender", member.getGender());
 
         return new ResponseMessage(true, "로그인 성공");
     }
@@ -241,6 +242,7 @@ public class MemberServiceImpl implements MemberService {
                     session.setAttribute("admin", member.getAdmin());
                     session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
                     session.setAttribute("hasPassword", member.getUserpw() != null);
+                    session.setAttribute("gender", member.getGender());
 
                     return new ResponseMessage(true, "가입 및 로그인 성공");
             }
@@ -290,6 +292,7 @@ public class MemberServiceImpl implements MemberService {
         session.setAttribute("admin", member.getAdmin());
         session.setAttribute("pictureThumbnail", member.getPictureThumbnail());
         session.setAttribute("hasPassword", member.getUserpw() != null);
+        session.setAttribute("gender", member.getGender());
 
         return new ResponseMessage(true, "로그인 성공");
     }

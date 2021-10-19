@@ -17,7 +17,7 @@ $(document).ready(function() {
 	
 	//게시판 추가버튼 동작
 	$("#btnBoardUp").click(function() {
-		$(location).attr("href", "/SunnyToday/admin/board/write");
+		$(location).attr("href", "/admin/board/write");
 	});
 	
 
@@ -35,19 +35,19 @@ $(document).ready(function() {
 
 	//수정버튼 동작
 	$(".btnUpdate").click(function(e) {
-		$(location).attr("href", "/SunnyToday/admin/board/update?board_no="+ $(this).attr("data-boardNo")); 
+		$(location).attr("href", "/admin/board/update?board_no="+ $(this).attr("data-boardNo")); 
 	}); 
 
 // 	//수정버튼 동작
 // 	$(".btn btn-info btn-sm").click(function() {
-// 		$(location).attr("href", "/SunnyToday/admin/board/update?board_no=${viewBoard.board_no }");
+// 		$(location).attr("href", "/admin/board/update?board_no=${viewBoard.board_no }");
 // 	});
 
 
 	// 삭제버튼 동작
 	$(".btnDelete").click(function(e) {
 		if( confirm("게시판을 삭제하시겠습니까?") ) {
-			$(location).attr("href", `/SunnyToday/admin/board/delete?board_no=\${$(this).attr("data-boardNo")}`);
+			$(location).attr("href", `/admin/board/delete?board_no=\${$(this).attr("data-boardNo")}`);
 			}
 	});
 
@@ -119,12 +119,12 @@ $(document).ready(function() {
 <button type="button" id="btnBoardUp" >+ 게시판 추가</button>
 </div>
 
-<button type="button" id="btnCheck">선택 삭제</button>
+<!-- <button type="button" id="btnCheck">선택 삭제</button> -->
 
 <table class="table table-hover">
 <tr>
 	<th></th>
-	<th><input type="checkbox" id= "checkAll" class="checkAll" name="checkAll" value="checkAll" ></th>
+<!-- 	<th><input type="checkbox" id= "checkAll" class="checkAll" name="checkAll" value="checkAll" ></th> -->
 	<th>No.</th>
 	<th>게시판명</th>
 	<th>게시글 수</th>
@@ -141,18 +141,18 @@ $(document).ready(function() {
 <!--     </div> -->
 
 <%-- <a href="/board/view?boardno=${board.board_no }"> --%>
-<%-- 		<li><a href="/SunnyToday/admin/board/list?curPage=${i }">${i }</a></li> --%>
+<%-- 		<li><a href="/admin/board/list?curPage=${i }">${i }</a></li> --%>
 
 <form action="Admin/board/list" method="post">
 <c:forEach items="${boardList }" var="board">
 <tr>
 <!-- 	<td id="Arthur"><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-down"></i></td> -->
 	<td>
-		<div class="triangle triangle--top" id="top"></div>
-		<div class="triangle triangle--bottom" id="bottom"></div>
+<!-- 		<div class="triangle triangle--top" id="top"></div> -->
+<!-- 		<div class="triangle triangle--bottom" id="bottom"></div> -->
 	</td>
-	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td>
-	<td><a href="/SunnyToday/admin/board/view">${board.board_no }</a></td> <%--No. --%> 
+<!-- 	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td> -->
+	<td>${board.board_no }</td>
 	<td>${board.title }</td> 
 	<td><c:out value="${titleCount}" /></td>
 	<td>

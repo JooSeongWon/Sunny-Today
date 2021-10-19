@@ -73,6 +73,13 @@ public interface MypageService {
 	 */
 	public void delMember(int userno);
 	
+	/**
+	 * 소셜 유저 비밀번호 생성
+	 * @param req - 요청정보객체
+	 * @param userno - 유저번호
+	 */
+	public int createpw(HttpServletRequest req, int userno);
+	
 
 	
 	

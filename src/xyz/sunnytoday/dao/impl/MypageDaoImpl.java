@@ -19,7 +19,7 @@ public class MypageDaoImpl implements MypageDao {
 
 		String sql = ""
 			+ "SELECT NICK, EMAIL, PHONE, BIRTH, "
-			+ " PICTURE_NO, BIRTH_OPEN, PHONE_OPEN, user_no, id"
+			+ " PICTURE_NO, BIRTH_OPEN, PHONE_OPEN, user_no, id, password "
 			+ " FROM MEMBER"
 			+ " WHERE USER_NO = ?";
 		
@@ -46,6 +46,8 @@ public class MypageDaoImpl implements MypageDao {
 				member.setPhone_open(rs.getString("phone_open"));
 				member.setUserno(rs.getInt("user_no"));
 				member.setUserid(rs.getString("id"));
+				member.setUserpw(rs.getString("password"));
+				
 			}
 			
 		} catch (SQLException e) {
@@ -92,6 +94,37 @@ public class MypageDaoImpl implements MypageDao {
 			JDBCTemplate.close(rs);
 			JDBCTemplate.close(ps);
 		}
+		return result;
+	}
+	
+	@Override
+	public int insertNewPw(int userno, Connection conn, String newpw, String salt) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int result = 0;
+		
+		String sql = ""
+			+ "UPDATE MEMBER SET PASSWORD = ? , SALT = ? "
+			+ " WHERE USER_NO = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, newpw);
+			ps.setString(2, salt);
+			ps.setInt(3, userno);
+			
+			//0 에러 , 1 성공
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
 		return result;
 	}
 	

@@ -401,5 +401,38 @@ public class AdminBoardDaoImpl implements AdminBoardDao {
 		return res;
 	}
 
+	@Override
+	public int changeBoardno(Connection conn, String value) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "";
+		sql += "SELECT board_no FROM board";
+		sql += "	WHERE title = ?";
+		
+		//결과 저장 변수
+		int board_no = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, value);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				board_no = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(ps);
+		}
+		
+		return board_no;
+	}
+
 	
 }

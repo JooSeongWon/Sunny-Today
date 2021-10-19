@@ -149,18 +149,22 @@ String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >
 					} else {
 						
 						if(request.getAttribute("weather").equals("맑음")) {
-							out.print("<i style='font-size: 95px;' class='fas fa-" + pm + "'></i>");
+							out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-" + pm + "'></i>");
 						} else if(request.getAttribute("weather").equals("구름많음")) {
 							if(rain >= 40) {
-								out.print("<i style='font-size: 95px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+								out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+							} else {
+								out.print("<i style='font-size:75px; margin-top: 15px;' class='fas fa-cloud-" + pm + "'></i>");
 							}
 						} else {
-							out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
+							if(rain >= 40) {
+								out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+							} else {
+								out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
+							}
 						}
 						
 					}
-				
-				
 				
 				%>
 		    	
@@ -237,13 +241,12 @@ String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >
 	    	
 	    <div class="side_rigth_box">
 	    
-	    	
 			<%
 			
 			for(int i=0; i<materialList.size(); i++) {
 				String material_name = materialList.get(i).getName();
 				
-				out.print("<p class='addP'>" + material_name + "</p>");
+				out.print("<p class='addP'><i class='fas fa-check-circle' style='color: var(--color-dark-grey);'></i>&nbsp" + material_name + "</p>");
 				
 			}
 			

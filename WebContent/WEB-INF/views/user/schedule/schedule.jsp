@@ -125,9 +125,6 @@ if(n_m == 13) {
 				document.getElementById("<%=y %>0101").style.color = "red";
 			}
 			if(<%=m+1 %> == '2') {
-				document.getElementById("<%=y %>0211").style.color = "red";
-				document.getElementById("<%=y %>0212").style.color = "red";
-				document.getElementById("<%=y %>0213").style.color = "red";
 			}
 			if(<%=m+1 %> == '3') {
 				document.getElementById("<%=y %>0301").style.color = "red";
@@ -145,19 +142,17 @@ if(n_m == 13) {
 			}
 			if(<%=m+1 %> == '8') {
 				document.getElementById("<%=y %>0815").style.color = "red";
-				document.getElementById("<%=y %>0816").style.color = "red";
 			}
 			if(<%=m+1 %> == '9') {
-				document.getElementById("<%=y %>0816").style.color = "red";
 			}
 			if(<%=m+1 %> == '10') {
-				console.log("10월")
+				document.getElementById("<%=y %>1003").style.color = "red";
+				document.getElementById("<%=y %>1009").style.color = "red";
 			}
 			if(<%=m+1 %> == '11') {
-				console.log("11월")
 			}
 			if(<%=m+1 %> == '12') {
-				console.log("12월")
+				document.getElementById("<%=y %>1225").style.color = "red";
 			}
 			
 			
@@ -355,22 +350,32 @@ if(n_m == 13) {
 					out.print("<i style='font-size: 95px;' class='fas fa-" + pm + "'></i>");
 				} else if(resultForecast.get(i).getWeather().equals("구름많음")) {
 					if(resultForecast.get(i).getChanceOfRain() >= 40) {
-						out.print("<i style='font-size: 95px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+						out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+					} else {
+						out.print("<i style='font-size:75px; margin-top: 15px;' class='fas fa-cloud-" + pm + "'></i>");
 					}
 				} else {
-					out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
+					if(resultForecast.get(i).getChanceOfRain() >= 40) {
+						out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+					} else {
+						out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
+					}
 				}
-	         
+			
 			out.println("</div>");
 	         
 			out.println("<div class= 'side_content_box'>");
 	         
 				out.println("<img alt='썸네일' src='/upload/" + fileList.get(ranNum.get(i)).getThumbnail_url() +"'>");
+				
+				System.out.println(ranNum.get(i));
 	            
 			out.println("</div>");
 	         
 			out.println("<div class= 'side_rigth_box'>");
-	          
+	          	
+				out.println("<p style='margin-bottom: 15px;'>" + underSchedule.get(i).getTitle() + "</p>");
+				
 				out.println(underSchedule.get(i).getContent());
 	          
 			out.println("</div>");

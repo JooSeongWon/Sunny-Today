@@ -51,23 +51,26 @@ $(document).ready(function() {
 
 <tr>
 	<td class="col-xs-2" height="50px">게시물 제목</td>
-	<td><input type="text"/></td>
+	<td><input type="text"/>${updatePost.title }</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">카테고리</td>
 	<td>
-		<select>
-			<option>자유게시판</option>
-		</select>
+			<select id="category" name="select">
+    			<option value="daily_clothes" >일상룩</option>
+    			<option value="buying" >지름 게시판</option>
+    			<option value="sharingInfo" >정보공유</option>
+    			<option value="qna" >질문 응답</option>
+			</select>
 	</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">게시글 작성자</td>
-	<td></td>
+	<td>${nick }</td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="260px">내용</td>
-	<td><textarea cols="90" rows="16"></textarea></td>
+	<td><textarea cols="90" rows="16">${updatePost.content }</textarea></td>
 </tr>
 <tr>
 	<td class="col-xs-2" height="50px">파일 첨부</td>
