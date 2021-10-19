@@ -63,23 +63,25 @@ $(document).ready(function(){
 	<th>작성일</th>
 </tr>
 </thead>
-<tbody>
 <% int i=0; %>
-<c:forEach items="${list }" var="question">
+<c:forEach items="${list }" var="map">
+
+<tbody>
+
 <tr>
 	<td><input type="checkbox" name="ch<%=i %>" class="ab" value="${question.question_no }"></td>
-	<td>${question.question_no }</td>
+	<td>${map.q.question_no }</td>
 	<c:choose>
-		<c:when test="${question.answer eq '' or question.answer eq null }">
+		<c:when test="${map.p.answer eq '' or map.p.answer eq null }">
 			<td>[처리 전]</td>
 		</c:when>
-		<c:when test="${question.answer ne '' and question.answer ne null }">
+		<c:when test="${map.p.answer ne '' and map.p.answer ne null }">
 			<td>[처리 완료]</td>
 		</c:when>
 	</c:choose>
 	<td><a href="<%=request.getContextPath() %>/admin/answer/view?question_no=${question.question_no }">${question.title }</a></td>
-	<td>${question.id }</td>
-	<td>${question.write_date }</td>
+	<td>${map.m.id }</td>
+	<td>${map.p.write_date }</td>
 </tr>
 <% i++; %>
 </c:forEach>

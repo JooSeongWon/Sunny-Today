@@ -44,9 +44,10 @@ public interface ReportHandlingDao {
 	 * 제재목록에 회원 추가
 	 * @param conn - DB 연결 객체
 	 * @param ban - 제재할 회원의 요청 객체
+	 * @param date - 제재일수
 	 * @return - 추가 성공 여부 반환
 	 */
-	public int insertBan(Connection conn, Ban ban, Member member);
+	public int insertBan(Connection conn, Ban ban, Member member, int date);
 	/**
 	 * 신고 처리 결과를 저장
 	 * @param conn - DB 연결 객체

@@ -293,3 +293,86 @@ li {
     font-weight: bold;
     height: 35px;
 }
+
+/* 수정페이지 */
+#questionUpdateTable {
+	width: 80%;
+	margin: 35px auto;
+	border-collapse: collapse;
+}
+
+#questionUpdateTable tr {
+	text-align: center;	
+}
+
+.questionUpdateWidth {
+	width: 80%;
+}
+.questionUpdateWidth > td:nth-child(1) {
+	width: 10%;
+}
+
+.questionUpdateWidth > td:nth-child(2) {
+	width: 40%;
+}
+
+.questionUpdateWidth > td:nth-child(3) {
+	width: 50%;
+}
+
+#questionUpdateText {
+	width:90%;
+	height: 40px;
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+#questionUpdateNick {
+	text-align: left;
+	height: 40px;
+	padding-left: 15px;
+}
+
+#updateText_cnt {
+	text-align: right;
+	font-size: var(--font-micro);
+}
+
+#updateContent {
+	width: 95%;
+    height: 150px;
+	resize: none;
+	font-size: var(--font-micro);
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+#btnUpdateOktd {
+	text-align: right;
+	padding-right: 10px;
+}
+
+#btnUpdateCanceltd {
+	text-align: left;
+	padding-left: 10px;
+}
+
+#btnUpdateOk {
+	border: none;
+    background-color: var(--color-deep-blue);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}
+
+#btnUpdateCancel {
+	border: none;
+    background-color: var(--color-grey);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}

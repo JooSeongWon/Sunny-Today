@@ -27,6 +27,6 @@ public class AdminBoardDeleteController extends HttpServlet {
 		boardService.deleteByAdBoard(board);
 		
 		//목록으로 리다이렉트
-		resp.sendRedirect("/SunnyToday/admin/board/list");	
+		resp.sendRedirect("/admin/board/list");	
 	}
 }

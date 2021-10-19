@@ -113,7 +113,6 @@ public class ScheduleListController extends HttpServlet {
         					//일정 date -> String
         					String strSchedule_date = transFormat.format(scheduleList.get(k).getSchedule_date());
         					
-        					
         					for(int j=0; j<forecast.size(); j++) {
         						
         						//일정 날짜와 가져온 날씨 데이터의 날짜가 일치할 경우
@@ -168,7 +167,7 @@ public class ScheduleListController extends HttpServlet {
 			req.setAttribute("resultForecast", resultForecast);
 			req.setAttribute("fileList", fileList);
 			req.setAttribute("fileCnt", resultFileCnt);
-        	
+			
         	req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule.jsp").forward(req, resp);
         }
 		

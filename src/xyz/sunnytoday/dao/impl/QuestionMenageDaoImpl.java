@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import xyz.sunnytoday.common.JDBCTemplate;
 import xyz.sunnytoday.dao.face.QuestionMenageDao;
@@ -17,41 +19,30 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	@Override
-	public int selectIdCntAll(Connection conn, Member param) {
-		System.out.println("selectIdCntAll called");
+	public int selectCnt(Connection conn, Member param) {
+		System.out.println("selectCnt called");
 		String sql = "";
+		
 		sql += "SELECT count(*)";
-		sql += " FROM private_question pq, member m";
-		sql += " WHERE m.user_no = pq.user_no and id LIKE ?";
+		sql += " FROM private_question pq";
+		if( !"".equals(param.getUserid()) || !"".equals(param.getNick())) {
+			sql += ", member m";
+			
+			if(!"".equals(param.getUserid())) {
+				sql += " WHERE m.user_no = pq.user_no and id LIKE ?";
+			}else if(!"".equals(param.getNick())) { 
+				sql += " WHERE m.user_no = pq.user_no and id LIKE ?";
+			}
+		}
 		    
 		int res = 0;
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + param.getUserid() + "%");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-				res = rs.getInt(1);
+			if(!"".equals(param.getUserid())) {
+				ps.setString(1, "%" + param.getUserid() + "%");
+			}else if(!"".equals(param.getNick())) {
+				ps.setString(1, "%" + param.getNick() + "%");	
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		return res;
-	}
-	@Override
-	public int selectNickCntAll(Connection conn, Member param) {
-		System.out.println("selectIdCntAll called");
-		String sql = "";
-		sql += "SELECT count(*)";
-		sql += " FROM private_question pq, member m";
-		sql += " WHERE m.user_no = pq.user_no and id LIKE ?";
-		int res = 0;
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + param.getNick() + "%");
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
@@ -66,100 +57,56 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 		}
 		return res;
 	}
+	
 	@Override
-	public int selectCntAll(Connection conn) {
-		System.out.println("selectIdCntAll called");
-		String sql = "";
-		sql += "SELECT count(*) FROM private_question";
-		int res = 0;
-		try {
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while(rs.next()) {
-				res = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		return res;
-	}
-	@Override
-	public List<Question> searchUserId(Member param, Paging paging, Connection conn) {
+	public List<Map<String, Object>> searchQuestion(Member param, Paging paging, Connection conn) {
 		System.out.println("searchUserId called");
 		
 		String sql = "";
 		sql += "select * FROM(";
 		sql +=	    " select rownum rnum, R.* FROM(";
-		sql +=	        " select pq.question_no, pq.title, m.id, pq.write_date, pq.answer"; 
+		sql +=	        " select pq.question_no, pq.title, m.id, pq.write_date, pq.answer, m.nick"; 
 		sql +=	        " from private_question pq, member m";
 		sql +=			" WHERE m.user_no = pq.user_no";
-		sql +=			" AND m.id LIKE ?";
+		if(!"".equals(param.getUserid()) || !"".equals(param.getNick())) {
+			if(!"".equals(param.getUserid())) {
+				sql +=			" AND m.id LIKE ?";
+			}else if(!"".equals(param.getNick())){
+				sql +=			" AND m.nick LIKE ?";
+			}
+		}
+		
 		sql +=	        " ORDER BY question_no DESC";
 		sql +=	    " ) R";
 		sql +=	" ) Question";
 		sql += " WHERE rnum BETWEEN ? AND ?";
-		List<Question> list = new ArrayList<>();
+		
+		List<Map<String, Object>> list = new ArrayList<>();
+		Map<String, Object> map = null;
+		
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + param.getUserid() + "%");
+			ps.setString(1, "%" + param.getNick() + "%");
 			ps.setInt(2, paging.getStartNo());
 			ps.setInt(3, paging.getEndNo());
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				Question question = new Question();
-				question.setQuestion_no(rs.getInt("question_no"));
-				question.setTitle(rs.getString("title"));
-				question.setId(rs.getString("id"));
-				question.setWrite_date(rs.getDate("write_date"));
-				question.setAnswer(rs.getString("answer"));
-				list.add(question);			
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		
-		return list;
-	}
-	@Override
-	public List<Question> searchUserNick(Member param, Paging paging, Connection conn) {
-		System.out.println("searchUserNick called");
-		String sql = "";
-		sql += "select * FROM(";
-		sql +=	    " select rownum rnum, R.* FROM(";
-		sql +=	        " select pq.question_no, pq.title, m.id, pq.write_date, pq.answer"; 
-		sql +=	        " from private_question";
-		sql +=			" WHERE m.user_no = pq.user_no";
-		sql +=			" AND m.nick LIKE ?";
-		sql +=	        " ORDER BY question_no DESC";
-		sql +=	    " )R";
-		sql +=	" )Question";
-		sql += " WHERE rnum BETWEEN ? AND ?";
-		
-		List<Question> list = new ArrayList<>();
-		
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setNString(1, "%" + param.getNick() + "%");
-			ps.setInt(2, paging.getStartNo());
-			ps.setInt(3, paging.getEndNo());
-			rs = ps.executeQuery();
-			while(rs.next()){
-				Question question = new Question();
-				question.setQuestion_no(rs.getInt("question_no"));
-				question.setTitle(rs.getString("title"));
-				question.setId(rs.getString("id"));
-				question.setAnswer(rs.getString("answer"));
-				question.setWrite_date(rs.getDate("write_date"));
+				map = new HashMap<>();
 				
-				list.add(question);
+				Question question = new Question();
+				Member member = new Member();
+				question.setQuestion_no(rs.getInt("question_no"));
+				question.setTitle(rs.getString("title"));
+				question.setId(rs.getString("id"));
+				question.setWrite_date(rs.getDate("write_date"));
+				question.setAnswer(rs.getString("answer"));
+				member.setUserid(rs.getString("id"));
+				member.setNick(rs.getString("nick"));
+				map.put("m", member);
+				map.put("q", question);
+				list.add(map);			
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -172,44 +119,8 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 		return list;
 	}
 	
-	@Override
-	public List<Question> getQuestionList(Connection conn, Paging paging) {
-		System.out.println("getQuestionList called");
-		String sql = "";
-		sql += "SELECT * FROM(";
-		sql +=	" SELECT rownum rnum, R.* FROM(";
-		sql +=		" SELECT pq.question_no, pq.title, m.id, pq.write_date, pq.answer"; 
-		sql +=		" FROM private_question pq, member m";
-		sql +=		" WHERE m.user_no = pq.user_no";
-		sql +=	    " ORDER BY question_no DESC";
-		sql +=	" ) R";
-		sql +=" ) QUSETION_Board";
-		sql += " WHERE rnum BETWEEN ? AND ?";
-		List<Question> list = new ArrayList<>();
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, paging.getStartNo());
-			ps.setInt(2, paging.getEndNo());
-			rs = ps.executeQuery();
-			while(rs.next()) {
-				Question question = new Question();
-				question.setQuestion_no(rs.getInt("question_no"));
-				question.setTitle(rs.getString("title"));
-				question.setId(rs.getString("id"));
-				question.setWrite_date(rs.getDate("write_date"));
-				question.setAnswer(rs.getString("answer"));
-				list.add(question);			
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(rs);
-			JDBCTemplate.close(ps);
-		}
-		
-		return list;
-	}
+	
+	
 	@Override
 	public Question getQuestionDatil(Connection conn, Question param) {
 		System.out.println("getQuestionDatil called");
@@ -285,4 +196,5 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 		}
 		return res;
 	}
+
 }

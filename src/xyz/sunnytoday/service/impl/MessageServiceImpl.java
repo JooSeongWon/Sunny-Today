@@ -120,6 +120,7 @@ public class MessageServiceImpl implements MessageService {
 		System.out.println("too : " + req.getParameter("too"));
 		Member too = memberService.getMemberByNickOrNull(req.getParameter("too"));
 		if(too == null) {
+			
 			System.out.println("[ERROR] 없는 회원입니다.");
 			
 			return;
@@ -133,7 +134,7 @@ public class MessageServiceImpl implements MessageService {
 		Connection connection = JDBCTemplate.getConnection();
 		System.out.println(message);
 		messageDao.insert(connection, message);
-		//받은편지함 컨트롤러 열어주세요
+
 		JDBCTemplate.close(connection);
 	}
 

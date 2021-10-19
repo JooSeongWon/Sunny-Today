@@ -7,7 +7,6 @@ public class Message {
 	private int too;
 	private int fromm;
 	private Date post_date;
-	private String read;
 	private String title;
 	private String content;
 	private int rnum;
@@ -17,7 +16,7 @@ public class Message {
 	@Override
 	public String toString() {
 		return "Message [message_no=" + message_no + ", too=" + too + ", fromm=" + fromm + ", post_date=" + post_date
-				+ ", read=" + read + ", title=" + title + ", content=" + content + "]";
+				+ ", title=" + title + ", content=" + content + "]";
 	}
 	
 	public String getTooNick() {
@@ -61,12 +60,6 @@ public class Message {
 	}
 	public void setPost_date(Date post_date) {
 		this.post_date = post_date;
-	}
-	public String getRead() {
-		return read;
-	}
-	public void setRead(String read) {
-		this.read = read;
 	}
 	public String getTitle() {
 		return title;

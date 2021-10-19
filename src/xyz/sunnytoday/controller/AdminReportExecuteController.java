@@ -43,38 +43,27 @@ public class AdminReportExecuteController extends HttpServlet {
 		Member param = new Member();
 		Ban ban = new Ban();
 		param.setUserno(Integer.parseInt(req.getParameter("user_no")));
+		
 		if(req.getParameter("Ban_type") == "login") {
 			ban.setBan_type("L");
 		}else {
 			ban.setBan_type("W");
 		}
 		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("curent : " + df.format(cal.getTime()));
-		if(req.getParameter("Ban_date") == "1week") {
-			cal.add(Calendar.DATE, 7);
-		}else if(req.getParameter("Ban_date") == "1month") {
-			cal.add(Calendar.MONTH, 1);
-		}else if(req.getParameter("Ban_date") == "3month") {
-			cal.add(Calendar.MONTH, 3);
-		}else if(req.getParameter("Ban_date") == "1year") {
-			cal.add(Calendar.YEAR, 1);
+		int date = 0;
+		if("1week".equals(req.getParameter("Ban_date"))) {
+			date = 7;
+		}else if("1month".equals(req.getParameter("Ban_date"))) {
+			date = 30;
+		}else if("3month".equals(req.getParameter("Ban_date"))) {
+			date = 60;
+		}else if("1year".equals(req.getParameter("Ban_date"))) {
+			date = 365;
 		}else{
-			cal.add(Calendar.YEAR, 9999);
+			date = 9999;
 		}
-		
-		System.out.println("after : " + df.format(cal.getTime()));
-		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			Date to = fm.parse(df.format(cal.getTime()));
-			ban.setExpiry_date(to);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} 
 
-		memberService.insertBan(param, ban);
+		memberService.insertBan(param, ban, date);
 		memberService.updateExecuteResult(req);
 		resp.sendRedirect("/admin/member/report");
 	}

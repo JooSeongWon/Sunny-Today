@@ -153,7 +153,7 @@ public class QuestionServiceImpl implements QuestionService {
 		
 		question.setQuestion_no( Integer.parseInt( req.getParameter("questionno")));
 		question.setTitle( req.getParameter("title") );
-		question.setContent( req.getParameter("content") );
+		question.setContent( req.getParameter("updateContent") );
 		question.setUser_no(userno);
 		question.setId(userid);
 

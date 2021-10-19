@@ -3,6 +3,8 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="xyz.sunnytoday.common.repository.Forecast" %>
+<%@ page import="java.util.Stack" %>
+<%@ page import="xyz.sunnytoday.dto.Schedule" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -63,7 +65,6 @@
                                 </c:choose>
                             </c:when>
                         </c:choose>
-                        <p class="region-description">수동으로 위치 재설정</p>
                     </div>
                     <p class="weather-card__detail">
                         <%-- span 태그들 기온/강수확률 --%>
@@ -142,18 +143,31 @@
 
             <div class="costume__clothes">
                 <div class="clothes">
-                    <img class="clothes__image" src="http://via.placeholder.com/100x100" alt="상의">
-                    <div class="clothes__description">반팔 티셔츠</div>
+                    <img class="clothes__image cloth-top"
+                         src="${pageContext.request.contextPath}/upload/${requestScope.costumes[0].thumbNail}" alt="상의">
+                    <div class="clothes__description">${requestScope.costumes[0].title}</div>
                 </div>
                 <div class="clothes">
-                    <img class="clothes__image" src="http://via.placeholder.com/100x100" alt="하의">
-                    <div class="clothes__description">청 바지</div>
+                    <img class="clothes__image cloth-pants"
+                         src="${pageContext.request.contextPath}/upload/${requestScope.costumes[1].thumbNail}" alt="하의">
+                    <div class="clothes__description">${requestScope.costumes[1].title}</div>
                 </div>
             </div>
 
             <div class="costume__gender">
-                <button class="gender__male">남</button>
-                <button class="gender__female">여</button>
+                <c:if test="${empty sessionScope.gender}">
+                    <div class="gender__all">공용</div>
+                </c:if>
+                <c:if test="${sessionScope.gender eq 'A'}">
+                    <div class="gender__all">공용</div>
+                </c:if>
+                <c:if test="${sessionScope.gender eq 'M'}">
+                    <div class="gender__male">남</div>
+                </c:if>
+                <c:if test="${sessionScope.gender eq 'F'}">
+                    <div class="gender__female">여</div>
+                </c:if>
+
             </div>
             <div class="costume__refresh"><i class="fas fa-sync"></i></div>
         </div>
@@ -172,16 +186,18 @@
                 int index = 0;
             %>
 
-            <c:forEach var="i" begin="0" end="${fn:length(requestScope.sForecast) - 1}">
+            <c:forEach var="i" begin="1" end="${fn:length(requestScope.sForecast)}">
                 <%index++;%>
                 <c:if test="${requestScope.sForecast[fn:length(requestScope.sForecast)  - i].baseDate eq requestScope.mForecast[0].baseDate}">
-                    <%shortEnd = sForecastSize - (index + 1);%>
+                    <%shortEnd = sForecastSize - (index + 2);%>
                 </c:if>
             </c:forEach>
 
 
             <%
                 pageContext.setAttribute("shortEnd", shortEnd);
+
+                Stack<Schedule> scheduleStack = (Stack<Schedule>) request.getAttribute("scheduleStack");
 
                 //중기예보 사용 포맷
                 SimpleDateFormat monthFormat = new SimpleDateFormat("MMM");
@@ -203,6 +219,26 @@
                         } else {
                             addClass = "";
                         }
+
+                        Schedule schedule = null;
+                        if (!scheduleStack.empty()) {
+                            schedule = scheduleStack.peek();
+
+                            int scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                            while (Integer.parseInt(dateFormat.format(calendar.getTime())) > scheduleDate) {
+
+                                scheduleStack.pop();
+                                if (!scheduleStack.empty()) {
+                                    schedule = scheduleStack.peek();
+                                    scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                                } else break;
+                            }
+                            if (Integer.parseInt(dateFormat.format(calendar.getTime())) == scheduleDate) {
+                                scheduleStack.pop();
+                            } else {
+                                schedule = null;
+                            }
+                        }
                     %>
                     <div class="schedule-card">
                         <div class="card__wrap">
@@ -213,9 +249,21 @@
                                 <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
                                 </div>
                                 <div class="card__holiday-title"></div>
-                                <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                                <div class="card__modify">
+                                    <%if (schedule != null) {%>
+                                    <a href="${pageContext.request.contextPath}/schedule/view?date=<%=schedule.getSchedule_date()%>"><i
+                                            class="fas fa-eye"></i></a>
+                                    <%} else {%>
+                                    <a href="${pageContext.request.contextPath}/schedule/write"><i
+                                            class="fas fa-pencil-alt"></i></a>
+                                    <%}%>
+                                </div>
                             </div>
-                            <div class="card__body"></div>
+                            <div class="card__body">
+                                <%if (schedule != null) {%>
+                                <%=schedule.getTitle()%>
+                                <%}%>
+                            </div>
                             <div class="card__bottom">
                                 <c:choose>
                                     <c:when test="${requestScope.sForecast[i].weather eq '맑음'}">
@@ -274,6 +322,28 @@
                     } else {
                         addClass = "";
                     }
+
+                    Schedule schedule = null;
+                    if (!scheduleStack.empty()) {
+                        schedule = scheduleStack.peek();
+
+                        int scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                        while (Integer.parseInt(dateFormat.format(calendar.getTime())) > scheduleDate) {
+
+                            scheduleStack.pop();
+                            if (!scheduleStack.empty()) {
+                                schedule = scheduleStack.peek();
+                                scheduleDate = Integer.parseInt(dateFormat.format(schedule.getSchedule_date()));
+                            } else break;
+                        }
+                        if (Integer.parseInt(dateFormat.format(calendar.getTime())) == scheduleDate) {
+                            scheduleStack.pop();
+                        } else {
+                            schedule = null;
+                        }
+                    }
+
+
                 %>
                 <div class="schedule-card">
                     <div class="card__wrap">
@@ -283,9 +353,21 @@
                             <div class="card__day<%=addClass%>"><%=dayFormat.format(calendar.getTime())%>
                             </div>
                             <div class="card__holiday-title"></div>
-                            <div class="card__modify"><a href="#"><i class="fas fa-pencil-alt"></i></a></div>
+                            <div class="card__modify">
+                                <%if (schedule != null) {%>
+                                <a href="${pageContext.request.contextPath}/schedule/view?date=<%=schedule.getSchedule_date()%>"><i
+                                        class="fas fa-eye"></i></a>
+                                <%} else {%>
+                                <a href="${pageContext.request.contextPath}/schedule/write"><i
+                                        class="fas fa-pencil-alt"></i></a>
+                                <%}%>
+                            </div>
                         </div>
-                        <div class="card__body"></div>
+                        <div class="card__body">
+                            <%if (schedule != null) {%>
+                            <%=schedule.getTitle()%>
+                            <%}%>
+                        </div>
                         <div class="card__bottom">
                             <c:choose>
                                 <c:when test="${requestScope.mForecast[i].weather eq '맑음'}">
@@ -330,69 +412,71 @@
 <section id="best-posts">
     <div class="left">
         <h1 class="left__title">인기 게시글</h1>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <%--test 더미--%>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
-        <div class="post" data-board="5" data-post="10">
-            <img class="post__img" src="http://placehold.it/40" alt="베스트 게시글">
-            <div class="post__title">title<span>(50)</span></div>
-            <div class="post__like-num">15</div>
-        </div>
+
+        <c:forEach items="${requestScope.bestPosts}" var="post">
+            <a href="${pageContext.request.contextPath}/board/detail?postno=${post.post_no}" class="post">
+                <c:if test="${empty post.thumbNail}">
+                    <img class="post__img" src="${requestScope.imgPath}/no-img.PNG" alt="사진 없음">
+                </c:if>
+                <c:if test="${not empty post.thumbNail}">
+                    <img class="post__img" src="${pageContext.request.contextPath}/upload/${post.thumbNail}"
+                         alt="게시글 썸네일">
+                </c:if>
+                <div class="post__title">${post.title}
+                    <c:if test="${post.commentsNum ne 0}">
+                        <span>(${post.commentsNum})</span>
+                    </c:if>
+                </div>
+                <div class="post__like-num">${post.hit}</div>
+            </a>
+        </c:forEach>
+
     </div>
     <div class="right">
         <div class="notice">
             <h3 class="notice__title">공지사항</h3>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
+
+
+            <fmt:formatDate value="<%=new Date()%>" pattern="yyyyMMdd" var="now"/>
+            <c:forEach items="${requestScope.notices}" var="notice">
+                <fmt:formatDate value="${notice.write_date}" pattern="yyyyMMdd" var="noticeDate"/>
+                <a href="${pageContext.request.contextPath}/board/detail?postno=${notice.post_no}" class="notice-post">
+                    <c:if test="${now eq noticeDate}">
+                        <div class="new-icon">N</div>
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="HH:mm" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                    <c:if test="${now ne noticeDate}">
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="MM/dd" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                </a>
+            </c:forEach>
+
         </div>
         <div class="right__line"></div>
         <div class="notice event">
             <h3 class="notice__title">이벤트</h3>
-            <div class="notice-post">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post event">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
-            <div class="notice-post event">
-                <div class="new-icon">N</div>
-                <div class="notice-post__description">08:00 | 메롱왕국의 습격</div>
-            </div>
+
+            <c:forEach items="${requestScope.events}" var="notice">
+                <fmt:formatDate value="${notice.write_date}" pattern="yyyyMMdd" var="noticeDate"/>
+                <a href="${pageContext.request.contextPath}/board/detail?postno=${notice.post_no}" class="notice-post">
+                    <c:if test="${now eq noticeDate}">
+                        <div class="new-icon">N</div>
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="HH:mm" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                    <c:if test="${now ne noticeDate}">
+                        <div class="notice-post__description">
+                            <fmt:formatDate value="${notice.write_date}" pattern="MM/dd" var="dateNotice"/>
+                                ${dateNotice} | ${notice.title}</div>
+                    </c:if>
+                </a>
+            </c:forEach>
+
         </div>
     </div>
 

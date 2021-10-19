@@ -125,7 +125,6 @@ public class SocialLoginServiceImpl implements SocialLoginService {
         params += "&client_secret=" + clientSecret;
         params += "&redirect_uri=" + redirectURI;
         params += "&code=" + code;
-        //params += "&scope=https%3A//www.googleapis.com/auth/userinfo.email";
 
         try {
             URL url = new URL(apiURL);

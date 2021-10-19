@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
@@ -24,7 +25,16 @@ public class MypagePasswordController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/mypage/password [GET]");
-
+		// 로그인 유저 세션의 유저넘버 얻기
+		Object param = req.getSession().getAttribute("userno");
+		int userno = (int) param;
+		
+		//유저넘버로 유저정보 얻기 - member
+		Member member = mypageService.selectMember(userno);
+		
+		//유저정보 전달
+		req.setAttribute("member", member);
+		
 		req.getRequestDispatcher("/WEB-INF/views/user/mypage/change_Password.jsp").forward(req, resp);
 	}
 
@@ -42,7 +52,7 @@ public class MypagePasswordController extends HttpServlet {
 		if (req.getParameter("passwordcheck") != null && Pattern.matches(pwRegex, req.getParameter("passwordcheck"))) {
 			if (req.getParameter("newPassword") != null && !"".equals(req.getParameter("newPassword"))) {
 				if (req.getParameter("newPassword").equals(req.getParameter("passwordcheck"))) {
-					res = mypageService.updatePw(req, userno);
+					res = mypageService.createpw(req, userno);
 
 					// json 형식으로 변환
 					Gson gson = new Gson();

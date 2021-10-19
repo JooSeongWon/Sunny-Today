@@ -71,7 +71,7 @@ public class AdminReportMenageController extends HttpServlet {
 		Member param = new Member();
 		
 		int cntRow = memberService.cntList(req, param, location);
-		
+		System.out.println("cntRow : " + cntRow);
 		//선택한 항목의 갯 수 확인
 		for(int i=0; i < cntRow; i++) {
 			chNum = "ch" + i; // 파라미터의 뒷번호를 for문으로 자동 생성

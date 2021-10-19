@@ -55,6 +55,7 @@ public class AdminMemberListController extends HttpServlet {
 		req.setAttribute("paging", paging);
 		req.getRequestDispatcher("/WEB-INF/views/admin/member/member_list.jsp").forward(req, resp);
 	}
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/admin/member/list [POST]");
@@ -63,11 +64,23 @@ public class AdminMemberListController extends HttpServlet {
 		String chNum = null; // 받아올 파라미터의 이름 설정
 		String location = "member";
 		Member param = new Member();
+		/*
+		 * if("userid".equals(req.getParameter("select_option"))) {
+		 * param.setUserid(req.getParameter("search")); }else
+		 * if("nick".equals(req.getParameter("select_option"))) {
+		 * param.setNick(req.getParameter("search")); }
+		 */
+		
+		int count = 0;
 		
 		//해당 테이블 행의 갯수를 반환
 		int cntRow = memberService.cntList(req, param, location);
+		System.out.println("cntRow : " + cntRow);
 		
-		int count = 0;
+		if(cntRow > 10) {
+			cntRow = 10;
+		}
+		
 		//선택한 항목의 갯수 확인
 		for(int i=0; i < cntRow; i++) {
 			chNum = "cb" + i; // 파라미터의 뒷번호를 for문으로 자동 생성
@@ -106,33 +119,26 @@ public class AdminMemberListController extends HttpServlet {
 				ban.setBan_type("W");
 			}
 			
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			System.out.println("curent : " + df.format(cal.getTime()));
-			if(req.getParameter("Ban_date") == "1week") {
-				cal.add(Calendar.DATE, 7);
-			}else if(req.getParameter("Ban_date") == "1month") {
-				cal.add(Calendar.MONTH, 1);
-			}else if(req.getParameter("Ban_date") == "3month") {
-				cal.add(Calendar.MONTH, 3);
-			}else if(req.getParameter("Ban_date") == "1year") {
-				cal.add(Calendar.YEAR, 1);
+			System.out.println("Ban_date = " + req.getParameter("Ban_date"));
+			System.out.println("1week".equals(req.getParameter("Ban_date")));
+			
+			int date = 0;
+			if("1week".equals(req.getParameter("Ban_date"))) {
+				date = 7;
+			}else if("1month".equals(req.getParameter("Ban_date"))) {
+				date = 30;
+			}else if("3month".equals(req.getParameter("Ban_date"))) {
+				date = 60;
+			}else if("1year".equals(req.getParameter("Ban_date"))) {
+				date = 365;
 			}else{
-				cal.add(Calendar.YEAR, 9999);
+				date = 9999;
 			}
 			
-			System.out.println("after : " + df.format(cal.getTime()));
-			SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				Date to = fm.parse(df.format(cal.getTime()));
-				ban.setExpiry_date(to);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			} 
 			for(int i=0; i < user_no.length; i++) {
 				member.setUserno(user_no[i]);
-				memberService.insertBan(member, ban);
+				System.out.println(member.getUserno());
+				memberService.insertBan(member, ban, date);
 			}
 
 			

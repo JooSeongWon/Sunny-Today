@@ -33,7 +33,8 @@ public class AdminPostViewController extends HttpServlet {
 		
 		req.setAttribute("viewPost", viewPost);
 		req.setAttribute("nick", postService.getNick(viewPost));
-		
+		req.setAttribute("viewFile", viewFile);
+
 //		System.out.println("getPostno : " + post_no);
 //		System.out.println("viewPost : " + viewPost);
 	

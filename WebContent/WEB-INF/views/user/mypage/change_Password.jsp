@@ -44,13 +44,13 @@
 	<div class="profile_form" >
 	<table class="profile_table" style="margin-top: 80px">
 		<tr class="profile_list">
-		<c:if test="${not empty member.password }">
+		<c:if test="${empty member.userpw }">
 			<td class="profile_item" >비밀번호 등록</td>
 			<td class="profile_item" ><input type="password" class="profile-setting" name="newPassword" id="newPassword" placeholder="8~20자 이내"/></td>
 		</c:if>
 		</tr>
 		<tr class="profile_list">
-		<c:if test="${empty member.password }">
+		<c:if test="${not empty member.userpw }">
 			<td class="profile_item" >비밀번호</td>
 			<td class="profile_item" ><input type="password" class="profile-setting" name="password" id="password" placeholder="8~20자 이내" /></td>
 		</c:if>

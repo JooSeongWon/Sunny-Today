@@ -3,6 +3,7 @@
 <%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <!doctype html>
@@ -15,6 +16,7 @@
 
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/board.css" rel="stylesheet">
+    <link href="${cssPath}/paging_style.css" rel="stylesheet"> 
     <script src="${jsPath}/board_script.js"></script>
 
 </head>
@@ -78,11 +80,18 @@
 	</td>
 	<td id='title'>
 		<a href="/board/detail?postno=${searchList.post.post_no }">
-		${searchList.post.title }
+		<c:choose>
+			<c:when test="${fn:length(searchList.post.title) > 20}">
+				<c:out value="${fn:substring(searchList.post.title,0,19)}"/>....
+			</c:when>
+			<c:otherwise>
+				<c:out value="${searchList.post.title }"/>
+			</c:otherwise> 
+		</c:choose>
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${searchList.nick }
+		${searchList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>
@@ -93,7 +102,16 @@
 	<td rowspan="2">추천수</td>
 </tr>
 <tr>
-	<td id='content'>${searchList.post.content }</td>
+	<td id='content'>
+		<c:choose>
+			<c:when test="${fn:length(searchList.post.content) > 20}">
+				<c:out value="${fn:substring(searchList.post.content,0,19)}"/>....
+			</c:when>
+			<c:otherwise>
+				<c:out value="${searchList.post.content }"/>
+			</c:otherwise> 
+		</c:choose>
+	</td>
 </tr>
 </c:forEach>
 </tbody>

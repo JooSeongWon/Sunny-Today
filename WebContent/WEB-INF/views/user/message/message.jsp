@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <!doctype html>
 <html lang="ko">
 <head>
@@ -28,8 +29,11 @@
     		$('.check').prop('checked', this.checked);
     	})		
     });
+    
     </script>
     
+    <link rel="stylesheet" href="${cssPath }/paging_style.css"> <!-- 한번 가서 보여주세요 맘에 안드네요 잠만요닙[넵 -->
+        
     <style type="text/css">
     table {
     	margin: 10px auto;
@@ -57,9 +61,6 @@
 	select {
 		margin-right: 154px;
 		margin-top: 10px;
-	}
-	#paging {
-		text-align: center;
 	}
 	#btnDelete {
 		width: 90px;
@@ -91,6 +92,12 @@
 		width: 100px;
 		height: 30px;
 		float: right;
+	}	
+	.clearbox {
+		clear: both;
+		width: 0;
+		height: 0;
+		overflow: hidden;
 	}
     </style>
     
@@ -114,6 +121,7 @@
 		</div>		
 				
 		<br>
+		<div class="clearbox"></div>
 		<hr size="5" noshade>
 		<h2>받은 쪽지함</h2>
 		<br>

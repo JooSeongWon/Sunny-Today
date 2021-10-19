@@ -29,20 +29,8 @@ public class BoardListMineController extends HttpServlet {
 		
 		List<Map<String, Object>> list = boardService.getMineList(req, paging);
 		
-		String date = list.get(0).get("board").toString();
-		String boardTitle = boardService.getValueFromMap(date,"title");
-
-//		
-//		for( Map<String, Object> e : list ) {
-//			System.out.println( e );
-//		}
-
-//		System.out.println("boardno : " + boardno);
-		paging = boardService.getTitlePaging(req, boardTitle);	
-		
-		
 		req.setAttribute("list", list);
-		req.setAttribute("boardTitle", boardTitle);
+		req.setAttribute("boardTitle", "mine");
 		req.setAttribute("paging", paging);
 		
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardMine.jsp").forward(req, resp);

@@ -54,13 +54,19 @@ public class AdminPurnishMemberController extends HttpServlet {
 		Member param = new Member();
 		
 		int cntRow = memberService.cntList(req, param, location);
+		System.out.println("cntRow : " + cntRow);
+		
+		if(cntRow > 10) {
+			cntRow = 10;
+		}
+		
 		int count = 0;
 		//선택한 항목의 갯 수 확인
 		for(int i=0; i < cntRow; i++) {
 			chNum = "cb" + i; // 파라미터의 뒷번호를 for문으로 자동 생성
-			if(req.getParameter(chNum) != null && !"".equals(req.getParameter(chNum))) {
+			if(!"".equals(req.getParameter(chNum))) {
 				  count++; //선택된 항목이 있다면 카운트 증가
-				  System.out.println("req.getParameter(chNum) : " + req.getParameter(chNum));
+				  System.out.println("req.getParameter(chNum[" + i + "]) : " + req.getParameter(chNum));
 			}
 		}
 		
@@ -90,7 +96,6 @@ public class AdminPurnishMemberController extends HttpServlet {
 				memberService.deletePurnish(ban);
 			}
 
-			
 		}
 		
     	resp.sendRedirect("/admin/purnish/list");
