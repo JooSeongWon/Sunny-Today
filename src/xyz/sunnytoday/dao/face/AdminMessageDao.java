@@ -101,8 +101,20 @@ public interface AdminMessageDao {
 	 * 
 	 * @param conn - DB연결 객체
 	 * @param message - 메세지 정보객체
+	 * @param to - 보내는 유저정보
+	 * @param userno - 받을 유저정보
 	 */
-	public int send(Connection conn, Message message);
+	public int send(Connection conn, Message message, int userno, int to);
+	
+	/**
+	 * 전체회원의 유저번호 받기
+	 * 
+	 * @param conn
+	 * @param totalcnt 
+	 * @return
+	 */
+	public int[] getuserno(Connection conn, int totalcnt);
+	
 	
 
 

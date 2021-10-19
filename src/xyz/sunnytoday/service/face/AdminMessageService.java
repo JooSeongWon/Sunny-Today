@@ -55,8 +55,17 @@ public interface AdminMessageService {
 	 * 메세지 보내기
 	 * 
 	 * @param req - 요청정보객체
-	 * @return 
+	 * @param userno 
 	 */
-	public Message getContent(HttpServletRequest req);
+	public void getContent(HttpServletRequest req, int[] userno);
+	
+	/**
+	 * 메세지 보내기
+	 * 
+	 * @param req - 요청정보객체
+	 */
+	public void sendMessage(HttpServletRequest req);
+	
+
 
 }

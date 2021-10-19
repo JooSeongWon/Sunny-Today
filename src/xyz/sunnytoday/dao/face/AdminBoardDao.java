@@ -29,6 +29,8 @@ public interface AdminBoardDao {
 	
 	public int update(Connection conn, Board board);
 
+	public int changeBoardno(Connection conn, String value);
+
 
 
 	

@@ -140,17 +140,31 @@ String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >
 		    <div id="weather">
 		    
 				<%
+					
+					boolean afterDateCheck = true;
 				
-					if(request.getAttribute("weather").equals("맑음")) {
-						out.print("<i style='font-size: 95px;' class='fas fa-" + pm + "'></i>");
-					} else if(request.getAttribute("weather").equals("구름많음")) {
-						if(rain >= 40) {
-							out.print("<i style='font-size: 95px;' class='fas fa-cloud-" + pm + "-rain'></i>");
-						}
+					if((boolean) request.getAttribute("isAfter") == false && (boolean) request.getAttribute("equalsDate") == false ) {
+						out.print("오늘 이전 날짜는 날씨를 확인할 수 없습니다.");
+						afterDateCheck = false;
 					} else {
-						out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
+						
+						if(request.getAttribute("weather").equals("맑음")) {
+							out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-" + pm + "'></i>");
+						} else if(request.getAttribute("weather").equals("구름많음")) {
+							if(rain >= 40) {
+								out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+							} else {
+								out.print("<i style='font-size:75px; margin-top: 15px;' class='fas fa-cloud-" + pm + "'></i>");
+							}
+						} else {
+							if(rain >= 40) {
+								out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+							} else {
+								out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
+							}
+						}
+						
 					}
-				
 				
 				%>
 		    	
@@ -159,13 +173,19 @@ String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >
 		    	
 		    <div id="clothes">
 		    	
-		    	<img alt="썸네일" src="/upload/${thumbnail }">
+		    	<% if(afterDateCheck) { %>
+		    		<img alt="썸네일" src="/upload/${thumbnail }">
+		    	<% } else { %>
+		    		오늘 이전 날짜는 스타일 추천을 확인할 수 없습니다.
+		    	<% } %>
 		    	
 		    </div>
 		    	
 	    	<div style="width: 100%; height: 50px;">
-	    	
-		    	일정 날씨 ${weather } / 강수 확률 ${rain }% / 온도 ${temperature }
+	    		
+	    		<% if(afterDateCheck) { %>
+			    	일정 날씨 ${weather } / 강수 확률 ${rain }% / 온도 ${temperature }
+	    		<% } %>
 		    	
 	    	</div>
 	    
@@ -221,13 +241,12 @@ String pm = cal.get(Calendar.HOUR_OF_DAY) < 6 || cal.get(Calendar.HOUR_OF_DAY) >
 	    	
 	    <div class="side_rigth_box">
 	    
-	    	
 			<%
 			
 			for(int i=0; i<materialList.size(); i++) {
 				String material_name = materialList.get(i).getName();
 				
-				out.print("<p class='addP'>" + material_name + "</p>");
+				out.print("<p class='addP'><i class='fas fa-check-circle' style='color: var(--color-dark-grey);'></i>&nbsp" + material_name + "</p>");
 				
 			}
 			

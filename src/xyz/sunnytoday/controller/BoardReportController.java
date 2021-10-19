@@ -25,22 +25,27 @@ public class BoardReportController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/board/report [GET]");
+		
 		List<Map<String, Object>> list = null;
 		Post param1 = new Post();
 		Comments param2 = new Comments();
 			
 		if(req.getParameter("postno") != null && !"".equals(req.getParameter("postno"))) {
 			param1.setPost_no(Integer.parseInt(req.getParameter("postno")));
-			System.out.println("param : " + param1.getPost_no());
-			
-		}else {
-			param2.setComments_no(Integer.parseInt(req.getParameter("comments_no")));
-			System.out.println("param : " + param2.getComments_no());
-			
+//			System.out.println("param : " + param1.getPost_no());
 		}
+		
+		if(req.getParameter("comments_no") != null && !"".equals(req.getParameter("comments_no"))) {
+			param2.setComments_no(Integer.parseInt(req.getParameter("comments_no")));
+//			System.out.println("comments_no : " + param2.getComments_no());
+		}
+		
 		list = boardService.boardDetail(param1, param2);
 
-			
+//		for( Map<String, Object> e : list ) {
+//		System.out.println( e );
+//		}
+//		
 		req.setAttribute("list", list);
 			
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardReport.jsp").forward(req, resp);
@@ -62,15 +67,19 @@ public class BoardReportController extends HttpServlet {
 		}else {
 			param.setReport_c_no(4);
 		}
+		
 		param.setUser_no(Integer.parseInt(req.getParameter("user_no")));
 		param.setTarget_no(Integer.parseInt(req.getParameter("target_no")));
 		param.setDetail(req.getParameter("report_detail"));
 		
 		if(req.getParameter("post_no") != null && !"".equals(req.getParameter("post_no"))) {
 			param.setPost_no(Integer.parseInt(req.getParameter("post_no")));
-		}else {
+		}
+		
+		if(req.getParameter("comments_no") != null && !"".equals(req.getParameter("comments_no"))) {
 			param.setComments_no(Integer.parseInt(req.getParameter("comments_no")));
 		}
+
 		if(req.getParameter("report_type") == "post_type") {
 			param.setReport_type("P");
 		}else {

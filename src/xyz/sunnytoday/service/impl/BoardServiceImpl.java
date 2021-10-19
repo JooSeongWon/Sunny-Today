@@ -23,6 +23,9 @@ import xyz.sunnytoday.dao.impl.BoardDaoImpl;
 import xyz.sunnytoday.dto.Board;
 import xyz.sunnytoday.dto.Comments;
 import xyz.sunnytoday.dto.File;
+
+import xyz.sunnytoday.dto.Member;
+
 import xyz.sunnytoday.dto.Post;
 import xyz.sunnytoday.dto.PostFile;
 import xyz.sunnytoday.dto.Report;
@@ -56,13 +59,37 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			System.out.println("[ERROR] curPage값이 null이거나 비어있습니다");
 		}
-		
+
 		int totalCount = boardDao.selectCntAll(conn);
+
 		
 		Paging paging = new Paging(totalCount, curPage);
 		
 		JDBCTemplate.close(conn);
 		return paging;
+	}
+	
+	@Override
+	public Paging getTitlePaging(HttpServletRequest req, String boardTitle) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String param = req.getParameter("curPage");
+		int curPage = 0;
+		if(param != null && !"".equals(param)) {
+			curPage = Integer.parseInt(param);
+		} else {
+			System.out.println("[ERROR] curPage값이 null이거나 비어있습니다");
+		}
+		
+		int boardno = boardDao.changeBoardno(conn, boardTitle);
+		
+		int totalCount = boardDao.selectCntTitle(conn, boardno);
+		
+		Paging paging = new Paging(totalCount, curPage);
+		
+		JDBCTemplate.close(conn);
+		return paging;
+		
 	}
 
 	@Override
@@ -134,11 +161,13 @@ public class BoardServiceImpl implements BoardService {
 		Board board = new Board();
 		
 		String param = req.getParameter("title");
+		System.out.println("boardService title:" + param);
 		if(param != null && !"".equals(param)) {
 			board.setTitle(param);
 		}
 		List<Map<String, Object>> list = boardDao.selectDailyListAll(board, conn, paging);
 		JDBCTemplate.close(conn);
+		
 		return list;
 	}
 	
@@ -616,7 +645,16 @@ public class BoardServiceImpl implements BoardService {
 		String keyword = req.getParameter("keyword");
 		
 		System.out.println("BoardService boardTitle, select, keyword >> " + boardTitle + ":" + select + ":" + keyword );
-		List<Map<String, Object>> list = boardDao.selectSearchList(conn, paging, boardTitle, select, keyword);
+		
+		List<Map<String, Object>> list = new ArrayList<>();
+		
+		if( boardTitle == null ) {
+			list = boardDao.selectSearchMainList(conn, paging, select, keyword);
+			
+		} else {
+			list = boardDao.selectSearchList(conn, paging, boardTitle, select, keyword);	
+			
+		}
 		
 		JDBCTemplate.close(conn);
 		
@@ -636,13 +674,33 @@ public class BoardServiceImpl implements BoardService {
 		
 		return nick;
 	}
+	
+	@Override
+	public Member loginMember(HttpServletRequest req) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		Member member = new Member();
+		
+		member.setUserno( (int)req.getSession().getAttribute("userno") );
+		member.setNick( (String)req.getSession().getAttribute("nick") );
+		JDBCTemplate.close(conn);
+		return member;
+	}
+	
+	@Override
+	public String commentsNick(List<Comments> comments) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		return null;
+	}
 		
 	
 	@Override
-	public List<Comments> selectCommentPost(Post post_no) {
+	public List<Map<String, Object>> selectCommentPost(Post post_no) {
 
 		Connection conn = JDBCTemplate.getConnection();
-		List<Comments> comments = boardDao.selectCommentPost(conn, post_no);
+		List<Map<String, Object>> comments = boardDao.selectCommentPost(conn, post_no);
 		
 		JDBCTemplate.close(conn);
 		
@@ -658,9 +716,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void insertComment(Post post_no, String comments, int userno) {
+	public int insertComment(Post post_no, String content, int userno, String onlyWriter) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = boardDao.insertComment(conn, post_no, comments, userno );
+		int result = boardDao.insertComment(conn, post_no, content, userno, onlyWriter );
 		
 		if( result == 1 ) {
 			JDBCTemplate.commit(conn);
@@ -669,6 +727,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		JDBCTemplate.close(conn);
+		
+		return result;
 		
 	}
 
@@ -682,6 +742,114 @@ public class BoardServiceImpl implements BoardService {
 		
 		return list;
 	}
+	
+	@Override
+	public int updateComments(int commentNo, String content, int userno) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int res = boardDao.updateComments(conn, commentNo, content, userno);
+		
+		if( res == 1 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return res;
+	}
+	
+	@Override
+	public int selectPostnoByCommentsNO(int commentNo) {
+		
+		int postno = boardDao.selectPostnoByCommentsNO(JDBCTemplate.getConnection(), commentNo);
+		JDBCTemplate.close(JDBCTemplate.getConnection());
+		return postno;
+	}
+	
+	@Override
+	public int deleteComment(int commentNo, int userno) {
+
+		Connection conn = JDBCTemplate.getConnection();
+		
+		int res = boardDao.deleteComments(conn, commentNo, userno);
+		
+		if( res == 1 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return res;
+	}
+
+	@Override
+	public String getValueFromMap(String date, String value) {
+		
+		String result = "";
+		date = date.replace("{", "").replace("}", "");
+		if(date != null && value != null) {
+			String[] splitByCommaArr = date.split(",");
+			if(splitByCommaArr != null) {
+				for(String splitByCommaStr : splitByCommaArr) {
+					String[] splitByEqualArr = splitByCommaStr.split("=");
+					if(splitByEqualArr.length > 1) {
+						if(value.equals(splitByEqualArr[0].trim())) {
+							result = splitByEqualArr[1];
+						}
+					}
+				}
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	@Override
+	public void makeDefaultLike(HttpServletRequest req) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+
+		int userno = (int) req.getSession().getAttribute("userno");
+		int postno = Integer.parseInt( req.getParameter("postno") );
+
+		if( boardDao.insertLikeDefault(conn, userno, postno) > 0 ) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+	}
+	
+	
+	@Override
+	public int likeSum(HttpServletRequest req) {
+		
+		Connection conn = JDBCTemplate.getConnection();
+
+		int like = 0;
+		int disLike = 0;
+		int res = 0;
+		int postno = Integer.parseInt( req.getParameter("postno") );
+	
+		
+		if( req.getParameter("like") != null ) {
+			like = Integer.parseInt( req.getParameter("like") );
+			res = boardDao.likeSum(conn, postno, like);
+		} else if ( req.getParameter("disLike") != null ) {
+			disLike = Integer.parseInt( req.getParameter("disLike") );
+			res = boardDao.likeSum(conn, postno, disLike);
+		}
+		
+		JDBCTemplate.close(conn);
+		
+		return res;
+	}
+	
 
 	@Override
 	public void insertReport(Report param) {
@@ -697,5 +865,22 @@ public class BoardServiceImpl implements BoardService {
 		}
 		JDBCTemplate.close(conn);
 	}
+
+	@Override
+	public List<Post> getBestPosts(){
+		Connection connection = JDBCTemplate.getConnection();
+		List<Post> list = boardDao.selectBestPosts(connection);
+		JDBCTemplate.close(connection);
+		return list;
+	}
+
+	@Override
+	public Map<Integer, List<Post>> getNotices() {
+		Connection connection = JDBCTemplate.getConnection();
+		Map<Integer, List<Post>> map = boardDao.selectNotices(connection);
+		JDBCTemplate.close(connection);
+		return map;
+	}
+
 
 }

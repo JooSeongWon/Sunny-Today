@@ -37,25 +37,26 @@
 
 <div class="mypage">
 	<ul class="mypage_list">
-		<a href="<%=request.getContextPath() %>/mypage">
+		<a href="<%=request.getContextPath() %>/mypage/profile">
 			<li class="mypage_item" >프로필 수정</li>
 		</a>
 		<a href="<%=request.getContextPath() %>/mypage/password">
 			<li class="mypage_item" >비밀번호 변경</li>
 		</a>
-		<a href="<%=request.getContextPath() %>/mypage/leaveid">
+		<a href="<%=request.getContextPath() %>/mypage/password/check">
 			<li class="mypage_item" >회원탈퇴</li>
 		</a>
 	</ul>
 	
 	<div class="profile-container">
 
-	<form action="/mypage" method="post" class="profile_form" enctype="multipart/form-data" >
+	<form action="<%=request.getContextPath() %>/mypage/profile" method="post" class="profile_form" enctype="multipart/form-data" >
 	<table class="profile_table">
 		<tr class="profile_list">
 			<td colspan="3" class="profile_item">
-				<div class="profile-img">
-				<img src="" class="thumb">
+						<input type="file" id="fileupload" name="imageSelector" accept="image/jpeg, image/jpg, image/png" multiple  >
+				<div class="profile-img" id="profile-img">
+				<img src="/upload/${profile.url }" class="thumb">
 				</div>
 			</td>
 		</tr>
@@ -65,7 +66,6 @@
 					<label class="input-file-button" for="fileupload">
   									사진선택
 					</label>
-						<input type="file" id="fileupload" name="imageSelector" accept="image/jpeg, image/jpg, image/png" multiple  >
 					</div>
 			</td>
 		</tr>

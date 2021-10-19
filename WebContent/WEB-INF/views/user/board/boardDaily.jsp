@@ -3,10 +3,9 @@
 <%@ page import="java.util.Date" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% 
-	List<Post> boardDailyList = (List) request.getAttribute("boardDailyList");
-%>
+
 
 <!doctype html>
 <html lang="ko">
@@ -18,6 +17,7 @@
 
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/board.css" rel="stylesheet">
+    <link href="${cssPath}/paging_style.css" rel="stylesheet">
     <script src="${jsPath}/board_script.js"></script>
 
 </head>
@@ -66,16 +66,23 @@
 	<tr>
 		<td colspan="6">공지글</td>
 	</tr>
-<c:forEach items="${boardDailyList }" var="boardDailyList">
+<c:forEach items="${list }" var="boardDailyList">
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
 		<a href="/board/detail?postno=${boardDailyList.post.post_no }">
-		${boardDailyList.post.title }
+		<c:choose>
+			<c:when test="${fn:length(boardDailyList.post.title) > 14}">
+				<c:out value="${fn:substring(boardDailyList.post.title,0,13)}"/>....
+			</c:when>
+			<c:otherwise>
+				<c:out value="${boardDailyList.post.title }"/>
+			</c:otherwise> 
+		</c:choose>
 		</a>
 	</td>
 	<td rowspan="2">
-		<i class="far fa-smile"></i>${boardDailyList.nick }
+		${boardDailyList.nick }
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>
@@ -86,7 +93,16 @@
 	<td rowspan="2">추천수</td>
 </tr>
 <tr>
-	<td id='content'>${boardDailyList.post.content }</td>
+	<td id='content'>
+		<c:choose>
+			<c:when test="${fn:length(boardDailyList.post.content) > 14}">
+				<c:out value="${fn:substring(boardDailyList.post.content,0,13)}"/>....
+			</c:when>
+			<c:otherwise>
+				<c:out value="${boardDailyList.post.content }"/>
+			</c:otherwise> 
+		</c:choose>
+	</td>
 </tr>
 </c:forEach>
 </tbody>
@@ -112,7 +128,7 @@
 
 
 <div id='paging'>
-<c:import url="../layout/boardPaging.jsp" />
+<c:import url="../layout/boardTitlePaging.jsp" />
 </div>
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>

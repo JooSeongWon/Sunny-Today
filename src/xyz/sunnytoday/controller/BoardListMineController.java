@@ -29,10 +29,10 @@ public class BoardListMineController extends HttpServlet {
 		
 		List<Map<String, Object>> list = boardService.getMineList(req, paging);
 		
-		req.setAttribute("boardMineList", list);
-		
+		req.setAttribute("list", list);
+		req.setAttribute("boardTitle", "mine");
 		req.setAttribute("paging", paging);
-
+		
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardMine.jsp").forward(req, resp);
 	}
 }

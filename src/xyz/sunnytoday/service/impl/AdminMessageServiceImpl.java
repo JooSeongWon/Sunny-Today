@@ -14,114 +14,115 @@ import xyz.sunnytoday.service.face.AdminMessageService;
 import xyz.sunnytoday.util.Paging;
 
 public class AdminMessageServiceImpl implements AdminMessageService {
-	
+
 	private AdminMessageDao messageDao = new AdminMessageDaoImpl();
+	
 	
 	@Override
 	public Paging getPaging(HttpServletRequest req) {
-		
+
 		String param = req.getParameter("curPage");
 		String select = req.getParameter("select");
-		String search =  req.getParameter("search");
-		
+		String search = req.getParameter("search");
+
 		int curPage = 0;
-		
-		if(param != null && !"".equals(param)) {
+
+		if (param != null && !"".equals(param)) {
 			curPage = Integer.parseInt(param);
-		}else {
+		} else {
 			System.out.println("[WARNING] curPage값이 null이거나 비어있음");
 		}
 		Connection conn = JDBCTemplate.getConnection();
-		
+
 		int totalCount = 0;
-		
-		if( select != null && select.equals("id") ) {
-			if(search != null && !"".equals(search)) {
-				totalCount = messageDao.selectCntById(conn,search); 
+
+		if (select != null && select.equals("id")) {
+			if (search != null && !"".equals(search)) {
+				totalCount = messageDao.selectCntById(conn, search);
 			} else {
-				totalCount = messageDao.selectCntAll(conn); 
-			}			
-		} else if( select != null && select.equals("nick") ) {
-			if(search != null && !"".equals(search)) {
-				totalCount = messageDao.selectCntByNick(conn,search); 
+				totalCount = messageDao.selectCntAll(conn);
+			}
+		} else if (select != null && select.equals("nick")) {
+			if (search != null && !"".equals(search)) {
+				totalCount = messageDao.selectCntByNick(conn, search);
 			} else {
-				totalCount = messageDao.selectCntAll(conn); 
-			}			
-		} else if( select != null && select.equals("email") ) {
-			if(search != null && !"".equals(search)) {
-				totalCount = messageDao.selectCntByEmail(conn,search); 
+				totalCount = messageDao.selectCntAll(conn);
+			}
+		} else if (select != null && select.equals("email")) {
+			if (search != null && !"".equals(search)) {
+				totalCount = messageDao.selectCntByEmail(conn, search);
 			} else {
-				totalCount = messageDao.selectCntAll(conn); 
-			}			
+				totalCount = messageDao.selectCntAll(conn);
+			}
 		} else {
-			totalCount = messageDao.selectCntAll(conn); 
+			totalCount = messageDao.selectCntAll(conn);
 		}
 
 		Paging paging = new Paging(totalCount, curPage);
-		
+
 		JDBCTemplate.close(conn);
-		
+
 		return paging;
 	}
-	
+
 	@Override
 	public List<Member> getlist(HttpServletRequest req, Paging paging) {
 		Connection conn = JDBCTemplate.getConnection();
 		List<Member> list = null;
 		String select = req.getParameter("select");
-		String search =  req.getParameter("search");
-		
-		if( select != null && select.equals("id") ) {
-			if(search != null && !"".equals(search)) {
-				list = messageDao.searchId(conn, search, paging); 
+		String search = req.getParameter("search");
+
+		if (select != null && select.equals("id")) {
+			if (search != null && !"".equals(search)) {
+				list = messageDao.searchId(conn, search, paging);
 			} else {
-				list = messageDao.searchAll(conn, paging); 
-			}			
-		} else if( select != null && select.equals("nick") ) {
-			if(search != null && !"".equals(search)) {
-				list = messageDao.searchNick(conn, search, paging); 
+				list = messageDao.searchAll(conn, paging);
+			}
+		} else if (select != null && select.equals("nick")) {
+			if (search != null && !"".equals(search)) {
+				list = messageDao.searchNick(conn, search, paging);
 			} else {
-				list = messageDao.searchAll(conn, paging); 
-			}			
-		} else if( select != null && select.equals("email") ) {
-			if(search != null && !"".equals(search)) {
-				list = messageDao.searchEmail(conn, search, paging); 
+				list = messageDao.searchAll(conn, paging);
+			}
+		} else if (select != null && select.equals("email")) {
+			if (search != null && !"".equals(search)) {
+				list = messageDao.searchEmail(conn, search, paging);
 			} else {
-				list = messageDao.searchAll(conn, paging); 
-			}			
+				list = messageDao.searchAll(conn, paging);
+			}
 		} else {
-			list = messageDao.searchAll(conn, paging); 
+			list = messageDao.searchAll(conn, paging);
 		}
-		
+
 		JDBCTemplate.close(conn);
-		
+
 		return list;
 	}
-	
+
 	@Override
 	public int[] getParam(HttpServletRequest req) {
 		String[] arr = req.getParameterValues("no[]");
 		int cnt = arr.length;
 		int[] userno = new int[cnt];
-		
-		for( int i=0; i< arr.length; i++) {
+
+		for (int i = 0; i < arr.length; i++) {
 			userno[i] = Integer.parseInt(arr[i]);
 		}
-		
+
 		return userno;
 	}
-	
+
 	@Override
 	public List<Member> getlist(int[] userno) {
 		Connection conn = JDBCTemplate.getConnection();
 		List<Member> list = null;
-		
-		list = messageDao.selectByUserno(userno , conn);
+
+		list = messageDao.selectByUserno(userno, conn);
 
 		JDBCTemplate.close(conn);
 		return list;
 	}
-	
+
 	@Override
 	public int totalUser() {
 		Connection conn = JDBCTemplate.getConnection();
@@ -129,38 +130,85 @@ public class AdminMessageServiceImpl implements AdminMessageService {
 		JDBCTemplate.close(conn);
 		return totalcnt;
 	}
-	
+
 	@Override
-	public Message getContent(HttpServletRequest req) {
+	public void getContent(HttpServletRequest req, int[] userno) {
 		Connection conn = JDBCTemplate.getConnection();
-		
+
+		// 로그인 유저 세션의 유저넘버 얻기
+		Object param = req.getSession().getAttribute("userno");
+		int to = (int) param;
+
 		Message message = new Message();
-		
-		message.setTitle( req.getParameter("title") );
+
+		message.setTitle(req.getParameter("title"));
 		message.setContent(req.getParameter("content"));
-		
-		if(message != null) {
-			//제목이 없을 경우
-			if( message.getTitle() == null || "".equals(message.getTitle()) ) {
+
+		if (message != null) {
+			// 제목이 없을 경우
+			if (message.getTitle() == null || "".equals(message.getTitle())) {
 				message.setTitle("(제목없음)");
-				//내용이 없을 경우
-				if( message.getContent() == null || "".equals(message.getContent()) ) {
+				// 내용이 없을 경우
+				if (message.getContent() == null || "".equals(message.getContent())) {
 					message.setContent("(내용없음)");
 				}
-				//내용만 없을 경우
-			} else if( message.getContent() == null || "".equals(message.getContent()) ) {
+				// 내용만 없을 경우
+			} else if (message.getContent() == null || "".equals(message.getContent())) {
 				message.setContent("(내용없음)");
 			}
-			
-			if( messageDao.send(conn, message) > 0 ) {
-				JDBCTemplate.commit(conn);
-			} else {
-				JDBCTemplate.rollback(conn);
+
+			for (int i = 0; i < userno.length; i++) {
+				if (messageDao.send(conn, message, userno[i], to) > 0) {
+					JDBCTemplate.commit(conn);
+				} else {
+					JDBCTemplate.rollback(conn);
+				}
 			}
 		}
 		JDBCTemplate.close(conn);
-		
-		return message;
 	}
-	
+
+	@Override
+	public void sendMessage(HttpServletRequest req) {
+		Connection conn = JDBCTemplate.getConnection();
+
+		// 로그인 유저 세션의 유저넘버 얻기
+		Object param = req.getSession().getAttribute("userno");
+		int to = (int) param;
+
+		Message message = new Message();
+
+		message.setTitle(req.getParameter("title"));
+		message.setContent(req.getParameter("content"));
+
+		if (message != null) {
+			// 제목이 없을 경우
+			if (message.getTitle() == null || "".equals(message.getTitle())) {
+				message.setTitle("(제목없음)");
+				// 내용이 없을 경우
+				if (message.getContent() == null || "".equals(message.getContent())) {
+					message.setContent("(내용없음)");
+				}
+				// 내용만 없을 경우
+			} else if (message.getContent() == null || "".equals(message.getContent())) {
+				message.setContent("(내용없음)");
+			}
+			
+			int totalcnt = messageDao.selectCntAll(conn);
+			
+			// 모든 유저번호 얻기
+			int userno[] = messageDao.getuserno(conn, totalcnt);
+
+			for (int i = 0; i < userno.length; i++) {
+				System.out.println(userno[i]);
+//				if (messageDao.send(conn, message, userno[i], to) > 0) {
+//					JDBCTemplate.commit(conn);
+//				} else {
+//					JDBCTemplate.rollback(conn);
+//				}
+			}
+		}
+		JDBCTemplate.close(conn);
+	}
+
 }

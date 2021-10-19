@@ -12,7 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(urlPatterns = {"/message/*", "/logout", "/messagesend"})
+
+@WebFilter(urlPatterns = {"/message/*", "/logout", "/messagesend", "/mypage/*" , "/schedule/*", "/board/detail/*", "/board/write"})
 public class NoLoginFilter implements Filter {
 
 	    @Override

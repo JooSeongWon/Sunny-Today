@@ -14,21 +14,28 @@ $(document).ready(function() {
 	
 	//게시물 추가버튼 동작
 	$("#btnPostUp").click(function() {
-		$(location).attr("href", "/SunnyToday/admin/post/write");
+		$(location).attr("href", "/admin/post/write");
 	});
 	
 	
-	//전체 체크박스 동작
-	$(".checkAll").click(function() {
-		$(".checkBoard").prop("checked", this.checked );
-	});
+// 	//전체 체크박스 동작
+// 	$(".checkAll").click(function() {
+// 		$(".checkBoard").prop("checked", this.checked );
+// 	});
 
 	// 삭제버튼 동작
-	$(".btnDelete").click(function(e) {
+// 	$(".btnDelete").click(function(e) {
+// 		if( confirm("게시판을 삭제하시겠습니까?") ) {
+// 			$(location).attr("href", `/admin/post/delete?post_no=\${$(this).attr("data-postNo")}`);
+// 		}
+// 	});
+	
+	$("button[name=btnDelete]").click(function() {
 		if( confirm("게시판을 삭제하시겠습니까?") ) {
-			$(location).attr("href", `/SunnyToday/admin/post/delete?post_no=\${$(this).attr("data-postNo")}`);
+			$(location).attr("href", "/admin/post/delete?post_no="+$(this).attr('value'));
 		}
 	});
+	
 });
 
 </script>
@@ -63,17 +70,17 @@ $(document).ready(function() {
 <!-- <div style="background: #BDBDBD;"> -->
 <table id="searchTb" class="table table-bordered">
 <form action="<%=request.getContextPath() %>/admin/post/list" id="search" method="get" class="form-group">
-<tr>
-	<td class="col-xs-3">게시판별</td>
-		<td>
-			<select id="category" name="select">
-    			<option value="daily_clothes" >일상룩</option>
-    			<option value="buying" >지름 게시판</option>
-    			<option value="sharingInfo" >정보공유</option>
-    			<option value="qna" >질문 응답</option>
-			</select>
-		</td>
-</tr>
+<!-- <tr> -->
+<!-- 	<td class="col-xs-3">게시판별</td> -->
+<!-- 		<td> -->
+<!-- 			<select id="category" name="select"> -->
+<!--     			<option value="daily_clothes" >일상룩</option> -->
+<!--     			<option value="buying" >지름 게시판</option> -->
+<!--     			<option value="sharingInfo" >정보공유</option> -->
+<!--     			<option value="qna" >질문 응답</option> -->
+<!-- 			</select> -->
+<!-- 		</td> -->
+<!-- </tr> -->
 <!-- <tr> -->
 <!-- 	<td class="col-xs-3">등록일</td> -->
 <!-- 		<td> -->
@@ -106,14 +113,14 @@ $(document).ready(function() {
 
 
 <div align="right" >
-<button type="button" id="btnPostUp" >+ 게시글 등록</button>
+<!-- <button type="button" id="btnPostUp" >+ 게시글 등록</button> -->
 </div>
 
-<button type="button" id="btnCheck">선택 삭제</button>
+<!-- <button type="button" id="btnCheck">선택 삭제</button> -->
 
 <table class="table table-hover">
 <tr>
-		<th><input type="checkbox" id= "checkAll" class="checkAll" name="checkAll" value="checkAll" ></th>
+<!-- 		<th><input type="checkbox" id= "checkAll" class="checkAll" name="checkAll" value="checkAll" ></th> -->
 	<th>No.</th>
 	<th>카테고리</th>
 	<th>제목</th>
@@ -126,15 +133,16 @@ $(document).ready(function() {
 <c:forEach items="${list }" var="item">
 <input type="hidden" name="postno" id="postno" value="${item.post.post_no }" />
 <tr>
-	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td>
-	<td><a href="/SunnyToday/admin/post/view?post_no=${item.post.post_no }">${item.post.post_no }</a></td>
+<!-- 	<td><input type="checkbox" id="check" class="checkBoard" name="checkBoard" ></td> -->
+	<td><a href="/admin/post/view?post_no=${item.post.post_no }">${item.post.post_no }</a></td>
 	<td>${item.board.title}</td>
 	<td>${item.post.title }</td>
 	<td>${item.member.nick }</td>
 	<td>${item.post.write_date }</td>
 
 	<td>	
-		<button type="button" class="btn btn-danger btn-sm btnDelete" data-postNo="${post.post_no}">삭제</button>
+<%-- 		<button type="button" class="btn btn-danger btn-sm btnDelete" data-postNo="${item.post.post_no}">삭제</button> --%>
+		<button type="button" class="btn btn-danger btn-sm btnDelete" name="btnDelete" value="${item.post.post_no}">삭제</button>
 	</td>
 </tr>
 </c:forEach>

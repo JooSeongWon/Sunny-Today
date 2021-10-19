@@ -30,7 +30,7 @@ public interface AdminPostDao {
 
 	int selectNextFile_no(Connection conn);
 
-	int changeBoardno(Connection conn, String value);
+//	int changeBoardno(Connection conn, String value);
 
 	int insertFile(Connection conn, File file);
 

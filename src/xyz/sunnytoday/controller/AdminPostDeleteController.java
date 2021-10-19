@@ -24,7 +24,7 @@ public class AdminPostDeleteController extends HttpServlet {
 
 		postService.deletePost(postno);
 		
-		resp.sendRedirect("/SunnyToday/admin/post/list");	
+		resp.sendRedirect("/admin/post/list");	
 
 
 	}

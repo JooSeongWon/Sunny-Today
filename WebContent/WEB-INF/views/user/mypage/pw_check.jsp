@@ -12,14 +12,7 @@
     
     <%--페이지별 css/ js--%>
     <link href="${cssPath}/mypage2_style.css" rel="stylesheet">
-    
-    <script type="text/javascript">
-    $(document).ready(function(){
-    	$("#btn").click(function(){
-    		$("#check").submit();
-	    });
-    });
-    </script>
+    <script src="${jsPath}/mypage_script3.js"></script>
     
 </head>
 <body>
@@ -37,20 +30,31 @@
 	<div style="text-align: left;" ><h1>&nbsp;&nbsp;비밀번호 인증</h1></div>
 	<hr>
 	<div style="text-align: left;" ><span>&nbsp;&nbsp;비밀번호를 인증해주세요</span></div>
-	<form action="/mypage/password/check" method="post" id="check" class="profile_form">
+	<div class="profile_form">
 	<table class="profile_table">
 		<tr class="profile_list">
+			<td colspan="2" class="profile_item">
+						<input type="file" id="fileupload" name="imageSelector" accept="image/jpeg, image/jpg, image/png" multiple  >
+				<div class="profile-img" id="profile-img">
+				<img src="/upload/${profile.url }" class="thumb">
+				</div>
+			</td>
+		</tr>
+		<tr class="profile_list" >
+			<td class="profile_item" colspan="2" >${member.nick } 님</td>
+		</tr>
+		<tr class="profile_list">
 			<td class="profile_item" >아이디</td>
-			<td class="profile_item" ><input type="text" name="userId" value="${member.userid }" disabled="disabled"></td>
+			<td class="profile_item" ><input type="text" name="userid" id="userid" value="${member.userid }" disabled="disabled"></td>
 		</tr>
 		<tr class="profile_list">
 			<td class="profile_item" >비밀번호</td>
-			<td class="profile_item" ><input type="password" name="userPw" class="profile-setting" id="nick" name="nick" value="${loginmember.nick }"/></td>
+			<td class="profile_item" ><input type="password" name="userpw" id="userpw" class="profile-setting" /></td>
 		</tr>
 	</table>
 	<div><button id="btn" class="buttonClass">인증하기</button></div>
 	<div><input type="text" style="visibility: hidden;" ></div>
-	</form>
+	</div>
 	</div>
 </div>
 </div>

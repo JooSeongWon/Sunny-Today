@@ -6,6 +6,37 @@
 <script type="text/javascript">
 
 $(document).ready(function() {	
+	
+	//파일 preview
+	$("#upload").change(function( e ) {
+		
+		var files = e.target.files;
+		
+		//이미지만 처리할 수 있도록 적용
+		if( !files[0].type.includes("image") ) {
+			alert("이미지가 아닙니다")
+			
+			e.target.value = null;
+						
+			return false;
+		}
+		
+		var reader = new FileReader();
+		
+		reader.onload = function( e ) {
+			console.log( e )
+			console.log( e.target.result )
+			
+			$("#preview").html(
+					$("<img>").attr({
+						"src": e.target.result
+						, "width" : 300
+						, "height" : 200
+					}))			
+		}
+		reader.readAsDataURL( files[0] )		
+	})	
+	
 	//확인버튼 동작
 	$("#btnOk").click(function() {
 		
@@ -77,7 +108,8 @@ $(document).ready(function() {
 </form>
 <tr>
 	<td class="col-xs-2" height="50px">파일 첨부</td>
-	<td><input type="file" name="file" id="upload"/></td>
+	<td><input type="file" id="upload" name="file" id="upload"/>
+	<div id="preview"></div></td>
 </tr>	
 
 </table>

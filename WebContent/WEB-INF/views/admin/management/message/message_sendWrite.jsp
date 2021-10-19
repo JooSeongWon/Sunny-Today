@@ -70,7 +70,7 @@ $(document).ready(function(){
 <hr>
 
 <div class="col-md-11">
-<form action="/admin/message/write" method="post">
+<form action="<%=request.getContextPath() %>/admin/message/write" method="post">
 
 
 <c:choose>
