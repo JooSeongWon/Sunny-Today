@@ -127,6 +127,21 @@ public class MemberDaoImpl implements MemberDao {
         return selectCntWhen(connection, sql, email);
     }
 
+    @Override
+    public void updatePassword(Connection connection, Member member) throws SQLException {
+        String sql = "update MEMBER set SALT = ?, PASSWORD = ? where USER_NO = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, member.getSalt());
+            preparedStatement.setString(2, member.getUserpw());
+            preparedStatement.setInt(3, member.getUserno());
+
+            if(preparedStatement.executeUpdate() == 0){
+                throw new SQLException();
+            }
+        }
+    }
+
     private int getNextMemberSeq(Connection connection) throws SQLException {
         String sql = "select MEMBER_SEQ.nextval seq from DUAL";
 

@@ -69,13 +69,6 @@ public class AdminMessageWriteController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/admin/message/write [POST]");
 		
-		//전달파라미터 얻기 - 쪽지 제목,내용
-		Message message = messageService.getContent(req);
-		
-		//쪽지를 받을 회원 수
-		int totalcount = 0;
-		System.out.println( req.getParameter("content"));
-		System.out.println( req.getParameter("title"));
 		
 		//전달받는 회원번호 배열이 null값이 아닐 때
 		if( req.getParameterValues("no[]") != null ) {
@@ -83,22 +76,16 @@ public class AdminMessageWriteController extends HttpServlet {
 			//전달받은 회원번호
 			int[] userno = messageService.getParam(req);
 			
-			//전달받은 회원번호의 회원리스트
-			List<Member> list = messageService.getlist(userno);
+			//메세지 보내기 쪽지 제목,내용
+			messageService.getContent(req, userno);
 			
-			//쪽지를 받을 회원 수
-			String[] arr = req.getParameterValues("no[]");
-			totalcount = arr.length;
 			
-//			messageService.sendMessage(list, totalcount, message);
+		} else { //전달받은 회원 번호 배열이 없을 때
 			
-		} else {
-
-			totalcount = messageService.totalUser();
-//			messageService.sendMessage
+			messageService.sendMessage(req);
+			
 		}
 		
-		
-		
+		resp.sendRedirect("/admin/message");
 	}
 }

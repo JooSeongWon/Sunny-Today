@@ -85,39 +85,94 @@ $(document).ready(function() {
 	
 	
 	//댓글 js -----------------------------------------------------------
-	$("#btnCommentsInsert").click(function() {
+	$("#CommentsUpdateinTable").click(function(){
 		
-		//요청 URL
-		var url = "/board/comments/insert"
+		var text = $(this).text();		
 		
-		//요청 파라미터
-		var data = "&postno=" + $("#postno").val()
-			+ "&onlyWriter=" + $("#onlyWriter").val()
-			+ "&commentsContent=" + $("#commentsContent").val();
-		console.log("data", data)
+		if(text=='수정') {		
 		
-		sendRequest("get", url, data, callback)
-		
-		return false;
+		var commentsNo = $(this).next().attr('value');
+		var comments = $('#commentsContentinTable_'+commentsNo).text();
+
+		$('#commentsContentinTable_'+commentsNo).html("<input type='text' id='updateComments' name='updateComments' value='"+comments+"'>");
+		$(this).text('완료');
+		$(this).parent().next().children('button').text('취소');
+		} else if(text=='완료') {
+			var commentsNo = $(this).next().attr('value');
+			var newComments = $('#commentsContentinTable_'+commentsNo).children().val();
+			$('input[name=newComments]').val(newComments);
+			
+			$(this).parent().submit();
+		}
+	
 	});
 	
-	
-	
-})
-
-function callback() {
-	if(httpRequest.readyState == 4) {
-		if(httpRequest.status == 200) {
-			console.log("정상적인 AJAX 요청/응답 성공")
-			
-			printData();
-		} else {
-			console.log("AJAX 요청/응답 실패")
+	$("#CommentsDeleteinTable").click(function(){
+		var text = $(this).text();
+		if(text=='삭제'){
+			var result = window.confirm("해당 댓글을 삭제하시겠습니까?");
+			if(result==true) {
+				$(this).parent().submit();
+			}
+		} else if(text=='취소') {
+			location.replace("/board/detail?postno=${detailBoard.post_no }");
 		}
-	}
-}
+		
+	})
+	
+	//신고 js-------------------------------------
+	
+	$('#sendBtn').click(function(){
+		console.log("sendBtn clicked");
+		var detail = document.getElementById("detail").value;
+		
+		if( detail==="" ) {
+			showModal("오늘도 맑음", "상세 이유를 작성해주세요!")
+		} else {
+			$('#report').submit();
+		}
+	})
+	
+	$('#cancelBtn').click(function(){
+		console.log("cancelBtn");
+		history.go(-1);
+	})
+	
+	 $('#ad').on('click', function(){
+      if($(this).prop('checked')){
+         console.log("checked");
+         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
 
-function printData() {
-	console.log("printData() called")
-	comments.innerHTML = httpRequest.responseText
-}
+//          $('#detail').val = "부적절한 홍보 댓글/게시글"
+      }
+   })
+   
+   $('#porn').on('click', function(){
+      if($(this).prop('checked')){
+         console.log("checked");
+         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
+//          $('#detail').val = "음란성 또는 청소년에게 부적합한 내용"
+      }
+   })
+   
+   $('#defam').on('click', function(){
+      if($(this).prop('checked')){
+         console.log("checked");
+         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
+//          $('#detail').val = "명예훼손/사생황 침해 및 저작권 침해"
+      }
+   })
+
+	$('#etc').on('click', function(){
+	      if($(this).prop('checked')){
+	         console.log("checked");
+	         document.getElementById("detail").value='';
+	         document.getElementById("detail").focus();
+	//          $('#detail').val = "기타"
+	      }
+	   })
+
+})

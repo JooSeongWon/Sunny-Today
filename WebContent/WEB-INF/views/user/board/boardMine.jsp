@@ -64,7 +64,7 @@
 	<tr>
 		<td colspan="6">공지글</td>
 	</tr>
-<c:forEach items="${boardMineList }" var="boardMineList">
+<c:forEach items="${list }" var="boardMineList">
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
@@ -92,7 +92,7 @@
 </section>
 </div>
 <div id='paging'>
-<c:import url="../layout/boardPaging.jsp" />
+<c:import url="../layout/boardTitlePaging.jsp" />
 </div>
 <%--footer--%>
 <c:import url="../layout/footer.jsp"/>

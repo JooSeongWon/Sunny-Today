@@ -1,10 +1,14 @@
 package xyz.sunnytoday.controller;
 
+import com.google.gson.Gson;
 import xyz.sunnytoday.common.config.AppConfig;
-import xyz.sunnytoday.service.face.ForecastService;
-import xyz.sunnytoday.service.face.GeoLocationService;
-import xyz.sunnytoday.service.impl.ForecastServiceImpl;
-import xyz.sunnytoday.service.impl.GeoLocationServiceImpl;
+import xyz.sunnytoday.common.repository.Forecast;
+import xyz.sunnytoday.dto.Board;
+import xyz.sunnytoday.dto.Costume;
+import xyz.sunnytoday.dto.Post;
+import xyz.sunnytoday.dto.Schedule;
+import xyz.sunnytoday.service.face.*;
+import xyz.sunnytoday.service.impl.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,6 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @WebServlet(
         urlPatterns = "/main",
@@ -21,8 +29,13 @@ import java.io.IOException;
 )
 public class HomeController extends HttpServlet {
 
+    private final ScheduleService scheduleService = new ScheduleServiceImpl();
+    private final CostumeService costumeService = new CostumeServiceImpl();
+    private final BoardService boardService = new BoardServiceImpl();
+
     private GeoLocationService geoLocationService;
     private ForecastService forecastService;
+
 
     /*
      * AppConfig class의 lifecycle을 Servlet lifecycle과 맞춘다.
@@ -86,9 +99,84 @@ public class HomeController extends HttpServlet {
 
         req.setAttribute("r1", cityR1);
         req.setAttribute("r2", cityR2);
-        req.setAttribute("sForecast", forecastService.getShortTermForecast(cityR1 + cityR2));
-        req.setAttribute("mForecast", forecastService.getMediumTermForecast(cityR1 + cityR2));
+        final List<Forecast> shortTermForecast = forecastService.getShortTermForecast(cityR1 + cityR2);
+        req.setAttribute("sForecast", shortTermForecast);
+
+        final List<Forecast> mediumTermForecast = forecastService.getMediumTermForecast(cityR1 + cityR2);
+        if (mediumTermForecast == null) {
+            super.doGet(req, resp);
+            return;
+        }
+        req.setAttribute("mForecast", mediumTermForecast);
+
+        //스케쥴
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        int today = Integer.parseInt(simpleDateFormat.format(new Date()));
+        int lastDay = Integer.parseInt(mediumTermForecast.get(mediumTermForecast.size() - 1).getBaseDate());
+        Stack<Schedule> scheduleStack = new Stack<>();
+
+
+        if (req.getSession().getAttribute("userno") != null) {
+            for (int i = lastDay; i > today; i--) {
+                Schedule temp = new Schedule();
+                try {
+                    temp.setSchedule_date(simpleDateFormat.parse(Integer.toString(i)));
+                    temp.setUser_no((Integer) req.getSession().getAttribute("userno"));
+                } catch (ParseException e) {
+                    System.out.println("[ERROR]치명적! 발생해서는 안되는 날짜 파싱에러 - 홈 컨트롤러");
+                }
+                final Schedule schedule = scheduleService.selectSameSchedule(temp);
+                if (schedule.getTitle() != null) {
+                    scheduleStack.push(schedule);
+                }
+            }
+        }
+        req.setAttribute("scheduleStack", scheduleStack);
+
+
+        //베스트 게시글
+        List<Post> bestPosts = boardService.getBestPosts();
+        if (!bestPosts.isEmpty()) {
+            req.setAttribute("bestPosts", bestPosts);
+        }
+
+        //공지 & 이벤트
+        Map<Integer, List<Post>> map = boardService.getNotices();
+        req.setAttribute("notices", map.get(Board.TYPE_NOTICE));
+        req.setAttribute("events", map.get(Board.TYPE_EVENT));
+
+        //의상 추천
+        final String gender = req.getSession().getAttribute("gender") == null ? "A" : req.getSession().getAttribute("gender").toString();
+        final Costume[] costumes = costumeService.getRand(shortTermForecast.get(0).getTemperature(), gender);
+        req.setAttribute("costumes", costumes);
 
         req.getRequestDispatcher("/WEB-INF/views/user/home/home.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        //요청확인
+        if (!"refresh".equals(req.getParameter("req"))) {
+            super.doPost(req, resp);
+            return;
+        }
+
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
+        final PrintWriter writer = resp.getWriter();
+        Map<String, String> responseData = new HashMap<>();
+
+        //의상
+        final String gender = req.getSession().getAttribute("gender") == null ? "A" : req.getSession().getAttribute("gender").toString();
+        final Costume[] costumes = costumeService.getRand(Integer.parseInt(req.getParameter("temp")), gender);
+
+        responseData.put("topTitle", costumes[0].getTitle());
+        responseData.put("topThumbNail", costumes[0].getThumbNail());
+        responseData.put("pantsTitle", costumes[1].getTitle());
+        responseData.put("pantsThumbNail", costumes[1].getThumbNail());
+
+        writer.write(new Gson().toJson(responseData));
     }
 }

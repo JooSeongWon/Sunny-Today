@@ -1,0 +1,36 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    font-size: var(--font-small);
+}
+
+.pagination li {
+    margin-left: 5px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 4px;
+    transition: all 200ms ease-in;
+}
+
+.pagination li a {
+	color: var(--color-join-dark-grey);
+}
+
+.pagination li.active {
+    background-color: var(--color-dark-sky);
+    transform: scale(1.1);
+}
+
+.pagination li.active a {
+	color: white;
+}
+
+.pagination li:not(.active):not(.disabled):hover {
+    background-color: var(--color-light-sky);
+}
+
+.pagination li.disabled a {
+    color: var(--color-grey);
+}

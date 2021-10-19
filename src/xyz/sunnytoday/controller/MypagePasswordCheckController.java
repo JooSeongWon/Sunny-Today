@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
+import xyz.sunnytoday.dto.File;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.service.face.MypageService;
 import xyz.sunnytoday.service.impl.MypageServiceImpl;
@@ -32,6 +35,12 @@ public class MypagePasswordCheckController extends HttpServlet {
 		
 		//유저넘버로 유저정보 얻기 - member
 		Member member = mypageService.selectMember(userno);
+		
+		//유저 썸네일 전달
+		File profile = mypageService.selectProfile(member);
+		
+		//썸네일 전달
+		req.setAttribute("profile", profile);
 	
 		//유저정보 전달
 		req.setAttribute("member", member);
@@ -43,17 +52,17 @@ public class MypagePasswordCheckController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("/password/check");
 		
-		boolean user = mypageService.checkPassword(req);
+		int res = 0;
 		
-		if( user == true ) {
-			HttpSession session = req.getSession();
-			session.setAttribute("user", user );
-			session.setMaxInactiveInterval(15 * 60);
-			
-			resp.sendRedirect("/leaveid");
-		} else {
-			resp.sendRedirect("/mypage/password/check");
+		if( req.getParameter("userid") != null && !"".equals(req.getParameter("userid") )) {
+			res = mypageService.checkPassword(req);
 		}
+		// json 형식으로 변환
+		Gson gson = new Gson();
+		String rs = gson.toJson(res);
+
+		// 전송이 되는 부분
+		resp.getWriter().write(rs);
 		
         
 	}

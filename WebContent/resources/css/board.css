@@ -1,3 +1,11 @@
+/* 페이징 */
+
+li {
+	display:inline;
+	margin: 10px;
+}
+
+
 /* 메인과 카테고리 리스트 */
 
 .menu-left {
@@ -98,7 +106,7 @@ td, th {
 .btnWrite {
   border-radius: 28px;
   font-size: var(--font-small);
-  background: var(--color-sky);
+  background: var(--color-deep-blue);
   padding: 10px 20px 10px 20px;
 }
 
@@ -149,7 +157,7 @@ td, th {
     font-size: var(--font-micro);
     line-height: normal;
     vertical-align: middle;
-    background-color: var(--color-sky);
+    background-color: var(--color-deep-blue);
     cursor: pointer;
     border-radius: .50em;
 } 
@@ -209,18 +217,192 @@ td, th {
 #like {
 	border-radius: 28px;
 	font-size: var(--font-small);
-	background: var(--color-sky);
+	background-color: var(--color-deep-blue);
 	padding: 10px 10px 10px 10px;
 }
 
 #disLike {
 	border-radius: 28px;
 	font-size: var(--font-small);
-	background: var(--color-gray);
+	background-color: var(--color-grey);
 	padding: 10px 10px 10px 10px;
-	
+}
+
+#onlyWriter {
+	padding-left: 20px;
+}
+
+#commentsWriter {
+	margin-right: 50px;
+    margin-left: 20px;
+}
+
+#commentsContent {
+	width: 65%;
+    height: 40px;
+}
+
+#btnCommentsInsert {
+	margin-left: 30px;
+    height: 50px;
+    width: 81px;
+    background: var(--color-deep-blue);
+    border: none;
+    border-radius: 14px;
+    color: var(--color-white);
+}
+
+#commentsNickinTable {
+	width: 20%;
+    height: 40px;
+}
+
+.CCT {
+	width: 60%;
+    text-align: left;
+}
+
+#CommentsUpdateinTable {
+	width: 40%;
+    border: none;
+    background: var(--color-white);
+}
+
+#CommentsDeleteinTable {
+	width: 40%;
+    border: none;
+    background: var(--color-white);
+}
+
+#CommentsReportinTable {
+	width: 12%;
+}
+
+#updateComments {
+	width: 90%;
+	height: 40px;
+}
+
+.fa-sun {
+	color: var(--color-orange);
+}
+
+#btnlist {
+	margin-left: 70%;
+}
+
+/* 신고 */
+.clearArea {
+	clear: both;
+}
+
+#reportTable {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+#reportTable tr td {
+	height: 30px;
+}
+
+#reportUserNick > td:nth-child(1) {
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px; 
+}
+
+#reportUserNick > td:nth-child(2) {
+	text-align: left;
+	padding-left: 10px; 
+}
+
+#reportTableWidth > td:nth-child(1) {
+	width: 50%;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 10px; 
+}
+
+#reportTableWidth > td:nth-child(2) {
+	text-align: left;
+	padding-left: 10px; 
+}
+
+#reportTableWidth > td:nth-child(1) {
+	width: 50%;	
+}
+
+.reportReason {
+	border: none;
+}
+
+#reportReasontr {
+	padding-bottom: 30px;
+    border-bottom: 2px solid var(--color-grey);
+}
+
+#detail {
+	width: 80%;
+	height: 200px;
+	resize: none;
+	border: 1px solid;
+	font-size: var(--font-micro);
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+.input-hint {
+	font-size: 12px;
+    color: var(--color-dark-grey);
+}
+
+#sendBtntd {
+	text-align: right;
+	padding-right: 10px;
+	border: none;
+}
+
+#cancelBtntd {
+	text-align: left;
+	padding-left: 10px;
+	border: none;
+}
+
+#sendBtn {
+	border: none;
+    background-color: var(--color-deep-blue);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}
+
+#cancelBtn {
+	border: none;
+    background-color: var(--color-grey);
+    border-radius: 5px;
+    color: var(--color-white);
+    width: 100px;
+    padding: 6px;
+    font-weight: bold;
+    height: 35px;
+}
+
+
+#reportReasonDetail {
+	padding: 30px 0px;
+}
+
+.selectReportReason td {
+	text-align: left;
+	padding-left: 20px;
 }
 
 
 
-}
+
+
+

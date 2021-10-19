@@ -24,7 +24,11 @@ public class ScheduleWriteController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-        req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule_write.jsp").forward(req, resp);
+		if(req.getSession().getAttribute("userno") == null) {
+			req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule.jsp").forward(req, resp);
+		} else {
+			req.getRequestDispatcher("/WEB-INF/views/user/schedule/schedule_write.jsp").forward(req, resp);
+		}
         
 	}
 	

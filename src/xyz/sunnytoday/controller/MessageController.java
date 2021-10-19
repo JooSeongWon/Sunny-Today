@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import xyz.sunnytoday.common.Paging;
 import xyz.sunnytoday.dto.Member;
 import xyz.sunnytoday.dto.Message;
+import xyz.sunnytoday.service.face.MemberService;
 import xyz.sunnytoday.service.face.MessageService;
+import xyz.sunnytoday.service.impl.MemberServiceImpl;
 import xyz.sunnytoday.service.impl.MessageServiceImpl;
 
 @WebServlet("/message")
@@ -21,7 +23,7 @@ public class MessageController extends HttpServlet {
 	
 	//MessageService 객체 생성
 	private MessageService messageService = new MessageServiceImpl();
-	private Member member = new Member();
+	private MemberService memberService = new MemberServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,7 +33,7 @@ public class MessageController extends HttpServlet {
 		Paging paging = messageService.getPaging(req);
 		System.out.println("MessageController [GET] - " + paging);
 	
-		//쪽지 목록 조회
+		//받은 쪽지 목록 조회
 		List<Message> messageList = messageService.getMessageList(paging, (Integer) req.getSession().getAttribute("userno")); 
 		
 		//조회결과 MODEL값 전달
@@ -40,8 +42,7 @@ public class MessageController extends HttpServlet {
 		//페이징 정보 MODEL값 전달
 		req.setAttribute("paging", paging); 
 
-    	req.getRequestDispatcher("/WEB-INF/views/user/message/message.jsp").forward(req, resp);		
-		
+    	req.getRequestDispatcher("/WEB-INF/views/user/message/message.jsp").forward(req, resp);				
 	}
 	
 	@Override

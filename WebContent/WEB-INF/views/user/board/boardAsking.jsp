@@ -65,7 +65,7 @@
 	<tr>
 		<td colspan="6">공지글</td>
 	</tr>
-<c:forEach items="${boardAskingList }" var="boardAskingList">
+<c:forEach items="${list }" var="boardAskingList">
 <tr>
 	<td rowspan="2"><img class="thumbnail" src="http://via.placeholder.com/40" alt="썸네일"></td>
 	<td id='title'>
@@ -75,7 +75,6 @@
 	</td>
 	<td rowspan="2">
 		<i class="far fa-smile"></i>${boardAskingList.nick }
-		<i class="far fa-smile"></i>
 	</td>
 	<td rowspan="2">
 		<div id='circle-grade'>평점</div>
@@ -116,7 +115,7 @@
 
 
 <div id='paging'>
-<c:import url="../layout/boardPaging.jsp" />
+<c:import url="../layout/boardTitlePaging.jsp" />
 </div>
 
 <%--footer--%>

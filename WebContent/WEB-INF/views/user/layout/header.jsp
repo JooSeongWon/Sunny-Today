@@ -10,6 +10,9 @@
 <header>
     <div id="header">
         <div class="enter">
+            <c:if test="${not empty sessionScope.admin and (sessionScope.admin eq 'A' or sessionScope.admin eq 'S')}">
+            <a class="enter__admin" href="${pageContext.request.contextPath}/admin">관리자 페이지</a>
+            </c:if>
             <c:if test="${empty sessionScope.userno}">
                 <a href="<%=request.getContextPath() %>/login">LOGIN |</a>
                 <a href="<%=request.getContextPath() %>/join"> JOIN US</a>

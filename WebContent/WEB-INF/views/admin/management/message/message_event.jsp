@@ -20,21 +20,21 @@ $(document).ready(function(){
 	});
 
 	$("#messagewrite").click(function(){
-		$(location).attr("href", "/admin/message/event/write");
+		$(location).attr("href", "<%=request.getContextPath() %>/admin/message/event/write");
 	});
 
 	$("#eventwrite").click(function(){
-		$(location).attr("href", "/admin/message/event/title");
+		$(location).attr("href", "<%=request.getContextPath() %>/admin/message/event/title");
 	});
 	
 	$("button[name=btnUpdate]").click(function() {
 		console.log("btn")
-		$(location).attr("href", "/admin/message/update?no="+$(this).attr('value'));
+		$(location).attr("href", "<%=request.getContextPath() %>/admin/message/update?no="+$(this).attr('value'));
 	});
 
 	$("button[name=btnDelete]").click(function() {
 		if( confirm("쪽지를 삭제하시겠습니까?") ) {
-			$(location).attr("href", "/admin/message/delete?no="+$(this).attr('value'));
+			$(location).attr("href", "<%=request.getContextPath() %>/admin/message/delete?no="+$(this).attr('value'));
 		}
 	});
 	

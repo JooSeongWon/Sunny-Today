@@ -32,8 +32,6 @@
 	
 <div class="writearea">
 	<form action="<%=request.getContextPath() %>/board/update" method="post" enctype="multipart/form-data">
-
-<%-- 	<input type="hidden" name="postno" value="${updateBoard.post_no }" /> --%>	
 	<input type="hidden" name="postno" value="${param.postno }" />
 
 		<input type="text" name="title" id="writeTitle" value="${updateBoard.title }"/>

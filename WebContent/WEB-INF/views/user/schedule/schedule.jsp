@@ -1,15 +1,30 @@
+<%@page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <%@ page import="xyz.sunnytoday.dto.Schedule"%>
+<%@ page import="xyz.sunnytoday.dto.File" %>
+<%@ page import="xyz.sunnytoday.common.repository.Forecast" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.text.ParseException" %>
+<%@ page import="java.util.Random" %>
 
 <%
 
 List<Schedule> scheduleList = (List) request.getAttribute("scheduleList");
+List<Schedule> underSchedule = (List) request.getAttribute("underSchedule");
+List<String> tenDay = (List) request.getAttribute("tenDay");
+List<Forecast> resultForecast = (List) request.getAttribute("resultForecast");
+List<File> fileList = (List) request.getAttribute("fileList");
+List<Integer> fileCnt = (List) request.getAttribute("fileCnt");
+
+Calendar weatherCal = Calendar.getInstance();
+String pm = weatherCal.get(Calendar.HOUR_OF_DAY) < 6 || weatherCal.get(Calendar.HOUR_OF_DAY) >= 20 ? "moon" : "sun";
 
 String yy = request.getParameter("year");
 String mm = request.getParameter("month");
@@ -23,8 +38,8 @@ if( yy!= null && mm != null && !yy.equals("") && !mm.equals("") ) {
 	y = Integer.parseInt(yy);
 	m = Integer.parseInt(mm)-1;
 }
-
 cal.set(y,m,1);
+
 int dayOfweek = cal.get(Calendar.DAY_OF_WEEK); // (일:1 ~ 토:7)
 int lastday = cal.getActualMaximum(Calendar.DATE);
 int prevLastMth = new Date(y, m, 0).getDate();
@@ -46,6 +61,7 @@ if(n_m == 13) {
 	n_y = n_y + 1;
 	n_m = 1;
 }
+
 
 %>
 
@@ -91,7 +107,7 @@ if(n_m == 13) {
 		}
 		
 		$(function(){
-			$("#<c:out value='${now}'/>").css({
+			$("#<c:out value='<%=tenDay.get(0) %>'/>").css({
 				"color": "orange",
 				"font-weight": "bold"
 			});
@@ -109,9 +125,6 @@ if(n_m == 13) {
 				document.getElementById("<%=y %>0101").style.color = "red";
 			}
 			if(<%=m+1 %> == '2') {
-				document.getElementById("<%=y %>0211").style.color = "red";
-				document.getElementById("<%=y %>0212").style.color = "red";
-				document.getElementById("<%=y %>0213").style.color = "red";
 			}
 			if(<%=m+1 %> == '3') {
 				document.getElementById("<%=y %>0301").style.color = "red";
@@ -129,19 +142,17 @@ if(n_m == 13) {
 			}
 			if(<%=m+1 %> == '8') {
 				document.getElementById("<%=y %>0815").style.color = "red";
-				document.getElementById("<%=y %>0816").style.color = "red";
 			}
 			if(<%=m+1 %> == '9') {
-				document.getElementById("<%=y %>0816").style.color = "red";
 			}
 			if(<%=m+1 %> == '10') {
-				console.log("10월")
+				document.getElementById("<%=y %>1003").style.color = "red";
+				document.getElementById("<%=y %>1009").style.color = "red";
 			}
 			if(<%=m+1 %> == '11') {
-				console.log("11월")
 			}
 			if(<%=m+1 %> == '12') {
-				console.log("12월")
+				document.getElementById("<%=y %>1225").style.color = "red";
 			}
 			
 			
@@ -149,33 +160,6 @@ if(n_m == 13) {
 		
     
     </script>
-    
-    <style type ="text/css">
-
-.mid_content{
-display: inline-block;
-width:1123px;
-height:200px;
-background-color:green;
-margin-top: 15px;
-}
-.side_content_box{
-display: inline-block;
-width:180px;
-height:180px;
-background-color:white;
-margin: 9px;
-}
-.side_rigth_box{
-display: inline-block;
-width:610px;
-height:180px;
-background-color:white;
-margin: 9px;
-margin-left: 100px;
-}
-
-</style>
     
 </head>
 <body>
@@ -326,27 +310,82 @@ margin-left: 100px;
 
 <br><br><br><br><br><br>
 
-<div style="background-color: gray; width: 100%; height: 1000px; text-align: center;">
-
-	<div class= "mid_content">
-		<div class= "side_content_box">
-    	
-	    	날씨
-	    	
-	    </div>
-	    
-    	<div class= "side_content_box">
-    	
-    		두번째 공간
-    	
-    	</div>
-    	
-    	<div class= "side_rigth_box">
-    	
-    	세번째 공간
-    	
-    	</div>
-	</div>
+<div class="underScheduleList">
+	
+	<%
+	
+	int num1 = 0; //2, 4, 6, 8
+	int num2 = 0; //0, 2, 4, 6
+	
+	//각 일정마다 랜덤으로 이미지 출력 정수값 설정
+	List<Integer> ranNum = new ArrayList<>();
+		
+	for(int i=0; i<underSchedule.size(); i++) {
+			
+		if(num1 != 0) {
+			num2 += fileCnt.get(i);
+		}
+			
+		num1 += fileCnt.get(i);
+			
+		ranNum.add((int) Math.floor( ( Math.random() * (num1 - num2) + num2 ) ));
+		
+	}
+	
+	
+	for(int i=0; i<underSchedule.size(); i++) {
+		
+		out.println("<div class= 'mid_content'>");
+      		
+			//오늘 날짜 구별
+			if(underSchedule.get(0).getSchedule_date().equals(underSchedule.get(i).getSchedule_date())) {
+				out.println("<div class='underScheduleDate' style='color: white; background-color: orange; '><p>" + underSchedule.get(i).getSchedule_date() + "</p></div>");
+			} else {
+				out.println("<div class='underScheduleDate'><p>" + underSchedule.get(i).getSchedule_date() + "</p></div>");
+			}
+			
+			out.println("<div class= 'side_content_box'>");
+	         
+				if(resultForecast.get(i).getWeather().equals("맑음")) {
+					out.print("<i style='font-size: 95px;' class='fas fa-" + pm + "'></i>");
+				} else if(resultForecast.get(i).getWeather().equals("구름많음")) {
+					if(resultForecast.get(i).getChanceOfRain() >= 40) {
+						out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+					} else {
+						out.print("<i style='font-size:75px; margin-top: 15px;' class='fas fa-cloud-" + pm + "'></i>");
+					}
+				} else {
+					if(resultForecast.get(i).getChanceOfRain() >= 40) {
+						out.print("<i style='font-size: 85px; margin-top: 9px;' class='fas fa-cloud-" + pm + "-rain'></i>");
+					} else {
+						out.print("<i style='font-size: 75px; margin-top: 15px;' class='fas fa-cloud'></i>");
+					}
+				}
+			
+			out.println("</div>");
+	         
+			out.println("<div class= 'side_content_box'>");
+	         
+				out.println("<img alt='썸네일' src='/upload/" + fileList.get(ranNum.get(i)).getThumbnail_url() +"'>");
+				
+				System.out.println(ranNum.get(i));
+	            
+			out.println("</div>");
+	         
+			out.println("<div class= 'side_rigth_box'>");
+	          	
+				out.println("<p style='margin-bottom: 15px;'>" + underSchedule.get(i).getTitle() + "</p>");
+				
+				out.println(underSchedule.get(i).getContent());
+	          
+			out.println("</div>");
+          
+	out.println("</div>");
+          
+   }
+   
+   
+   %>
 	
 </div>
 
