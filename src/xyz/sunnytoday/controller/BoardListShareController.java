@@ -28,8 +28,8 @@ public class BoardListShareController extends HttpServlet {
 		
 		List<Map<String, Object>> list = boardService.getShareList(req, paging);
 		
-		String date = list.get(0).get("board").toString();
-		String boardTitle = boardService.getValueFromMap(date,"title");
+//		String date = list.get(0).get("board").toString();
+//		String boardTitle = boardService.getValueFromMap(date,"title");
 
 		boardService.setThumFile(list);
 		
@@ -39,11 +39,12 @@ public class BoardListShareController extends HttpServlet {
 //		}
 
 //		System.out.println("boardno : " + boardno);
-		paging = boardService.getTitlePaging(req, boardTitle);	
+		paging = boardService.getTitlePaging(req, "share");	
 		
+//		System.out.println(boardTitle);
 		
 		req.setAttribute("list", list);
-		req.setAttribute("boardTitle", boardTitle);
+		req.setAttribute("boardTitle", "share");
 		req.setAttribute("paging", paging);
 
 		req.getRequestDispatcher("/WEB-INF/views/user/board/boardShare.jsp").forward(req, resp);

@@ -87,7 +87,7 @@
 				<c:out value="${fn:substring(boardAskingList.post.title,0,13)}"/>....
 			</c:when>
 			<c:otherwise>
-				<c:out value="${boardMainList.post.title }"/>
+				<c:out value="${boardAskingList.post.title }"/>
 			</c:otherwise> 
 		</c:choose>
 		</a>
@@ -122,7 +122,7 @@
 				<c:out value="${fn:substring(boardAskingList.post.content,0,13)}"/>....
 			</c:when>
 			<c:otherwise>
-				<c:out value="${boardMainList.post.content }"/>
+				<c:out value="${boardAskingList.post.content }"/>
 			</c:otherwise> 
 		</c:choose>
 	</td>
