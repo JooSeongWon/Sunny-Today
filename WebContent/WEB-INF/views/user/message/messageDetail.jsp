@@ -124,10 +124,10 @@
 		<div id="write-form">
 			<table id="fromm-title">
 				<tr>
-					<td class="info">보낸 사람 ㅣ</td><td width="430px;">${viewMessage.fromNick }</td>
+					<td class="info">보낸 사람 ㅣ</td><td width="430px;">${viewMessage.fromNick } 님</td>
 				</tr>
 				<tr>
-					<td class="info">받는 사람 ㅣ</td><td>${viewMessage.tooNick }</td>
+					<td class="info">받는 사람 ㅣ</td><td>${viewMessage.tooNick } 님</td>
 				</tr>		
 				<tr>
 					<td class="info">보낸 시간 ㅣ</td><td>${viewMessage.post_date }</td>

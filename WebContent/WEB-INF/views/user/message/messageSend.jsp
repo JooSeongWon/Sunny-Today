@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <!doctype html>
 <html lang="ko">
 <head>
@@ -29,6 +30,8 @@
     	})		
     });
     </script>
+    
+    <link rel="stylesheet" href="${cssPath }/paging_style.css">
     
     <style type="text/css">
     table {
@@ -92,6 +95,12 @@
 		height: 30px;
 		float: right;
 	}
+	.clearbox {
+		clear: both;
+		width: 0;
+		height: 0;
+		overflow: hidden;
+	}
     </style>
 
 </head>
@@ -114,6 +123,7 @@
 		</div>		
 				
 		<br>
+		<div class="clearbox"></div>
 		<hr size="5" noshade>
 		<h2>보낸 쪽지함</h2>
 		<br>

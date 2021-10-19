@@ -26,7 +26,7 @@ public class MessageDaoImpl implements MessageDao {
 		sql += "	SELECT rownum rnum, M.* FROM (";
 		sql += "		SELECT";
 		sql += "			message_no, title, too, fromm";
-		sql += "			, content, post_date, read";
+		sql += "			, content, post_date";
 		sql += "		FROM message";
 		sql += "		WHERE too = ?";
 		sql += "		ORDER BY message_no DESC";
@@ -53,7 +53,6 @@ public class MessageDaoImpl implements MessageDao {
 				message.setFromm( rs.getInt("fromm") );
 				message.setToo( rs.getInt("too") );
 				message.setPost_date( rs.getDate("post_date") );
-				message.setRead( rs.getString("read") );
 				message.setRnum(rs.getInt("rnum")); 
 
 				//리스트에 결과값 저장
@@ -83,7 +82,7 @@ public class MessageDaoImpl implements MessageDao {
 		sql += "	SELECT rownum rnum, M.* FROM (";
 		sql += "		SELECT";
 		sql += "			message_no, title, too, fromm";
-		sql += "			, content, post_date, read";
+		sql += "			, content, post_date";
 		sql += "		FROM message";
 		sql += "		WHERE fromm = ?";
 		sql += "		ORDER BY message_no DESC";
@@ -110,7 +109,6 @@ public class MessageDaoImpl implements MessageDao {
 				message.setFromm( rs.getInt("fromm") );
 				message.setToo( rs.getInt("too") );
 				message.setPost_date( rs.getDate("post_date") );
-				message.setRead( rs.getString("read") );
 				message.setRnum(rs.getInt("rnum")); 
 
 				//리스트에 결과값 저장
@@ -264,7 +262,6 @@ public class MessageDaoImpl implements MessageDao {
 				viewMessage.setTitle( rs.getString("title") );
 				viewMessage.setContent( rs.getString("content") );
 				viewMessage.setPost_date( rs.getDate("post_date") );
-				viewMessage.setRead( rs.getString("read") ); 
 				viewMessage.setFromNick(rs.getString("from_nick"));
 				viewMessage.setTooNick(rs.getString("to_nick"));
 			}
