@@ -35,7 +35,7 @@ public class NoAdminFilter implements Filter {
 	            return true;
 	        }
 
-	        if( "N".equals(req.getSession().getAttribute("admin") ) ){
+	        if( "N".equals(req.getSession().getAttribute("admin"))){
 	            resp.setContentType("text/html; charset=utf-8");
 
 	            PrintWriter writer = resp.getWriter();

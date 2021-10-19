@@ -350,8 +350,8 @@ public class AdminMessageDaoImpl implements AdminMessageDao {
 				+ " VALUES (message_seq.nextval, ? , ? , ? , ? )";
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, to);
-			ps.setInt(2, userno);
+			ps.setInt(1, userno);
+			ps.setInt(2, to);
 			ps.setString(3, message.getTitle());
 			ps.setString(4, message.getContent());
 
