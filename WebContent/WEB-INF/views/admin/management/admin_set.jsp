@@ -17,24 +17,15 @@ $(document).ready(function(){
 		$("#admin").submit()
 	});
 
-	$("button[name=delAdminBtn]").click(function(){
-		var Admin = $("#admin").val;
-		if( Admin = 'A'){
-			alert("권한이 없습니다")
-			return
-		} else{
+	$("#setAdminBtn").click(function(){
+		var Admin = $("#adminD").val();
+		console.log( Admin )
 		$("#setAdmin").submit()
-		}
 	});
-
-	$("button[name=setAdminBtn]").click(function(){
-		var Admin = $("#admin").val;
-		if( Admin = 'A'){
-			alert("권한이 없습니다")
-			return
-		} else{
+	$("#delAdminBtn").click(function(){
+		var Admin = $("#adminD").val();
+		console.log( Admin )
 		$("#delAdmin").submit()
-		}
 	});
 	
 });
@@ -80,7 +71,7 @@ $(document).ready(function(){
 
 
 
-<input type="hidden" id="admin" value="${Admin }">
+<input type="hidden" id="adminD" value="${Admin }">
 <table class="table">
 <tr>
 	<th>No.</th>
@@ -102,14 +93,14 @@ $(document).ready(function(){
 		<form action="<%=request.getContextPath() %>/admin/set" id="setAdmin" method="post">
 			<input type="hidden" id="set" name="userno" value="${member.userno }">
 			<input type="hidden" name="val" value="set">
-			<td class="text-right"><button class="btn btn-default" id="setAdminBtn" name="setAdminBtn" type="button">관리자 권한지정</button></td>
+			<td class="text-right"><button class="btn btn-default" id="setAdminBtn">관리자 권한지정</button></td>
 		</form>
 		</c:when>
 		<c:when test="${member.admin ne 'N'}">
 		<form action="<%=request.getContextPath() %>/admin/set" id="delAdmin" method="post">
 			<input type="hidden" id="del"  name="userno" value="${member.userno }">
 			<input type="hidden" name="val" value="del">
-			<td class="text-right"><button class="btn btn-danger" id="delAdminBtn" name="delAdminBtn" type="button">관리자 권한삭제</button></td>
+			<td class="text-right"><button class="btn btn-danger" id="delAdminBtn">관리자 권한삭제</button></td>
 		</form>
 		</c:when>
 	</c:choose>
