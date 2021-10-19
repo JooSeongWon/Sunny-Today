@@ -282,7 +282,7 @@ public class MypageServiceImpl implements MypageService {
     		Member member = new Member();
     		member = mypageDao.getsalt(userId, conn);
     		if(!CipherUtil.encodeSha256(userPw, member.getSalt()).equals(member.getUserpw())) {
-    			res = 1;
+    			res = 1 ;
     		} 
     	} else {
 			res = 2;
@@ -334,56 +334,6 @@ public class MypageServiceImpl implements MypageService {
     public void delMember(int userno) {
     	Connection conn = JDBCTemplate.getConnection();
     	
-    	if( mypageDao.messageTo(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.messageFrom(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.ban(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.comments(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.post(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.privateQ(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.schedule(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.report(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.target(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
-    	if( mypageDao.admin(userno,conn) > 0) {
-    		JDBCTemplate.commit(conn);
-    	} else {
-    		JDBCTemplate.rollback(conn);
-    	}
     	if( mypageDao.deleteMember(userno,conn) > 0) {
     		JDBCTemplate.commit(conn);
     	} else {

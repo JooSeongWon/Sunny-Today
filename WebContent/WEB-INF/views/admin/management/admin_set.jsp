@@ -17,7 +17,7 @@ $(document).ready(function(){
 		$("#admin").submit()
 	});
 
-	$("#setAdminBtn").click(function(){
+	$("button[name=delAdminBtn]").click(function(){
 		var Admin = $("#admin").val;
 		if( Admin = 'A'){
 			alert("권한이 없습니다")
@@ -27,7 +27,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#delAdminBtn").click(function(){
+	$("button[name=setAdminBtn]").click(function(){
 		var Admin = $("#admin").val;
 		if( Admin = 'A'){
 			alert("권한이 없습니다")
@@ -102,14 +102,14 @@ $(document).ready(function(){
 		<form action="<%=request.getContextPath() %>/admin/set" id="setAdmin" method="post">
 			<input type="hidden" id="set" name="userno" value="${member.userno }">
 			<input type="hidden" name="val" value="set">
-			<td class="text-right"><button class="btn btn-default" id="setAdminBtn" type="button">관리자 권한지정</button></td>
+			<td class="text-right"><button class="btn btn-default" id="setAdminBtn" name="setAdminBtn" type="button">관리자 권한지정</button></td>
 		</form>
 		</c:when>
 		<c:when test="${member.admin ne 'N'}">
 		<form action="<%=request.getContextPath() %>/admin/set" id="delAdmin" method="post">
 			<input type="hidden" id="del"  name="userno" value="${member.userno }">
 			<input type="hidden" name="val" value="del">
-			<td class="text-right"><button class="btn btn-danger" id="delAdminBtn" type="button">관리자 권한삭제</button></td>
+			<td class="text-right"><button class="btn btn-danger" id="delAdminBtn" name="delAdminBtn" type="button">관리자 권한삭제</button></td>
 		</form>
 		</c:when>
 	</c:choose>

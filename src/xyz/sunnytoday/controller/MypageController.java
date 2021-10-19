@@ -52,6 +52,10 @@ public class MypageController extends HttpServlet {
 		//업데이트
 		mypageService.update(req);
 		
+		
+//		session.setAttribute("pictureThumbnail", member.getPictureThumbnail()); //새로운 썸네일URL로 갱신하기
+
+		
 		resp.sendRedirect("/mypage/profile");
 	}
 }
