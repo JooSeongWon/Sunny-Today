@@ -42,7 +42,10 @@ public class AdminReportExecuteController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		Member param = new Member();
 		Ban ban = new Ban();
-		param.setUserno(Integer.parseInt(req.getParameter("user_no")));
+		System.out.println("target : " +req.getParameter("target_no"));
+		
+		int user_no = Integer.parseInt(req.getParameter("target_no"));
+		param.setUserno(user_no);
 		
 		if(req.getParameter("Ban_type") == "login") {
 			ban.setBan_type("L");

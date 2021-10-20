@@ -36,7 +36,7 @@ $(document).ready(function(){
 <table class="table table-bordered">
 
 <tr>
-	<td class="info">작성자</td>
+	<td class="info">신고작성자</td>
 	<td>${map.m.userid }</td>
 	<td class="info">작성일</td>
 	<td>${map.rp.report_date }</td>
@@ -120,7 +120,7 @@ $(document).ready(function(){
 </table>
 
 <input type="hidden" name="report_no" value="${map.rp.report_no }"/>
-<input type="hidden" name="user_no" value="${map.ur.target_no }">
+<input type="hidden" name="target_no" value="${map.rp.target_no }">
 <input type="hidden" name="report_type" value="${map.rp.report_type }">
 <input type="hidden" name="reason" value="${map.rpc.title }">
 

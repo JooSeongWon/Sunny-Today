@@ -1,6 +1,7 @@
 package xyz.sunnytoday.controller;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -57,13 +58,13 @@ public class BoardReportController extends HttpServlet {
 		System.out.println("/board/report [POST]");
 		req.setCharacterEncoding("UTF-8");
 		Report param = new Report();
-		
+
 		//신고 사유
-		if(req.getParameter("report_reason") == "advertisement") {
+		if(req.getParameter("report_reason").equals("advertisement")) {
 			param.setReport_c_no(1);
-		}else if(req.getParameter("report_reason") == "pornography") {
+		}else if(req.getParameter("report_reason").equals("pornography")) {
 			param.setReport_c_no(2);
-		}else if(req.getParameter("report_reason") == "defamation") {
+		}else if(req.getParameter("report_reason").equals("defamation")) {
 			param.setReport_c_no(3);
 		}else {
 			param.setReport_c_no(4);
@@ -81,10 +82,10 @@ public class BoardReportController extends HttpServlet {
 			param.setComments_no(Integer.parseInt(req.getParameter("comments_no")));
 		}
 
-		if(req.getParameter("report_type") == "post_type") {
-			param.setReport_type("P");
-		}else {
+		if(req.getParameter("comments_no") != null && !"".equals(req.getParameter("comments_no"))) {
 			param.setReport_type("C");
+		}else {
+			param.setReport_type("P");
 		}
 		System.out.println("param : " + param);
 		boardService.insertReport(param);

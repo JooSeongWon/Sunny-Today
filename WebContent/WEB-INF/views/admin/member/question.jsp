@@ -80,7 +80,7 @@ $(document).ready(function(){
 		</c:when>
 	</c:choose>
 	<td><a href="<%=request.getContextPath() %>/admin/answer/view?question_no=${map.q.question_no }&admin_no=${userno }">${map.q.title }</a></td>
-	<td>${map.m.id }</td>
+	<td>${map.m.userid }</td>
 	<td>${map.p.write_date }</td>
 </tr>
 <% i++; %>

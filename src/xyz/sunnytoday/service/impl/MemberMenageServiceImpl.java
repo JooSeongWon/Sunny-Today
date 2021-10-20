@@ -162,8 +162,10 @@ public class MemberMenageServiceImpl implements MemberMenageService {
 
 	@Override
 	public List<Map<String, Object>> getReportDatil(HttpServletRequest req) {
+		System.out.println("getReportDatil called");
 		Connection conn = JDBCTemplate.getConnection();
 		Report param = new Report();
+		System.out.println("report_no : " + Integer.parseInt(req.getParameter("report_no")));
 		param.setReport_no(Integer.parseInt(req.getParameter("report_no")));
 		param.setReport_type(req.getParameter("report_type"));
 		List<Map<String, Object>> mapList = reportDao.ReportDatilList(param, conn);

@@ -59,7 +59,7 @@ src="/resources/js/admin_nav.js"></script>
 
 <table class="table">
 <tr>
-	<th style="font-size:2.0em"><i class="fas fa-sun" style="color:red;"></i><a href="<%=request.getContextPath() %>/admin/set" style="color:white;">오늘도 맑음</a></th>
+	<th style="font-size:2.0em"><a href="<%=request.getContextPath() %>/"><i class="fas fa-sun" style="color:red;"></i><span style="color:white;">오늘도 맑음</span></a></th>
 </tr>
 
 <tr>

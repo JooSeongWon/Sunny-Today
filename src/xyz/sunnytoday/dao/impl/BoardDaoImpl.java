@@ -1313,6 +1313,9 @@ public class BoardDaoImpl implements BoardDao {
         }
         sql += " FROM member m, post p";
 
+        System.out.println("param2.getComments_no() = " + param2.getComments_no());
+        System.out.println("param2 = " + param2);
+
         if (param2.getComments_no() > 0) {
             sql += " , comments c";
         }

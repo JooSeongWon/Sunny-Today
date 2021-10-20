@@ -126,36 +126,32 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 	@Override
 	public List<Map<String, Object>> ReportDatilList(Report param, Connection conn) {
 		System.out.println("ReportDatilList called");
-//		System.out.println(param.getReport_type()); -> 전송 확인됨
+		System.out.println(param.getReport_type()); // -> 전송 확인됨
 		String sql ="";
-		sql += "SELECT * FROM (";
-		sql +=	" SELECT rownum rnum, R.* FROM(";
-		sql +=		" SELECT ur.report_no, rc.title, m.id, ur.target_no, m.user_no, ur.report_type,";
-		sql +=		" ur.report_date, ur.detail, ur.memo, ur.execute_result, p.post_no";
-
-		if(param.getReport_type() == "C") {
+	
+		sql += " select ur.report_no, ur.report_date, detail, memo";
+		sql += " , report_type, execute_result, target_no, rc.title, m.id, m.user_no";
+		sql += "  , p.post_no";
+		if("C".equals(param.getReport_type())) {
 			sql +=  	" , cm.content, cm.comments_no ";
 		}else {
 			sql +=		" , p.content";
 		}
 	
-		sql +=		" FROM user_report ur, member m, report_category rc, post p";
+		sql +=	" FROM user_report ur, member m, report_category rc, post p";
 		
-		if(param.getReport_type() == "C") {
+		if("C".equals(param.getReport_type())) {
 			sql += 		" , comments cm";
 		}
 		
-		sql +=		" WHERE m.user_no = ur.target_no and ur.report_c_no = rc.report_c_no";
+		sql +=	" WHERE ur.report_c_no = rc.report_c_no ";
+		sql +=	" and ur.user_no = m.user_no";
+		sql += " and p.post_no = ur.post_no";
 		
-		if(param.getReport_type() == "C") {
-			sql +=		" cm.user_no = m.user_no";
-		}
-		
-		sql +=		" and p.post_no = ur.post_no";	
+		if("C".equals(param.getReport_type())) {
+			sql +=		" and cm.comments_no = ur.comments_no";
+		}	
 		sql +=		" and ur.report_no = ?";
-		sql +=		" ORDER BY report_no DESC";
-		sql += 	" ) R";
-		sql += " ) report_board";
 		
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String, Object> map = null;
@@ -184,7 +180,7 @@ public class ReportHandingDaoImpl implements ReportHandlingDao{
 				
 				member.setUserid(rs.getString("id"));
 				member.setUserno(rs.getInt("user_no"));
-				if(param.getReport_type() == "C") {
+				if("C".equals(param.getReport_type())) {
 					comments.setContent(rs.getString("content"));
 					comments.setComments_no(rs.getInt("comments_no"));
 					map.put("cm", comments);

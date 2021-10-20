@@ -60,7 +60,7 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 	
 	@Override
 	public List<Map<String, Object>> searchQuestion(Member param, Paging paging, Connection conn) {
-		System.out.println("searchUserId called");
+		System.out.println("searchQuestion called");
 		
 		String sql = "";
 		sql += "select * FROM(";
@@ -68,12 +68,11 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 		sql +=	        " select pq.question_no, pq.title, m.id, pq.write_date, pq.answer, m.nick"; 
 		sql +=	        " from private_question pq, member m";
 		sql +=			" WHERE m.user_no = pq.user_no";
-		if(!"".equals(param.getUserid()) || !"".equals(param.getNick())) {
-			if(!"".equals(param.getUserid())) {
-				sql +=			" AND m.id LIKE ?";
-			}else if(!"".equals(param.getNick())){
-				sql +=			" AND m.nick LIKE ?";
-			}
+
+		if(param.getUserid() != null && !"".equals(param.getUserid())) {
+			sql +=			" AND m.id LIKE ?";
+		}else if(param.getUserid() != null && !"".equals(param.getNick())){
+			sql +=			" AND m.nick LIKE ?";
 		}
 		
 		sql +=	        " ORDER BY question_no DESC";
@@ -83,13 +82,16 @@ public class QuestionMenageDaoImpl implements QuestionMenageDao{
 		
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String, Object> map = null;
-		
+		int i = 1;
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + param.getUserid() + "%");
-			ps.setString(1, "%" + param.getNick() + "%");
-			ps.setInt(2, paging.getStartNo());
-			ps.setInt(3, paging.getEndNo());
+			if(param.getUserid() != null && !"".equals(param.getUserid())) {
+				ps.setString(i++, "%" + param.getUserid() + "%");
+			}else if(param.getUserid() != null && !"".equals(param.getNick())){
+				ps.setString(i++, "%" + param.getNick() + "%");
+			}
+			ps.setInt(i++, paging.getStartNo());
+			ps.setInt(i++, paging.getEndNo());
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				map = new HashMap<>();

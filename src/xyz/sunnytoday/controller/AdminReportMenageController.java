@@ -33,6 +33,7 @@ public class AdminReportMenageController extends HttpServlet {
     	String category_option = req.getParameter("select_category");
 		String search_option = req.getParameter("select_search");
 		String search = req.getParameter("search");
+		System.out.println("report_no : " + req.getParameter("report_no"));
 		
 		List<Map<String, Object>> list = null;
 		
@@ -69,7 +70,6 @@ public class AdminReportMenageController extends HttpServlet {
 		int count = 0;
 		String location = "report";
 		Member param = new Member();
-		
 		int cntRow = memberService.cntList(req, param, location);
 		System.out.println("cntRow : " + cntRow);
 		//선택한 항목의 갯 수 확인

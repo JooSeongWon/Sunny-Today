@@ -36,7 +36,7 @@ public class MypagePasswordCheckController2 extends HttpServlet {
 		//유저넘버로 유저정보 얻기 - member
 		Member member = mypageService.selectMember(userno);
 		
-		if(member.getSalt()!=null) {
+		if(member.getUserpw()!=null) {
 		//유저 썸네일 전달
 		File profile = mypageService.selectProfile(member);
 		
