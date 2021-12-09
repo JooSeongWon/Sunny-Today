@@ -36,7 +36,7 @@ public class SocialLoginController extends HttpServlet {
                 return;
             }
 
-            //소셜 인증실패 알터
+            //소셜 인증실패 알럿
             resp.setContentType("text/html; charset=utf-8");
             PrintWriter writer = resp.getWriter();
             writer.println("<script>");
